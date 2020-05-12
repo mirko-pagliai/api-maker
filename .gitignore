@@ -1,0 +1,7 @@
+.directory
+.phpunit.result.cache
+*_old
+*.old.*
+composer.lock
+coverage/
+vendor/

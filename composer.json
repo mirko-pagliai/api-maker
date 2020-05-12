@@ -1,0 +1,30 @@
+{
+    "name": "mirko-pagliai/api-maker",
+    "description": "An API maker",
+    "homepage": "https://github.com/mirko-pagliai/api-maker",
+    "type": "library",
+    "license": "MIT",
+    "authors": [{
+            "name": "Mirko Pagliai",
+            "email": "mirko.pagliai@gmail.com"
+        }],
+    "require": {
+        "php": ">=7.1",
+        "mirko-pagliai/php-tools": "^1.3"
+    },
+    "require-dev": {
+        "cakephp/cakephp-codesniffer": "^4.0",
+        "phpunit/phpunit": "^7.0|^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ApiMaker\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ApiMaker\\Test\\": "tests/TestCase",
+            "App\\": "tests/test_app"
+        }
+    }
+}
