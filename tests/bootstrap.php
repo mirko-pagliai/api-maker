@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 require_once 'vendor/autoload.php';
 
+define('TESTS', __DIR__);
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', dirname(__DIR__) . DS);
 define('TMP', sys_get_temp_dir() . DS . 'api-maker' . DS);
