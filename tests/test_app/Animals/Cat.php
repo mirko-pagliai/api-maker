@@ -27,7 +27,7 @@ class Cat extends Animal
      * Genus of this animal.
      *
      * Every animal has its own genus.
-     * @deprecated
+     * @deprecated We are no longer interested in knowing the genus of the animal
      * @see https://en.wikipedia.org/wiki/Genus
      * @see https://en.wikipedia.org/wiki/Felis
      */
@@ -57,7 +57,7 @@ class Cat extends Animal
     protected $description;
 
     /**
-     * @deprecated
+     * @deprecated Useless property
      * @var bool
      */
     public $isCat = true;

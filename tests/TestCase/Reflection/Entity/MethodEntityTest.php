@@ -46,6 +46,15 @@ class MethodEntityTest extends TestCase
     }
 
     /**
+     * Test for `getDeprecatedDescription()` method
+     * @test
+     */
+    public function testGetDeprecatedDescription()
+    {
+        $this->assertSame('Use instead `getName()`/`setName()`', $this->getMethodEntity('name')->getDeprecatedDescription());
+    }
+
+    /**
      * Test for `getDocBlockAsString()` method
      * @test
      */

@@ -20,6 +20,17 @@ namespace ApiMaker\Reflection\Entity\Traits;
 trait DeprecatedTrait
 {
     /**
+     * Returns the `@deprecated` description
+     * @return string
+     */
+    public function getDeprecatedDescription(): string
+    {
+        $deprecatedTag = $this->getDocBlockInstance()->getTagsByName('deprecated');
+
+        return $deprecatedTag ? ucfirst((string)$deprecatedTag[0]->getDescription()) : '';
+    }
+
+    /**
      * Returns `true` if it's deprecated (`@deprecated` tag)
      * @return bool
      */

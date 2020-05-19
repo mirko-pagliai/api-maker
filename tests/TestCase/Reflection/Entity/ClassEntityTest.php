@@ -60,6 +60,22 @@ class ClassEntityTest extends TestCase
     }
 
     /**
+     * Test for `getDeprecatedDescription()` method
+     * @test
+     */
+    public function testGetDeprecatedDescription()
+    {
+        $class = <<<HEREDOC
+/**
+ * Deprecated Animal
+ * @deprecated use instead the `AnimalClass`
+ */
+class DeprecatedAnimal { }
+HEREDOC;
+        $this->assertSame('Use instead the `AnimalClass`', $this->getClassEntityFromString($class)->getDeprecatedDescription());
+    }
+
+    /**
      * Test for `getDocBlockAsString()` method
      * @test
      */
