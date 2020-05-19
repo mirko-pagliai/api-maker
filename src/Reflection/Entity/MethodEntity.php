@@ -19,6 +19,7 @@ use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
 use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
 use ApiMaker\Reflection\Entity\Traits\VisibilityTrait;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
+use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
@@ -96,5 +97,19 @@ class MethodEntity extends Entity
         $returnTag = $this->getDocBlockInstance()->getTagsByName('return');
 
         return $returnTag ? (string)$returnTag[0]->getDescription() : '';
+    }
+
+    /**
+     * Returns `@throws` tags
+     * @return array
+     */
+    public function getThrowsTags(): array
+    {
+        return array_map(function (Throws $throws) {
+            return [
+                'type' => (string)$throws->getType(),
+                'description' => (string)$throws->getDescription(),
+            ];
+        }, $this->getDocBlockInstance()->getTagsByName('throws'));
     }
 }

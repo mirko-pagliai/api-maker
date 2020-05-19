@@ -42,7 +42,7 @@ class MethodEntityTest extends TestCase
     public function testToString()
     {
         $this->assertSame('createPuppy()', (string)$this->getMethodEntity('createPuppy'));
-        $this->assertSame('name(?string $name = null)', (string)$this->getMethodEntity('name'));
+        $this->assertSame('name(string|null $name = null)', (string)$this->getMethodEntity('name'));
     }
 
     /**
@@ -76,7 +76,7 @@ class MethodEntityTest extends TestCase
     public function testGetParametersAsString()
     {
         $this->assertSame('string $mother, string $father', $this->getMethodEntity('setParents')->getParametersAsString());
-        $this->assertSame('?string $name = null', $this->getMethodEntity('name')->getParametersAsString());
+        $this->assertSame('string|null $name = null', $this->getMethodEntity('name')->getParametersAsString());
         $this->assertSame('', $this->getMethodEntity('createPuppy')->getParametersAsString());
     }
 
@@ -89,7 +89,7 @@ class MethodEntityTest extends TestCase
         $this->assertSame('mixed', $this->getMethodEntity('name')->getReturnTypeAsString());
         $this->assertSame('\App\Animals\Cat', $this->getMethodEntity('createPuppy')->getReturnTypeAsString());
         $this->assertSame('string|null', $this->getMethodEntity('getColor')->getReturnTypeAsString());
-        $this->assertSame('', $this->getMethodEntity('doMeow')->getReturnTypeAsString());
+        $this->assertSame('void', $this->getMethodEntity('doMeow')->getReturnTypeAsString());
     }
 
     /**
@@ -110,6 +110,22 @@ class MethodEntityTest extends TestCase
     public function testGetSeeTags()
     {
         $this->assertSame(['https://en.wikipedia.org/wiki/Meow'], $this->getMethodEntity('doMeow')->getSeeTags());
+    }
+
+    /**
+     * Test for `getThrowsTags()` method
+     * @test
+     */
+    public function testGetThrowsTags()
+    {
+        $this->assertSame([[
+            'type' => '\LogicException',
+            'description' => 'If the `LEGS` constant is not defined',
+        ]], $this->getMethodEntity('getLegs')->getThrowsTags());
+        $this->assertSame([[
+            'type' => '\RuntimeException',
+            'description' => '',
+        ]], $this->getMethodEntity('doMeow')->getThrowsTags());
     }
 
     /**

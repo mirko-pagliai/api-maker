@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace App\Animals;
 
 use App\Animals\Animal;
+use RuntimeException;
 
 /**
  * Cat class
@@ -77,10 +78,16 @@ class Cat extends Animal
     /**
      * Do a meow
      * @param string $meow Type of meow
+     * @return void
+     * @throws RuntimeException
      * @see https://en.wikipedia.org/wiki/Meow
      */
     public function doMeow(string $meow = 'meow!'): void
     {
+        if ($meow === 'woof!') {
+            throw new RuntimeException('A cat can\'t do woof');
+        }
+
         //Do a meow here!
     }
 
