@@ -18,8 +18,8 @@ use ApiMaker\Reflection\Entity\FunctionEntity;
 use ApiMaker\Reflection\Entity\ParameterEntity;
 use ApiMaker\TestSuite\TestCase;
 use Roave\BetterReflection\BetterReflection;
-use Roave\BetterReflection\Reflector\FunctionReflector;
 use Roave\BetterReflection\Reflection\ReflectionFunction;
+use Roave\BetterReflection\Reflector\FunctionReflector;
 use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
 
 /**
@@ -43,6 +43,13 @@ class FunctionEntityTest extends TestCase
         $this->Function = $this->getFunctionEntity('a_test_function');
     }
 
+    /**
+     * Internal method to get a `FunctionEntity` instance.
+     *
+     * It looks for the function in the `tests/test_app/functions.php` file.
+     * @param string $function Function name
+     * @return FunctionEntity
+     */
     protected function getFunctionEntity(string $function): FunctionEntity
     {
         $configuration = new BetterReflection();

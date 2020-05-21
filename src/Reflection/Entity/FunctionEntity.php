@@ -17,8 +17,8 @@ namespace ApiMaker\Reflection\Entity;
 use ApiMaker\Reflection\Entity;
 use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
 use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
-use Roave\BetterReflection\Reflection\ReflectionParameter;
 use Roave\BetterReflection\Reflection\ReflectionFunction;
+use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
  * Function entity
