@@ -14,18 +14,18 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Reflection;
 
-use ApiMaker\Reflection\Entity;
+use ApiMaker\Reflection\AbstractEntity;
 use ApiMaker\Reflection\Entity\ParameterEntity;
 use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
 use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
- * AbstractFunctionEntity abstract class.
+ * AbstractFunctionEntity class.
  *
  * This class contains methods common to functions and class methods.
  */
-abstract class AbstractFunctionEntity extends Entity
+abstract class AbstractFunctionEntity extends AbstractEntity
 {
     use DeprecatedTrait;
     use SeeTagsTrait;

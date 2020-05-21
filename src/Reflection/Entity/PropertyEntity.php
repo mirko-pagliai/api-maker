@@ -14,7 +14,7 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Reflection\Entity;
 
-use ApiMaker\Reflection\Entity;
+use ApiMaker\Reflection\AbstractEntity;
 use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
 use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
 use ApiMaker\Reflection\Entity\Traits\VisibilityTrait;
@@ -23,7 +23,7 @@ use Roave\BetterReflection\Reflection\ReflectionProperty;
 /**
  * Property entity
  */
-class PropertyEntity extends Entity
+class PropertyEntity extends AbstractEntity
 {
     use DeprecatedTrait;
     use SeeTagsTrait;

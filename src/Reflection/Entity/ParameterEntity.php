@@ -14,7 +14,7 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Reflection\Entity;
 
-use ApiMaker\Reflection\Entity;
+use ApiMaker\Reflection\AbstractEntity;
 use League\CommonMark\CommonMarkConverter;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlockFactory;
@@ -23,7 +23,7 @@ use Roave\BetterReflection\Reflection\ReflectionParameter;
 /**
  * Parameter entity
  */
-class ParameterEntity extends Entity
+class ParameterEntity extends AbstractEntity
 {
     /**
      * @var \Roave\BetterReflection\Reflection\ReflectionParameter

@@ -26,7 +26,7 @@ use App\Animals\Cat;
 class ClassEntityTest extends TestCase
 {
     /**
-     * @var \ApiMaker\Entity\ClassEntity
+     * @var \ApiMaker\Reflection\Entity\ClassEntity
      */
     protected $Class;
 

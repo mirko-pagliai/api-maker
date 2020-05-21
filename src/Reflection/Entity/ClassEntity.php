@@ -14,7 +14,7 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Reflection\Entity;
 
-use ApiMaker\Reflection\Entity;
+use ApiMaker\Reflection\AbstractEntity;
 use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
 use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
 use Roave\BetterReflection\Reflection\ReflectionClass;
@@ -31,7 +31,7 @@ use Roave\BetterReflection\Reflection\ReflectionProperty;
  * @method bool isInterface()
  * @method bool isTrait()
  */
-class ClassEntity extends Entity
+class ClassEntity extends AbstractEntity
 {
     use DeprecatedTrait;
     use SeeTagsTrait;

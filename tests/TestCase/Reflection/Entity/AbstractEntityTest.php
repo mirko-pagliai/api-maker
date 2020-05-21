@@ -20,9 +20,9 @@ use BadMethodCallException;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 
 /**
- * EntityTest class
+ * AbstractEntityTest class
  */
-class EntityTest extends TestCase
+class AbstractEntityTest extends TestCase
 {
     /**
      * Test for `__call()` magic method

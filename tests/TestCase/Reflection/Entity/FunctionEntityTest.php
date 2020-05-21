@@ -29,7 +29,7 @@ use RuntimeException;
 class FunctionEntityTest extends TestCase
 {
     /**
-     * @var \ApiMaker\Entity\FunctionEntity
+     * @var \ApiMaker\Reflection\Entity\FunctionEntity
      */
     protected $Function;
 

@@ -20,9 +20,9 @@ use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlockFactory;
 
 /**
- * Entity abstract class
+ * AbstractEntity class
  */
-abstract class Entity
+abstract class AbstractEntity
 {
     /**
      * `__call()` magic method.
