@@ -24,8 +24,12 @@ use Roave\BetterReflection\Reflection\ReflectionProperty;
 
 /**
  * Class entity
- * @method string getName()  Gets the "full" name of the class
- * @method mixed getConstant(string $name) Gets the value of the specified class constant
+ * @method mixed getConstant(string $name)
+ * @method string getName()
+ * @method ?ReflectionClass getParentClass()
+ * @method bool isAbstract()
+ * @method bool isInterface()
+ * @method bool isTrait()
  */
 class ClassEntity extends Entity
 {
