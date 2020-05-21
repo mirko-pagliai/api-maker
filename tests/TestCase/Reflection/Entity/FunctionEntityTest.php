@@ -1,0 +1,116 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * This file is part of api-maker.
+ *
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @copyright   Copyright (c) Mirko Pagliai
+ * @link        https://github.com/mirko-pagliai/api-maker
+ * @license     https://opensource.org/licenses/mit-license.php MIT License
+ */
+namespace ApiMaker\Test\Reflection\Entity;
+
+use ApiMaker\Reflection\Entity\FunctionEntity;
+use ApiMaker\Reflection\Entity\ParameterEntity;
+use ApiMaker\TestSuite\TestCase;
+use Roave\BetterReflection\BetterReflection;
+use Roave\BetterReflection\Reflector\FunctionReflector;
+use Roave\BetterReflection\Reflection\ReflectionFunction;
+use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
+
+/**
+ * FunctionEntityTest class
+ */
+class FunctionEntityTest extends TestCase
+{
+    /**
+     * @var \ApiMaker\Entity\FunctionEntity
+     */
+    protected $Function;
+
+    /**
+     * Called before each test
+     * @return void
+     */
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->Function = $this->getFunctionEntity('a_test_function');
+    }
+
+    protected function getFunctionEntity(string $function): FunctionEntity
+    {
+        $configuration = new BetterReflection();
+        $astLocator = $configuration->astLocator();
+        $classReflector = $configuration->classReflector();
+        $directoriesSourceLocator = new SingleFileSourceLocator(TESTS . DS . 'test_app' . DS . 'functions.php', $astLocator);
+        $reflector = new FunctionReflector($directoriesSourceLocator, $classReflector);
+
+        $functions = array_filter($reflector->getAllFunctions(), function (ReflectionFunction $currentFunction) use ($function) {
+            return $currentFunction->getName() === $function;
+        });
+
+        return new FunctionEntity(array_value_first($functions));
+    }
+
+    /**
+     * Test for `__toString()` magic method
+     * @test
+     */
+    public function testToString()
+    {
+        $this->assertSame('a_test_function()', (string)$this->Function);
+    }
+
+    /**
+     * Test for `getDeprecatedDescription()` method
+     * @test
+     */
+    public function testGetDeprecatedDescription()
+    {
+        $this->assertSame('Use instead `a_test_function()`', $this->getFunctionEntity('old_function')->getDeprecatedDescription());
+    }
+
+    /**
+     * Test for `getDocBlockAsString()` method
+     * @test
+     */
+    public function testGetDocBlockAsString()
+    {
+        $this->assertSame('<p>A test function.</p>
+<p>This function does nothing in particular.</p>', $this->Function->getDocBlockAsString());
+    }
+
+    /**
+     * Test for `getParameters()` method
+     * @test
+     */
+    public function testGetParameters()
+    {
+        $this->assertContainsOnlyInstancesOf(ParameterEntity::class, $this->Function->getParameters());
+    }
+
+    /**
+     * Test for `getSeeTags()` method
+     * @test
+     */
+    public function testGetSeeTags()
+    {
+        $this->assertSame(['https://en.wikipedia.org/wiki/Dog'], $this->getFunctionEntity('get_woof')->getSeeTags());
+    }
+
+    /**
+     * Test for `isDeprecated()` method
+     * @test
+     */
+    public function testIsDeprecated()
+    {
+        $this->assertFalse($this->Function->isDeprecated());
+        $this->assertTrue($this->getFunctionEntity('old_function')->isDeprecated());
+    }
+}

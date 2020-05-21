@@ -12,38 +12,27 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/api-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace App\Animals;
-
-use App\Animals\Animal;
-use App\Animals\Traits\PositionTrait;
+namespace App\Animals\Traits;
 
 /**
- * Horse class
+ * Colors trait
  */
-final class Horse extends Animal
+trait ColorsTrait
 {
-    use PositionTrait;
-
     /**
-     * Creates a puppy.
-     *
-     * This method will return a new `Horse` instance.
-     * @return \App\Animals\Horse
+     * Colors
+     * @var array
      */
-    public function createPuppy(): Horse
-    {
-        return new Horse();
-    }
+    protected $colors = [];
 
     /**
-     * Makes the animal run.
-     *
-     * In this case, the horse runs faster than the other animals.
+     * Sets the animal colors
+     * @param string|array $colors Array of colors or string
      * @return $this
      */
-    public function run()
+    public function setColors($colors = [])
     {
-        $this->position = $this->position + 4;
+        $this->colors = is_string($colors) ? [$colors] : $colors;
 
         return $this;
     }

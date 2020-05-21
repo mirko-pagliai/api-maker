@@ -38,16 +38,6 @@ abstract class Animal
     protected $parents = [];
 
     /**
-     * Position.
-     *
-     * This counts the number of steps from the initial position.
-     * @var int
-     * @see run()
-     * @see walk()
-     */
-    protected $position = 0;
-
-    /**
      * Sets or gets the name of this animal
      * @param string|null $name The name or `null` to get the current name
      * @return mixed Returns the current instance or the name as string
@@ -133,45 +123,5 @@ abstract class Animal
         }
 
         return self::LEGS;
-    }
-
-    /**
-     * Gets the current position
-     * @return int
-     */
-    public function getPosition(): int
-    {
-        return $this->position;
-    }
-
-    /**
-     * Resets the position
-     * @return void
-     */
-    protected function resetPosition(): void
-    {
-        $this->position = 0;
-    }
-
-    /**
-     * Makes the animal run
-     * @return $this
-     */
-    public function run()
-    {
-        $this->position = $this->position + 2;
-
-        return $this;
-    }
-
-    /**
-     * Makes the animal walk
-     * @return $this
-     */
-    public function walk()
-    {
-        $this->position++;
-
-        return $this;
     }
 }

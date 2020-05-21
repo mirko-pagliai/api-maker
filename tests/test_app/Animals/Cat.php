@@ -15,6 +15,8 @@ declare(strict_types=1);
 namespace App\Animals;
 
 use App\Animals\Animal;
+use App\Animals\Traits\ColorsTrait;
+use App\Animals\Traits\PositionTrait;
 use RuntimeException;
 
 /**
@@ -23,6 +25,9 @@ use RuntimeException;
  */
 class Cat extends Animal
 {
+    use ColorsTrait;
+    use PositionTrait;
+
     /**
      * Genus of this animal.
      *
@@ -43,12 +48,6 @@ class Cat extends Animal
      * @var \App\Animals\Cat|null
      */
     protected $Puppy = null;
-
-    /**
-     * Colors
-     * @var array
-     */
-    protected $colors = [];
 
     /**
      * Description
@@ -89,18 +88,6 @@ class Cat extends Animal
         }
 
         //Do a meow here!
-    }
-
-    /**
-     * Sets the animal colors
-     * @param string|array $colors Array of colors or string
-     * @return $this
-     */
-    public function setColors($colors = [])
-    {
-        $this->colors = is_string($colors) ? [$colors] : $colors;
-
-        return $this;
     }
 
     /**
