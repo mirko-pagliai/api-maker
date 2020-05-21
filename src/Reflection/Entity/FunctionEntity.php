@@ -14,22 +14,16 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Reflection\Entity;
 
-use ApiMaker\Reflection\Entity;
-use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
-use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
+use ApiMaker\Reflection\AbstractFunctionEntity;
 use Roave\BetterReflection\Reflection\ReflectionFunction;
-use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
  * Function entity
  */
-class FunctionEntity extends Entity
+class FunctionEntity extends AbstractFunctionEntity
 {
-    use DeprecatedTrait;
-    use SeeTagsTrait;
-
     /**
-     * @var \Roave\BetterReflection\Reflection\ReflectionClass
+     * @var \Roave\BetterReflection\Reflection\ReflectionFunction
      */
     protected $reflectionObject;
 
@@ -40,25 +34,5 @@ class FunctionEntity extends Entity
     public function __construct(ReflectionFunction $function)
     {
         $this->reflectionObject = $function;
-    }
-
-    /**
-     * `__toString()` magic method
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->reflectionObject->getName() . '()';
-    }
-
-    /**
-     * Gets parameters
-     * @return array Array of `ParameterEntity` instances
-     */
-    public function getParameters(): array
-    {
-        return array_map(function (ReflectionParameter $parameter) {
-            return new ParameterEntity($parameter);
-        }, $this->reflectionObject->getParameters());
     }
 }

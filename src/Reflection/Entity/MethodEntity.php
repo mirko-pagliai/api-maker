@@ -14,22 +14,17 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Reflection\Entity;
 
-use ApiMaker\Reflection\Entity;
-use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
-use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
+use ApiMaker\Reflection\AbstractFunctionEntity;
 use ApiMaker\Reflection\Entity\Traits\VisibilityTrait;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
-use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
  * Method entity
  */
-class MethodEntity extends Entity
+class MethodEntity extends AbstractFunctionEntity
 {
-    use DeprecatedTrait;
-    use SeeTagsTrait;
     use VisibilityTrait;
 
     /**
@@ -44,35 +39,6 @@ class MethodEntity extends Entity
     public function __construct(ReflectionMethod $reflectionObject)
     {
         $this->reflectionObject = $reflectionObject;
-    }
-
-    /**
-     * `__toString()` magic method
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return $this->reflectionObject->getName() . '(' . $this->getParametersAsString() . ')';
-    }
-
-    /**
-     * Gets parameters
-     * @return array Array of `ParameterEntity` instances
-     */
-    public function getParameters(): array
-    {
-        return array_map(function (ReflectionParameter $parameter) {
-            return new ParameterEntity($parameter);
-        }, $this->reflectionObject->getParameters());
-    }
-
-    /**
-     * Gets parameters as string, separated by a comma
-     * @return string
-     */
-    public function getParametersAsString(): string
-    {
-        return implode(', ', array_map('strval', $this->getParameters()));
     }
 
     /**

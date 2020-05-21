@@ -21,6 +21,7 @@ use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionFunction;
 use Roave\BetterReflection\Reflector\FunctionReflector;
 use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
+use RuntimeException;
 
 /**
  * FunctionEntityTest class
@@ -49,6 +50,7 @@ class FunctionEntityTest extends TestCase
      * It looks for the function in the `tests/test_app/functions.php` file.
      * @param string $function Function name
      * @return FunctionEntity
+     * @throws RuntimeException
      */
     protected function getFunctionEntity(string $function): FunctionEntity
     {
@@ -62,6 +64,10 @@ class FunctionEntityTest extends TestCase
             return $currentFunction->getName() === $function;
         });
 
+        if (!$functions) {
+            throw new RuntimeException(sprintf('Can\'t found `%s()` function', $function));
+        }
+
         return new FunctionEntity(array_value_first($functions));
     }
 
@@ -71,7 +77,7 @@ class FunctionEntityTest extends TestCase
      */
     public function testToString()
     {
-        $this->assertSame('a_test_function()', (string)$this->Function);
+        $this->assertSame('a_test_function(string $string = \'my string\')', (string)$this->Function);
     }
 
     /**
@@ -100,6 +106,16 @@ class FunctionEntityTest extends TestCase
     public function testGetParameters()
     {
         $this->assertContainsOnlyInstancesOf(ParameterEntity::class, $this->Function->getParameters());
+    }
+
+    /**
+     * Test for `getParametersAsString()` method
+     * @test
+     */
+    public function testGetParametersAsString()
+    {
+        $this->assertSame('string $string = \'my string\'', $this->Function->getParametersAsString());
+        $this->assertSame('', $this->getFunctionEntity('get_woof')->getParametersAsString());
     }
 
     /**
