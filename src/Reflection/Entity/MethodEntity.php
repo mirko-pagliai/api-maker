@@ -16,7 +16,6 @@ namespace ApiMaker\Reflection\Entity;
 
 use ApiMaker\Reflection\AbstractFunctionEntity;
 use ApiMaker\Reflection\Entity\Traits\VisibilityTrait;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 
@@ -39,30 +38,6 @@ class MethodEntity extends AbstractFunctionEntity
     public function __construct(ReflectionMethod $reflectionObject)
     {
         $this->reflectionObject = $reflectionObject;
-    }
-
-    /**
-     * Gets return types as string, separated by a comma
-     * @return string
-     */
-    public function getReturnTypeAsString(): string
-    {
-        $returnType = array_map(function (Return_ $return) {
-            return (string)$return->getType();
-        }, $this->getDocBlockInstance()->getTagsByName('return'));
-
-        return implode(', ', $returnType);
-    }
-
-    /**
-     * Gets the return description
-     * @return string
-     */
-    public function getReturnDescription(): string
-    {
-        $returnTag = $this->getDocBlockInstance()->getTagsByName('return');
-
-        return $returnTag ? (string)$returnTag[0]->getDescription() : '';
     }
 
     /**

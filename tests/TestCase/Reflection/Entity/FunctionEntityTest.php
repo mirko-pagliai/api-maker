@@ -119,6 +119,24 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
+     * Test for `getReturnTypeAsString()` method
+     * @test
+     */
+    public function testGetReturnTypeAsString()
+    {
+        $this->assertSame('string', $this->Function->getReturnTypeAsString());
+    }
+
+    /**
+     * Test for `getReturnDescription()` method
+     * @test
+     */
+    public function testGetReturnDescription()
+    {
+        $this->assertSame('The initial string with a `PHP_EOL`', $this->Function->getReturnDescription());
+    }
+
+    /**
      * Test for `getSeeTags()` method
      * @test
      */

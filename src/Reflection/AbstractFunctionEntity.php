@@ -18,6 +18,7 @@ use ApiMaker\Reflection\AbstractEntity;
 use ApiMaker\Reflection\Entity\ParameterEntity;
 use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
 use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
+use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
@@ -57,5 +58,29 @@ abstract class AbstractFunctionEntity extends AbstractEntity
     public function getParametersAsString(): string
     {
         return implode(', ', array_map('strval', $this->getParameters()));
+    }
+
+    /**
+     * Gets return types as string, separated by a comma
+     * @return string
+     */
+    public function getReturnTypeAsString(): string
+    {
+        $returnType = array_map(function (Return_ $return) {
+            return (string)$return->getType();
+        }, $this->getDocBlockInstance()->getTagsByName('return'));
+
+        return implode(', ', $returnType);
+    }
+
+    /**
+     * Gets the return description
+     * @return string
+     */
+    public function getReturnDescription(): string
+    {
+        $returnTag = $this->getDocBlockInstance()->getTagsByName('return');
+
+        return $returnTag ? (string)$returnTag[0]->getDescription() : '';
     }
 }
