@@ -61,3 +61,16 @@ if (!function_exists('sum_my_number')) {
         return ($number ?? 0) + 2;
     }
 }
+
+if (!function_exists('throw_an_exception')) {
+    /**
+     * This function does nothing, it only throws a exception
+     * @param string|null $message Exception message
+     * @return void
+     * @throws Exception Exception that will always be thowned
+     */
+    function throw_an_exception(?string $message = null): void
+    {
+        throw new \Exception($message);
+    }
+}

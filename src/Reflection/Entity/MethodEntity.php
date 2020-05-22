@@ -16,7 +16,6 @@ namespace ApiMaker\Reflection\Entity;
 
 use ApiMaker\Reflection\AbstractFunctionEntity;
 use ApiMaker\Reflection\Entity\Traits\VisibilityTrait;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 
 /**
@@ -38,19 +37,5 @@ class MethodEntity extends AbstractFunctionEntity
     public function __construct(ReflectionMethod $reflectionObject)
     {
         $this->reflectionObject = $reflectionObject;
-    }
-
-    /**
-     * Returns `@throws` tags
-     * @return array
-     */
-    public function getThrowsTags(): array
-    {
-        return array_map(function (Throws $throws) {
-            return [
-                'type' => (string)$throws->getType(),
-                'description' => (string)$throws->getDescription(),
-            ];
-        }, $this->getDocBlockInstance()->getTagsByName('throws'));
     }
 }
