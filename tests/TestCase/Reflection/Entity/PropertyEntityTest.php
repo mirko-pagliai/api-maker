@@ -66,6 +66,15 @@ class PropertyEntityTest extends TestCase
     }
 
     /**
+     * Test for `getName()` method
+     * @test
+     */
+    public function testGetName()
+    {
+        $this->assertSame('name', $this->getPropertyEntity('name')->getName());
+    }
+
+    /**
      * Test for `getSeeTags()` method
      * @test
      */

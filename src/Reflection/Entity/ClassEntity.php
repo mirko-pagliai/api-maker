@@ -72,15 +72,6 @@ class ClassEntity extends AbstractEntity
     }
 
     /**
-     * Gets the class name
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->reflectionObject->getName();
-    }
-
-    /**
      * Returns an array of `PropertyEntity`
      * @return array
      */

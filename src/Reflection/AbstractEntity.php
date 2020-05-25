@@ -48,7 +48,7 @@ abstract class AbstractEntity
      */
     public function __toString(): string
     {
-        return $this->reflectionObject->getName();
+        return $this->getName();
     }
 
     /**
@@ -92,5 +92,14 @@ abstract class AbstractEntity
         $description = $this->getDocBlockDescriptionAsString();
 
         return $summary . ($description ? PHP_EOL . $description : '');
+    }
+
+    /**
+     * Gets the class name
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->reflectionObject->getName();
     }
 }

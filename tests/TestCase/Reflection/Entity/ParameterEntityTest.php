@@ -72,6 +72,15 @@ class ParameterEntityTest extends TestCase
     }
 
     /**
+     * Test for `getName()` method
+     * @test
+     */
+    public function testGetName()
+    {
+        $this->assertSame('name', $this->getParameterEntity('name', 'setName')->getName());
+    }
+
+    /**
      * Test for `getTypeAsString()`
      * @test
      */

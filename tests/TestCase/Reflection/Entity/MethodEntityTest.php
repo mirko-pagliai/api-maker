@@ -66,6 +66,15 @@ class MethodEntityTest extends TestCase
     }
 
     /**
+     * Test for `getName()` method
+     * @test
+     */
+    public function testGetName()
+    {
+        $this->assertSame('name', $this->getMethodEntity('name')->getName());
+    }
+
+    /**
      * Test for `getParameters()` method
      * @test
      */

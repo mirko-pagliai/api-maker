@@ -65,6 +65,15 @@ class ConstantEntityTest extends TestCase
     }
 
     /**
+     * Test for `getName()` method
+     * @test
+     */
+    public function testGetName()
+    {
+        $this->assertSame('LEGS', $this->getConstantEntity('LEGS')->getName());
+    }
+
+    /**
      * Test for `getSeeTags()` method
      * @test
      */

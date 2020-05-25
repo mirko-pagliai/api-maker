@@ -100,6 +100,15 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
+     * Test for `getName()` method
+     * @test
+     */
+    public function testGetName()
+    {
+        $this->assertSame('a_test_function', $this->Function->getName());
+    }
+
+    /**
      * Test for `getParameters()` method
      * @test
      */
