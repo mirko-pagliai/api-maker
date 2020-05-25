@@ -25,7 +25,6 @@ use Roave\BetterReflection\Reflection\ReflectionProperty;
 /**
  * Class entity
  * @method mixed getConstant(string $name)
- * @method string getName()
  * @method ?\Roave\BetterReflection\Reflection\ReflectionClass getParentClass()
  * @method bool isAbstract()
  * @method bool isInterface()
@@ -70,6 +69,15 @@ class ClassEntity extends AbstractEntity
         return array_map(function (ReflectionMethod $method) {
             return new MethodEntity($method);
         }, $this->reflectionObject->getImmediateMethods());
+    }
+
+    /**
+     * Gets the class name
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->reflectionObject->getName();
     }
 
     /**

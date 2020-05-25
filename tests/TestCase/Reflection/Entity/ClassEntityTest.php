@@ -94,6 +94,15 @@ HEREDOC;
     }
 
     /**
+     * Test for `getName()` method
+     * @test
+     */
+    public function testGetName()
+    {
+        $this->assertSame(Cat::class, $this->Class->getName());
+    }
+
+    /**
      * Test for `getProperties()` method
      * @test
      */
