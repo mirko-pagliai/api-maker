@@ -82,4 +82,13 @@ class ClassEntity extends AbstractEntity
             return new PropertyEntity($property);
         }, $this->reflectionObject->getImmediateProperties());
     }
+
+    /**
+     * Gets the slug
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return str_replace('\\', '-', $this->reflectionObject->getName());
+    }
 }

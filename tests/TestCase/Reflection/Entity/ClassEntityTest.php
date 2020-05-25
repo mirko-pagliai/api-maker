@@ -112,6 +112,15 @@ HEREDOC;
     }
 
     /**
+     * Test for `getSlug()` method
+     * @test
+     */
+    public function testGetSlug()
+    {
+        $this->assertSame('App-Animals-Cat', $this->Class->getSlug());
+    }
+
+    /**
      * Test for `isDeprecated()` method
      * @test
      */
