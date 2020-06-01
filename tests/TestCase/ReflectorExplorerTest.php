@@ -17,6 +17,7 @@ namespace ApiMaker\Test;
 use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
 use ApiMaker\ReflectorExplorer;
+use Tools\Exception\NotReadableException;
 use Tools\TestSuite\TestCase;
 
 /**
@@ -38,6 +39,16 @@ class ReflectorExplorerTest extends TestCase
         parent::setUp();
 
         $this->ReflectorExplorer = new ReflectorExplorer([TESTS . DS . 'test_app']);
+    }
+
+    /**
+     * Test for the construct, with a no existing path
+     * @test
+     */
+    public function testConstructWithNoReadablePath()
+    {
+        $this->expectException(NotReadableException::class);
+        new ReflectorExplorer([TESTS . DS . 'test_app', DS . 'noExistingPath']);
     }
 
     /**

@@ -53,9 +53,11 @@ class ReflectorExplorer
     /**
      * Construct
      * @param array $paths Array of paths
+     * @throws \Tools\Exception\NotReadableException
      */
     public function __construct(array $paths)
     {
+        array_map('is_readable_or_fail', $paths);
         $this->paths = $paths;
     }
 
