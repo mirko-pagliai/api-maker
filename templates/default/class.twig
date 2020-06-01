@@ -1,0 +1,71 @@
+{% extends "layout.twig" %}
+
+{% block title %}Class {{ class.getName }}{% endblock %}
+
+{% block content %}
+    <h2>{% if class.isTrait %}Trait{% elseif class.isInterface %}Interface{% else %}Class{% endif %} {{ class.getShortName }}</h2>
+
+    <div>{{ class.getDocBlockAsString }}</div>
+
+    {% if class.getParentClass %}
+        <div>
+            Extends <code>{{ class.getParentClass.getName }}</code>.
+        </div>
+    {% endif %}
+
+    {% if class.getTraits|length > 0 %}
+        <div>
+            Uses {{ class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') }}.
+        </div>
+    {% endif %}
+
+    <div class="p-3 mb-2 bg-light text-dark">
+        {%  if class.isAbstract %}
+            <div><strong>Abstract</strong></div>
+        {% endif %}
+        <div><strong>Namespace:</strong> {{ class.getNamespaceName }}</div>
+        <div><strong>Location:</strong> {{ class.getFilename }}</div>
+    </div>
+
+    {% if class.getConstants|length > 0 %}
+        <h4>Constants summary</h4>
+        <ul>
+            {% for constant in class.getConstants %}
+                <li>
+                    {{ include('elements/constant.twig') }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if class.getProperties|length > 0 %}
+        <h4>Properties summary</h4>
+        <ul>
+            {% for property in class.getProperties %}
+                <li>
+                    {{ include('elements/property.twig') }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if class.getMethods|length > 0 %}
+        <h4>Methods summary</h4>
+        <ul>
+            {% for method in class.getMethods %}
+                <li>
+                    {% include 'elements/method-summary.twig' %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    {% if class.getMethods|length > 0 %}
+        <h4>Methods detail</h4>
+        {% for method in class.getMethods %}
+            <div class="mb-4">
+                {% include 'elements/method.twig' %}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}

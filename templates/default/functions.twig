@@ -1,0 +1,28 @@
+{% extends "layout.twig" %}
+
+{% block title %}Functions{% endblock %}
+
+{% block content %}
+    <h2>Functions</h2>
+
+    {% if functions|length > 0 %}
+        <h4>Functions summary</h4>
+        <ul>
+            {% for function in functions %}
+                <li>
+                    {{ include('elements/function-summary.twig') }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    {% if functions|length > 0 %}
+        <h4>Functions detail</h4>
+        {% for function in functions %}
+            <div class="mb-4">
+                {{ include('elements/function.twig') }}
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
