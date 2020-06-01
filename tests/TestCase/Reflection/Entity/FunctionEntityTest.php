@@ -86,7 +86,7 @@ class FunctionEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('Use instead `a_test_function()`', $this->getFunctionEntity('old_function')->getDeprecatedDescription());
+        $this->assertSame('<p>Use instead <code>a_test_function()</code></p>', $this->getFunctionEntity('old_function')->getDeprecatedDescription());
     }
 
     /**
@@ -142,7 +142,7 @@ class FunctionEntityTest extends TestCase
      */
     public function testGetReturnDescription()
     {
-        $this->assertSame('The initial string with a `PHP_EOL`', $this->Function->getReturnDescription());
+        $this->assertSame('<p>The initial string with a <code>PHP_EOL</code></p>', $this->Function->getReturnDescription());
     }
 
     /**

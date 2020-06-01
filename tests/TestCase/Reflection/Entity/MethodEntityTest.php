@@ -51,7 +51,7 @@ class MethodEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('Use instead `getName()`/`setName()`', $this->getMethodEntity('name')->getDeprecatedDescription());
+        $this->assertSame('<p>Use instead <code>getName()</code>/<code>setName()</code></p>', $this->getMethodEntity('name')->getDeprecatedDescription());
     }
 
     /**
@@ -116,7 +116,7 @@ class MethodEntityTest extends TestCase
      */
     public function testGetReturnDescription()
     {
-        $this->assertSame('Returns the current instance or the name as string', $this->getMethodEntity('name')->getReturnDescription());
+        $this->assertSame('<p>Returns the current instance or the name as string</p>', $this->getMethodEntity('name')->getReturnDescription());
         $this->assertSame('', $this->getMethodEntity('getColor')->getReturnDescription());
         $this->assertSame('', $this->getMethodEntity('doMeow')->getReturnDescription());
     }

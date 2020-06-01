@@ -50,7 +50,7 @@ class ConstantEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('We are no longer interested in knowing the genus of the animal', $this->getConstantEntity('GENUS')->getDeprecatedDescription());
+        $this->assertSame('<p>We are no longer interested in knowing the genus of the animal</p>', $this->getConstantEntity('GENUS')->getDeprecatedDescription());
     }
 
     /**

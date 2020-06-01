@@ -50,7 +50,7 @@ class PropertyEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('Useless property', $this->getPropertyEntity('isCat')->getDeprecatedDescription());
+        $this->assertSame('<p>Useless property</p>', $this->getPropertyEntity('isCat')->getDeprecatedDescription());
     }
 
     /**

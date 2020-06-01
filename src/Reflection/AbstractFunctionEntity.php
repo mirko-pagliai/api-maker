@@ -18,6 +18,7 @@ use ApiMaker\Reflection\AbstractEntity;
 use ApiMaker\Reflection\Entity\ParameterEntity;
 use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
 use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
+use League\CommonMark\CommonMarkConverter;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
@@ -81,8 +82,9 @@ abstract class AbstractFunctionEntity extends AbstractEntity
     public function getReturnDescription(): string
     {
         $returnTag = $this->getDocBlockInstance()->getTagsByName('return');
+        $returnTag = $returnTag ? (string)$returnTag[0]->getDescription() : '';
 
-        return $returnTag ? (string)$returnTag[0]->getDescription() : '';
+        return trim((new CommonMarkConverter())->convertToHtml($returnTag));
     }
 
     /**

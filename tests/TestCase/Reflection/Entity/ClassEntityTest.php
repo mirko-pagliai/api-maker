@@ -72,7 +72,7 @@ class ClassEntityTest extends TestCase
  */
 class DeprecatedAnimal { }
 HEREDOC;
-        $this->assertSame('Use instead the `AnimalClass`', $this->getClassEntityFromString($class)->getDeprecatedDescription());
+        $this->assertSame('<p>Use instead the <code>AnimalClass</code></p>', $this->getClassEntityFromString($class)->getDeprecatedDescription());
     }
 
     /**
