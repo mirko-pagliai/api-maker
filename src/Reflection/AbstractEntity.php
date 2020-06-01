@@ -66,9 +66,7 @@ abstract class AbstractEntity
      */
     public function getDocBlockSummaryAsString(): string
     {
-        $summary = $this->getDocBlockInstance()->getSummary();
-
-        return trim((new CommonMarkConverter())->convertToHtml($summary));
+        return $this->toHtml($this->getDocBlockInstance()->getSummary());
     }
 
     /**
@@ -77,9 +75,7 @@ abstract class AbstractEntity
      */
     public function getDocBlockDescriptionAsString(): string
     {
-        $description = $this->getDocBlockInstance()->getDescription()->getBodyTemplate();
-
-        return trim((new CommonMarkConverter())->convertToHtml($description));
+        return $this->toHtml($this->getDocBlockInstance()->getDescription()->getBodyTemplate());
     }
 
     /**
@@ -101,5 +97,15 @@ abstract class AbstractEntity
     public function getName(): string
     {
         return $this->reflectionObject->getName();
+    }
+
+    /**
+     * Internal method to convert Markdown to Html
+     * @param string $string Markdown string
+     * @return string Html string
+     */
+    protected function toHtml($string): string
+    {
+        return trim((new CommonMarkConverter())->convertToHtml($string));
     }
 }

@@ -14,8 +14,6 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Reflection\Entity\Traits;
 
-use League\CommonMark\CommonMarkConverter;
-
 /**
  * DeprecatedTrait
  */
@@ -28,9 +26,8 @@ trait DeprecatedTrait
     public function getDeprecatedDescription(): string
     {
         $deprecatedTag = $this->getDocBlockInstance()->getTagsByName('deprecated');
-        $deprecatedTag = $deprecatedTag ? ucfirst((string)$deprecatedTag[0]->getDescription()) : '';
 
-        return trim((new CommonMarkConverter())->convertToHtml($deprecatedTag));
+        return $this->toHtml($deprecatedTag ? ucfirst((string)$deprecatedTag[0]->getDescription()) : '');
     }
 
     /**

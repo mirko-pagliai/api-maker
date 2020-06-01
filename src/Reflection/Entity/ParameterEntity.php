@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace ApiMaker\Reflection\Entity;
 
 use ApiMaker\Reflection\AbstractEntity;
-use League\CommonMark\CommonMarkConverter;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use phpDocumentor\Reflection\DocBlockFactory;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
@@ -97,7 +96,7 @@ class ParameterEntity extends AbstractEntity
         }));
         $docComment = $param->getDescription()->getBodyTemplate();
 
-        return $docComment ? trim((new CommonMarkConverter())->convertToHtml($docComment), PHP_EOL) : '';
+        return $docComment ? $this->toHtml($docComment) : '';
     }
 
     /**
