@@ -61,6 +61,15 @@ class ClassEntity extends AbstractEntity
     }
 
     /**
+     * Returns the link to the page of this class
+     * @return string
+     */
+    public function getLink(): string
+    {
+        return 'Class-' . $this->getSlug() . '.html';
+    }
+
+    /**
      * Returns an array of `MethodEntity`
      * @return array
      */

@@ -85,6 +85,15 @@ HEREDOC;
     }
 
     /**
+     * Test for `getLink()` method
+     * @test
+     */
+    public function testGetLink()
+    {
+        $this->assertSame('Class-App-Animals-Cat.html', $this->Class->getLink());
+    }
+
+    /**
      * Test for `getMethods()` method
      * @test
      */
