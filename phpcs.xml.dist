@@ -9,5 +9,6 @@
         <severity>0</severity>
     </rule>
 
+    <exclude-pattern>/templates/assets</exclude-pattern>
     <exclude-pattern>/tests/test_app</exclude-pattern>
 </ruleset>
