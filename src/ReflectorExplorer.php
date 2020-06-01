@@ -46,11 +46,6 @@ class ReflectorExplorer
     protected $FunctionReflector;
 
     /**
-     * @var array
-     */
-    protected $paths;
-
-    /**
      * Construct
      * @param array $paths Array of paths
      * @throws \Tools\Exception\NotReadableException
@@ -58,47 +53,32 @@ class ReflectorExplorer
     public function __construct(array $paths)
     {
         array_map('is_readable_or_fail', $paths);
-        $this->paths = $paths;
+        $astLocator = (new BetterReflection())->astLocator();
+        $this->DirectoriesSourceLocator = new DirectoriesSourceLocator($paths, $astLocator);
     }
 
     /**
      * Internal method to get a `ClassReflector` instance
      * @return \Roave\BetterReflection\Reflector\ClassReflector
-     * @uses getDirectoriesSourceLocator()
      */
     protected function getClassReflector(): ClassReflector
     {
         if (!$this->ClassReflector) {
-            $this->ClassReflector = new ClassReflector($this->getDirectoriesSourceLocator());
+            $this->ClassReflector = new ClassReflector($this->DirectoriesSourceLocator);
         }
 
         return $this->ClassReflector;
     }
 
     /**
-     * Internal method to get a `DirectoriesSourceLocator` instance
-     * @return \Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator
-     */
-    protected function getDirectoriesSourceLocator(): DirectoriesSourceLocator
-    {
-        if (!$this->DirectoriesSourceLocator) {
-            $astLocator = (new BetterReflection())->astLocator();
-            $this->DirectoriesSourceLocator = new DirectoriesSourceLocator($this->paths, $astLocator);
-        }
-
-        return $this->DirectoriesSourceLocator;
-    }
-
-    /**
      * Internal method to get a `FunctionReflector` instance
      * @return \Roave\BetterReflection\Reflector\FunctionReflector
      * @uses getClassReflector()
-     * @uses getDirectoriesSourceLocator()
      */
     protected function getFunctionReflector(): FunctionReflector
     {
         if (!$this->FunctionReflector) {
-            $this->FunctionReflector = new FunctionReflector($this->getDirectoriesSourceLocator(), $this->getClassReflector());
+            $this->FunctionReflector = new FunctionReflector($this->DirectoriesSourceLocator, $this->getClassReflector());
         }
 
         return $this->FunctionReflector;
