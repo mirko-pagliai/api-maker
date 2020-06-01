@@ -1,9 +1,9 @@
 {% extends "layout.twig" %}
 
-{% block title %}Functions{% endblock %}
+{% block title %}Functions index{% endblock %}
 
 {% block content %}
-    <h2>Functions</h2>
+    <h2>{{ block('title') }}</h2>
 
     {% if functions|length > 0 %}
         <h4>Functions summary</h4>

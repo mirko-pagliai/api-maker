@@ -1,4 +1,16 @@
 {% extends "layout.twig" %}
 
 {% block content %}
+    <h2>Classes index</h2>
+
+    <ul>
+        {% for class in classes %}
+            <li>
+                <code>
+                    <a href="{{ class.getLink }}">{{ class.getName }}</a>
+                </code>
+                <div>{{ class.getDocBlockSummaryAsString }}</div>
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
