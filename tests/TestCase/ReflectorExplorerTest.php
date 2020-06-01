@@ -62,6 +62,10 @@ class ReflectorExplorerTest extends TestCase
         $this->assertContainsOnlyInstancesOf(ClassEntity::class, $classes);
         $this->assertContains('Cake\Routing\Router', $names);
         $this->assertContains('App\Animals\Dog', $names);
+
+        //Classes are properly sorted
+        $this->assertSame('App\Animals\Animal', array_value_first($names));
+        $this->assertSame('Cake\Routing\Router', array_value_last($names));
     }
 
     /**

@@ -91,9 +91,15 @@ class ReflectorExplorer
      */
     public function getAllClasses(): array
     {
-        return array_map(function (ReflectionClass $class) {
+        $classes = array_map(function (ReflectionClass $class) {
             return new ClassEntity($class);
         }, $this->getClassReflector()->getAllClasses());
+
+        usort($classes, function (ClassEntity $a, ClassEntity $b) {
+            return strcmp($a->getName(), $b->getName());
+        });
+
+        return $classes;
     }
 
     /**
