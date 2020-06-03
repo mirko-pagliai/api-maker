@@ -9,6 +9,10 @@
         <severity>0</severity>
     </rule>
 
+    <rule ref="SlevomatCodingStandard.TypeHints.DeclareStrictTypes.DeclareStrictTypesMissing">
+        <exclude-pattern>/bin</exclude-pattern>
+    </rule>
+
     <exclude-pattern>/templates/assets</exclude-pattern>
     <exclude-pattern>/tests/test_app</exclude-pattern>
 </ruleset>

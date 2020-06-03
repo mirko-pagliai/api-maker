@@ -13,9 +13,10 @@ declare(strict_types=1);
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
 
-require_once 'vendor/autoload.php';
+if (!defined('DS')) {
+    define('DS', DIRECTORY_SEPARATOR);
+}
 
-define('TESTS', __DIR__);
-define('TMP', sys_get_temp_dir() . DS . 'api-maker' . DS);
-
-@mkdir(TMP, 0777, true);
+if (!defined('ROOT')) {
+    define('ROOT', dirname(dirname(__FILE__)));
+}
