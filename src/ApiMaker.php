@@ -32,6 +32,11 @@ class ApiMaker
     protected $ReflectorExplorer;
 
     /**
+     * @var string
+     */
+    protected $templatePath = ROOT . DS . 'templates' . DS . 'default';
+
+    /**
      * Construct
      * @param string|array $paths Path or paths from which to read the sources
      */
@@ -67,7 +72,7 @@ class ApiMaker
      */
     protected function getTwigInstance(): Environment
     {
-        $loader = new FilesystemLoader(ROOT . 'templates' . DS . 'default');
+        $loader = new FilesystemLoader($this->templatePath);
         $twig = new Environment($loader, [
             'autoescape' => false,
             'debug' => true,
@@ -88,9 +93,9 @@ class ApiMaker
         @mkdir($target, 0755, true);
 
         //Copies assets files
-        if (is_readable(ROOT . 'templates' . DS . 'default' . DS . 'assets')) {
+        if (is_readable($this->templatePath . DS . 'assets')) {
             $filesystem = new Filesystem();
-            $filesystem->mirror(ROOT . 'templates' . DS . 'default' . DS . 'assets', $target . DS . 'assets');
+            $filesystem->mirror($this->templatePath . DS . 'assets', $target . DS . 'assets');
         }
 
         //Gets all classes and all functions
