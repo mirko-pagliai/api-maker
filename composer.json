@@ -17,7 +17,8 @@
         "twig/twig": "^3.0",
         "phpdocumentor/reflection-docblock": "^5.1",
         "league/commonmark": "^1.4",
-        "symfony/console": "^5.1"
+        "symfony/console": "^5.1",
+        "symfony/options-resolver": "^5.1"
     },
     "require-dev": {
         "cakephp/cakephp-codesniffer": "^4.0",

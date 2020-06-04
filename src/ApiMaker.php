@@ -17,6 +17,7 @@ namespace ApiMaker;
 use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\ReflectorExplorer;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
@@ -32,6 +33,11 @@ class ApiMaker
     protected $ReflectorExplorer;
 
     /**
+     * @var array
+     */
+    protected $options;
+
+    /**
      * @var string
      */
     protected $templatePath = ROOT . DS . 'templates' . DS . 'default';
@@ -39,10 +45,24 @@ class ApiMaker
     /**
      * Construct
      * @param string|array $paths Path or paths from which to read the sources
+     * @param array $options Options array
      */
-    public function __construct($paths)
+    public function __construct($paths, array $options = [])
     {
         $this->ReflectorExplorer = new ReflectorExplorer((array)$paths);
+
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+        $this->options = $resolver->resolve($options);
+    }
+
+    /**
+     * Sets the default options
+     * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver An `OptionsResolver` instance
+     */
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(['title' => 'My project']);
     }
 
     /**
@@ -102,9 +122,10 @@ class ApiMaker
         $classes = $this->ReflectorExplorer->getAllClasses();
         $functions = $this->ReflectorExplorer->getAllFunctions();
 
-        //Builds the menu and sets some project vars
+        //Builds the menu
         $menu = $this->buildMenu($classes, $functions);
-        $project = ['title' => 'My project'];
+
+        $project = $this->options;
 
         //Renders index page
         $template = $this->getTwigInstance()->load('index.twig');
