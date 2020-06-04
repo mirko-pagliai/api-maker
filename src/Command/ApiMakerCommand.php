@@ -18,6 +18,7 @@ use ApiMaker\ApiMaker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -39,7 +40,10 @@ class ApiMakerCommand extends Command
     {
         $this
             ->setDescription('Creates a new user.')
-            ->addArgument('sources', InputArgument::REQUIRED, 'Path or paths from which to read the sources');
+            ->addArgument('sources', InputArgument::REQUIRED, 'Path or paths from which to read the sources')
+            ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project')
+            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory')
+        ;
     }
 
     /**
@@ -51,10 +55,17 @@ class ApiMakerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sources = $input->getArgument('sources');
+        $target = $input->getOption('target') ?? ROOT . DS . 'output';
+
         $output->writeln('Reading sources from ' . $sources);
 
-        $apiMaker = new ApiMaker($sources);
-        $apiMaker->build(ROOT . DS . 'output');
+        $options = [];
+        if ($input->getOption('title')) {
+            $options['title'] = $input->getOption('title');
+        }
+
+        $apiMaker = new ApiMaker($sources, $options);
+        $apiMaker->build($target);
 
         return Command::SUCCESS;
     }
