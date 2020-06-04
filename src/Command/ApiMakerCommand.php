@@ -41,6 +41,7 @@ class ApiMakerCommand extends Command
         $this
             ->setDescription('Creates a new user.')
             ->addArgument('sources', InputArgument::REQUIRED, 'Path or paths from which to read the sources')
+            ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug')
             ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project')
             ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory')
         ;
@@ -62,6 +63,9 @@ class ApiMakerCommand extends Command
         $options = [];
         if ($input->getOption('title')) {
             $options['title'] = $input->getOption('title');
+        }
+        if ($input->getOption('debug')) {
+            $options['debug'] = $input->getOption('debug');
         }
 
         $apiMaker = new ApiMaker($sources, $options);
