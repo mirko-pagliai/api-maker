@@ -14,6 +14,11 @@ declare(strict_types=1);
  */
 namespace ApiMaker;
 
+
+use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\Composer\Factory\MakeLocatorForComposerJsonAndInstalledJson;
+
 use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
 use Roave\BetterReflection\BetterReflection;
@@ -36,9 +41,9 @@ class ReflectorExplorer
     protected $ClassReflector;
 
     /**
-     * @var \Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator
+     * @var \Roave\BetterReflection\SourceLocator\Type\SourceLocator
      */
-    protected $DirectoriesSourceLocator;
+    protected $SourceLocator;
 
     /**
      * @var \Roave\BetterReflection\Reflector\FunctionReflector
@@ -54,7 +59,7 @@ class ReflectorExplorer
     {
         array_map('is_readable_or_fail', $paths);
         $astLocator = (new BetterReflection())->astLocator();
-        $this->DirectoriesSourceLocator = new DirectoriesSourceLocator($paths, $astLocator);
+        $this->SourceLocator = new DirectoriesSourceLocator($paths, $astLocator);
     }
 
     /**
@@ -64,7 +69,7 @@ class ReflectorExplorer
     protected function getClassReflector(): ClassReflector
     {
         if (!$this->ClassReflector) {
-            $this->ClassReflector = new ClassReflector($this->DirectoriesSourceLocator);
+            $this->ClassReflector = new ClassReflector($this->SourceLocator);
         }
 
         return $this->ClassReflector;
@@ -78,7 +83,7 @@ class ReflectorExplorer
     protected function getFunctionReflector(): FunctionReflector
     {
         if (!$this->FunctionReflector) {
-            $this->FunctionReflector = new FunctionReflector($this->DirectoriesSourceLocator, $this->getClassReflector());
+            $this->FunctionReflector = new FunctionReflector($this->SourceLocator, $this->getClassReflector());
         }
 
         return $this->FunctionReflector;
