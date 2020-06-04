@@ -62,7 +62,10 @@ class ApiMaker
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(['title' => 'My project']);
+        $resolver->setDefaults([
+            'debug' => false,
+            'title' => 'My project',
+        ]);
     }
 
     /**
@@ -95,10 +98,13 @@ class ApiMaker
         $loader = new FilesystemLoader($this->templatePath);
         $twig = new Environment($loader, [
             'autoescape' => false,
-            'debug' => true,
+            'debug' => $this->options['debug'],
             'strict_variables' => true,
         ]);
-        $twig->addExtension(new DebugExtension());
+
+        if ($this->options['debug']) {
+            $twig->addExtension(new DebugExtension());
+        }
 
         return $twig;
     }
@@ -125,7 +131,7 @@ class ApiMaker
         //Builds the menu
         $menu = $this->buildMenu($classes, $functions);
 
-        $project = $this->options;
+        $project = array_intersect_key($this->options, array_flip(['title']));
 
         //Renders index page
         $template = $this->getTwigInstance()->load('index.twig');
