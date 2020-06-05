@@ -16,7 +16,6 @@ namespace ApiMaker\Reflection\Entity;
 
 use ApiMaker\Reflection\AbstractEntity;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
-use phpDocumentor\Reflection\DocBlockFactory;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
@@ -88,7 +87,10 @@ class ParameterEntity extends AbstractEntity
      */
     public function getDocBlockAsString(): string
     {
-        $docblock = DocBlockFactory::createInstance()->create($this->reflectionObject->getDeclaringFunction());
+        $docblock = $this->getDocBlockInstance($this->reflectionObject->getDeclaringFunction());
+        if (!$docblock) {
+            return '';
+        }
 
         //Takes the right parameter
         $param = array_value_first(array_filter($docblock->getTagsByName('param'), function (Param $param) {

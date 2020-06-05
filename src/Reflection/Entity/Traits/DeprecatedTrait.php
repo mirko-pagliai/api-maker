@@ -25,7 +25,12 @@ trait DeprecatedTrait
      */
     public function getDeprecatedDescription(): string
     {
-        $deprecatedTag = $this->getDocBlockInstance()->getTagsByName('deprecated');
+        $DocBlockInstance = $this->getDocBlockInstance();
+        if(!$DocBlockInstance) {
+            return '';
+        }
+
+        $deprecatedTag = $DocBlockInstance->getTagsByName('deprecated');
 
         return $this->toHtml($deprecatedTag ? ucfirst((string)$deprecatedTag[0]->getDescription()) : '');
     }
@@ -36,6 +41,8 @@ trait DeprecatedTrait
      */
     public function isDeprecated(): bool
     {
-        return $this->getDocBlockInstance()->hasTag('deprecated');
+        $DocBlockInstance = $this->getDocBlockInstance();
+
+        return $DocBlockInstance ? $DocBlockInstance->hasTag('deprecated') : false;
     }
 }
