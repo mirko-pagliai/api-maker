@@ -53,11 +53,16 @@ abstract class AbstractEntity
 
     /**
      * Internal method to get the `DocBlock` instance
-     * @return \phpDocumentor\Reflection\DocBlock
+     * @param Reflection|ReflectionFunctionAbstract|null $reflectionObject A `Reflection` object
+     * @return \phpDocumentor\Reflection\DocBlock|null
      */
-    protected function getDocBlockInstance(): DocBlock
+    protected function getDocBlockInstance($reflectionObject = null): ?DocBlock
     {
-        return DocBlockFactory::createInstance()->create($this->reflectionObject);
+        try {
+            return DocBlockFactory::createInstance()->create($reflectionObject ?: $this->reflectionObject);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**
@@ -66,7 +71,9 @@ abstract class AbstractEntity
      */
     public function getDocBlockSummaryAsString(): string
     {
-        return $this->toHtml($this->getDocBlockInstance()->getSummary());
+        $DocBlockInstance = $this->getDocBlockInstance();
+
+        return $DocBlockInstance ? $this->toHtml($DocBlockInstance->getSummary()) : '';
     }
 
     /**
@@ -75,7 +82,9 @@ abstract class AbstractEntity
      */
     public function getDocBlockDescriptionAsString(): string
     {
-        return $this->toHtml($this->getDocBlockInstance()->getDescription()->getBodyTemplate());
+        $DocBlockInstance = $this->getDocBlockInstance();
+
+        return $DocBlockInstance ? $this->toHtml($DocBlockInstance->getDescription()->getBodyTemplate()) : '';
     }
 
     /**
@@ -85,6 +94,10 @@ abstract class AbstractEntity
     public function getDocBlockAsString(): string
     {
         $summary = $this->getDocBlockSummaryAsString();
+        if (!$summary) {
+            return '';
+        }
+
         $description = $this->getDocBlockDescriptionAsString();
 
         return $summary . ($description ? PHP_EOL . $description : '');
