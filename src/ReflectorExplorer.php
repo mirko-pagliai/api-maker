@@ -15,10 +15,6 @@ declare(strict_types=1);
 namespace ApiMaker;
 
 
-use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\Composer\Factory\MakeLocatorForComposerJsonAndInstalledJson;
-
 use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
 use Roave\BetterReflection\BetterReflection;
@@ -26,7 +22,12 @@ use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionFunction;
 use Roave\BetterReflection\Reflector\ClassReflector;
 use Roave\BetterReflection\Reflector\FunctionReflector;
-use Roave\BetterReflection\SourceLocator\Type\DirectoriesSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\FileIteratorSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\ComposerSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
+use Roave\BetterReflection\SourceLocator\SourceStubber\ReflectionSourceStubber;
+use Symfony\Component\Finder\Finder;
 
 /**
  * ReflectorExplorer.
@@ -52,14 +53,23 @@ class ReflectorExplorer
 
     /**
      * Construct
-     * @param array $paths Array of paths
+     * @param string $path Source path
      * @throws \Tools\Exception\NotReadableException
      */
-    public function __construct(array $paths)
+    public function __construct(string $path)
     {
-        array_map('is_readable_or_fail', $paths);
+        is_readable_or_fail($path);
+
         $astLocator = (new BetterReflection())->astLocator();
-        $this->SourceLocator = new DirectoriesSourceLocator($paths, $astLocator);
+        $finder = new Finder();
+        $finder->in($path)->files()->name('*.php')->notPath(['tests', 'vendor']);
+        $classLoader = require add_slash_term($path) . 'vendor' . DS . 'autoload.php';
+
+        $this->SourceLocator = new AggregateSourceLocator([
+            new FileIteratorSourceLocator($finder->getIterator(), $astLocator),
+            new ComposerSourceLocator($classLoader, $astLocator),
+            new PhpInternalSourceLocator($astLocator, new ReflectionSourceStubber())
+        ]);
     }
 
     /**

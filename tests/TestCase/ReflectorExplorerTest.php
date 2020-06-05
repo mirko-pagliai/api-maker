@@ -38,7 +38,7 @@ class ReflectorExplorerTest extends TestCase
     {
         parent::setUp();
 
-        $this->ReflectorExplorer = new ReflectorExplorer([TESTS . DS . 'test_app']);
+        $this->ReflectorExplorer = new ReflectorExplorer(TESTS . DS . 'test_app');
     }
 
     /**
@@ -48,7 +48,7 @@ class ReflectorExplorerTest extends TestCase
     public function testConstructWithNoReadablePath()
     {
         $this->expectException(NotReadableException::class);
-        new ReflectorExplorer([TESTS . DS . 'test_app', DS . 'noExistingPath']);
+        new ReflectorExplorer(DS . 'noExistingPath');
     }
 
     /**

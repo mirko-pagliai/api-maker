@@ -44,12 +44,12 @@ class ApiMaker
 
     /**
      * Construct
-     * @param string|array $paths Path or paths from which to read the sources
+     * @param string $path Path from which to read the sources
      * @param array $options Options array
      */
-    public function __construct($paths, array $options = [])
+    public function __construct(string $path, array $options = [])
     {
-        $this->ReflectorExplorer = new ReflectorExplorer((array)$paths);
+        $this->ReflectorExplorer = new ReflectorExplorer($path);
 
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
