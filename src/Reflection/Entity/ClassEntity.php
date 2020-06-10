@@ -70,6 +70,16 @@ class ClassEntity extends AbstractEntity
     }
 
     /**
+     * Gets a method
+     * @param string $methodName Method name
+     * @return \ApiMaker\Reflection\Entity\MethodEntity
+     */
+    public function getMethod(string $methodName): MethodEntity
+    {
+        return new MethodEntity($this->reflectionObject->getMethod($methodName));
+    }
+
+    /**
      * Returns an array of `MethodEntity`
      * @return array
      */

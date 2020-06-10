@@ -94,6 +94,17 @@ HEREDOC;
     }
 
     /**
+     * Test for `getMethod()` method
+     * @test
+     */
+    public function testGetMethod()
+    {
+        $method = $this->Class->getMethod('createPuppy');
+        $this->assertInstanceOf(MethodEntity::class, $method);
+        $this->assertSame('createPuppy', $method->getName());
+    }
+
+    /**
      * Test for `getMethods()` method
      * @test
      */
