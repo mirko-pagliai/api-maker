@@ -42,6 +42,16 @@ abstract class AbstractFunctionEntity extends AbstractEntity
     }
 
     /**
+     * Gets a parameter
+     * @param string $parameterName Parameter name
+     * @return ParameterEntity
+     */
+    public function getParameter(string $parameterName): ParameterEntity
+    {
+        return new ParameterEntity($this->reflectionObject->getParameter($parameterName));
+    }
+
+    /**
      * Gets parameters
      * @return array Array of `ParameterEntity` instances
      */

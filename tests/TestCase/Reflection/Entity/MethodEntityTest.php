@@ -85,6 +85,17 @@ HEREDOC;
     }
 
     /**
+     * Test for `getParameter()` method
+     * @test
+     */
+    public function testGetParameter()
+    {
+        $parameter = $this->getMethodEntity('doMeow')->getParameter('meow');
+        $this->assertInstanceOf(ParameterEntity::class, $parameter);
+        $this->assertSame('meow', $parameter->getName());
+    }
+
+    /**
      * Test for `getParameters()` method
      * @test
      */
