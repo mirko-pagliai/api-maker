@@ -52,6 +52,16 @@ class MethodEntityTest extends TestCase
     public function testGetDeprecatedDescription()
     {
         $this->assertSame('<p>Use instead <code>getName()</code>/<code>setName()</code></p>', $this->getMethodEntity('name')->getDeprecatedDescription());
+
+        //This method has no DocBlock
+        $class = <<<HEREDOC
+class MyClass {
+        public function MyMethod()
+        {
+        }
+}
+HEREDOC;
+        $this->assertSame('', $this->getClassEntityFromString($class)->getMethod('MyMethod')->getDeprecatedDescription());
     }
 
     /**
@@ -108,6 +118,16 @@ class MethodEntityTest extends TestCase
         $this->assertSame('\App\Animals\Cat', $this->getMethodEntity('createPuppy')->getReturnTypeAsString());
         $this->assertSame('string|null', $this->getMethodEntity('getColor')->getReturnTypeAsString());
         $this->assertSame('void', $this->getMethodEntity('doMeow')->getReturnTypeAsString());
+
+        //This method has no DocBlock
+        $class = <<<HEREDOC
+class MyClass {
+        public function MyMethod()
+        {
+        }
+}
+HEREDOC;
+        $this->assertSame('', $this->getClassEntityFromString($class)->getMethod('MyMethod')->getReturnTypeAsString());
     }
 
     /**

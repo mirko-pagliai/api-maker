@@ -69,6 +69,16 @@ class ParameterEntityTest extends TestCase
             '<p>The name or <code>null</code> to get the current name</p>',
             $this->getParameterEntity('name', 'name')->getDocBlockAsString()
         );
+
+        //This parameter has no DocBlock
+        $class = <<<HEREDOC
+class MyClass {
+        public function MyMethod(\$parameterWithoutDocBlock)
+        {
+        }
+}
+HEREDOC;
+        $this->assertSame('', $this->getClassEntityFromString($class)->getMethod('MyMethod')->getParameter('parameterWithoutDocBlock')->getDocBlockAsString());
     }
 
     /**

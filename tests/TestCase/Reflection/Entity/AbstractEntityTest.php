@@ -75,5 +75,8 @@ HEREDOC;
         $this->assertSame('<p>Class summary.</p>
 <h3>Header</h3>
 <p>Description</p>', $this->getClassEntityFromString($class)->getDocBlockAsString());
+
+        //Class with no DocBlock
+        $this->assertSame('', $this->getClassEntityFromString('class MyClass {}')->getDocBlockAsString());
     }
 }

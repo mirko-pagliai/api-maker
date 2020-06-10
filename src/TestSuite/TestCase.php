@@ -20,7 +20,6 @@ use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflector\ClassReflector;
 use Roave\BetterReflection\SourceLocator\Type\StringSourceLocator;
-use RuntimeException;
 use Tools\TestSuite\TestCase as BaseTestCase;
 
 /**
@@ -77,14 +76,12 @@ abstract class TestCase extends BaseTestCase
      * @param string $code Class code
      * @param string|null $className Class name
      * @return \Roave\BetterReflection\Reflection\ReflectionClass
-     * @throws \RuntimeException
+     * @throws \Exception
      */
     protected function getReflectionClassFromString(string $code, ?string $className = null): ReflectionClass
     {
         if (!$className) {
-            if (!preg_match('/^class\s(\S+)/m', $code, $matches)) {
-                throw new RuntimeException('Impossible to self-determine the class name');
-            }
+            is_true_or_fail(preg_match('/^class\s(\S+)/m', $code, $matches), 'Impossible to self-determine the class name');
             $className = $matches[1];
         }
 
