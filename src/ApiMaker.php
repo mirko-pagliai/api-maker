@@ -18,6 +18,7 @@ use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\ReflectorExplorer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Tools\Event\EventDispatcherTrait;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
@@ -27,10 +28,17 @@ use Twig\Loader\FilesystemLoader;
  */
 class ApiMaker
 {
+    use EventDispatcherTrait;
+
     /**
      * @var \ApiMaker\ReflectorExplorer
      */
     protected $ReflectorExplorer;
+
+    /**
+     * @var Twig\Environment
+     */
+    protected $Twig;
 
     /**
      * @var array
@@ -90,23 +98,34 @@ class ApiMaker
     }
 
     /**
+     * Gets the template path
+     * @return string
+     */
+    public function getTemplatePath(): string
+    {
+        return $this->templatePath;
+    }
+
+    /**
      * Gets a Twig `Environment` instance
      * @return \Twig\Environment
      */
-    protected function getTwigInstance(): Environment
+    public function getTwigInstance(): Environment
     {
-        $loader = new FilesystemLoader($this->templatePath);
-        $twig = new Environment($loader, [
-            'autoescape' => false,
-            'debug' => $this->options['debug'],
-            'strict_variables' => true,
-        ]);
+        if (!$this->Twig) {
+            $loader = new FilesystemLoader($this->getTemplatePath());
+            $this->Twig = new Environment($loader, [
+                'autoescape' => false,
+                'debug' => $this->options['debug'],
+                'strict_variables' => true,
+            ]);
 
-        if ($this->options['debug']) {
-            $twig->addExtension(new DebugExtension());
+            if ($this->options['debug']) {
+                $this->Twig->addExtension(new DebugExtension());
+            }
         }
 
-        return $twig;
+        return $this->Twig;
     }
 
     /**
@@ -116,17 +135,21 @@ class ApiMaker
      */
     public function build(string $target): void
     {
-        @mkdir($target, 0755, true);
+        $filesystem = new Filesystem();
+        $filesystem->mkdir($target, 0755);
 
         //Copies assets files
-        if (is_readable($this->templatePath . DS . 'assets')) {
-            $filesystem = new Filesystem();
-            $filesystem->mirror($this->templatePath . DS . 'assets', $target . DS . 'assets');
+        if (is_readable($this->getTemplatePath() . DS . 'assets')) {
+            $filesystem->mirror($this->getTemplatePath() . DS . 'assets', $target . DS . 'assets');
         }
 
-        //Gets all classes and all functions
+        //Gets all classes
         $classes = $this->ReflectorExplorer->getAllClasses();
+        $this->dispatchEvent('classes.founded', [$classes]);
+
+        //Gets all functions
         $functions = $this->ReflectorExplorer->getAllFunctions();
+        $this->dispatchEvent('functions.founded', [$functions]);
 
         //Builds the menu
         $menu = $this->buildMenu($classes, $functions);
@@ -136,13 +159,15 @@ class ApiMaker
         //Renders index page
         $template = $this->getTwigInstance()->load('index.twig');
         $output = $template->render(compact('classes', 'menu', 'project'));
-        file_put_contents($target . DS . 'index.html', $output);
+        $filesystem->dumpFile($target . DS . 'index.html', $output);
+        $this->dispatchEvent('index.rendered');
 
         //Renders functions page
         if ($functions) {
             $template = $this->getTwigInstance()->load('functions.twig');
             $output = $template->render(compact('functions', 'menu', 'project'));
-            file_put_contents($target . DS . 'functions.html', $output);
+            $filesystem->dumpFile($target . DS . 'functions.html', $output);
+            $this->dispatchEvent('functions.rendered');
         }
 
         //Renders each class page
@@ -150,7 +175,8 @@ class ApiMaker
         foreach ($classes as $class) {
             $outputFile = $target . DS . 'Class-' . $class->getSlug() . '.html';
             $output = $template->render(compact('class', 'menu', 'project'));
-            file_put_contents($outputFile, $output);
+            $filesystem->dumpFile($outputFile, $output);
+            $this->dispatchEvent('class.rendered', [$class]);
         }
     }
 }
