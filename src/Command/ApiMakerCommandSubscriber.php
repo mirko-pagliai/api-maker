@@ -18,6 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Tools\Event\Event;
 
+/**
+ * Event subscriber for `ApiMakerCommand`
+ */
 class ApiMakerCommandSubscriber implements EventSubscriberInterface
 {
     /**
