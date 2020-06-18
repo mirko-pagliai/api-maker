@@ -138,6 +138,9 @@ class ApiMaker
         $filesystem = new Filesystem();
         $filesystem->mkdir($target, 0755);
 
+        $twig = $this->getTwigInstance();
+        $twig->setCache($target . DS . 'cache');
+
         //Copies assets files
         if (is_readable($this->getTemplatePath() . DS . 'assets')) {
             $filesystem->mirror($this->getTemplatePath() . DS . 'assets', $target . DS . 'assets');
@@ -157,25 +160,21 @@ class ApiMaker
         $project = array_intersect_key($this->options, array_flip(['title']));
 
         //Renders index page
-        $template = $this->getTwigInstance()->load('index.twig');
-        $output = $template->render(compact('classes', 'menu', 'project'));
+        $output = $twig->render('index.twig', compact('classes', 'menu', 'project'));
         $filesystem->dumpFile($target . DS . 'index.html', $output);
         $this->dispatchEvent('index.rendered');
 
         //Renders functions page
         if ($functions) {
-            $template = $this->getTwigInstance()->load('functions.twig');
-            $output = $template->render(compact('functions', 'menu', 'project'));
+            $output = $twig->render('functions.twig', compact('functions', 'menu', 'project'));
             $filesystem->dumpFile($target . DS . 'functions.html', $output);
             $this->dispatchEvent('functions.rendered');
         }
 
         //Renders each class page
-        $template = $this->getTwigInstance()->load('class.twig');
         foreach ($classes as $class) {
-            $outputFile = $target . DS . 'Class-' . $class->getSlug() . '.html';
-            $output = $template->render(compact('class', 'menu', 'project'));
-            $filesystem->dumpFile($outputFile, $output);
+            $output = $twig->render('class.twig', compact('class', 'menu', 'project'));
+            $filesystem->dumpFile($target . DS . 'Class-' . $class->getSlug() . '.html', $output);
             $this->dispatchEvent('class.rendered', [$class]);
         }
     }
