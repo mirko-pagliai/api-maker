@@ -22,6 +22,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * ApiMakerCommand
@@ -55,27 +56,31 @@ class ApiMakerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
+
         $sources = $input->getArgument('sources');
         $target = $input->getOption('target') ?? add_slash_term(ROOT) . 'output';
         $options['title'] = $input->getOption('title') ?? null;
         $options['debug'] = $input->getOption('debug') ?? false;
 
-        $output->writeln('Reading sources from: ' . $sources);
-        $output->writeln('Target directory: ' . $target);
+        $io->text('Reading sources from: ' . $sources);
+        $io->text('Target directory: ' . $target);
+        $io->text('=================================');
 
         $start = microtime(true);
 
         try {
             $apiMaker = new ApiMaker($sources, $options);
-            $apiMaker->getEventDispatcher()->addSubscriber(new ApiMakerCommandSubscriber($output));
+            $apiMaker->getEventDispatcher()->addSubscriber(new ApiMakerCommandSubscriber($io));
             $apiMaker->build($target);
         } catch (Exception $e) {
-            $output->writeln(sprintf('<error>Error: %s</error>', $e->getMessage()));
+            $io->error($e->getMessage());
 
             return Command::FAILURE;
         }
 
-        $output->writeln(sprintf('Elapsed time: %s seconds', round(microtime(true) - $start, 2)));
+        $io->text(sprintf('Elapsed time: %s seconds', round(microtime(true) - $start, 2)));
+        $io->success('Done!');
 
         return Command::SUCCESS;
     }

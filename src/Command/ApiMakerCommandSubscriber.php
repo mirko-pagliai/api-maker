@@ -14,8 +14,8 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Command;
 
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Tools\Event\Event;
 
 /**
@@ -24,9 +24,9 @@ use Tools\Event\Event;
 class ApiMakerCommandSubscriber implements EventSubscriberInterface
 {
     /**
-     * @var \Symfony\Component\Console\Output\OutputInterface
+     * @var \Symfony\Component\Console\Style\SymfonyStyle
      */
-    protected $output;
+    protected $io;
 
     /**
      * Returns an array of event names this subscriber wants to listen to
@@ -45,11 +45,11 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
 
     /**
      * Constructor
-     * @param \Symfony\Component\Console\Output\OutputInterface $output An `OutputInterface` instance
+     * @param \Symfony\Component\Console\Style\SymfonyStyle $io A `SymfonyStyle` instance
      */
-    public function __construct(OutputInterface $output)
+    public function __construct(SymfonyStyle $io)
     {
-        $this->output = $output;
+        $this->io = $io;
     }
 
     /**
@@ -59,7 +59,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onClassFounded(Event $event): void
     {
-        $this->output->writeln(sprintf('Founded %d classes', count($event->getArg(0))));
+        $this->io->text(sprintf('Founded %d classes', count($event->getArg(0))));
     }
 
     /**
@@ -69,7 +69,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onClassRendered(Event $event): void
     {
-        $this->output->writeln(sprintf('Rendered class page for %s', $event->getArg(0)->getName()));
+        $this->io->text(sprintf('Rendered class page for %s', $event->getArg(0)->getName()));
     }
 
     /**
@@ -79,7 +79,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onFunctionsFounded(Event $event): void
     {
-        $this->output->writeln(sprintf('Founded %d functions', count($event->getArg(0))));
+        $this->io->text(sprintf('Founded %d functions', count($event->getArg(0))));
     }
 
     /**
@@ -89,7 +89,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onFunctionsRendered(Event $event): void
     {
-        $this->output->writeln(sprintf('Rendered functions page'));
+        $this->io->text(sprintf('Rendered functions page'));
     }
 
     /**
@@ -99,6 +99,6 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onIndexRendered(Event $event): void
     {
-        $this->output->writeln(sprintf('Rendered index page'));
+        $this->io->text(sprintf('Rendered index page'));
     }
 }
