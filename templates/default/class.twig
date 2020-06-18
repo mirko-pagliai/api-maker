@@ -15,6 +15,12 @@
         </div>
     {% endif %}
 
+    {% if class.getInterfaceNames %}
+        <div>
+            Implements <code>{{ class.getInterfaceNames|join(', ') }}</code>.
+        </div>
+    {% endif %}
+
     {% if class.getTraits|length > 0 %}
         <div>
             Uses {{ class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') }}.
