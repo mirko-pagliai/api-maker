@@ -53,7 +53,7 @@ abstract class AbstractEntity
 
     /**
      * Internal method to get the `DocBlock` instance
-     * @param Reflection|ReflectionFunctionAbstract|null $reflectionObject A `Reflection` object
+     * @param \Roave\BetterReflection\Reflection\Reflection|\Roave\BetterReflection\Reflection\ReflectionFunctionAbstract|null $reflectionObject A `Reflection` object
      * @return \phpDocumentor\Reflection\DocBlock|null
      */
     protected function getDocBlockInstance($reflectionObject = null): ?DocBlock

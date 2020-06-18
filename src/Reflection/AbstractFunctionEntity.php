@@ -44,7 +44,7 @@ abstract class AbstractFunctionEntity extends AbstractEntity
     /**
      * Gets a parameter
      * @param string $parameterName Parameter name
-     * @return ParameterEntity
+     * @return \ApiMaker\Reflection\Entity\ParameterEntity
      */
     public function getParameter(string $parameterName): ParameterEntity
     {

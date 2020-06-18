@@ -13,6 +13,6 @@
         <exclude-pattern>/bin</exclude-pattern>
     </rule>
 
-    <exclude-pattern>/templates/assets</exclude-pattern>
+    <exclude-pattern>/templates/default/assets</exclude-pattern>
     <exclude-pattern>/tests/test_app</exclude-pattern>
 </ruleset>

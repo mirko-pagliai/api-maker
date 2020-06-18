@@ -14,7 +14,6 @@ declare(strict_types=1);
  */
 namespace ApiMaker;
 
-
 use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
 use Roave\BetterReflection\BetterReflection;
@@ -22,11 +21,11 @@ use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionFunction;
 use Roave\BetterReflection\Reflector\ClassReflector;
 use Roave\BetterReflection\Reflector\FunctionReflector;
-use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\FileIteratorSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\ComposerSourceLocator;
-use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Roave\BetterReflection\SourceLocator\SourceStubber\ReflectionSourceStubber;
+use Roave\BetterReflection\SourceLocator\Type\AggregateSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\ComposerSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\FileIteratorSourceLocator;
+use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -68,7 +67,7 @@ class ReflectorExplorer
         $this->SourceLocator = new AggregateSourceLocator([
             new FileIteratorSourceLocator($finder->getIterator(), $astLocator),
             new ComposerSourceLocator($classLoader, $astLocator),
-            new PhpInternalSourceLocator($astLocator, new ReflectionSourceStubber())
+            new PhpInternalSourceLocator($astLocator, new ReflectionSourceStubber()),
         ]);
     }
 

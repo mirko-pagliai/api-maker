@@ -36,7 +36,7 @@ class ApiMaker
     protected $ReflectorExplorer;
 
     /**
-     * @var Twig\Environment
+     * @var \Twig\Environment
      */
     protected $Twig;
 
@@ -67,6 +67,7 @@ class ApiMaker
     /**
      * Sets the default options
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver An `OptionsResolver` instance
+     * @return void
      */
     public function configureOptions(OptionsResolver $resolver): void
     {

@@ -45,7 +45,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
 
     /**
      * Constructor
-     * @param OutputInterface $output An `OutputInterface` instance
+     * @param \Symfony\Component\Console\Output\OutputInterface $output An `OutputInterface` instance
      */
     public function __construct(OutputInterface $output)
     {
@@ -54,7 +54,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
 
     /**
      * `classes.founded` event
-     * @param Event $event The `Event` instance
+     * @param \Tools\Event\Event $event The `Event` instance
      * @return void
      */
     public function onClassFounded(Event $event): void
@@ -64,7 +64,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
 
     /**
      * `class.rendered` event
-     * @param Event $event The `Event` instance
+     * @param \Tools\Event\Event $event The `Event` instance
      * @return void
      */
     public function onClassRendered(Event $event): void
@@ -74,7 +74,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
 
     /**
      * `functions.founded` event
-     * @param Event $event The `Event` instance
+     * @param \Tools\Event\Event $event The `Event` instance
      * @return void
      */
     public function onFunctionsFounded(Event $event): void
@@ -84,7 +84,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
 
     /**
      * `functions.rendered` event
-     * @param Event $event The `Event` instance
+     * @param \Tools\Event\Event $event The `Event` instance
      * @return void
      */
     public function onFunctionsRendered(Event $event): void
@@ -94,7 +94,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
 
     /**
      * `index.rendered` event
-     * @param Event $event The `Event` instance
+     * @param \Tools\Event\Event $event The `Event` instance
      * @return void
      */
     public function onIndexRendered(Event $event): void

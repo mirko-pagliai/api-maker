@@ -26,7 +26,7 @@ trait DeprecatedTrait
     public function getDeprecatedDescription(): string
     {
         $DocBlockInstance = $this->getDocBlockInstance();
-        if(!$DocBlockInstance) {
+        if (!$DocBlockInstance) {
             return '';
         }
 
