@@ -44,8 +44,7 @@ class ApiMakerCommand extends Command
             ->addArgument('sources', InputArgument::REQUIRED, 'Path or paths from which to read the sources')
             ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug')
             ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project')
-            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory')
-        ;
+            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory');
     }
 
     /**
@@ -65,11 +64,10 @@ class ApiMakerCommand extends Command
         $output->writeln('Target directory: ' . $target);
 
         $start = microtime(true);
-        $apiMaker = new ApiMaker($sources, $options);
-        $dispatcher = $apiMaker->getEventDispatcher();
-        $dispatcher->addSubscriber(new ApiMakerCommandSubscriber($output));
 
         try {
+            $apiMaker = new ApiMaker($sources, $options);
+            $apiMaker->getEventDispatcher()->addSubscriber(new ApiMakerCommandSubscriber($output));
             $apiMaker->build($target);
         } catch (Exception $e) {
             $output->writeln(sprintf('<error>Error: %s</error>', $e->getMessage()));
