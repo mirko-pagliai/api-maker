@@ -48,6 +48,11 @@ class ApiMaker
     /**
      * @var string
      */
+    protected $path;
+
+    /**
+     * @var string
+     */
     protected $templatePath = ROOT . DS . 'templates' . DS . 'default';
 
     /**
@@ -57,6 +62,7 @@ class ApiMaker
      */
     public function __construct(string $path, array $options = [])
     {
+        $this->path = $path;
         $this->ReflectorExplorer = new ReflectorExplorer($path);
 
         $resolver = new OptionsResolver();
@@ -71,9 +77,11 @@ class ApiMaker
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
+        $titleFromPath = array_value_last(array_filter(explode(DS, $this->path)));
+
         $resolver->setDefaults([
             'debug' => false,
-            'title' => 'My project',
+            'title' => $titleFromPath ?? 'My project',
         ]);
     }
 
