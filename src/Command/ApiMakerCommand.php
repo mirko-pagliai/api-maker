@@ -15,6 +15,8 @@ declare(strict_types=1);
 namespace ApiMaker\Command;
 
 use ApiMaker\ApiMaker;
+use ApiMaker\Command\ApiMakerCommandSubscriber;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -39,7 +41,6 @@ class ApiMakerCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Creates a new user.')
             ->addArgument('sources', InputArgument::REQUIRED, 'Path or paths from which to read the sources')
             ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug')
             ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project')
@@ -56,20 +57,27 @@ class ApiMakerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $sources = $input->getArgument('sources');
-        $target = $input->getOption('target') ?? ROOT . DS . 'output';
+        $target = $input->getOption('target') ?? add_slash_term(ROOT) . 'output';
+        $options['title'] = $input->getOption('title') ?? null;
+        $options['debug'] = $input->getOption('debug') ?? false;
 
-        $output->writeln('Reading sources from ' . $sources);
+        $output->writeln('Reading sources from: ' . $sources);
+        $output->writeln('Target directory: ' . $target);
 
-        $options = [];
-        if ($input->getOption('title')) {
-            $options['title'] = $input->getOption('title');
-        }
-        if ($input->getOption('debug')) {
-            $options['debug'] = $input->getOption('debug');
-        }
-
+        $start = microtime(true);
         $apiMaker = new ApiMaker($sources, $options);
-        $apiMaker->build($target);
+        $dispatcher = $apiMaker->getEventDispatcher();
+        $dispatcher->addSubscriber(new ApiMakerCommandSubscriber($output));
+
+        try {
+            $apiMaker->build($target);
+        } catch (Exception $e) {
+            $output->writeln(sprintf('<error>Error: %s</error>', $e->getMessage()));
+
+            return Command::FAILURE;
+        }
+
+        $output->writeln(sprintf('Elapsed time: %s seconds', round(microtime(true) - $start, 2)));
 
         return Command::SUCCESS;
     }
