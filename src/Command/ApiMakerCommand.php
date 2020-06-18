@@ -49,6 +49,23 @@ class ApiMakerCommand extends Command
     }
 
     /**
+     * Internal method to parse and get config for the `ApiMaker` instance.
+     * @param \Symfony\Component\Console\Input\InputInterface $input InputInterface instance
+     * @return array
+     */
+    protected function getConfigForApiMaker(InputInterface $input): array
+    {
+        $options = [];
+        foreach (['debug', 'title'] as $name) {
+            if ($input->getOption($name)) {
+                $options[$name] = $input->getOption($name);
+            }
+        }
+
+        return $options;
+    }
+
+    /**
      * Exebutes the command
      * @param \Symfony\Component\Console\Input\InputInterface $input InputInterface instance
      * @param \Symfony\Component\Console\Input\OutputInterface $output OutputInterface instance
@@ -60,17 +77,15 @@ class ApiMakerCommand extends Command
 
         $sources = $input->getArgument('sources');
         $target = $input->getOption('target') ?? add_slash_term(ROOT) . 'output';
-        $options['title'] = $input->getOption('title') ?? null;
-        $options['debug'] = $input->getOption('debug') ?? false;
 
         $io->text('Reading sources from: ' . $sources);
         $io->text('Target directory: ' . $target);
-        $io->text('=================================');
+        $io->text('=====================================');
 
         $start = microtime(true);
 
         try {
-            $apiMaker = new ApiMaker($sources, $options);
+            $apiMaker = new ApiMaker($sources, $this->getConfigForApiMaker($input));
             $apiMaker->getEventDispatcher()->addSubscriber(new ApiMakerCommandSubscriber($io));
             $apiMaker->build($target);
         } catch (Exception $e) {
