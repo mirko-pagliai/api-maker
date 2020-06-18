@@ -26,7 +26,7 @@ use Roave\BetterReflection\Reflection\ReflectionProperty;
  * Class entity
  * @method mixed getConstant(string $name)
  * @method ?\Roave\BetterReflection\Reflection\ReflectionClass getParentClass()
- * @method array getInterfaceNames()
+ * @method array getImmediateInterfaces()
  * @method bool isAbstract()
  * @method bool isInterface()
  * @method bool isTrait()

@@ -15,9 +15,9 @@
         </div>
     {% endif %}
 
-    {% if class.getInterfaceNames %}
+    {% if class.getImmediateInterfaces %}
         <div>
-            Implements <code>{{ class.getInterfaceNames|join(', ') }}</code>.
+            Implements <code>{{ class.getImmediateInterfaces|join(', ') }}</code>.
         </div>
     {% endif %}
 
