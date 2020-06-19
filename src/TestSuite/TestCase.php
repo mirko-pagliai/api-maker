@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace ApiMaker\TestSuite;
 
 use ApiMaker\Reflection\Entity\ClassEntity;
-use ApiMaker\Reflection\Entity\ConstantEntity;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflector\ClassReflector;
