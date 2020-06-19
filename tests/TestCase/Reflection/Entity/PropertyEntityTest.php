@@ -92,7 +92,7 @@ class PropertyEntityTest extends TestCase
     {
         $this->assertSame('bool', $this->getPropertyEntity('isCat')->getTypeAsString());
         $this->assertSame('int', $this->getPropertyEntity('position')->getTypeAsString());
-        $this->assertSame('\App\Animals\Cat|null', $this->getPropertyEntity('Puppy')->getTypeAsString());
+        $this->assertSame('App\Animals\Cat|null', $this->getPropertyEntity('Puppy')->getTypeAsString());
     }
 
     /**

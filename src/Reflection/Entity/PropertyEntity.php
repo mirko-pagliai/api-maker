@@ -58,6 +58,10 @@ class PropertyEntity extends AbstractEntity
      */
     public function getTypeAsString(): string
     {
-        return implode('|', $this->reflectionObject->getDocBlockTypeStrings());
+        $types = array_map(function (string $type) {
+            return ltrim($type, '\\');
+        }, $this->reflectionObject->getDocBlockTypeStrings());
+
+        return implode('|', $types);
     }
 }

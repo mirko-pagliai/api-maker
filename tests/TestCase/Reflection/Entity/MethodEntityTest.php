@@ -126,7 +126,7 @@ HEREDOC;
     public function testGetReturnTypeAsString()
     {
         $this->assertSame('mixed', $this->getMethodEntity('name')->getReturnTypeAsString());
-        $this->assertSame('\App\Animals\Cat', $this->getMethodEntity('createPuppy')->getReturnTypeAsString());
+        $this->assertSame('App\Animals\Cat', $this->getMethodEntity('createPuppy')->getReturnTypeAsString());
         $this->assertSame('string|null', $this->getMethodEntity('getColor')->getReturnTypeAsString());
         $this->assertSame('void', $this->getMethodEntity('doMeow')->getReturnTypeAsString());
 
@@ -168,11 +168,11 @@ HEREDOC;
     public function testGetThrowsTags()
     {
         $this->assertSame([[
-            'type' => '\LogicException',
+            'type' => 'LogicException',
             'description' => 'If the `LEGS` constant is not defined',
         ]], $this->getMethodEntity('getLegs')->getThrowsTags());
         $this->assertSame([[
-            'type' => '\RuntimeException',
+            'type' => 'RuntimeException',
             'description' => '',
         ]], $this->getMethodEntity('doMeow')->getThrowsTags());
     }

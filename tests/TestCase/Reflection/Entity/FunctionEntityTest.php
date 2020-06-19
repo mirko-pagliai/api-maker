@@ -161,7 +161,7 @@ class FunctionEntityTest extends TestCase
     public function testGetThrowsTags()
     {
         $this->assertSame([[
-            'type' => '\Exception',
+            'type' => 'Exception',
             'description' => 'Exception that will always be thowned',
         ]], $this->getFunctionEntity('throw_an_exception')->getThrowsTags());
     }

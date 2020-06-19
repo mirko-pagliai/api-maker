@@ -44,6 +44,7 @@ class ParameterEntityTest extends TestCase
         $this->assertSame('string $name', (string)$this->getParameterEntity('name', 'setName'));
         $this->assertSame('string|array $colors = []', (string)$this->getParameterEntity('colors', 'setColors'));
         $this->assertSame('string|null $name = null', (string)$this->getParameterEntity('name', 'name'));
+        $this->assertSame('App\Animals\Cat $puppy', (string)$this->getParameterEntity('puppy', 'setPuppy'));
     }
 
     /**
@@ -99,5 +100,6 @@ HEREDOC;
         $this->assertSame('string|null', $this->getParameterEntity('name', 'name')->getTypeAsString());
         $this->assertSame('string|array', $this->getParameterEntity('colors', 'setColors')->getTypeAsString());
         $this->assertSame('string', $this->getParameterEntity('description', 'setDescription')->getTypeAsString());
+        $this->assertSame('App\Animals\Cat', $this->getParameterEntity('puppy', 'setPuppy')->getTypeAsString());
     }
 }

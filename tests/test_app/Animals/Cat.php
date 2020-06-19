@@ -75,6 +75,16 @@ class Cat extends Animal
     }
 
     /**
+     * Sets an existing cat as puppy
+     * @param \App\Animals\Cat $puppy A `Cat` instance
+     * @return void
+     */
+    public function setPuppy(Cat $puppy): void
+    {
+        $this->Puppy = $puppy;
+    }
+
+    /**
      * Do a meow
      * @param string $meow Type of meow
      * @return void

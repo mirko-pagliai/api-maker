@@ -80,7 +80,7 @@ class ApiMakerCommand extends Command
 
         $io->text('Reading sources from: ' . $sources);
         $io->text('Target directory: ' . $target);
-        $io->text('=====================================');
+        $io->text('===================================================');
 
         $start = microtime(true);
 

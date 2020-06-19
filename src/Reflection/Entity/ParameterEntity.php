@@ -48,7 +48,6 @@ class ParameterEntity extends AbstractEntity
         if ($this->getTypeAsString()) {
             $string = $this->getTypeAsString() . ' ' . $string;
         }
-
         if ($this->reflectionObject->isDefaultValueAvailable()) {
             $string .= $this->getDefaultValueAsString();
         }
@@ -78,7 +77,7 @@ class ParameterEntity extends AbstractEntity
             return ' = ' . var_export(substr($defaultValue, 0, 15) . '...', true);
         }
 
-        return ' = ' . var_export($defaultValue, true);
+        return ' = ' . str_replace('\\\\', '\\', var_export($defaultValue, true));
     }
 
     /**
@@ -108,7 +107,11 @@ class ParameterEntity extends AbstractEntity
     public function getTypeAsString(): string
     {
         if (!$this->reflectionObject->hasType()) {
-            return implode('|', $this->reflectionObject->getDocBlockTypeStrings());
+            $types = array_map(function (string $type) {
+                return ltrim($type, '\\');
+            }, $this->reflectionObject->getDocBlockTypeStrings());
+
+            return implode('|', $types);
         }
 
         $mapping = ['int' => 'integer', 'bool' => 'boolean'];

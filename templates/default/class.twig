@@ -17,7 +17,7 @@
 
     {% if class.getImmediateInterfaces %}
         <div>
-            Implements <code>{{ class.getImmediateInterfaces|join(', ') }}</code>.
+            Implements {{ class.getImmediateInterfaces|map(interface => "<code>#{interface.getName}</code>")|join(', ') }}.
         </div>
     {% endif %}
 
