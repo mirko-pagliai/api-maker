@@ -50,17 +50,6 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Internal method to get a `ConstantEntity` instance
-     * @param string $constant Constant name
-     * @param string $class Class name
-     * @return \ApiMaker\Reflection\Entity\ConstantEntity
-     */
-    protected function getConstantEntity(string $constant, string $class): ConstantEntity
-    {
-        return new ConstantEntity($this->getReflectionClass($class)->getReflectionConstant($constant));
-    }
-
-    /**
      * Internal method to get a `ClassEntity` instance from a string
      * @param string $code Class code
      * @param string|null $className Class name
