@@ -1,9 +1,8 @@
 <div>
     <code>{{ property }}</code> <span class="badge badge-light">{{ property.getVisibility }}</span>
-
-    {% if property.isStatic %}
-        <span class="badge badge-light">static</span>
-    {% endif %}
+    {%~ if property.isStatic %}
+    <span class="badge badge-light">static</span>
+    {%~ endif %}
 </div>
 <div><span class="badge badge-light">{{ property.getTypeAsString }}</span></div>
 <div>{{ property.getDocBlockAsString }}</div>

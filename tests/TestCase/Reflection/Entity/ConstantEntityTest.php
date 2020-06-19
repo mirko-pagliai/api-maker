@@ -31,7 +31,7 @@ class ConstantEntityTest extends TestCase
      */
     protected function getConstantEntity(string $constant, string $class = Cat::class): ConstantEntity
     {
-        return parent::getConstantEntity($constant, $class);
+        return $this->getClassEntity($class)->getConstant($constant);
     }
 
     /**

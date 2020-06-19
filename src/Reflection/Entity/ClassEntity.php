@@ -24,7 +24,6 @@ use Roave\BetterReflection\Reflection\ReflectionProperty;
 
 /**
  * Class entity
- * @method mixed getConstant(string $name)
  * @method ?\Roave\BetterReflection\Reflection\ReflectionClass getParentClass()
  * @method array getImmediateInterfaces()
  * @method bool isAbstract()
@@ -51,7 +50,17 @@ class ClassEntity extends AbstractEntity
     }
 
     /**
-     * Returns an array of `ConstantEntity`
+     * Gets a constant
+     * @param string $name Constant name
+     * @return \ApiMaker\Reflection\Entity\ConstantEntity
+     */
+    public function getConstant(string $name): ConstantEntity
+    {
+        return new ConstantEntity($this->reflectionObject->getReflectionConstant($name));
+    }
+
+    /**
+     * Gets all constants as array of `ConstantEntity`
      * @return array
      */
     public function getConstants(): array
@@ -72,16 +81,16 @@ class ClassEntity extends AbstractEntity
 
     /**
      * Gets a method
-     * @param string $methodName Method name
+     * @param string $name Method name
      * @return \ApiMaker\Reflection\Entity\MethodEntity
      */
-    public function getMethod(string $methodName): MethodEntity
+    public function getMethod(string $name): MethodEntity
     {
-        return new MethodEntity($this->reflectionObject->getMethod($methodName));
+        return new MethodEntity($this->reflectionObject->getMethod($name));
     }
 
     /**
-     * Returns an array of `MethodEntity`
+     * Gets all methods as array of `MethodEntity`
      * @return array
      */
     public function getMethods(): array
@@ -92,7 +101,17 @@ class ClassEntity extends AbstractEntity
     }
 
     /**
-     * Returns an array of `PropertyEntity`
+     * Gets a property
+     * @param string $name Property name
+     * @return \ApiMaker\Reflection\Entity\PropertyEntity
+     */
+    public function getProperty(string $name): PropertyEntity
+    {
+        return new PropertyEntity($this->reflectionObject->getProperty($name));
+    }
+
+    /**
+     * Gets all properties as array of `PropertyEntity`
      * @return array
      */
     public function getProperties(): array

@@ -51,6 +51,15 @@ class ClassEntityTest extends TestCase
     }
 
     /**
+     * Test for `getConstant()` method
+     * @test
+     */
+    public function testGetConstant()
+    {
+        $this->assertInstanceOf(ConstantEntity::class, $this->Class->getConstant('LEGS'));
+    }
+
+    /**
      * Test for `getConstants()` method
      * @test
      */
@@ -120,6 +129,15 @@ HEREDOC;
     public function testGetName()
     {
         $this->assertSame(Cat::class, $this->Class->getName());
+    }
+
+    /**
+     * Test for `getProperty()` method
+     * @test
+     */
+    public function testGetProperty()
+    {
+        $this->assertInstanceOf(PropertyEntity::class, $this->Class->getProperty('Puppy'));
     }
 
     /**

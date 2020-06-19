@@ -53,7 +53,7 @@ class Cat extends Animal
      * Description
      * @var string
      */
-    protected $description;
+    protected static $description;
 
     /**
      * @deprecated Useless property
