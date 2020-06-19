@@ -10,7 +10,8 @@
     <h6>Parameters</h6>
     {%~ for parameter in method.getParameters %}
     <div class="mb-3">
-        <code class="language-php">{{ parameter }}</code> {{ parameter.getDocBlockAsString }}
+        <code class="language-php">{{ parameter }}</code>
+        {{ parameter.getDocBlockAsString }}
     </div>
     {%~ endfor %}
     {%~ endif %}
