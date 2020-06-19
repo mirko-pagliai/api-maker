@@ -1,58 +1,53 @@
 <a name="{{ method.getName }}"></a>
 <div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>{{ method.getName }}()</h5></div>
-
 <div class="ml-3">
     <pre><code class="language-php">{{ method }}</code></pre>
-
     <blockquote class="blockquote">
         <small class="font-weight-light">{{ method.getDocBlockAsString }}</small>
     </blockquote>
 
-    {% if method.getParameters|length > 0 %}
-        <h6>Parameters</h6>
-        {% for parameter in method.getParameters %}
-            <div class="mb-3">
-                <code class="language-php">{{ parameter }}</code>
-                {{ parameter.getDocBlockAsString }}
-            </div>
-        {% endfor %}
-    {% endif %}
-
-    {% if method.getReturnTypeAsString and method.getReturnTypeAsString != 'void' %}
-        <h6>Return</h6>
-        <div class="mb-3">
-            <div><code>{{ method.getReturnTypeAsString }}</code></div>
-            {% if method.getReturnDescription %}
-                <div>{{ method.getReturnDescription }}</div>
+    {% if method.getParameters|length > 0 -%}
+    <h6>Parameters</h6>
+        {%- for parameter in method.getParameters ~%}
+    <div class="mb-3">
+        <code class="language-php">{{ parameter }}</code> {{ parameter.getDocBlockAsString ~}}
+    </div>
+            {%~ endfor -%}
             {% endif %}
-        </div>
-    {% endif %}
 
-    {% if method.isDeprecated %}
-        <h6>Deprecated</h6>
-        <div class="mb-3">
-            <div>{{ method.getDeprecatedDescription }}</div>
-        </div>
-    {% endif %}
-
-    {% if method.getSeeTags|length > 0 %}
-        <h6>See</h6>
-        <div class="mb-3">
-            {% for see in method.getSeeTags %}
-                    <div>{{ see }}</div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
-    {% if method.getThrowsTags|length > 0 %}
-        <h6>Throws</h6>
-        {% for throws in method.getThrowsTags %}
-            <div class="mb-3">
-                <div><code>{{ throws.type }}</code></div>
-                {% if throws.description %}
-                    <div>{{ throws.description }}</div>
+                {%- if method.getReturnTypeAsString and method.getReturnTypeAsString != 'void' %}
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>{{ method.getReturnTypeAsString }}</code></div>
+                        {% if method.getReturnDescription %}
+            <div>{{ method.getReturnDescription }}</div>
+                        {% endif %}
+    </div>
                 {% endif %}
-            </div>
-        {% endfor %}
-    {% endif %}
+
+                {%- if method.isDeprecated %}
+    <h6>Deprecated</h6>
+    <div class="mb-3">
+        <div>{{ method.getDeprecatedDescription }}</div>
+    </div>
+                {% endif -%}
+
+                {%- if method.getSeeTags|length > 0 ~%}
+    <h6>See</h6>
+    <div class="mb-3">
+                        {%- for see in method.getSeeTags ~%}
+        <div>{{ see }}</div>
+                        {%- endfor ~%}
+    </div>
+                {%- endif %}
+
+                {%~ if method.getThrowsTags|length > 0 ~%}
+    <h6>Throws</h6>
+                {%- for throws in method.getThrowsTags ~%}
+    <div class="mb-3">
+        <div><code>{{ throws.type }}</code></div>
+                        {%- if throws.description %}<div>{{ throws.description }}</div>{%~ endif ~%}
+    </div>
+                        {%~ endfor ~%}
+                    {%- endif -%}
 </div>
