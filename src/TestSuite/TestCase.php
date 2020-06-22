@@ -16,12 +16,14 @@ namespace ApiMaker\TestSuite;
 
 use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
+use ApiMaker\ReflectorExplorer;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionFunction;
 use Roave\BetterReflection\Reflector\ClassReflector;
 use Roave\BetterReflection\Reflector\FunctionReflector;
 use Roave\BetterReflection\SourceLocator\Type\StringSourceLocator;
+use RuntimeException;
 use Tools\TestSuite\TestCase as BaseTestCase;
 
 /**
@@ -60,6 +62,26 @@ abstract class TestCase extends BaseTestCase
     protected function getClassEntityFromString(string $code, ?string $className = null): ClassEntity
     {
         return new ClassEntity($this->getReflectionClassFromString($code, $className));
+    }
+
+    /**
+     * Internal method to get a `FunctionEntity` instance from a function located
+     *  in the test app (see `tests/test_app/functions.php`).
+     * @param string $functionName Function name
+     * @return FunctionEntity
+     * @throws \RuntimeException
+     */
+    protected function getFunctionEntityFromTests(string $functionName): FunctionEntity
+    {
+        $reflectorExplorer = new ReflectorExplorer(TEST_APP);
+
+        foreach ($reflectorExplorer->getAllFunctions() as $currentFunction) {
+            if ($currentFunction->getName() === $functionName) {
+                return $currentFunction;
+            }
+        }
+
+        throw new RuntimeException(sprintf('Impossible to find the `%s()` function', $functionName));
     }
 
     /**
