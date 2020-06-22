@@ -19,9 +19,7 @@ use ApiMaker\Reflection\Entity\FunctionEntity;
 use ApiMaker\ReflectorExplorer;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
-use Roave\BetterReflection\Reflection\ReflectionFunction;
 use Roave\BetterReflection\Reflector\ClassReflector;
-use Roave\BetterReflection\Reflector\FunctionReflector;
 use Roave\BetterReflection\SourceLocator\Type\StringSourceLocator;
 use RuntimeException;
 use Tools\TestSuite\TestCase as BaseTestCase;
@@ -85,17 +83,6 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Internal method to get a `FunctionEntity` instance from a string
-     * @param string $code Function code
-     * @param string|null $functionName Function name
-     * @return \ApiMaker\Reflection\Entity\FunctionEntity
-     */
-    protected function getFunctionEntityFromString(string $code, ?string $functionName = null): FunctionEntity
-    {
-        return new FunctionEntity($this->getReflectionFunctionFromString($code, $functionName));
-    }
-
-    /**
      * Internal method to get a `ReflectionClass` instance from a string
      * @param string $code Class code
      * @param string|null $className Class name
@@ -115,28 +102,5 @@ abstract class TestCase extends BaseTestCase
         $reflector = new ClassReflector(new StringSourceLocator($code, $astLocator));
 
         return $reflector->reflect($className);
-    }
-
-    /**
-     * Internal method to get a `ReflectionFunction` instance from a string
-     * @param string $code Function code
-     * @param string|null $functionName Function name
-     * @return \Roave\BetterReflection\Reflection\ReflectionFunction
-     * @throws \Exception
-     */
-    protected function getReflectionFunctionFromString(string $code, ?string $functionName = null): ReflectionFunction
-    {
-        if (!$functionName) {
-            is_true_or_fail(preg_match('/^function\s([^\(]+)/m', $code, $matches), 'Impossible to self-determine the function name');
-            $functionName = $matches[1];
-        }
-        $code = string_starts_with($code, '<?php') ? $code : '<?php' . PHP_EOL . $code;
-
-        $configuration = new BetterReflection();
-        $astLocator = $configuration->astLocator();
-        $classReflector = $configuration->classReflector();
-        $reflector = new FunctionReflector(new StringSourceLocator($code, $astLocator), $classReflector);
-
-        return $reflector->reflect($functionName);
     }
 }

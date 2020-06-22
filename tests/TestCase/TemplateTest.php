@@ -60,33 +60,11 @@ class TemplateTest extends TestCase
      */
     public function testFunctionTemplate()
     {
-        $code = 'function myFunc() {}';
-        $function = $this->getFunctionEntityFromString($code);
+        $function = $this->getFunctionEntityFromTests('anonymous_function');
         $result = $this->Twig->render('elements/method.twig', ['method' => $function]);
         $this->assertStringEqualsFile(EXPECTED_FILES . 'function1.html', $result);
 
-        $code = <<<HEREDOC
-/**
- * A custom function
- * @param int \$int1 An integer
- * @param int \$int2 Another integer
- * @return int Result
- * @deprecated Useless function
- * @throws \LogicException if `\$int1` it is less than 1
- * @throws \RuntimeException if `\$int2` it is less than 1
- */
-function myFunc(int \$int1 = 2, int \$int2 = 4): int
-{
-    if (\$int1 < 1) {
-        throw new \LogicException('\$int1 must be greater than 1');
-    }
-    if (\$int2 < 1) {
-        throw new \RuntimeException('\$int2 must be greater than 1');
-    }
-    return \$int1 + \$int2 + 2;
-}
-HEREDOC;
-        $function = $this->getFunctionEntityFromString($code);
+        $function = $this->getFunctionEntityFromTests('old_function');
         $result = $this->Twig->render('elements/method.twig', ['method' => $function]);
         $this->assertStringEqualsFile(EXPECTED_FILES . 'function2.html', $result);
     }

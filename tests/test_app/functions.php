@@ -12,6 +12,13 @@
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
 
+if (!function_exists('anonymous_function')) {
+    function anonymous_function(): void
+    {
+
+    }
+}
+
 if (!function_exists('a_test_function')) {
     /**
      * A test function.
@@ -41,12 +48,22 @@ if (!function_exists('get_woof')) {
 if (!function_exists('old_function')) {
     /**
      * An old function
+     * @param int $int1 An integer
+     * @param int $int2 Another integer
+     * @return int Result
      * @deprecated Use instead `a_test_function()`
-     * @return void
+     * @throws \LogicException if `$int1` it is less than 1
+     * @throws \RuntimeException if `$int2` it is less than 1
      */
-    function old_function(): void
+    function old_function(int $int1 = 2, int $int2 = 4): int
     {
-        //Does nothing
+        if ($int1 < 1) {
+            throw new \LogicException('\$int1 must be greater than 1');
+        }
+        if ($int2 < 1) {
+            throw new \RuntimeException('\$int2 must be greater than 1');
+        }
+        return $int1 + $int2 + 2;
     }
 }
 

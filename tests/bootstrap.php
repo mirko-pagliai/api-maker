@@ -16,6 +16,7 @@ declare(strict_types=1);
 require_once 'vendor/autoload.php';
 
 define('TESTS', __DIR__);
+define('TEST_APP', TESTS . DS . 'test_app' . DS);
 define('EXPECTED_FILES', TESTS . DS . 'expectedFiles' . DS);
 define('TMP', sys_get_temp_dir() . DS . 'api-maker' . DS);
 
