@@ -13,6 +13,10 @@
  */
 namespace App;
 
+/**
+ * An useless class example
+ * @deprecated Useless, just for tests
+ */
 class ClassExample
 {
     /**
@@ -37,6 +41,8 @@ class ClassExample
     public function anonymousMethodWithSomeVars(string $first, array $second = []): string {}
 
     public function anonymousMethodWithoutDocBlock(): string {}
+
+    public function anonymousMethodWithParameterAndWithoutDocBlock($parameterWithoutDocBlock): string {}
 
     /**
      * This is another anonymous method

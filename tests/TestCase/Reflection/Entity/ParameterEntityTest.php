@@ -17,6 +17,7 @@ namespace ApiMaker\Test\Reflection\Entity;
 use ApiMaker\Reflection\Entity\ParameterEntity;
 use ApiMaker\TestSuite\TestCase;
 use App\Animals\Cat;
+use App\ClassExample;
 
 /**
  * ParameterEntityTest class
@@ -32,7 +33,7 @@ class ParameterEntityTest extends TestCase
      */
     protected function getParameterEntity(string $parameter, string $method, string $class = Cat::class): ParameterEntity
     {
-        return new ParameterEntity($this->getReflectionClass($class)->getMethod($method)->getParameter($parameter));
+        return $this->getClassEntity($class)->getMethod($method)->getParameter($parameter);
     }
 
     /**
@@ -72,14 +73,7 @@ class ParameterEntityTest extends TestCase
         );
 
         //This parameter has no DocBlock
-        $class = <<<HEREDOC
-class MyClass {
-        public function MyMethod(\$parameterWithoutDocBlock)
-        {
-        }
-}
-HEREDOC;
-        $this->assertSame('', $this->getClassEntityFromString($class)->getMethod('MyMethod')->getParameter('parameterWithoutDocBlock')->getDocBlockAsString());
+        $this->assertSame('', $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithParameterAndWithoutDocBlock')->getParameter('parameterWithoutDocBlock')->getDocBlockAsString());
     }
 
     /**

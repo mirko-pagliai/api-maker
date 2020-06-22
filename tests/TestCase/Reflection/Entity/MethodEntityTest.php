@@ -18,6 +18,7 @@ use ApiMaker\Reflection\Entity\MethodEntity;
 use ApiMaker\Reflection\Entity\ParameterEntity;
 use ApiMaker\TestSuite\TestCase;
 use App\Animals\Cat;
+use App\ClassExample;
 
 /**
  * MethodEntityTest class
@@ -32,7 +33,7 @@ class MethodEntityTest extends TestCase
      */
     protected function getMethodEntity(string $method, string $class = Cat::class): MethodEntity
     {
-        return new MethodEntity($this->getReflectionClass($class)->getMethod($method));
+        return $this->getClassEntity($class)->getMethod($method);
     }
 
     /**
@@ -54,14 +55,7 @@ class MethodEntityTest extends TestCase
         $this->assertSame('<p>Use instead <code>getName()</code>/<code>setName()</code></p>', $this->getMethodEntity('name')->getDeprecatedDescription());
 
         //This method has no DocBlock
-        $class = <<<HEREDOC
-class MyClass {
-        public function MyMethod()
-        {
-        }
-}
-HEREDOC;
-        $this->assertSame('', $this->getClassEntityFromString($class)->getMethod('MyMethod')->getDeprecatedDescription());
+        $this->assertSame('', $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getDeprecatedDescription());
     }
 
     /**
@@ -131,14 +125,7 @@ HEREDOC;
         $this->assertSame('void', $this->getMethodEntity('doMeow')->getReturnTypeAsString());
 
         //This method has no DocBlock
-        $class = <<<HEREDOC
-class MyClass {
-        public function MyMethod()
-        {
-        }
-}
-HEREDOC;
-        $this->assertSame('', $this->getClassEntityFromString($class)->getMethod('MyMethod')->getReturnTypeAsString());
+        $this->assertSame('', $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getReturnTypeAsString());
     }
 
     /**

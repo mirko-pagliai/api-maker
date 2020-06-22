@@ -31,7 +31,7 @@ class PropertyEntityTest extends TestCase
      */
     protected function getPropertyEntity(string $property, string $class = Cat::class): PropertyEntity
     {
-        return new PropertyEntity($this->getReflectionClass($class)->getProperty($property));
+        return $this->getClassEntity($class)->getProperty($property);
     }
 
     /**

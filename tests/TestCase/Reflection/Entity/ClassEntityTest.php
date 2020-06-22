@@ -19,6 +19,7 @@ use ApiMaker\Reflection\Entity\MethodEntity;
 use ApiMaker\Reflection\Entity\PropertyEntity;
 use ApiMaker\TestSuite\TestCase;
 use App\Animals\Cat;
+use App\ClassExample;
 
 /**
  * ClassEntityTest class
@@ -74,14 +75,7 @@ class ClassEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $class = <<<HEREDOC
-/**
- * Deprecated Animal
- * @deprecated use instead the `AnimalClass`
- */
-class DeprecatedAnimal { }
-HEREDOC;
-        $this->assertSame('<p>Use instead the <code>AnimalClass</code></p>', $this->getClassEntityFromString($class)->getDeprecatedDescription());
+        $this->assertSame('<p>Useless, just for tests</p>', $this->getClassEntityFromTests(ClassExample::class)->getDeprecatedDescription());
     }
 
     /**
@@ -174,14 +168,6 @@ HEREDOC;
     public function testIsDeprecated()
     {
         $this->assertFalse($this->Class->isDeprecated());
-
-        $class = <<<HEREDOC
-/**
- * Deprecated Animal
- * @deprecated use instead the `AnimalClass`
- */
-class DeprecatedAnimal { }
-HEREDOC;
-        $this->assertTrue($this->getClassEntityFromString($class)->isDeprecated());
+        $this->assertTrue($this->getClassEntityFromTests(ClassExample::class)->isDeprecated());
     }
 }

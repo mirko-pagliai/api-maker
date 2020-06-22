@@ -18,9 +18,6 @@ use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
 use ApiMaker\ReflectorExplorer;
 use Roave\BetterReflection\BetterReflection;
-use Roave\BetterReflection\Reflection\ReflectionClass;
-use Roave\BetterReflection\Reflector\ClassReflector;
-use Roave\BetterReflection\SourceLocator\Type\StringSourceLocator;
 use RuntimeException;
 use Tools\TestSuite\TestCase as BaseTestCase;
 
@@ -30,43 +27,24 @@ use Tools\TestSuite\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     /**
-     * Internal method to get a `ReflectionClass` instance
-     * @param string $class Class
-     * @return \Roave\BetterReflection\Reflection\ReflectionClass
-     */
-    protected function getReflectionClass(string $class): ReflectionClass
-    {
-        return (new BetterReflection())
-            ->classReflector()
-            ->reflect($class);
-    }
-
-    /**
      * Internal method to get a `ClassEntity` instance
      * @param string $class Class name
      * @return \ApiMaker\Reflection\Entity\ClassEntity
      */
     protected function getClassEntity(string $class): ClassEntity
     {
-        return new ClassEntity($this->getReflectionClass($class));
-    }
+        $reflection = (new BetterReflection())
+            ->classReflector()
+            ->reflect($class);
 
-    /**
-     * Internal method to get a `ClassEntity` instance from a string
-     * @param string $code Class code
-     * @param string|null $className Class name
-     * @return \ApiMaker\Reflection\Entity\ClassEntity
-     */
-    protected function getClassEntityFromString(string $code, ?string $className = null): ClassEntity
-    {
-        return new ClassEntity($this->getReflectionClassFromString($code, $className));
+        return new ClassEntity($reflection);
     }
 
     /**
      * Internal method to get a `ClassEntity` instance from a function located
      *  in the test app
      * @param string $className Class name
-     * @return ClassEntity
+     * @return \ApiMaker\Reflection\Entity\ClassEntity
      * @throws \RuntimeException
      */
     protected function getClassEntityFromTests(string $className): ClassEntity
@@ -86,7 +64,7 @@ abstract class TestCase extends BaseTestCase
      * Internal method to get a `FunctionEntity` instance from a function located
      *  in the test app (see `tests/test_app/functions.php` file)
      * @param string $functionName Function name
-     * @return FunctionEntity
+     * @return \ApiMaker\Reflection\Entity\FunctionEntity
      * @throws \RuntimeException
      */
     protected function getFunctionEntityFromTests(string $functionName): FunctionEntity
@@ -100,27 +78,5 @@ abstract class TestCase extends BaseTestCase
         }
 
         throw new RuntimeException(sprintf('Impossible to find the `%s()` function from test files', $functionName));
-    }
-
-    /**
-     * Internal method to get a `ReflectionClass` instance from a string
-     * @param string $code Class code
-     * @param string|null $className Class name
-     * @return \Roave\BetterReflection\Reflection\ReflectionClass
-     * @throws \Exception
-     */
-    protected function getReflectionClassFromString(string $code, ?string $className = null): ReflectionClass
-    {
-        if (!$className) {
-            is_true_or_fail(preg_match('/^class\s(\S+)/m', $code, $matches), 'Impossible to self-determine the class name');
-            $className = $matches[1];
-        }
-
-        $code = string_starts_with('<?php', $code) ? $code : '<?php' . PHP_EOL . $code;
-
-        $astLocator = (new BetterReflection())->astLocator();
-        $reflector = new ClassReflector(new StringSourceLocator($code, $astLocator));
-
-        return $reflector->reflect($className);
     }
 }

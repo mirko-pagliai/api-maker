@@ -15,7 +15,9 @@ declare(strict_types=1);
 namespace App\Animals;
 
 /**
- * Animal abstract class
+ * Animal abstract class.
+ *
+ * Other animal classes have to extend this class.
  */
 abstract class Animal
 {

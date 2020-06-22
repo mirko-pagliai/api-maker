@@ -15,7 +15,10 @@ declare(strict_types=1);
 namespace ApiMaker\Test\Reflection\Entity;
 
 use ApiMaker\TestSuite\TestCase;
+use App\Animals\Animal;
 use App\Animals\Cat;
+use App\Animals\Dog;
+use App\ArrayExample;
 use BadMethodCallException;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 
@@ -46,37 +49,20 @@ class AbstractEntityTest extends TestCase
      */
     public function testGetDocBlockMethods()
     {
-        $class = <<<HEREDOC
-/**
- * Class summary.
- *
- * Class description.
- */
-class MyClass {
-}
-HEREDOC;
-        $this->assertSame('<p>Class summary.</p>', $this->getClassEntityFromString($class)->getDocBlockSummaryAsString());
-        $this->assertSame('<p>Class description.</p>', $this->getClassEntityFromString($class)->getDocBlockDescriptionAsString());
-        $this->assertSame('<p>Class summary.</p>
-<p>Class description.</p>', $this->getClassEntityFromString($class)->getDocBlockAsString());
+        $class = $this->getClassEntityFromTests(Animal::class);
+        $this->assertSame('<p>Animal abstract class.</p>', $class->getDocBlockSummaryAsString());
+        $this->assertSame('<p>Other animal classes have to extend this class.</p>', $class->getDocBlockDescriptionAsString());
+        $this->assertSame('<p>Animal abstract class.</p>
+<p>Other animal classes have to extend this class.</p>', $class->getDocBlockAsString());
 
-        $class = <<<HEREDOC
-/**
- * Class summary.
- *
- * ### Header
- * Description
- */
-class MyClass {
-}
-HEREDOC;
-        $this->assertSame('<h3>Header</h3>
-<p>Description</p>', $this->getClassEntityFromString($class)->getDocBlockDescriptionAsString());
-        $this->assertSame('<p>Class summary.</p>
-<h3>Header</h3>
-<p>Description</p>', $this->getClassEntityFromString($class)->getDocBlockAsString());
+        $class = $this->getClassEntityFromTests(Dog::class);
+        $this->assertSame('<h3>Is it really a dog?</h3>
+<p>Yeah, this is a dog!</p>', $class->getDocBlockDescriptionAsString());
+        $this->assertSame('<p>Dog class.</p>
+<h3>Is it really a dog?</h3>
+<p>Yeah, this is a dog!</p>', $class->getDocBlockAsString());
 
         //Class with no DocBlock
-        $this->assertSame('', $this->getClassEntityFromString('class MyClass {}')->getDocBlockAsString());
+        $this->assertSame('', $this->getClassEntityFromTests(ArrayExample::class)->getDocBlockAsString());
     }
 }

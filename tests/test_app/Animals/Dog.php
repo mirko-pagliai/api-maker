@@ -17,7 +17,10 @@ namespace App\Animals;
 use App\Animals\Animal;
 
 /**
- * Dog class
+ * Dog class.
+ *
+ * ### Is it really a dog?
+ * Yeah, this is a dog!
  */
 class Dog extends Animal
 {
