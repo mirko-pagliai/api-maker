@@ -16,6 +16,7 @@ namespace ApiMaker\Test;
 
 use ApiMaker\TestSuite\TestCase;
 use App\Animals\Cat;
+use App\ClassExample;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -75,51 +76,19 @@ class TemplateTest extends TestCase
      */
     public function testMethodTemplate()
     {
-        $method = $this->getClassEntity(Cat::class)->getMethod('doMeow');
+        $method = $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethod');
         $result = $this->Twig->render('elements/method.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method1.html', $result);
 
-        $code = <<<HEREDOC
-class MyClass {
-    /**
-     * This a custom method
-     * @deprecated This method is deprecated
-     * @return string A string as result
-     * @throws \RuntimeException
-     */
-    public function myMethod(): string {}
-}
-HEREDOC;
-        $method = $this->getClassEntityFromString($code)->getMethod('myMethod');
+        $method = $this->getClassEntityFromTests(ClassExample::class)->getMethod('anotherAnonymousMethod');
         $result = $this->Twig->render('elements/method.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method2.html', $result);
 
-        $code = <<<HEREDOC
-class MyClass {
-    /**
-     * This a custom method
-     * @param string \$first First argument
-     * @param array \$second Second argument
-     * @deprecated This method is deprecated
-     * @return string A string as result
-     * @see http://example.com/first-link
-     * @see http://example.com/second-link
-     * @throws \RuntimeException
-     * @throws \LogicException
-     */
-    public function myMethod(string \$first, array \$second = []): string {}
-}
-HEREDOC;
-        $method = $this->getClassEntityFromString($code)->getMethod('myMethod');
+        $method = $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithSomeVars');
         $result = $this->Twig->render('elements/method.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method3.html', $result);
 
-        $code = <<<HEREDOC
-class MyClass {
-    public function myMethod(): string {}
-}
-HEREDOC;
-        $method = $this->getClassEntityFromString($code)->getMethod('myMethod');
+        $method = $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
         $result = $this->Twig->render('elements/method.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method4.html', $result);
     }

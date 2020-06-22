@@ -63,8 +63,28 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Internal method to get a `ClassEntity` instance from a function located
+     *  in the test app
+     * @param string $className Class name
+     * @return ClassEntity
+     * @throws \RuntimeException
+     */
+    protected function getClassEntityFromTests(string $className): ClassEntity
+    {
+        $reflectorExplorer = new ReflectorExplorer(TEST_APP);
+
+        foreach ($reflectorExplorer->getAllClasses() as $currentClass) {
+            if ($currentClass->getName() === $className) {
+                return $currentClass;
+            }
+        }
+
+        throw new RuntimeException(sprintf('Impossible to find the `%s` class from test files', $className));
+    }
+
+    /**
      * Internal method to get a `FunctionEntity` instance from a function located
-     *  in the test app (see `tests/test_app/functions.php`).
+     *  in the test app (see `tests/test_app/functions.php` file)
      * @param string $functionName Function name
      * @return FunctionEntity
      * @throws \RuntimeException
@@ -79,7 +99,7 @@ abstract class TestCase extends BaseTestCase
             }
         }
 
-        throw new RuntimeException(sprintf('Impossible to find the `%s()` function', $functionName));
+        throw new RuntimeException(sprintf('Impossible to find the `%s()` function from test files', $functionName));
     }
 
     /**
