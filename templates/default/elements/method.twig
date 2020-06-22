@@ -6,51 +6,55 @@
         <small class="font-weight-light">{{ method.getDocBlockAsString }}</small>
     </blockquote>
 
-    {%~ if method.getParameters|length > 0 %}
-    <h6>Parameters</h6>
-    {%~ for parameter in method.getParameters %}
-    <div class="mb-3">
-        <code class="language-php">{{ parameter }}</code>
-        {{ parameter.getDocBlockAsString }}
-    </div>
-    {%~ endfor %}
-    {%~ endif %}
+    {%- if method.getParameters|length > 0 ~%}
 
-    {%~ if method.getReturnTypeAsString and method.getReturnTypeAsString != 'void' %}
+    <h6>Parameters</h6>
+        {%- for parameter in method.getParameters ~%}
+    <div class="mb-3">
+        <code class="language-php">{{ parameter }}</code> {{ parameter.getDocBlockAsString }}
+    </div>
+        {%- endfor %}
+    {%- endif %}
+
+    {%- if method.getReturnTypeAsString and method.getReturnTypeAsString != 'void' ~%}
+
     <h6>Return</h6>
     <div class="mb-3">
         <div><code>{{ method.getReturnTypeAsString }}</code></div>
-        {%~ if method.getReturnDescription %}
+            {%~ if method.getReturnDescription %}
         <div>{{ method.getReturnDescription }}</div>
-        {%~ endif %}
+            {%~ endif %}
     </div>
-    {%~ endif %}
+    {%- endif %}
 
-    {%~ if method.isDeprecated %}
+    {%- if method.isDeprecated ~%}
+
     <h6>Deprecated</h6>
     <div class="mb-3">
         <div>{{ method.getDeprecatedDescription }}</div>
     </div>
-    {%~ endif %}
+    {%- endif %}
 
-    {%~ if method.getSeeTags|length > 0 %}
+    {%- if method.getSeeTags|length > 0 ~%}
+
     <h6>See</h6>
     <div class="mb-3">
-        {%~ for see in method.getSeeTags %}
+            {%~ for see in method.getSeeTags %}
         <div>{{ see }}</div>
-        {%~ endfor %}
+            {%~ endfor %}
     </div>
-    {%~ endif %}
+    {%- endif %}
 
-    {%~ if method.getThrowsTags|length > 0 %}
+    {%- if method.getThrowsTags|length > 0 ~%}
+
     <h6>Throws</h6>
-    {%~ for throws in method.getThrowsTags %}
+        {%~ for throws in method.getThrowsTags %}
     <div class="mb-3">
         <div><code>{{ throws.type }}</code></div>
-        {%~ if throws.description %}
+            {%~ if throws.description %}
         <div>{{ throws.description }}</div>
-        {%~ endif %}
+            {%~ endif %}
     </div>
-    {%~ endfor %}
-    {%~ endif %}
+        {%~ endfor %}
+    {%- endif %}
 </div>
