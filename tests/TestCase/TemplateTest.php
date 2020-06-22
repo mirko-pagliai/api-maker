@@ -71,6 +71,21 @@ class TemplateTest extends TestCase
     }
 
     /**
+     * Test for function summary template element
+     * @test
+     */
+    public function testFunctionSummaryTemplate()
+    {
+        $function = $this->getFunctionEntityFromTests('anonymous_function');
+        $result = $this->Twig->render('elements/method-summary.twig', ['method' => $function]);
+        $this->assertStringEqualsFile(EXPECTED_FILES . 'function_summary1.html', $result);
+
+        $function = $this->getFunctionEntityFromTests('old_function');
+        $result = $this->Twig->render('elements/method-summary.twig', ['method' => $function]);
+        $this->assertStringEqualsFile(EXPECTED_FILES . 'function_summary2.html', $result);
+    }
+
+    /**
      * Test for method template element
      * @test
      */
