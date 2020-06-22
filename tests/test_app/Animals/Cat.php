@@ -111,4 +111,13 @@ class Cat extends Animal
 
         return $this;
     }
+
+    /**
+     * Returns the animal type
+     * @return string
+     */
+    public static function getType(): string
+    {
+        return 'cat';
+    }
 }
