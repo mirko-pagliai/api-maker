@@ -1,9 +1,0 @@
-<div>
-    <code>
-        <a href="#{{ function.getName }}">{{ function.getName }}()</a>
-    </code>
-    {%~ if function.isDeprecated %}
-    <span class="badge badge-light">deprecated</span>
-    {%~ endif %}
-    <div>{{ function.getDocBlockSummaryAsString }}</div>
-</div>

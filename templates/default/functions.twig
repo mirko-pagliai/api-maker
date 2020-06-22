@@ -10,7 +10,7 @@
         <ul>
             {% for function in functions %}
                 <li>
-                    {{ include('elements/function-summary.twig') }}
+                    {% include('elements/method-summary.twig') with {method: function} %}
                 </li>
             {% endfor %}
         </ul>
@@ -21,7 +21,7 @@
         <h4>Functions detail</h4>
         {% for function in functions %}
             <div class="mb-4">
-                {{ include('elements/function.twig') }}
+                {% include('elements/method.twig') with {method: function} %}
             </div>
         {% endfor %}
     {% endif %}
