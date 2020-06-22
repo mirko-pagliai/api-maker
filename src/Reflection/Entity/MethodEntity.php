@@ -38,4 +38,13 @@ class MethodEntity extends AbstractFunctionEntity
     {
         $this->reflectionObject = $reflectionObject;
     }
+
+    /**
+     * Returns `true` if it's static
+     * @return bool
+     */
+    public function isStatic(): bool
+    {
+        return $this->reflectionObject->isStatic();
+    }
 }

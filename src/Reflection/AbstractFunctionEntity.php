@@ -101,6 +101,12 @@ abstract class AbstractFunctionEntity extends AbstractEntity
     }
 
     /**
+     * Gets the visibility (`public`, `protected` or `private`)
+     * @return string
+     */
+    abstract public function getVisibility(): string;
+
+    /**
      * Returns `@throws` tags
      * @return array
      */
@@ -115,4 +121,10 @@ abstract class AbstractFunctionEntity extends AbstractEntity
             ];
         }, $DocBlockInstance->getTagsByName('throws')) : [];
     }
+
+    /**
+     * Returns `true` if it's static
+     * @return bool
+     */
+    abstract public function isStatic(): bool;
 }

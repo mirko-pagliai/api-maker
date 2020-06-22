@@ -35,4 +35,22 @@ class FunctionEntity extends AbstractFunctionEntity
     {
         $this->reflectionObject = $function;
     }
+
+    /**
+     * Gets the visibility (`public`, `protected` or `private`)
+     * @return string
+     */
+    public function getVisibility(): string
+    {
+        return '';
+    }
+
+    /**
+     * Returns `true` if it's static
+     * @return bool
+     */
+    public function isStatic(): bool
+    {
+        return false;
+    }
 }
