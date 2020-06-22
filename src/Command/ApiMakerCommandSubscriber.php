@@ -14,8 +14,8 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Command;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Tools\Event\Event;
 
 /**
