@@ -167,6 +167,15 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
+     * Test for `getVisibility()` method
+     * @test
+     */
+    public function testGetVisibility()
+    {
+        $this->assertSame('', $this->Function->getVisibility());
+    }
+
+    /**
      * Test for `isDeprecated()` method
      * @test
      */
@@ -174,5 +183,14 @@ class FunctionEntityTest extends TestCase
     {
         $this->assertFalse($this->Function->isDeprecated());
         $this->assertTrue($this->getFunctionEntity('old_function')->isDeprecated());
+    }
+
+    /**
+     * Test for `isDeprecated()` method
+     * @test
+     */
+    public function testIsStatic()
+    {
+        $this->assertFalse($this->Function->isStatic());
     }
 }
