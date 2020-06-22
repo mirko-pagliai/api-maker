@@ -55,18 +55,40 @@ class TemplateTest extends TestCase
     }
 
     /**
-     * Test for property template element
+     * Test for function template element
      * @test
      */
-    public function testPropertyTemplate()
+    public function testFunctionTemplate()
     {
-        $property = $this->getClassEntity(Cat::class)->getProperty('description');
-        $result = $this->Twig->render('elements/property.twig', compact('property'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'property1.html', $result);
+        $code = 'function myFunc() {}';
+        $function = $this->getFunctionEntityFromString($code);
+        $result = $this->Twig->render('elements/method.twig', ['method' => $function]);
+        $this->assertStringEqualsFile(EXPECTED_FILES . 'function1.html', $result);
 
-        $property = $this->getClassEntity(Cat::class)->getProperty('Puppy');
-        $result = $this->Twig->render('elements/property.twig', compact('property'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'property2.html', $result);
+        $code = <<<HEREDOC
+/**
+ * A custom function
+ * @param int \$int1 An integer
+ * @param int \$int2 Another integer
+ * @return int Result
+ * @deprecated Useless function
+ * @throws \LogicException if `\$int1` it is less than 1
+ * @throws \RuntimeException if `\$int2` it is less than 1
+ */
+function myFunc(int \$int1 = 2, int \$int2 = 4): int
+{
+    if (\$int1 < 1) {
+        throw new \LogicException('\$int1 must be greater than 1');
+    }
+    if (\$int2 < 1) {
+        throw new \RuntimeException('\$int2 must be greater than 1');
+    }
+    return \$int1 + \$int2 + 2;
+}
+HEREDOC;
+        $function = $this->getFunctionEntityFromString($code);
+        $result = $this->Twig->render('elements/method.twig', ['method' => $function]);
+        $this->assertStringEqualsFile(EXPECTED_FILES . 'function2.html', $result);
     }
 
     /**
@@ -113,6 +135,15 @@ HEREDOC;
         $method = $this->getClassEntityFromString($code)->getMethod('myMethod');
         $result = $this->Twig->render('elements/method.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method3.html', $result);
+
+        $code = <<<HEREDOC
+class MyClass {
+    public function myMethod(): string {}
+}
+HEREDOC;
+        $method = $this->getClassEntityFromString($code)->getMethod('myMethod');
+        $result = $this->Twig->render('elements/method.twig', compact('method'));
+        $this->assertStringEqualsFile(EXPECTED_FILES . 'method4.html', $result);
     }
 
     /**
@@ -132,5 +163,20 @@ HEREDOC;
         $method = $this->getClassEntity(Cat::class)->getMethod('getType');
         $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary3.html', $result);
+    }
+
+    /**
+     * Test for property template element
+     * @test
+     */
+    public function testPropertyTemplate()
+    {
+        $property = $this->getClassEntity(Cat::class)->getProperty('description');
+        $result = $this->Twig->render('elements/property.twig', compact('property'));
+        $this->assertStringEqualsFile(EXPECTED_FILES . 'property1.html', $result);
+
+        $property = $this->getClassEntity(Cat::class)->getProperty('Puppy');
+        $result = $this->Twig->render('elements/property.twig', compact('property'));
+        $this->assertStringEqualsFile(EXPECTED_FILES . 'property2.html', $result);
     }
 }
