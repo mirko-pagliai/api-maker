@@ -18,7 +18,6 @@ use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
 use ApiMaker\ReflectorExplorer;
 use Roave\BetterReflection\BetterReflection;
-use RuntimeException;
 use Tools\TestSuite\TestCase as BaseTestCase;
 
 /**
@@ -45,7 +44,6 @@ abstract class TestCase extends BaseTestCase
      *  in the test app
      * @param string $className Class name
      * @return \ApiMaker\Reflection\Entity\ClassEntity
-     * @throws \RuntimeException
      */
     protected function getClassEntityFromTests(string $className): ClassEntity
     {
@@ -57,7 +55,7 @@ abstract class TestCase extends BaseTestCase
             }
         }
 
-        throw new RuntimeException(sprintf('Impossible to find the `%s` class from test files', $className));
+        $this->fail(sprintf('Impossible to find the `%s` class from test files', $className));
     }
 
     /**
@@ -65,7 +63,6 @@ abstract class TestCase extends BaseTestCase
      *  in the test app (see `tests/test_app/functions.php` file)
      * @param string $functionName Function name
      * @return \ApiMaker\Reflection\Entity\FunctionEntity
-     * @throws \RuntimeException
      */
     protected function getFunctionEntityFromTests(string $functionName): FunctionEntity
     {
@@ -77,6 +74,6 @@ abstract class TestCase extends BaseTestCase
             }
         }
 
-        throw new RuntimeException(sprintf('Impossible to find the `%s()` function from test files', $functionName));
+        $this->fail(sprintf('Impossible to find the `%s()` function from test files', $functionName));
     }
 }
