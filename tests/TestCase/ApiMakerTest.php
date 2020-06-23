@@ -45,6 +45,19 @@ class ApiMakerTest extends TestCase
     }
 
     /**
+     * Test for `__construct()` method
+     * @test
+     */
+    public function testConstruct()
+    {
+        $this->assertInstanceof(Environment::class, $this->ApiMaker->Twig);
+        $this->assertTrue($this->ApiMaker->Twig->isDebug());
+        $this->assertTrue($this->ApiMaker->Twig->isStrictVariables());
+        $this->assertSame([$this->ApiMaker->getTemplatePath()], $this->ApiMaker->Twig->getLoader()->getPaths());
+        $this->assertNotEmpty($this->ApiMaker->Twig->getExtension(DebugExtension::class));
+    }
+
+    /**
      * Test for `build()` method
      * @test
      */
@@ -64,19 +77,5 @@ class ApiMakerTest extends TestCase
         $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'highlight.pack.js');
         $this->assertFileExists($output . DS . 'functions.html');
         $this->assertFileExists($output . DS . 'index.html');
-    }
-
-    /**
-     * Test for `getTwigInstance()` method
-     * @test
-     */
-    public function testGetTwigInstance()
-    {
-        $twig = $this->ApiMaker->getTwigInstance();
-        $this->assertInstanceof(Environment::class, $twig);
-        $this->assertTrue($twig->isDebug());
-        $this->assertTrue($twig->isStrictVariables());
-        $this->assertSame([$this->ApiMaker->getTemplatePath()], $twig->getLoader()->getPaths());
-        $this->assertNotEmpty($twig->getExtension(DebugExtension::class));
     }
 }
