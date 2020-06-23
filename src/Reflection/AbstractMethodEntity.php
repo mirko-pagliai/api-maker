@@ -23,11 +23,11 @@ use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
- * AbstractFunctionEntity class.
+ * AbstractMethodEntity class.
  *
- * This class contains methods common to functions and class methods.
+ * This class contains methods common to class methods and functions.
  */
-abstract class AbstractFunctionEntity extends AbstractEntity
+abstract class AbstractMethodEntity extends AbstractEntity
 {
     use DeprecatedTrait;
     use SeeTagsTrait;

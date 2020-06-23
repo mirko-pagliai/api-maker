@@ -14,14 +14,14 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Reflection\Entity;
 
-use ApiMaker\Reflection\AbstractFunctionEntity;
+use ApiMaker\Reflection\AbstractMethodEntity;
 use ApiMaker\Reflection\Entity\Traits\VisibilityTrait;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 
 /**
  * Method entity
  */
-class MethodEntity extends AbstractFunctionEntity
+class MethodEntity extends AbstractMethodEntity
 {
     use VisibilityTrait;
 

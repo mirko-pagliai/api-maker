@@ -14,13 +14,13 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Reflection\Entity;
 
-use ApiMaker\Reflection\AbstractFunctionEntity;
+use ApiMaker\Reflection\AbstractMethodEntity;
 use Roave\BetterReflection\Reflection\ReflectionFunction;
 
 /**
  * Function entity
  */
-class FunctionEntity extends AbstractFunctionEntity
+class FunctionEntity extends AbstractMethodEntity
 {
     /**
      * @var \Roave\BetterReflection\Reflection\ReflectionFunction
