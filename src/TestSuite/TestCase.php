@@ -26,6 +26,24 @@ use Tools\TestSuite\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     /**
+     * @var \ApiMaker\ReflectorExplorer
+     */
+    protected $ReflectorExplorer;
+
+    /**
+     * Internal method to get a `ReflectorExplorer` instance
+     * @return ReflectorExplorer
+     */
+    protected function getReflectorExplorerInstance(): ReflectorExplorer
+    {
+        if (!$this->ReflectorExplorer) {
+            $this->ReflectorExplorer = new ReflectorExplorer(TEST_APP);
+        }
+
+        return $this->ReflectorExplorer;
+    }
+
+    /**
      * Internal method to get a `ClassEntity` instance
      * @param string $class Class name
      * @return \ApiMaker\Reflection\Entity\ClassEntity
@@ -47,9 +65,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getClassEntityFromTests(string $className): ClassEntity
     {
-        $reflectorExplorer = new ReflectorExplorer(TEST_APP);
-
-        foreach ($reflectorExplorer->getAllClasses() as $currentClass) {
+        foreach ($this->getReflectorExplorerInstance()->getAllClasses() as $currentClass) {
             if ($currentClass->getName() === $className) {
                 return $currentClass;
             }
@@ -66,9 +82,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getFunctionEntityFromTests(string $functionName): FunctionEntity
     {
-        $reflectorExplorer = new ReflectorExplorer(TEST_APP);
-
-        foreach ($reflectorExplorer->getAllFunctions() as $currentFunction) {
+        foreach ($this->getReflectorExplorerInstance()->getAllFunctions() as $currentFunction) {
             if ($currentFunction->getName() === $functionName) {
                 return $currentFunction;
             }
