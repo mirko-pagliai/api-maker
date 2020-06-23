@@ -30,6 +30,11 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ApiMakerCommand extends Command
 {
     /**
+     * @var \ApiMaker\ApiMaker
+     */
+    public $ApiMaker;
+
+    /**
      * Name of the command
      * @var string
      */
@@ -46,23 +51,6 @@ class ApiMakerCommand extends Command
             ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug')
             ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project')
             ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory');
-    }
-
-    /**
-     * Internal method to parse and get config for the `ApiMaker` instance.
-     * @param \Symfony\Component\Console\Input\InputInterface $input InputInterface instance
-     * @return array
-     */
-    protected function getConfigForApiMaker(InputInterface $input): array
-    {
-        $options = [];
-        foreach (['debug', 'title'] as $name) {
-            if ($input->getOption($name)) {
-                $options[$name] = $input->getOption($name);
-            }
-        }
-
-        return $options;
     }
 
     /**
@@ -85,9 +73,19 @@ class ApiMakerCommand extends Command
         $start = microtime(true);
 
         try {
-            $apiMaker = new ApiMaker($sources, $this->getConfigForApiMaker($input));
-            $apiMaker->getEventDispatcher()->addSubscriber(new ApiMakerCommandSubscriber($io));
-            $apiMaker->build($target);
+            if (!$this->ApiMaker) {
+                $options = [];
+                foreach (['debug', 'title'] as $name) {
+                    if ($input->getOption($name)) {
+                        $options[$name] = $input->getOption($name);
+                    }
+                }
+
+                $this->ApiMaker = new ApiMaker($sources, $options);
+            }
+
+            $this->ApiMaker->getEventDispatcher()->addSubscriber(new ApiMakerCommandSubscriber($io));
+            $this->ApiMaker->build($target);
         } catch (Exception $e) {
             $io->error($e->getMessage());
 
