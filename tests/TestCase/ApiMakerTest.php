@@ -16,8 +16,8 @@ declare(strict_types=1);
 namespace ApiMaker\Test;
 
 use ApiMaker\ApiMaker;
+use ApiMaker\TestSuite\TestCase;
 use Tools\TestSuite\EventAssertTrait;
-use Tools\TestSuite\TestCase;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 
@@ -66,9 +66,7 @@ class ApiMakerTest extends TestCase
         $output = TMP . 'output';
         rmdir_recursive($output);
 
-        $this->ApiMaker->Twig = $this->getMockBuilder(Environment::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $this->ApiMaker->Twig = $this->getTwigMock();
 
         $dispatcher = $this->ApiMaker->getEventDispatcher();
         $this->ApiMaker->build($output);
@@ -79,6 +77,7 @@ class ApiMakerTest extends TestCase
         $this->assertFileExists($output . DS . 'assets' . DS . 'bootstrap' . DS . 'bootstrap.min.css');
         $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'default.css');
         $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'highlight.pack.js');
+        $this->assertFileExists($output . DS . 'layout' . DS . 'menu.html');
         $this->assertFileExists($output . DS . 'functions.html');
         $this->assertFileExists($output . DS . 'index.html');
     }

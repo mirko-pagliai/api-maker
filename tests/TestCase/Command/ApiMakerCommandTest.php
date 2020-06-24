@@ -16,12 +16,11 @@ namespace ApiMaker\Test\Command;
 
 use ApiMaker\ApiMaker;
 use ApiMaker\Command\ApiMakerCommand;
+use ApiMaker\TestSuite\TestCase;
 use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
-use Tools\TestSuite\TestCase;
-use Twig\Environment;
 
 /**
  * ApiMakerCommandTest class
@@ -49,11 +48,8 @@ class ApiMakerCommandTest extends TestCase
         ], $commandTester->getInput()->getOptions());
 
         $Command->ApiMaker = new ApiMaker(TESTS . DS . 'test_app');
-        $Command->ApiMaker->Twig = $this->getMockBuilder(Environment::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $Command->ApiMaker->Filesystem = $this->getMockBuilder(Filesystem::class)
-            ->getMock();
+        $Command->ApiMaker->Twig = $this->getTwigMock();
+        $Command->ApiMaker->Filesystem = $this->getMockBuilder(Filesystem::class)->getMock();
 
         $commandTester = new CommandTester($Command);
         $commandTester->execute([

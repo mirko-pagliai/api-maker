@@ -14,11 +14,14 @@ declare(strict_types=1);
  */
 namespace ApiMaker\TestSuite;
 
+use ApiMaker\ApiMaker;
 use ApiMaker\ClassesExplorer;
 use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
 use Roave\BetterReflection\BetterReflection;
 use Tools\TestSuite\TestCase as BaseTestCase;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
 /**
  * TestCase class
@@ -89,5 +92,19 @@ abstract class TestCase extends BaseTestCase
         }
 
         $this->fail(sprintf('Impossible to find the `%s()` function from test files', $functionName));
+    }
+
+    /**
+     * Gets a mock of Twig (`Environment`). It does not render template files
+     * @return \Twig\Environment
+     */
+    protected function getTwigMock(): Environment
+    {
+        $apiMaker = new ApiMaker(TESTS . DS . 'test_app');
+
+        return $this->getMockBuilder(Environment::class)
+            ->setConstructorArgs([new FilesystemLoader($apiMaker->getTemplatePath())])
+            ->setMethods(['addPath', 'render', 'setCache'])
+            ->getMock();
     }
 }
