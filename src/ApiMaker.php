@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace ApiMaker;
 
 use ApiMaker\ClassesExplorer;
-use ApiMaker\Reflection\Entity\ClassEntity;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tools\Event\EventDispatcherTrait;
@@ -102,27 +101,6 @@ class ApiMaker
     }
 
     /**
-     * Internal method to build the menu.
-     *
-     * It gets all classes and all functions, builds and returns a menu.
-     * @param array $classes Classes, array of `ClassEntity`
-     * @param array $functions Functions, array of `FunctionEntity`
-     * @return array Menu, array with names and files
-     */
-    protected function buildMenu(array $classes, array $functions): array
-    {
-        $menu = array_map(function (ClassEntity $class) {
-            return ['name' => $class->getName(), 'link' => $class->getLink()];
-        }, $classes);
-
-        if ($functions) {
-            $menu[] = ['name' => 'functions', 'link' => 'functions.html'];
-        }
-
-        return $menu;
-    }
-
-    /**
      * Gets the template path
      * @return string
      */
@@ -139,6 +117,7 @@ class ApiMaker
     public function build(string $target): void
     {
         $this->Filesystem->mkdir($target, 0755);
+        $this->Twig->getLoader()->addPath($target, 'target');
         $this->Twig->setCache($target . DS . 'cache');
 
         //Copies assets files
@@ -154,10 +133,12 @@ class ApiMaker
         $functions = $this->ClassesExplorer->getAllFunctions();
         $this->dispatchEvent('functions.founded', [$functions]);
 
-        //Builds the menu
-        $menu = $this->buildMenu($classes, $functions);
-
         $project = array_intersect_key($this->options, array_flip(['title']));
+
+        //Renders the menu
+        $output = $this->Twig->render('layout/menu.twig', compact('classes'));
+        $this->Filesystem->dumpFile($target . DS . 'layout' . DS . 'menu.html', $output);
+        $this->dispatchEvent('menu.rendered');
 
         //Renders index page
         $output = $this->Twig->render('index.twig', compact('classes', 'menu', 'project'));

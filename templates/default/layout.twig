@@ -22,11 +22,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-4 p-3">
-                    <ul class="list-unstyled m-0">
-                        {%~ for item in menu %}
-                        <li><a href="{{ item.link }}">{{ item.name }}</a></li>
-                            {%~ endfor %}
-                    </ul>
+                    {{ source('@target/layout/menu.html') }}
                 </div>
                 <div class="col p-3">
                     {{ block('content') }}

@@ -40,6 +40,7 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
             'functions.founded' => 'onFunctionsFounded',
             'functions.rendered' => 'onFunctionsRendered',
             'index.rendered' => 'onIndexRendered',
+            'menu.rendered' => 'onMenuRendered',
         ];
     }
 
@@ -100,5 +101,15 @@ class ApiMakerCommandSubscriber implements EventSubscriberInterface
     public function onIndexRendered(Event $event): void
     {
         $this->io->text(sprintf('Rendered index page'));
+    }
+
+    /**
+     * `menu.rendered` event
+     * @param \Tools\Event\Event $event The `Event` instance
+     * @return void
+     */
+    public function onMenuRendered(Event $event): void
+    {
+        $this->io->text(sprintf('Rendered menu element'));
     }
 }
