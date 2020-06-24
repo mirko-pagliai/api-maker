@@ -66,6 +66,10 @@ class ApiMakerTest extends TestCase
         $output = TMP . 'output';
         rmdir_recursive($output);
 
+        $this->ApiMaker->Twig = $this->getMockBuilder(Environment::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $dispatcher = $this->ApiMaker->getEventDispatcher();
         $this->ApiMaker->build($output);
 
