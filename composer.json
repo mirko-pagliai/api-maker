@@ -1,7 +1,7 @@
 {
-    "name": "mirko-pagliai/api-maker",
-    "description": "An API maker",
-    "homepage": "https://github.com/mirko-pagliai/api-maker",
+    "name": "mirko-pagliai/php-doc-maker",
+    "description": "A tool to generate documentation of PHP projects and libraries",
+    "homepage": "https://github.com/mirko-pagliai/php-doc-maker",
     "type": "library",
     "license": "MIT",
     "authors": [

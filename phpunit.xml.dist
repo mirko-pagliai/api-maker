@@ -7,7 +7,7 @@
 >
 
     <testsuites>
-        <testsuite name="api-maker Test Cases">
+        <testsuite name="php-doc-maker Test Cases">
             <directory>./tests/TestCase</directory>
         </testsuite>
     </testsuites>
