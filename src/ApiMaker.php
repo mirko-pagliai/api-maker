@@ -12,9 +12,9 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace ApiMaker;
+namespace PhpDocMaker;
 
-use ApiMaker\ClassesExplorer;
+use PhpDocMaker\ClassesExplorer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tools\Event\EventDispatcherTrait;

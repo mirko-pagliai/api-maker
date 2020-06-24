@@ -12,12 +12,12 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace ApiMaker\Test\Command;
+namespace PhpDocMaker\Test\Command;
 
-use ApiMaker\ApiMaker;
-use ApiMaker\Command\ApiMakerCommand;
-use ApiMaker\TestSuite\TestCase;
 use Exception;
+use PhpDocMaker\ApiMaker;
+use PhpDocMaker\Command\ApiMakerCommand;
+use PhpDocMaker\TestSuite\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;

@@ -12,13 +12,13 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace ApiMaker\Test;
+namespace PhpDocMaker\Test;
 
-use ApiMaker\ClassesExplorer;
-use ApiMaker\Reflection\Entity\ClassEntity;
-use ApiMaker\Reflection\Entity\FunctionEntity;
+use PhpDocMaker\ClassesExplorer;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
+use PhpDocMaker\Reflection\Entity\FunctionEntity;
+use PhpDocMaker\TestSuite\TestCase;
 use Tools\Exception\NotReadableException;
-use Tools\TestSuite\TestCase;
 
 /**
  * ClassesExplorerTest class

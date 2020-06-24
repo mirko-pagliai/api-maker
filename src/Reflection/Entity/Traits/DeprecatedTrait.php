@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace ApiMaker\Reflection\Entity\Traits;
+namespace PhpDocMaker\Reflection\Entity\Traits;
 
 /**
  * DeprecatedTrait

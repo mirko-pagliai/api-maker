@@ -12,14 +12,14 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace ApiMaker\Test\Reflection\Entity;
+namespace PhpDocMaker\Test\Reflection\Entity;
 
-use ApiMaker\Reflection\Entity\ConstantEntity;
-use ApiMaker\Reflection\Entity\MethodEntity;
-use ApiMaker\Reflection\Entity\PropertyEntity;
-use ApiMaker\TestSuite\TestCase;
 use App\Animals\Cat;
 use App\ClassExample;
+use PhpDocMaker\Reflection\Entity\ConstantEntity;
+use PhpDocMaker\Reflection\Entity\MethodEntity;
+use PhpDocMaker\Reflection\Entity\PropertyEntity;
+use PhpDocMaker\TestSuite\TestCase;
 
 /**
  * ClassEntityTest class

@@ -12,11 +12,11 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace ApiMaker\Test;
+namespace PhpDocMaker\Test;
 
-use ApiMaker\TestSuite\TestCase;
 use App\Animals\Cat;
 use App\ClassExample;
+use PhpDocMaker\TestSuite\TestCase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 

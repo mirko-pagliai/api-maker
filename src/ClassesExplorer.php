@@ -12,10 +12,10 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace ApiMaker;
+namespace PhpDocMaker;
 
-use ApiMaker\Reflection\Entity\ClassEntity;
-use ApiMaker\Reflection\Entity\FunctionEntity;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
+use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use Roave\BetterReflection\BetterReflection;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionFunction;

@@ -12,12 +12,12 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace ApiMaker\Reflection;
+namespace PhpDocMaker\Reflection;
 
-use ApiMaker\Reflection\AbstractEntity;
-use ApiMaker\Reflection\Entity\ParameterEntity;
-use ApiMaker\Reflection\Entity\Traits\DeprecatedTrait;
-use ApiMaker\Reflection\Entity\Traits\SeeTagsTrait;
+use PhpDocMaker\Reflection\AbstractEntity;
+use PhpDocMaker\Reflection\Entity\ParameterEntity;
+use PhpDocMaker\Reflection\Entity\Traits\DeprecatedTrait;
+use PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Roave\BetterReflection\Reflection\ReflectionParameter;

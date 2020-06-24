@@ -13,10 +13,10 @@ declare(strict_types=1);
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
 
-namespace ApiMaker\Test;
+namespace PhpDocMaker\Test;
 
-use ApiMaker\ApiMaker;
-use ApiMaker\TestSuite\TestCase;
+use PhpDocMaker\ApiMaker;
+use PhpDocMaker\TestSuite\TestCase;
 use Tools\TestSuite\EventAssertTrait;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;

@@ -2,7 +2,7 @@
 <?php
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use ApiMaker\Command\ApiMakerCommand;
+use PhpDocMaker\Command\ApiMakerCommand;
 use Symfony\Component\Console\Application;
 
 $command = new ApiMakerCommand();

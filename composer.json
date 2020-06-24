@@ -27,7 +27,7 @@
     },
     "autoload": {
         "psr-4": {
-            "ApiMaker\\": "src"
+            "PhpDocMaker\\": "src"
         },
         "files": [
             "config/bootstrap.php"
@@ -35,8 +35,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "ApiMaker\\Test\\": "tests/TestCase",
-            "App\\": "tests/test_app"
+            "App\\": "tests/test_app",
+            "PhpDocMaker\\Test\\": "tests/TestCase"
         }
     }
 }
