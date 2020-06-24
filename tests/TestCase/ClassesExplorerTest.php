@@ -14,21 +14,21 @@ declare(strict_types=1);
  */
 namespace ApiMaker\Test;
 
+use ApiMaker\ClassesExplorer;
 use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
-use ApiMaker\ReflectorExplorer;
 use Tools\Exception\NotReadableException;
 use Tools\TestSuite\TestCase;
 
 /**
- * ReflectorExplorerTest class
+ * ClassesExplorerTest class
  */
-class ReflectorExplorerTest extends TestCase
+class ClassesExplorerTest extends TestCase
 {
     /**
-     * @var \ApiMaker\ReflectorExplorer
+     * @var \ApiMaker\ClassesExplorer
      */
-    protected $ReflectorExplorer;
+    protected $ClassesExplorer;
 
     /**
      * Called before each test
@@ -38,7 +38,7 @@ class ReflectorExplorerTest extends TestCase
     {
         parent::setUp();
 
-        $this->ReflectorExplorer = new ReflectorExplorer(TESTS . DS . 'test_app');
+        $this->ClassesExplorer = new ClassesExplorer(TESTS . DS . 'test_app');
     }
 
     /**
@@ -48,7 +48,7 @@ class ReflectorExplorerTest extends TestCase
     public function testConstructWithNoReadablePath()
     {
         $this->expectException(NotReadableException::class);
-        new ReflectorExplorer(DS . 'noExistingPath');
+        new ClassesExplorer(DS . 'noExistingPath');
     }
 
     /**
@@ -57,7 +57,7 @@ class ReflectorExplorerTest extends TestCase
      */
     public function testGetAllClasses()
     {
-        $classes = $this->ReflectorExplorer->getAllClasses();
+        $classes = $this->ClassesExplorer->getAllClasses();
         $names = objects_map($classes, 'getName');
         $this->assertContainsOnlyInstancesOf(ClassEntity::class, $classes);
         $this->assertContains('Cake\Routing\Router', $names);
@@ -74,7 +74,7 @@ class ReflectorExplorerTest extends TestCase
      */
     public function testGetAllFunctions()
     {
-        $functions = $this->ReflectorExplorer->getAllFunctions();
+        $functions = $this->ClassesExplorer->getAllFunctions();
         $names = objects_map($functions, 'getName');
         $this->assertContainsOnlyInstancesOf(FunctionEntity::class, $functions);
         $this->assertContains('a_test_function', $names);

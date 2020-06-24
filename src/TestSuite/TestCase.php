@@ -14,9 +14,9 @@ declare(strict_types=1);
  */
 namespace ApiMaker\TestSuite;
 
+use ApiMaker\ClassesExplorer;
 use ApiMaker\Reflection\Entity\ClassEntity;
 use ApiMaker\Reflection\Entity\FunctionEntity;
-use ApiMaker\ReflectorExplorer;
 use Roave\BetterReflection\BetterReflection;
 use Tools\TestSuite\TestCase as BaseTestCase;
 
@@ -26,21 +26,21 @@ use Tools\TestSuite\TestCase as BaseTestCase;
 abstract class TestCase extends BaseTestCase
 {
     /**
-     * @var \ApiMaker\ReflectorExplorer
+     * @var \ApiMaker\ClassesExplorer
      */
-    protected $ReflectorExplorer;
+    protected $ClassesExplorer;
 
     /**
-     * Internal method to get a `ReflectorExplorer` instance
-     * @return ReflectorExplorer
+     * Internal method to get a `ClassesExplorer` instance
+     * @return \ApiMaker\ClassesExplorer
      */
-    protected function getReflectorExplorerInstance(): ReflectorExplorer
+    protected function getClassesExplorerInstance(): ClassesExplorer
     {
-        if (!$this->ReflectorExplorer) {
-            $this->ReflectorExplorer = new ReflectorExplorer(TEST_APP);
+        if (!$this->ClassesExplorer) {
+            $this->ClassesExplorer = new ClassesExplorer(TEST_APP);
         }
 
-        return $this->ReflectorExplorer;
+        return $this->ClassesExplorer;
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getClassEntityFromTests(string $className): ClassEntity
     {
-        foreach ($this->getReflectorExplorerInstance()->getAllClasses() as $currentClass) {
+        foreach ($this->getClassesExplorerInstance()->getAllClasses() as $currentClass) {
             if ($currentClass->getName() === $className) {
                 return $currentClass;
             }
@@ -82,7 +82,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getFunctionEntityFromTests(string $functionName): FunctionEntity
     {
-        foreach ($this->getReflectorExplorerInstance()->getAllFunctions() as $currentFunction) {
+        foreach ($this->getClassesExplorerInstance()->getAllFunctions() as $currentFunction) {
             if ($currentFunction->getName() === $functionName) {
                 return $currentFunction;
             }

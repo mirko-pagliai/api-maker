@@ -14,8 +14,8 @@ declare(strict_types=1);
  */
 namespace ApiMaker;
 
+use ApiMaker\ClassesExplorer;
 use ApiMaker\Reflection\Entity\ClassEntity;
-use ApiMaker\ReflectorExplorer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tools\Event\EventDispatcherTrait;
@@ -36,9 +36,9 @@ class ApiMaker
     public $Filesystem;
 
     /**
-     * @var \ApiMaker\ReflectorExplorer
+     * @var \ApiMaker\ClassesExplorer
      */
-    protected $ReflectorExplorer;
+    protected $ClassesExplorer;
 
     /**
      * @var \Twig\Environment
@@ -82,7 +82,7 @@ class ApiMaker
         if ($this->options['debug']) {
             $this->Twig->addExtension(new DebugExtension());
         }
-        $this->ReflectorExplorer = new ReflectorExplorer($path);
+        $this->ClassesExplorer = new ClassesExplorer($path);
         $this->Filesystem = new Filesystem();
     }
 
@@ -147,11 +147,11 @@ class ApiMaker
         }
 
         //Gets all classes
-        $classes = $this->ReflectorExplorer->getAllClasses();
+        $classes = $this->ClassesExplorer->getAllClasses();
         $this->dispatchEvent('classes.founded', [$classes]);
 
         //Gets all functions
-        $functions = $this->ReflectorExplorer->getAllFunctions();
+        $functions = $this->ClassesExplorer->getAllFunctions();
         $this->dispatchEvent('functions.founded', [$functions]);
 
         //Builds the menu

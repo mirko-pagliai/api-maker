@@ -29,11 +29,11 @@ use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Symfony\Component\Finder\Finder;
 
 /**
- * ReflectorExplorer.
+ * ClassesExplorer.
  *
  * It finds and gets all classes and all functions in the desired path.
  */
-class ReflectorExplorer
+class ClassesExplorer
 {
     /**
      * @var \Roave\BetterReflection\Reflector\ClassReflector
