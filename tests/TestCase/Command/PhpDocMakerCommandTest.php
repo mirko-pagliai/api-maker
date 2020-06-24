@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Command;
 
 use Exception;
-use PhpDocMaker\Command\ApiMakerCommand;
+use PhpDocMaker\Command\PhpDocMakerCommand;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
 use Symfony\Component\Console\Command\Command;
@@ -23,9 +23,9 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * ApiMakerCommandTest class
+ * PhpDocMakerCommandTest class
  */
-class ApiMakerCommandTest extends TestCase
+class PhpDocMakerCommandTest extends TestCase
 {
     /**
      * Test for `execute()` method
@@ -33,7 +33,7 @@ class ApiMakerCommandTest extends TestCase
      */
     public function testExecute()
     {
-        $Command = new ApiMakerCommand();
+        $Command = new PhpDocMakerCommand();
         $commandTester = new CommandTester($Command);
         $commandTester->execute([
             'sources' => '',
@@ -75,7 +75,7 @@ class ApiMakerCommandTest extends TestCase
      */
     public function testExecuteOnFailure()
     {
-        $Command = new ApiMakerCommand();
+        $Command = new PhpDocMakerCommand();
         $Command->PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
             ->setConstructorArgs([TESTS . DS . 'test_app'])
             ->setMethods(['build'])

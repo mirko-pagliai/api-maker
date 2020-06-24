@@ -19,9 +19,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Tools\Event\Event;
 
 /**
- * Event subscriber for `ApiMakerCommand`
+ * Event subscriber for `PhpDocMakerCommand`
  */
-class ApiMakerCommandSubscriber implements EventSubscriberInterface
+class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
 {
     /**
      * @var \Symfony\Component\Console\Style\SymfonyStyle

@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Command;
 
 use Exception;
-use PhpDocMaker\Command\ApiMakerCommandSubscriber;
+use PhpDocMaker\Command\PhpDocMakerCommandSubscriber;
 use PhpDocMaker\PhpDocMaker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -25,9 +25,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * ApiMakerCommand
+ * PhpDocMakerCommand
  */
-class ApiMakerCommand extends Command
+class PhpDocMakerCommand extends Command
 {
     /**
      * @var \PhpDocMaker\PhpDocMaker
@@ -84,7 +84,7 @@ class ApiMakerCommand extends Command
                 $this->PhpDocMaker = new PhpDocMaker($sources, $options);
             }
 
-            $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new ApiMakerCommandSubscriber($io));
+            $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new PhpDocMakerCommandSubscriber($io));
             $this->PhpDocMaker->build($target);
         } catch (Exception $e) {
             $io->error($e->getMessage());
