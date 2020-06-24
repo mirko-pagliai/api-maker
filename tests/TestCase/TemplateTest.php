@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test;
 
 use App\Animals\Cat;
-use App\ClassExample;
+use App\DeprecatedClassExample;
 use PhpDocMaker\TestSuite\TestCase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -61,7 +61,7 @@ HEREDOC;
         $result = $this->Twig->render('layout/menu.twig', compact('classes'));
         $this->assertStringStartsWith($expectedStringStartsWith, $result);
         $this->assertStringEndsWith('</li>' . PHP_EOL . '</ul>', $result);
-        $this->assertStringContainsString('<a href="Class-App-ClassExample.html"><del>App\ClassExample</del></a>', $result);
+        $this->assertStringContainsString('<a href="Class-App-DeprecatedClassExample.html"><del>App\DeprecatedClassExample</del></a>', $result);
     }
 
     /**
@@ -111,19 +111,19 @@ HEREDOC;
      */
     public function testMethodTemplate()
     {
-        $method = $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethod');
+        $method = $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethod');
         $result = $this->Twig->render('elements/method.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method1.html', $result);
 
-        $method = $this->getClassEntityFromTests(ClassExample::class)->getMethod('anotherAnonymousMethod');
+        $method = $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anotherAnonymousMethod');
         $result = $this->Twig->render('elements/method.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method2.html', $result);
 
-        $method = $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithSomeVars');
+        $method = $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithSomeVars');
         $result = $this->Twig->render('elements/method.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method3.html', $result);
 
-        $method = $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
+        $method = $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
         $result = $this->Twig->render('elements/method.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method4.html', $result);
     }

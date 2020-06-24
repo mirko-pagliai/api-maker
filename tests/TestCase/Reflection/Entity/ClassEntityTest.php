@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
-use App\ClassExample;
+use App\DeprecatedClassExample;
 use PhpDocMaker\Reflection\Entity\ConstantEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\PropertyEntity;
@@ -75,7 +75,7 @@ class ClassEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('<p>Useless, just for tests</p>', $this->getClassEntityFromTests(ClassExample::class)->getDeprecatedDescription());
+        $this->assertSame('<p>Useless, just for tests</p>', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getDeprecatedDescription());
     }
 
     /**
@@ -168,6 +168,6 @@ class ClassEntityTest extends TestCase
     public function testIsDeprecated()
     {
         $this->assertFalse($this->Class->isDeprecated());
-        $this->assertTrue($this->getClassEntityFromTests(ClassExample::class)->isDeprecated());
+        $this->assertTrue($this->getClassEntityFromTests(DeprecatedClassExample::class)->isDeprecated());
     }
 }

@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
-use App\ClassExample;
+use App\DeprecatedClassExample;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
 use PhpDocMaker\TestSuite\TestCase;
 
@@ -73,7 +73,7 @@ class ParameterEntityTest extends TestCase
         );
 
         //This parameter has no DocBlock
-        $this->assertSame('', $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithParameterAndWithoutDocBlock')->getParameter('parameterWithoutDocBlock')->getDocBlockAsString());
+        $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithParameterAndWithoutDocBlock')->getParameter('parameterWithoutDocBlock')->getDocBlockAsString());
     }
 
     /**

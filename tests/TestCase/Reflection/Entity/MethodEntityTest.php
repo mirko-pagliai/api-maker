@@ -15,7 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
-use App\ClassExample;
+use App\DeprecatedClassExample;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
 use PhpDocMaker\TestSuite\TestCase;
@@ -55,7 +55,7 @@ class MethodEntityTest extends TestCase
         $this->assertSame('<p>Use instead <code>getName()</code>/<code>setName()</code></p>', $this->getMethodEntity('name')->getDeprecatedDescription());
 
         //This method has no DocBlock
-        $this->assertSame('', $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getDeprecatedDescription());
+        $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getDeprecatedDescription());
     }
 
     /**
@@ -125,7 +125,7 @@ class MethodEntityTest extends TestCase
         $this->assertSame('void', $this->getMethodEntity('doMeow')->getReturnTypeAsString());
 
         //This method has no DocBlock
-        $this->assertSame('', $this->getClassEntityFromTests(ClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getReturnTypeAsString());
+        $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getReturnTypeAsString());
     }
 
     /**
