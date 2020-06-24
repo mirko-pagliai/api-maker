@@ -50,7 +50,7 @@ class TemplateTest extends TestCase
      */
     public function testMenuTemplate()
     {
-$expectedStringStartsWith = <<<HEREDOC
+    $expectedStringStartsWith = <<<HEREDOC
 <ul class="list-unstyled m-0">
     <li>
         <a href="Class-App-Animals-Animal.html">App\Animals\Animal</a>
