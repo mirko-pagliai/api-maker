@@ -52,7 +52,7 @@ class PhpDocMaker
     /**
      * @var string
      */
-    protected $path;
+    protected $source;
 
     /**
      * @var string
@@ -61,12 +61,12 @@ class PhpDocMaker
 
     /**
      * Construct
-     * @param string $path Path from which to read the sources
+     * @param string $source Path from which to read the sources
      * @param array $options Options array
      */
-    public function __construct(string $path, array $options = [])
+    public function __construct(string $source, array $options = [])
     {
-        $this->path = $path;
+        $this->source = $source;
 
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
@@ -81,7 +81,7 @@ class PhpDocMaker
         if ($this->options['debug']) {
             $this->Twig->addExtension(new DebugExtension());
         }
-        $this->ClassesExplorer = new ClassesExplorer($path);
+        $this->ClassesExplorer = new ClassesExplorer($source);
         $this->Filesystem = new Filesystem();
     }
 
@@ -92,7 +92,7 @@ class PhpDocMaker
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $titleFromPath = array_value_last(array_filter(explode(DS, $this->path)));
+        $titleFromPath = array_value_last(array_filter(explode(DS, $this->source)));
 
         $resolver->setDefaults([
             'debug' => false,
