@@ -44,7 +44,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
     /**
      * Gets a parameter
      * @param string $parameterName Parameter name
-     * @return \ApiMaker\Reflection\Entity\ParameterEntity
+     * @return \PhpDocMaker\Reflection\Entity\ParameterEntity
      */
     public function getParameter(string $parameterName): ParameterEntity
     {

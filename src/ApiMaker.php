@@ -30,14 +30,14 @@ class ApiMaker
     use EventDispatcherTrait;
 
     /**
+     * @var \PhpDocMaker\ClassesExplorer
+     */
+    protected $ClassesExplorer;
+
+    /**
      * @var \Symfony\Component\Filesystem\Filesystem
      */
     public $Filesystem;
-
-    /**
-     * @var \ApiMaker\ClassesExplorer
-     */
-    protected $ClassesExplorer;
 
     /**
      * @var \Twig\Environment

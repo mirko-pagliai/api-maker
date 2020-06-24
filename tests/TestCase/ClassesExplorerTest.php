@@ -26,7 +26,7 @@ use Tools\Exception\NotReadableException;
 class ClassesExplorerTest extends TestCase
 {
     /**
-     * @var \ApiMaker\ClassesExplorer
+     * @var \PhpDocMaker\ClassesExplorer
      */
     protected $ClassesExplorer;
 

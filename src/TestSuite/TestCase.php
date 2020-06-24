@@ -29,13 +29,13 @@ use Twig\Loader\FilesystemLoader;
 abstract class TestCase extends BaseTestCase
 {
     /**
-     * @var \ApiMaker\ClassesExplorer
+     * @var \PhpDocMaker\ClassesExplorer
      */
     protected $ClassesExplorer;
 
     /**
      * Internal method to get a `ClassesExplorer` instance
-     * @return \ApiMaker\ClassesExplorer
+     * @return \PhpDocMaker\ClassesExplorer
      */
     protected function getClassesExplorerInstance(): ClassesExplorer
     {
@@ -49,7 +49,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Internal method to get a `ClassEntity` instance
      * @param string $class Class name
-     * @return \ApiMaker\Reflection\Entity\ClassEntity
+     * @return \PhpDocMaker\Reflection\Entity\ClassEntity
      */
     protected function getClassEntity(string $class): ClassEntity
     {
@@ -64,7 +64,7 @@ abstract class TestCase extends BaseTestCase
      * Internal method to get a `ClassEntity` instance from a function located
      *  in the test app
      * @param string $className Class name
-     * @return \ApiMaker\Reflection\Entity\ClassEntity
+     * @return \PhpDocMaker\Reflection\Entity\ClassEntity
      */
     protected function getClassEntityFromTests(string $className): ClassEntity
     {
@@ -81,7 +81,7 @@ abstract class TestCase extends BaseTestCase
      * Internal method to get a `FunctionEntity` instance from a function located
      *  in the test app (see `tests/test_app/functions.php` file)
      * @param string $functionName Function name
-     * @return \ApiMaker\Reflection\Entity\FunctionEntity
+     * @return \PhpDocMaker\Reflection\Entity\FunctionEntity
      */
     protected function getFunctionEntityFromTests(string $functionName): FunctionEntity
     {

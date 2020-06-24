@@ -29,7 +29,7 @@ use RuntimeException;
 class FunctionEntityTest extends TestCase
 {
     /**
-     * @var \ApiMaker\Reflection\Entity\FunctionEntity
+     * @var \PhpDocMaker\Reflection\Entity\FunctionEntity
      */
     protected $Function;
 

@@ -27,7 +27,7 @@ use PhpDocMaker\TestSuite\TestCase;
 class ClassEntityTest extends TestCase
 {
     /**
-     * @var \ApiMaker\Reflection\Entity\ClassEntity
+     * @var \PhpDocMaker\Reflection\Entity\ClassEntity
      */
     protected $Class;
 

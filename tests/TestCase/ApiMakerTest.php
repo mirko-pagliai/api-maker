@@ -29,7 +29,7 @@ class ApiMakerTest extends TestCase
     use EventAssertTrait;
 
     /**
-     * @var \ApiMaker\ApiMaker
+     * @var \PhpDocMaker\ApiMaker
      */
     protected $ApiMaker;
 

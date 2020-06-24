@@ -52,7 +52,7 @@ class ClassEntity extends AbstractEntity
     /**
      * Gets a constant
      * @param string $name Constant name
-     * @return \ApiMaker\Reflection\Entity\ConstantEntity
+     * @return \PhpDocMaker\Reflection\Entity\ConstantEntity
      */
     public function getConstant(string $name): ConstantEntity
     {
@@ -82,7 +82,7 @@ class ClassEntity extends AbstractEntity
     /**
      * Gets a method
      * @param string $name Method name
-     * @return \ApiMaker\Reflection\Entity\MethodEntity
+     * @return \PhpDocMaker\Reflection\Entity\MethodEntity
      */
     public function getMethod(string $name): MethodEntity
     {
@@ -103,7 +103,7 @@ class ClassEntity extends AbstractEntity
     /**
      * Gets a property
      * @param string $name Property name
-     * @return \ApiMaker\Reflection\Entity\PropertyEntity
+     * @return \PhpDocMaker\Reflection\Entity\PropertyEntity
      */
     public function getProperty(string $name): PropertyEntity
     {

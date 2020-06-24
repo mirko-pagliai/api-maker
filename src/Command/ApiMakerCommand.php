@@ -30,7 +30,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ApiMakerCommand extends Command
 {
     /**
-     * @var \ApiMaker\ApiMaker
+     * @var \PhpDocMaker\ApiMaker
      */
     public $ApiMaker;
 
