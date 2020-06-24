@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace PhpDocMaker\Command;
 
 use Exception;
-use PhpDocMaker\ApiMaker;
 use PhpDocMaker\Command\ApiMakerCommandSubscriber;
+use PhpDocMaker\PhpDocMaker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,9 +30,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ApiMakerCommand extends Command
 {
     /**
-     * @var \PhpDocMaker\ApiMaker
+     * @var \PhpDocMaker\PhpDocMaker
      */
-    public $ApiMaker;
+    public $PhpDocMaker;
 
     /**
      * Name of the command
@@ -73,7 +73,7 @@ class ApiMakerCommand extends Command
         $start = microtime(true);
 
         try {
-            if (!$this->ApiMaker) {
+            if (!$this->PhpDocMaker) {
                 $options = [];
                 foreach (['debug', 'title'] as $name) {
                     if ($input->getOption($name)) {
@@ -81,11 +81,11 @@ class ApiMakerCommand extends Command
                     }
                 }
 
-                $this->ApiMaker = new ApiMaker($sources, $options);
+                $this->PhpDocMaker = new PhpDocMaker($sources, $options);
             }
 
-            $this->ApiMaker->getEventDispatcher()->addSubscriber(new ApiMakerCommandSubscriber($io));
-            $this->ApiMaker->build($target);
+            $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new ApiMakerCommandSubscriber($io));
+            $this->PhpDocMaker->build($target);
         } catch (Exception $e) {
             $io->error($e->getMessage());
 

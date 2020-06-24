@@ -14,8 +14,8 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\TestSuite;
 
-use PhpDocMaker\ApiMaker;
 use PhpDocMaker\ClassesExplorer;
+use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use Roave\BetterReflection\BetterReflection;
@@ -100,10 +100,10 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getTwigMock(): Environment
     {
-        $apiMaker = new ApiMaker(TESTS . DS . 'test_app');
+        $PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app');
 
         return $this->getMockBuilder(Environment::class)
-            ->setConstructorArgs([new FilesystemLoader($apiMaker->getTemplatePath())])
+            ->setConstructorArgs([new FilesystemLoader($PhpDocMaker->getTemplatePath())])
             ->setMethods(['addPath', 'render', 'setCache'])
             ->getMock();
     }

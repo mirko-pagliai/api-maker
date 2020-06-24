@@ -15,23 +15,23 @@ declare(strict_types=1);
 
 namespace PhpDocMaker\Test;
 
-use PhpDocMaker\ApiMaker;
+use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
 use Tools\TestSuite\EventAssertTrait;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 
 /**
- * ApiMakerTest class
+ * PhpDocMakerTest class
  */
-class ApiMakerTest extends TestCase
+class PhpDocMakerTest extends TestCase
 {
     use EventAssertTrait;
 
     /**
-     * @var \PhpDocMaker\ApiMaker
+     * @var \PhpDocMaker\PhpDocMaker
      */
-    protected $ApiMaker;
+    protected $PhpDocMaker;
 
     /**
      * Called before each test
@@ -41,7 +41,7 @@ class ApiMakerTest extends TestCase
     {
         parent::setUp();
 
-        $this->ApiMaker = new ApiMaker(TESTS . DS . 'test_app', ['debug' => true]);
+        $this->PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app', ['debug' => true]);
     }
 
     /**
@@ -50,11 +50,11 @@ class ApiMakerTest extends TestCase
      */
     public function testConstruct()
     {
-        $this->assertInstanceof(Environment::class, $this->ApiMaker->Twig);
-        $this->assertTrue($this->ApiMaker->Twig->isDebug());
-        $this->assertTrue($this->ApiMaker->Twig->isStrictVariables());
-        $this->assertSame([$this->ApiMaker->getTemplatePath()], $this->ApiMaker->Twig->getLoader()->getPaths());
-        $this->assertNotEmpty($this->ApiMaker->Twig->getExtension(DebugExtension::class));
+        $this->assertInstanceof(Environment::class, $this->PhpDocMaker->Twig);
+        $this->assertTrue($this->PhpDocMaker->Twig->isDebug());
+        $this->assertTrue($this->PhpDocMaker->Twig->isStrictVariables());
+        $this->assertSame([$this->PhpDocMaker->getTemplatePath()], $this->PhpDocMaker->Twig->getLoader()->getPaths());
+        $this->assertNotEmpty($this->PhpDocMaker->Twig->getExtension(DebugExtension::class));
     }
 
     /**
@@ -66,10 +66,10 @@ class ApiMakerTest extends TestCase
         $output = TMP . 'output';
         rmdir_recursive($output);
 
-        $this->ApiMaker->Twig = $this->getTwigMock();
+        $this->PhpDocMaker->Twig = $this->getTwigMock();
 
-        $dispatcher = $this->ApiMaker->getEventDispatcher();
-        $this->ApiMaker->build($output);
+        $dispatcher = $this->PhpDocMaker->getEventDispatcher();
+        $this->PhpDocMaker->build($output);
 
         $this->assertEventFired('classes.founded', $dispatcher);
         $this->assertEventFired('functions.founded', $dispatcher);

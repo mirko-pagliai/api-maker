@@ -2,10 +2,10 @@
 <?php
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use PhpDocMaker\Command\ApiMakerCommand;
+use PhpDocMaker\Command\PhpDocMakerCommand;
 use Symfony\Component\Console\Application;
 
-$command = new ApiMakerCommand();
+$command = new PhpDocMakerCommand();
 $application = new Application();
 $application->add($command);
 $application->setDefaultCommand($command->getName());

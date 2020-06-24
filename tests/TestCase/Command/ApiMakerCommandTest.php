@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Command;
 
 use Exception;
-use PhpDocMaker\ApiMaker;
 use PhpDocMaker\Command\ApiMakerCommand;
+use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -47,9 +47,9 @@ class ApiMakerCommandTest extends TestCase
             'target' => '/tmp/php-doc-maker/output',
         ], $commandTester->getInput()->getOptions());
 
-        $Command->ApiMaker = new ApiMaker(TESTS . DS . 'test_app');
-        $Command->ApiMaker->Twig = $this->getTwigMock();
-        $Command->ApiMaker->Filesystem = $this->getMockBuilder(Filesystem::class)->getMock();
+        $Command->PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app');
+        $Command->PhpDocMaker->Twig = $this->getTwigMock();
+        $Command->PhpDocMaker->Filesystem = $this->getMockBuilder(Filesystem::class)->getMock();
 
         $commandTester = new CommandTester($Command);
         $commandTester->execute([
@@ -76,12 +76,12 @@ class ApiMakerCommandTest extends TestCase
     public function testExecuteOnFailure()
     {
         $Command = new ApiMakerCommand();
-        $Command->ApiMaker = $this->getMockBuilder(ApiMaker::class)
+        $Command->PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
             ->setConstructorArgs([TESTS . DS . 'test_app'])
             ->setMethods(['build'])
             ->getMock();
 
-        $Command->ApiMaker->method('build')
+        $Command->PhpDocMaker->method('build')
             ->willThrowException(new Exception('Something went wrong...'));
 
         $commandTester = new CommandTester($Command);

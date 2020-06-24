@@ -23,9 +23,9 @@ use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
 
 /**
- * ApiMaker
+ * PhpDocMaker
  */
-class ApiMaker
+class PhpDocMaker
 {
     use EventDispatcherTrait;
 
