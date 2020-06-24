@@ -45,6 +45,26 @@ class TemplateTest extends TestCase
     }
 
     /**
+     * Test for menu template element
+     * @test
+     */
+    public function testMenuTemplate()
+    {
+$expectedStringStartsWith = <<<HEREDOC
+<ul class="list-unstyled m-0">
+    <li>
+        <a href="Class-App-Animals-Animal.html">App\Animals\Animal</a>
+    </li>
+    <li>
+HEREDOC;
+        $classes = $this->getClassesExplorerInstance()->getAllClasses();
+        $result = $this->Twig->render('layout/menu.twig', compact('classes'));
+        $this->assertStringStartsWith($expectedStringStartsWith, $result);
+        $this->assertStringEndsWith('</li>' . PHP_EOL . '</ul>', $result);
+        $this->assertStringContainsString('<a href="Class-App-ClassExample.html"><del>App\ClassExample</del></a>', $result);
+    }
+
+    /**
      * Test for constant template element
      * @test
      */

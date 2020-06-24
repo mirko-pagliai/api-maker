@@ -1,5 +1,13 @@
 <ul class="list-unstyled m-0">
     {%~ for class in classes %}
-    <li><a href="{{ class.link }}">{{ class.name }}</a></li>
-        {%~ endfor %}
+    <li>
+        <a href="{{ class.link }}">
+            {%- if class.isDeprecated -%}
+                <del>{{ class.name }}</del>
+            {%- else -%}
+                {{ class.name }}
+            {%- endif -%}
+        </a>
+    </li>
+    {%~ endfor %}
 </ul>
