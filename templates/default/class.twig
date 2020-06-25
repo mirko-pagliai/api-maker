@@ -1,11 +1,26 @@
 {% extends "layout.twig" %}
 
+{% set classType %}
+    {% if class.isTrait %}
+        Trait
+    {% elseif class.isInterface %}
+        Interface
+    {% elseif class.isAbstract %}
+        Abstract class
+    {% else %}
+        Class
+    {% endif %}
+{% endset %}
+{% if class.isDeprecated %}
+    {% set classType = 'Deprecated' ~ classType|capitalize %}
+{% endif %}
+
 {% block title %}
-    {% if class.isTrait %}Trait{% elseif class.isInterface %}Interface{% elseif class.isAbstract %}Abstract class{% else %}Class{% endif %} {{ class.getName }}
+    {{ classType }} {{ class.getName }}
 {% endblock %}
 
 {% block content %}
-    <h2>{% if class.isTrait %}Trait{% elseif class.isInterface %}Interface{% elseif class.isAbstract %}Abstract class{% else %}Class{% endif %} <em>{{ class.getShortName }}</em></h2>
+    <h2>{{ classType }} <em>{{ class.getShortName }}</em></h2>
 
     <div>{{ class.getDocBlockAsString }}</div>
 

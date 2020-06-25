@@ -17,7 +17,7 @@ namespace App;
  * An useless class example
  * @deprecated Useless, just for tests
  */
-class DeprecatedClassExample
+abstract class DeprecatedClassExample
 {
     /**
      * This an anonymous method
