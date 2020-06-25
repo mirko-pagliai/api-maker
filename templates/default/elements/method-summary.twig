@@ -1,6 +1,12 @@
 <div>
     <code>
-        <a href="#{{ method.getName }}">{{ method.getName }}()</a>
+        <a href="#{{ method.getName }}">
+            {%- if method.isDeprecated -%}
+                <del>{{ method.getName }}()</del>
+            {%- else -%}
+                {{ method.getName }}()
+            {%- endif -%}
+        </a>
     </code> <span class="badge badge-light">{{ method.getVisibility }}</span>
     {%~ if method.isStatic %}
     <span class="badge badge-light">static</span>
