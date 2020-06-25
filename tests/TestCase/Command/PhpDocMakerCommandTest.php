@@ -36,7 +36,7 @@ class PhpDocMakerCommandTest extends TestCase
         $Command = new PhpDocMakerCommand();
         $commandTester = new CommandTester($Command);
         $commandTester->execute([
-            'sources' => '',
+            'source' => '',
             '--debug' => true,
             '--target' => TMP . 'output',
             '--title' => 'A project title',
@@ -53,7 +53,7 @@ class PhpDocMakerCommandTest extends TestCase
 
         $commandTester = new CommandTester($Command);
         $commandTester->execute([
-            'sources' => TESTS . DS . 'test_app',
+            'source' => TESTS . DS . 'test_app',
             '--target' => TMP . 'output',
         ]);
         $this->assertSame(Command::SUCCESS, $commandTester->getStatusCode());
@@ -85,7 +85,7 @@ class PhpDocMakerCommandTest extends TestCase
             ->willThrowException(new Exception('Something went wrong...'));
 
         $commandTester = new CommandTester($Command);
-        $commandTester->execute(['sources' => TESTS . DS . 'test_app']);
+        $commandTester->execute(['source' => TESTS . DS . 'test_app']);
         $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
 
         $output = $commandTester->getDisplay();

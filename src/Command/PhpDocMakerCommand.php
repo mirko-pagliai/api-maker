@@ -47,7 +47,7 @@ class PhpDocMakerCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('sources', InputArgument::REQUIRED, 'Path or paths from which to read the sources')
+            ->addArgument('source', InputArgument::REQUIRED, 'Path from which to read the sources')
             ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug')
             ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project')
             ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory');
@@ -63,10 +63,10 @@ class PhpDocMakerCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $sources = $input->getArgument('sources');
+        $source = $input->getArgument('source');
         $target = $input->getOption('target') ?? add_slash_term(ROOT) . 'output';
 
-        $io->text('Reading sources from: ' . $sources);
+        $io->text('Reading sources from: ' . $source);
         $io->text('Target directory: ' . $target);
         $io->text('===================================================');
 
@@ -81,7 +81,7 @@ class PhpDocMakerCommand extends Command
                     }
                 }
 
-                $this->PhpDocMaker = new PhpDocMaker($sources, $options);
+                $this->PhpDocMaker = new PhpDocMaker($source, $options);
             }
 
             $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new PhpDocMakerCommandSubscriber($io));
