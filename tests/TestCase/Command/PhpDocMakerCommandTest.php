@@ -33,31 +33,45 @@ class PhpDocMakerCommandTest extends TestCase
      */
     public function testExecute()
     {
+        $source = TESTS . DS . 'test_app';
+
         $Command = new PhpDocMakerCommand();
+        $Command->PhpDocMaker = new PhpDocMaker($source);
+        $Command->PhpDocMaker->Twig = $this->getTwigMock();
+        $Command->PhpDocMaker->Filesystem = $this->getMockBuilder(Filesystem::class)->getMock();
         $commandTester = new CommandTester($Command);
-        $commandTester->execute([
-            'source' => '',
+
+        //Tests options
+        $expectedOptions = [
+            'debug' => true,
+            'target' => TMP . 'output',
+            'title' => 'A project title',
+        ];
+        $commandTester->execute(compact('source') + [
             '--debug' => true,
             '--target' => TMP . 'output',
             '--title' => 'A project title',
         ]);
-        $this->assertSame([
-            'debug' => true,
-            'title' => 'A project title',
-            'target' => '/tmp/php-doc-maker/output',
-        ], $commandTester->getInput()->getOptions());
-
-        $Command->PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app');
-        $Command->PhpDocMaker->Twig = $this->getTwigMock();
-        $Command->PhpDocMaker->Filesystem = $this->getMockBuilder(Filesystem::class)->getMock();
-
-        $commandTester = new CommandTester($Command);
-        $commandTester->execute([
-            'source' => TESTS . DS . 'test_app',
-            '--target' => TMP . 'output',
-        ]);
         $this->assertSame(Command::SUCCESS, $commandTester->getStatusCode());
+        $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
+        //Tests options from xml file
+        $xmlFile = $source . DS . 'php-doc-maker.xml';
+        $xml = <<<HEREDOC
+<?xml version="1.0" encoding="UTF-8" ?>
+<php-doc-maker>
+    <title>My test app</title>
+    <target>/tmp/php-doc-maker/output</target>
+    <debug>true</debug>
+</php-doc-maker>
+HEREDOC;
+        file_put_contents($xmlFile, $xml);
+        $commandTester->execute(compact('source'));
+        $this->assertSame(Command::SUCCESS, $commandTester->getStatusCode());
+        $this->assertEquals(['title' => 'My test app'] + $expectedOptions, $commandTester->getInput()->getOptions());
+        @unlink($xmlFile);
+
+        //Tests output
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('Reading sources from: ' . TESTS . DS . 'test_app', $output);
         $this->assertStringContainsString('Target directory: ' . TMP . 'output', $output);

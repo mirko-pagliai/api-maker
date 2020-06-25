@@ -54,6 +54,30 @@ class PhpDocMakerCommand extends Command
     }
 
     /**
+     * Initializes the command after the input has been bound and before the input
+     *  is validated
+     * @param \Symfony\Component\Console\Input\InputInterface $input InputInterface instance
+     * @param \Symfony\Component\Console\Input\OutputInterface $output OutputInterface instance
+     * @return void
+     */
+    protected function initialize(InputInterface $input, OutputInterface $output): void
+    {
+        //Reads configuration from xml file
+        $xmlConfigFile = add_slash_term($input->getArgument('source')) . 'php-doc-maker.xml';
+        if (is_readable($xmlConfigFile)) {
+            $SimpleXMLElement = simplexml_load_string(file_get_contents($xmlConfigFile));
+            $options = json_decode(json_encode($SimpleXMLElement), true);
+
+            foreach ($options as $name => $value) {
+                if (!$input->getOption($name)) {
+                    $value = $value === 'true' ? true : ($value === 'false' ? false : $value);
+                    $input->setOption($name, $value);
+                }
+            }
+        }
+    }
+
+    /**
      * Exebutes the command
      * @param \Symfony\Component\Console\Input\InputInterface $input InputInterface instance
      * @param \Symfony\Component\Console\Input\OutputInterface $output OutputInterface instance
