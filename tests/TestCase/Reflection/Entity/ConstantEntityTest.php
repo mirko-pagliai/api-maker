@@ -60,8 +60,7 @@ class ConstantEntityTest extends TestCase
     public function testGetDocBlockAsString()
     {
         $this->assertSame('<p>Number of legs</p>', $this->getConstantEntity('LEGS')->getDocBlockAsString());
-        $this->assertSame('<p>Genus of this animal.</p>
-<p>Every animal has its own genus.</p>', $this->getConstantEntity('GENUS')->getDocBlockAsString());
+        $this->assertSame('<p>Genus of this animal.</p>' . PHP_EOL . '<p>Every animal has its own genus.</p>', $this->getConstantEntity('GENUS')->getDocBlockAsString());
     }
 
     /**

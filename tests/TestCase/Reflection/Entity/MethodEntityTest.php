@@ -65,8 +65,7 @@ class MethodEntityTest extends TestCase
     public function testGetDocBlockAsString()
     {
         $this->assertSame('<p>Sets or gets the name of this animal</p>', $this->getMethodEntity('name')->getDocBlockAsString());
-        $this->assertSame('<p>Creates a puppy.</p>
-<p>This method will return a new <code>Cat</code> instance</p>', $this->getMethodEntity('createPuppy')->getDocBlockAsString());
+        $this->assertSame('<p>Creates a puppy.</p>' . PHP_EOL . '<p>This method will return a new <code>Cat</code> instance</p>', $this->getMethodEntity('createPuppy')->getDocBlockAsString());
     }
 
     /**

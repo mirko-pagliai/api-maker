@@ -95,8 +95,7 @@ class FunctionEntityTest extends TestCase
      */
     public function testGetDocBlockAsString()
     {
-        $this->assertSame('<p>A test function.</p>
-<p>This function does nothing in particular.</p>', $this->Function->getDocBlockAsString());
+        $this->assertSame('<p>A test function.</p>' . PHP_EOL . '<p>This function does nothing in particular.</p>', $this->Function->getDocBlockAsString());
     }
 
     /**

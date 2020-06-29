@@ -61,8 +61,7 @@ class PropertyEntityTest extends TestCase
     {
         $this->assertEmpty($this->getPropertyEntity('isCat')->getDocBlockAsString());
         $this->assertSame('<p>The name</p>', $this->getPropertyEntity('name')->getDocBlockAsString());
-        $this->assertSame('<p>Position.</p>
-<p>This counts the number of steps from the initial position.</p>', $this->getPropertyEntity('position')->getDocBlockAsString());
+        $this->assertSame('<p>Position.</p>' . PHP_EOL . '<p>This counts the number of steps from the initial position.</p>', $this->getPropertyEntity('position')->getDocBlockAsString());
     }
 
     /**
