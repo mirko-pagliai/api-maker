@@ -63,7 +63,8 @@ HEREDOC;
 
         $expectedDocBlockAsString = <<<HEREDOC
 <p>Dog class.</p>
-$expectedDocBlockDescriptionAsString
+<h3>Is it really a dog?</h3>
+<p>Yeah, this is a dog!</p>
 HEREDOC;
         $this->assertSame($expectedDocBlockAsString, $class->getDocBlockAsString());
 
