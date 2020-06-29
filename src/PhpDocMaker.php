@@ -141,20 +141,20 @@ class PhpDocMaker
         $this->dispatchEvent('menu.rendered');
 
         //Renders index page
-        $output = $this->Twig->render('index.twig', compact('classes', 'menu', 'project'));
+        $output = $this->Twig->render('index.twig', compact('classes', 'project'));
         $this->Filesystem->dumpFile($target . DS . 'index.html', $output);
         $this->dispatchEvent('index.rendered');
 
         //Renders functions page
         if ($functions) {
-            $output = $this->Twig->render('functions.twig', compact('functions', 'menu', 'project'));
+            $output = $this->Twig->render('functions.twig', compact('functions', 'project'));
             $this->Filesystem->dumpFile($target . DS . 'functions.html', $output);
             $this->dispatchEvent('functions.rendered');
         }
 
         //Renders each class page
         foreach ($classes as $class) {
-            $output = $this->Twig->render('class.twig', compact('class', 'menu', 'project'));
+            $output = $this->Twig->render('class.twig', compact('class', 'project'));
             $this->Filesystem->dumpFile($target . DS . 'Class-' . $class->getSlug() . '.html', $output);
             $this->dispatchEvent('class.rendered', [$class]);
         }

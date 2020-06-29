@@ -38,7 +38,9 @@ class PhpDocMakerCommandTest extends TestCase
         $Command = new PhpDocMakerCommand();
         $Command->PhpDocMaker = new PhpDocMaker($source);
         $Command->PhpDocMaker->Twig = $this->getTwigMock();
-        $Command->PhpDocMaker->Filesystem = $this->getMockBuilder(Filesystem::class)->getMock();
+        $Command->PhpDocMaker->Filesystem = $this->getMockBuilder(Filesystem::class)
+            ->setMethods(['dumpFile', 'mirror'])
+            ->getMock();
         $commandTester = new CommandTester($Command);
 
         //Tests options
@@ -52,7 +54,6 @@ class PhpDocMakerCommandTest extends TestCase
             '--target' => TMP . 'output',
             '--title' => 'A project title',
         ]);
-        debug($commandTester->getDisplay());
         $this->assertSame(Command::SUCCESS, $commandTester->getStatusCode());
         $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
