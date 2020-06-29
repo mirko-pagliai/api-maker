@@ -58,10 +58,15 @@ class TemplateTest extends TestCase
     </li>
     <li>
 HEREDOC;
+        $expectedStringEndsWith = <<<HEREDOC
+        <a href="Class-Cake-Routing-Router.html">Cake\Routing\Router</a>
+    </li>
+</ul>
+HEREDOC;
         $classes = $this->getClassesExplorerInstance()->getAllClasses();
         $result = $this->Twig->render('layout/menu.twig', compact('classes'));
         $this->assertStringStartsWith($expectedStringStartsWith, $result);
-        $this->assertStringEndsWith('</li>' . PHP_EOL . '</ul>', $result);
+        $this->assertStringEndsWith($expectedStringEndsWith, $result);
 
         $this->skipIf(version_compare(Version::id(), '8', '<'));
         $this->assertStringContainsString('<a href="Class-App-DeprecatedClassExample.html"><del>App\DeprecatedClassExample</del></a>', $result);
