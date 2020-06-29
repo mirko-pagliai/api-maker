@@ -99,13 +99,14 @@ HEREDOC;
         $Command->PhpDocMaker->method('build')
             ->willThrowException($expectedException);
 
-        putenv('COLUMNS=150');
+        putenv('COLUMNS=120');
         $commandTester = new CommandTester($Command);
         $commandTester->execute(['source' => TESTS . DS . 'test_app']);
         $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
 
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('[ERROR] Something went wrong...', $output);
-        $this->assertStringContainsString(sprintf('On file `%s`, line %s', $expectedException->getFile(), $expectedException->getLine()), $output);
+        $this->assertStringContainsString(sprintf('On file `%s`', $expectedException->getFile()), $output);
+        $this->assertStringContainsString(sprintf('line %s', $expectedException->getLine()), $output);
     }
 }
