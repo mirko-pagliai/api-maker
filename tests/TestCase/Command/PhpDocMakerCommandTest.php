@@ -93,10 +93,11 @@ HEREDOC;
      */
     public function testExecuteOnFailure()
     {
+        $source = TESTS . DS . 'test_app';
         $expectedException = new Exception('Something went wrong...');
         $Command = new PhpDocMakerCommand();
         $Command->PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
-            ->setConstructorArgs([TESTS . DS . 'test_app'])
+            ->setConstructorArgs(compact('source'))
             ->setMethods(['build'])
             ->getMock();
 
@@ -105,7 +106,7 @@ HEREDOC;
 
         putenv('COLUMNS=120');
         $commandTester = new CommandTester($Command);
-        $commandTester->execute(['source' => TESTS . DS . 'test_app']);
+        $commandTester->execute(['--debug' => true] + compact('source'));
         $this->assertSame(1, $commandTester->getStatusCode());
 
         $this->skipIf(version_compare(Version::id(), '8', '<'));
