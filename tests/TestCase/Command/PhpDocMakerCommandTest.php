@@ -89,6 +89,7 @@ HEREDOC;
      */
     public function testExecuteOnFailure()
     {
+        $expectedException = new Exception('Something went wrong...');
         $Command = new PhpDocMakerCommand();
         $Command->PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
             ->setConstructorArgs([TESTS . DS . 'test_app'])
@@ -96,13 +97,14 @@ HEREDOC;
             ->getMock();
 
         $Command->PhpDocMaker->method('build')
-            ->willThrowException(new Exception('Something went wrong...'));
+            ->willThrowException($expectedException);
 
         $commandTester = new CommandTester($Command);
         $commandTester->execute(['source' => TESTS . DS . 'test_app']);
         $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
 
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('[ERROR] Something went wrong... ', $output);
+        $this->assertStringContainsString('[ERROR] Something went wrong...', $output);
+        $this->assertStringContainsString(sprintf('On file `%s`, line %s', $expectedException->getFile(), $expectedException->getLine()), $output);
     }
 }
