@@ -99,7 +99,7 @@ HEREDOC;
         $Command->PhpDocMaker->method('build')
             ->willThrowException($expectedException);
 
-        putenv('COLUMNS=120');
+        putenv('COLUMNS=150');
         $commandTester = new CommandTester($Command);
         $commandTester->execute(['source' => TESTS . DS . 'test_app']);
         $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
