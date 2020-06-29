@@ -54,7 +54,7 @@ class PhpDocMakerCommandTest extends TestCase
             '--target' => TMP . 'output',
             '--title' => 'A project title',
         ]);
-        $this->assertSame(Command::SUCCESS, $commandTester->getStatusCode());
+        $this->assertSame(0, $commandTester->getStatusCode());
         $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
         //Tests options from xml file
@@ -69,7 +69,7 @@ class PhpDocMakerCommandTest extends TestCase
 HEREDOC;
         file_put_contents($xmlFile, $xml);
         $commandTester->execute(compact('source'));
-        $this->assertSame(Command::SUCCESS, $commandTester->getStatusCode());
+        $this->assertSame(0, $commandTester->getStatusCode());
         $this->assertEquals(['title' => 'My test app'] + $expectedOptions, $commandTester->getInput()->getOptions());
         @unlink($xmlFile);
 
@@ -104,7 +104,7 @@ HEREDOC;
         putenv('COLUMNS=120');
         $commandTester = new CommandTester($Command);
         $commandTester->execute(['source' => TESTS . DS . 'test_app']);
-        $this->assertSame(Command::FAILURE, $commandTester->getStatusCode());
+        $this->assertSame(1, $commandTester->getStatusCode());
 
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('[ERROR] Something went wrong...', $output);

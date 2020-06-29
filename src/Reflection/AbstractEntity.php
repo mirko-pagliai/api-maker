@@ -84,7 +84,7 @@ abstract class AbstractEntity
     {
         $DocBlockInstance = $this->getDocBlockInstance();
 
-        return $DocBlockInstance ? $this->toHtml($DocBlockInstance->getDescription()->getBodyTemplate()) : '';
+        return $DocBlockInstance ? $this->toHtml($DocBlockInstance->getDescription()->render()) : '';
     }
 
     /**

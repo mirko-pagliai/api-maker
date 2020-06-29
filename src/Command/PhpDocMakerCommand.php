@@ -118,12 +118,12 @@ class PhpDocMakerCommand extends Command
 
             $io->error($message);
 
-            return Command::FAILURE;
+            return defined('Command::FAILURE') ? Command::FAILURE : 1;
         }
 
         $io->text(sprintf('Elapsed time: %s seconds', round(microtime(true) - $start, 2)));
         $io->success('Done!');
 
-        return Command::SUCCESS;
+        return defined('Command::SUCCESS') ? Command::SUCCESS : 0;
     }
 }
