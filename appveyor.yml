@@ -26,6 +26,8 @@ install:
   - cd C:\projects\php-doc-maker
   - appveyor DownloadFile https://getcomposer.org/composer.phar
   - php composer.phar install --prefer-dist --no-interaction --ansi --no-progress
+  - cd C:\projects\php-doc-maker\tests\test_app
+  - php composer.phar install --prefer-dist --no-interaction --ansi --no-progress
 
 test_script:
   - cd C:\projects\php-doc-maker
