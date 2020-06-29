@@ -18,7 +18,7 @@ use Exception;
 use PhpDocMaker\Command\PhpDocMakerCommand;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
-use Symfony\Component\Console\Command\Command;
+use PHPUnit\Runner\Version;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -75,14 +75,16 @@ HEREDOC;
 
         //Tests output
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('Reading sources from: ' . TESTS . DS . 'test_app', $output);
-        $this->assertStringContainsString('Target directory: ' . TMP . 'output', $output);
         $this->assertRegExp('/Founded \d+ classes/', $output);
         $this->assertRegExp('/Founded \d+ functions/', $output);
+        $this->assertRegExp('/Elapsed time\: \d+\.\d+ seconds/', $output);
+
+        $this->skipIf(version_compare(Version::id(), '8', '<'));
+        $this->assertStringContainsString('Reading sources from: ' . TESTS . DS . 'test_app', $output);
+        $this->assertStringContainsString('Target directory: ' . TMP . 'output', $output);
         $this->assertStringContainsString('Rendered index page', $output);
         $this->assertStringContainsString('Rendered functions page', $output);
         $this->assertStringContainsString('Rendered class page for', $output);
-        $this->assertRegExp('/Elapsed time\: \d+\.\d+ seconds/', $output);
     }
 
     /**
@@ -106,6 +108,7 @@ HEREDOC;
         $commandTester->execute(['source' => TESTS . DS . 'test_app']);
         $this->assertSame(1, $commandTester->getStatusCode());
 
+        $this->skipIf(version_compare(Version::id(), '8', '<'));
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('[ERROR] Something went wrong...', $output);
         $this->assertStringContainsString(sprintf('On file `%s`', $expectedException->getFile()), $output);

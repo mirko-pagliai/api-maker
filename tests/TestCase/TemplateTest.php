@@ -17,6 +17,7 @@ namespace PhpDocMaker\Test;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use PhpDocMaker\TestSuite\TestCase;
+use PHPUnit\Runner\Version;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -61,6 +62,8 @@ HEREDOC;
         $result = $this->Twig->render('layout/menu.twig', compact('classes'));
         $this->assertStringStartsWith($expectedStringStartsWith, $result);
         $this->assertStringEndsWith('</li>' . PHP_EOL . '</ul>', $result);
+        
+        $this->skipIf(version_compare(Version::id(), '8', '<'));
         $this->assertStringContainsString('<a href="Class-App-DeprecatedClassExample.html"><del>App\DeprecatedClassExample</del></a>', $result);
     }
 
