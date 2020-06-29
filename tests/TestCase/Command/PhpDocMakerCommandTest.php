@@ -52,6 +52,7 @@ class PhpDocMakerCommandTest extends TestCase
             '--target' => TMP . 'output',
             '--title' => 'A project title',
         ]);
+        debug($commandTester->getDisplay());
         $this->assertSame(Command::SUCCESS, $commandTester->getStatusCode());
         $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
