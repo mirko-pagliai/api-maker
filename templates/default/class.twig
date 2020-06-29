@@ -25,21 +25,21 @@
     <div>{{ class.getDocBlockAsString }}</div>
 
     {% if class.getParentClass %}
-        <div>
+        <p>
             Extends <code>{{ class.getParentClass.getName }}</code>.
-        </div>
+        </p>
     {% endif %}
 
     {% if class.getImmediateInterfaces %}
-        <div>
+        <p>
             Implements {{ class.getImmediateInterfaces|map(interface => "<code>#{interface.getName}</code>")|join(', ') }}.
-        </div>
+        </p>
     {% endif %}
 
     {% if class.getTraits|length > 0 %}
-        <div>
+        <p>
             Uses {{ class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') }}.
-        </div>
+        </p>
     {% endif %}
 
     <div class="p-3 mb-2 bg-light text-dark">
