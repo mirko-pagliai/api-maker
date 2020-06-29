@@ -66,6 +66,7 @@ HEREDOC;
 <h3>Is it really a dog?</h3>
 <p>Yeah, this is a dog!</p>
 HEREDOC;
+        debug($class->getDocBlockAsString());
         $this->assertSame($expectedDocBlockAsString, $class->getDocBlockAsString());
 
         //Class with no DocBlock
