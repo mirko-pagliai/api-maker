@@ -34,6 +34,7 @@ class PhpDocMakerCommandTest extends TestCase
     public function testExecute()
     {
         $source = TESTS . DS . 'test_app';
+        $target = TMP . 'output';
 
         $Command = new PhpDocMakerCommand();
         $Command->PhpDocMaker = new PhpDocMaker($source);
@@ -46,12 +47,12 @@ class PhpDocMakerCommandTest extends TestCase
         //Tests options
         $expectedOptions = [
             'debug' => true,
-            'target' => TMP . 'output',
+            'target' => $target,
             'title' => 'A project title',
         ];
         $commandTester->execute(compact('source') + [
             '--debug' => true,
-            '--target' => TMP . 'output',
+            '--target' => $target,
             '--title' => 'A project title',
         ]);
         $this->assertSame(0, $commandTester->getStatusCode());
@@ -63,7 +64,7 @@ class PhpDocMakerCommandTest extends TestCase
 <?xml version="1.0" encoding="UTF-8" ?>
 <php-doc-maker>
     <title>My test app</title>
-    <target>/tmp/php-doc-maker/output</target>
+    <target>$target</target>
     <debug>true</debug>
 </php-doc-maker>
 HEREDOC;
@@ -80,8 +81,8 @@ HEREDOC;
         $this->assertRegExp('/Elapsed time\: \d+\.\d+ seconds/', $output);
 
         $this->skipIf(version_compare(Version::id(), '8', '<'));
-        $this->assertStringContainsString('Reading sources from: ' . TESTS . DS . 'test_app', $output);
-        $this->assertStringContainsString('Target directory: ' . TMP . 'output', $output);
+        $this->assertStringContainsString('Reading sources from: ' . $source, $output);
+        $this->assertStringContainsString('Target directory: ' . $target, $output);
         $this->assertStringContainsString('Rendered index page', $output);
         $this->assertStringContainsString('Rendered functions page', $output);
         $this->assertStringContainsString('Rendered class page for', $output);
