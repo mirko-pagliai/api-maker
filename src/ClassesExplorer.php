@@ -109,8 +109,8 @@ class ClassesExplorer
             return new ClassEntity($class);
         }, $this->getClassReflector()->getAllClasses());
 
-        usort($classes, function (ClassEntity $a, ClassEntity $b) {
-            return strcmp($a->getName(), $b->getName());
+        usort($classes, function (ClassEntity $first, ClassEntity $second) {
+            return strcmp($first->getName(), $second->getName());
         });
 
         return $classes;
