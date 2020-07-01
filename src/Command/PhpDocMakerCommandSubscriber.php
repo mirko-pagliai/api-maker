@@ -85,30 +85,27 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
 
     /**
      * `functions.rendered` event
-     * @param \Tools\Event\Event $event The `Event` instance
      * @return void
      */
-    public function onFunctionsRendered(Event $event): void
+    public function onFunctionsRendered(): void
     {
         $this->io->text(sprintf('Rendered functions page'));
     }
 
     /**
      * `index.rendered` event
-     * @param \Tools\Event\Event $event The `Event` instance
      * @return void
      */
-    public function onIndexRendered(Event $event): void
+    public function onIndexRendered(): void
     {
         $this->io->text(sprintf('Rendered index page'));
     }
 
     /**
      * `menu.rendered` event
-     * @param \Tools\Event\Event $event The `Event` instance
      * @return void
      */
-    public function onMenuRendered(Event $event): void
+    public function onMenuRendered(): void
     {
         $this->io->text(sprintf('Rendered menu element'));
     }

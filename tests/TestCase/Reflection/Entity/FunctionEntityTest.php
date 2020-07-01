@@ -57,8 +57,8 @@ class FunctionEntityTest extends TestCase
         $configuration = new BetterReflection();
         $astLocator = $configuration->astLocator();
         $classReflector = $configuration->classReflector();
-        $directoriesSourceLocator = new SingleFileSourceLocator(TESTS . DS . 'test_app' . DS . 'functions.php', $astLocator);
-        $reflector = new FunctionReflector($directoriesSourceLocator, $classReflector);
+        $sourceLocator = new SingleFileSourceLocator(TESTS . DS . 'test_app' . DS . 'functions.php', $astLocator);
+        $reflector = new FunctionReflector($sourceLocator, $classReflector);
 
         $functions = array_filter($reflector->getAllFunctions(), function (ReflectionFunction $currentFunction) use ($function) {
             return $currentFunction->getName() === $function;
