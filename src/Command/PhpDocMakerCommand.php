@@ -101,7 +101,7 @@ class PhpDocMakerCommand extends Command
             //Parses options
             $options = [];
             if ($input->getOption('no-cache')) {
-               $options['cache'] = false;
+                $options['cache'] = false;
             }
             foreach (['debug', 'title'] as $name) {
                 if ($input->getOption($name)) {

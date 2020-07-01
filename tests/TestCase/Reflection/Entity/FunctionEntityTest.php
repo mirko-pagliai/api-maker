@@ -14,14 +14,8 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Test\Reflection\Entity;
 
-use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
 use PhpDocMaker\TestSuite\TestCase;
-use Roave\BetterReflection\BetterReflection;
-use Roave\BetterReflection\Reflection\ReflectionFunction;
-use Roave\BetterReflection\Reflector\FunctionReflector;
-use Roave\BetterReflection\SourceLocator\Type\SingleFileSourceLocator;
-use RuntimeException;
 
 /**
  * FunctionEntityTest class

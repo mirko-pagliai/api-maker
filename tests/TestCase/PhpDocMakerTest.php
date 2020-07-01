@@ -56,9 +56,9 @@ class PhpDocMakerTest extends TestCase
         $this->assertSame([$this->PhpDocMaker->getTemplatePath()], $this->PhpDocMaker->Twig->getLoader()->getPaths());
         $this->assertNotEmpty($this->PhpDocMaker->Twig->getExtension(DebugExtension::class));
         $this->assertEquals([
-            "cache" => true,
-            "title" => "test_app",
-            "debug" => true,
+            'cache' => true,
+            'title' => 'test_app',
+            'debug' => true,
         ], $this->PhpDocMaker->getOptions());
     }
 
