@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>php-doc-maker-                 Class
+     PhpDocMaker\Command\PhpDocMakerCommand
+</title>
+        <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/highlight/default.css">
+        <script src="assets/highlight/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+    </head>
+    <body>
+        <nav class="navbar sticky-top navbar-dark bg-dark">
+            <a class="navbar-brand mb-0 h1" href="index.html">php-doc-maker</a>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4 p-3">
+                    <ul class="list-unstyled m-0">
+    <li>
+        <a href="Class-PhpDocMaker-ClassesExplorer.html">PhpDocMaker\ClassesExplorer</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Command-PhpDocMakerCommand.html">PhpDocMaker\Command\PhpDocMakerCommand</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Command-PhpDocMakerCommandSubscriber.html">PhpDocMaker\Command\PhpDocMakerCommandSubscriber</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-PhpDocMaker.html">PhpDocMaker\PhpDocMaker</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-AbstractEntity.html">PhpDocMaker\Reflection\AbstractEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-AbstractMethodEntity.html">PhpDocMaker\Reflection\AbstractMethodEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-ClassEntity.html">PhpDocMaker\Reflection\Entity\ClassEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-ConstantEntity.html">PhpDocMaker\Reflection\Entity\ConstantEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-FunctionEntity.html">PhpDocMaker\Reflection\Entity\FunctionEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-MethodEntity.html">PhpDocMaker\Reflection\Entity\MethodEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-ParameterEntity.html">PhpDocMaker\Reflection\Entity\ParameterEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-PropertyEntity.html">PhpDocMaker\Reflection\Entity\PropertyEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-Traits-DeprecatedTrait.html">PhpDocMaker\Reflection\Entity\Traits\DeprecatedTrait</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-Traits-SeeTagsTrait.html">PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-Traits-VisibilityTrait.html">PhpDocMaker\Reflection\Entity\Traits\VisibilityTrait</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-TestSuite-TestCase.html">PhpDocMaker\TestSuite\TestCase</a>
+    </li>
+</ul>
+                </div>
+                <div class="col p-3">
+                        <h2>            Class
+     <em>PhpDocMakerCommand</em></h2>
+
+    <div><p>PhpDocMakerCommand</p></div>
+
+            <p>
+            Extends <code>Symfony\Component\Console\Command\Command</code>.
+        </p>
+    
+    
+    
+    <div class="p-3 mb-2 bg-light text-dark">
+        <div><strong>Namespace:</strong> PhpDocMaker\Command</div>
+        <div><strong>Location:</strong> /home/mirko/Libs/api-maker/src/Command/PhpDocMakerCommand.php</div>
+    </div>
+
+            <h4>Constants summary</h4>
+        <ul>
+                            <li>
+                    <div><span class="badge badge-light">public</span></div>
+<div><code>SUCCESS</code></div>
+<div></div>
+<div><code>0</code></div>
+                </li>
+                            <li>
+                    <div><span class="badge badge-light">public</span></div>
+<div><code>FAILURE</code></div>
+<div></div>
+<div><code>1</code></div>
+                </li>
+                    </ul>
+    
+            <h4>Properties summary</h4>
+        <ul>
+                            <li>
+                    <div>
+    <code>$PhpDocMaker</code> <span class="badge badge-light">public</span>
+</div>
+<div><span class="badge badge-light">PhpDocMaker\PhpDocMaker</span></div>
+<div></div>
+                </li>
+                            <li>
+                    <div>
+    <code>$defaultName</code> <span class="badge badge-light">protected</span>
+    <span class="badge badge-light">static</span>
+</div>
+<div><span class="badge badge-light">string</span></div>
+<div><p>Name of the command</p></div>
+                </li>
+                    </ul>
+    
+            <h4>Methods summary</h4>
+        <ul>
+                            <li>
+                    <div>
+    <code>
+        <a href="#configure">configure()</a>
+    </code> <span class="badge badge-light">protected</span>
+    <div><p>Sets the configuration</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#initialize">initialize()</a>
+    </code> <span class="badge badge-light">protected</span>
+    <div><p>Initializes the command after the input has been bound and before the input
+is validated</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#execute">execute()</a>
+    </code> <span class="badge badge-light">protected</span>
+    <div><p>Executes the command</p></div>
+</div>                </li>
+                    </ul>
+    
+            <h4>Methods detail</h4>
+                    <div class="mb-4">
+                <a name="configure"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>configure()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">configure()</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Sets the configuration</p></small>
+    </blockquote></div>            </div>
+                    <div class="mb-4">
+                <a name="initialize"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>initialize()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">initialize(Symfony\Component\Console\Input\InputInterface $input, Symfony\Component\Console\Output\OutputInterface $output)</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Initializes the command after the input has been bound and before the input
+is validated</p></small>
+    </blockquote>
+
+    <h6>Parameters</h6>
+    <div class="mb-3">
+        <code class="language-php">Symfony\Component\Console\Input\InputInterface $input</code> <p>InputInterface instance</p>
+    </div>
+    <div class="mb-3">
+        <code class="language-php">Symfony\Component\Console\Output\OutputInterface $output</code> <p>OutputInterface instance</p>
+    </div></div>            </div>
+                    <div class="mb-4">
+                <a name="execute"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>execute()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">execute(Symfony\Component\Console\Input\InputInterface $input, Symfony\Component\Console\Output\OutputInterface $output)</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Executes the command</p></small>
+    </blockquote>
+
+    <h6>Parameters</h6>
+    <div class="mb-3">
+        <code class="language-php">Symfony\Component\Console\Input\InputInterface $input</code> <p>InputInterface instance</p>
+    </div>
+    <div class="mb-3">
+        <code class="language-php">Symfony\Component\Console\Output\OutputInterface $output</code> <p>OutputInterface instance</p>
+    </div>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>int</code></div>
+    </div></div>            </div>
+            
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

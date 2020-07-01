@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>php-doc-maker-                 Abstract class
+     PhpDocMaker\Reflection\AbstractMethodEntity
+</title>
+        <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/highlight/default.css">
+        <script src="assets/highlight/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+    </head>
+    <body>
+        <nav class="navbar sticky-top navbar-dark bg-dark">
+            <a class="navbar-brand mb-0 h1" href="index.html">php-doc-maker</a>
+        </nav>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4 p-3">
+                    <ul class="list-unstyled m-0">
+    <li>
+        <a href="Class-PhpDocMaker-ClassesExplorer.html">PhpDocMaker\ClassesExplorer</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Command-PhpDocMakerCommand.html">PhpDocMaker\Command\PhpDocMakerCommand</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Command-PhpDocMakerCommandSubscriber.html">PhpDocMaker\Command\PhpDocMakerCommandSubscriber</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-PhpDocMaker.html">PhpDocMaker\PhpDocMaker</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-AbstractEntity.html">PhpDocMaker\Reflection\AbstractEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-AbstractMethodEntity.html">PhpDocMaker\Reflection\AbstractMethodEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-ClassEntity.html">PhpDocMaker\Reflection\Entity\ClassEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-ConstantEntity.html">PhpDocMaker\Reflection\Entity\ConstantEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-FunctionEntity.html">PhpDocMaker\Reflection\Entity\FunctionEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-MethodEntity.html">PhpDocMaker\Reflection\Entity\MethodEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-ParameterEntity.html">PhpDocMaker\Reflection\Entity\ParameterEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-PropertyEntity.html">PhpDocMaker\Reflection\Entity\PropertyEntity</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-Traits-DeprecatedTrait.html">PhpDocMaker\Reflection\Entity\Traits\DeprecatedTrait</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-Traits-SeeTagsTrait.html">PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-Reflection-Entity-Traits-VisibilityTrait.html">PhpDocMaker\Reflection\Entity\Traits\VisibilityTrait</a>
+    </li>
+    <li>
+        <a href="Class-PhpDocMaker-TestSuite-TestCase.html">PhpDocMaker\TestSuite\TestCase</a>
+    </li>
+</ul>
+                </div>
+                <div class="col p-3">
+                        <h2>            Abstract class
+     <em>AbstractMethodEntity</em></h2>
+
+    <div><p>AbstractMethodEntity class.</p>
+<p>This class contains methods common to class methods and functions.</p></div>
+
+            <p>
+            Extends <code>PhpDocMaker\Reflection\AbstractEntity</code>.
+        </p>
+    
+    
+            <p>
+            Uses <code>PhpDocMaker\Reflection\Entity\Traits\DeprecatedTrait</code>, <code>PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait</code>.
+        </p>
+    
+    <div class="p-3 mb-2 bg-light text-dark">
+        <div><strong>Namespace:</strong> PhpDocMaker\Reflection</div>
+        <div><strong>Location:</strong> /home/mirko/Libs/api-maker/src/Reflection/AbstractMethodEntity.php</div>
+    </div>
+
+    
+    
+            <h4>Methods summary</h4>
+        <ul>
+                            <li>
+                    <div>
+    <code>
+        <a href="#__toString">__toString()</a>
+    </code> <span class="badge badge-light">public</span>
+    <div><p><code>__toString()</code> magic method</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#getParameter">getParameter()</a>
+    </code> <span class="badge badge-light">public</span>
+    <div><p>Gets a parameter</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#getParameters">getParameters()</a>
+    </code> <span class="badge badge-light">public</span>
+    <div><p>Gets parameters</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#getParametersAsString">getParametersAsString()</a>
+    </code> <span class="badge badge-light">public</span>
+    <div><p>Gets parameters as string, separated by a comma</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#getReturnTypeAsString">getReturnTypeAsString()</a>
+    </code> <span class="badge badge-light">public</span>
+    <div><p>Gets return types as string, separated by a comma</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#getReturnDescription">getReturnDescription()</a>
+    </code> <span class="badge badge-light">public</span>
+    <div><p>Gets the return description</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#getVisibility">getVisibility()</a>
+    </code> <span class="badge badge-light">public</span>
+    <div><p>Gets the visibility (<code>public</code>, <code>protected</code> or <code>private</code>)</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#getThrowsTags">getThrowsTags()</a>
+    </code> <span class="badge badge-light">public</span>
+    <div><p>Returns <code>@throws</code> tags</p></div>
+</div>                </li>
+                            <li>
+                    <div>
+    <code>
+        <a href="#isStatic">isStatic()</a>
+    </code> <span class="badge badge-light">public</span>
+    <div><p>Returns <code>true</code> if it's static</p></div>
+</div>                </li>
+                    </ul>
+    
+            <h4>Methods detail</h4>
+                    <div class="mb-4">
+                <a name="__toString"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>__toString()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">__toString()</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p><code>__toString()</code> magic method</p></small>
+    </blockquote>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>string</code></div>
+    </div></div>            </div>
+                    <div class="mb-4">
+                <a name="getParameter"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>getParameter()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">getParameter(string $parameterName)</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Gets a parameter</p></small>
+    </blockquote>
+
+    <h6>Parameters</h6>
+    <div class="mb-3">
+        <code class="language-php">string $parameterName</code> <p>Parameter name</p>
+    </div>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>PhpDocMaker\Reflection\Entity\ParameterEntity</code></div>
+    </div></div>            </div>
+                    <div class="mb-4">
+                <a name="getParameters"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>getParameters()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">getParameters()</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Gets parameters</p></small>
+    </blockquote>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>array</code></div>
+        <div><p>Array of <code>ParameterEntity</code> instances</p></div>
+    </div></div>            </div>
+                    <div class="mb-4">
+                <a name="getParametersAsString"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>getParametersAsString()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">getParametersAsString()</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Gets parameters as string, separated by a comma</p></small>
+    </blockquote>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>string</code></div>
+    </div></div>            </div>
+                    <div class="mb-4">
+                <a name="getReturnTypeAsString"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>getReturnTypeAsString()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">getReturnTypeAsString()</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Gets return types as string, separated by a comma</p></small>
+    </blockquote>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>string</code></div>
+    </div></div>            </div>
+                    <div class="mb-4">
+                <a name="getReturnDescription"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>getReturnDescription()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">getReturnDescription()</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Gets the return description</p></small>
+    </blockquote>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>string</code></div>
+    </div></div>            </div>
+                    <div class="mb-4">
+                <a name="getVisibility"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>getVisibility()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">getVisibility()</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Gets the visibility (<code>public</code>, <code>protected</code> or <code>private</code>)</p></small>
+    </blockquote>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>string</code></div>
+    </div></div>            </div>
+                    <div class="mb-4">
+                <a name="getThrowsTags"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>getThrowsTags()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">getThrowsTags()</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Returns <code>@throws</code> tags</p></small>
+    </blockquote>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>array</code></div>
+    </div></div>            </div>
+                    <div class="mb-4">
+                <a name="isStatic"></a>
+<div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>isStatic()</h5></div>
+<div class="ml-3">
+    <pre><code class="language-php">isStatic()</code></pre>
+    <blockquote class="blockquote">
+        <small class="font-weight-light"><p>Returns <code>true</code> if it's static</p></small>
+    </blockquote>
+
+    <h6>Return</h6>
+    <div class="mb-3">
+        <div><code>bool</code></div>
+    </div></div>            </div>
+            
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
