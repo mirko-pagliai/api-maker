@@ -18,7 +18,6 @@ use PhpDocMaker\ClassesExplorer;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
-use Roave\BetterReflection\BetterReflection;
 use Tools\TestSuite\TestCase as BaseTestCase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -44,20 +43,6 @@ abstract class TestCase extends BaseTestCase
         }
 
         return $this->ClassesExplorer;
-    }
-
-    /**
-     * Internal method to get a `ClassEntity` instance
-     * @param string $class Class name
-     * @return \PhpDocMaker\Reflection\Entity\ClassEntity
-     */
-    protected function getClassEntity(string $class): ClassEntity
-    {
-        $reflection = (new BetterReflection())
-            ->classReflector()
-            ->reflect($class);
-
-        return new ClassEntity($reflection);
     }
 
     /**

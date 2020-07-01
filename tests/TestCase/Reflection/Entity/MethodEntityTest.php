@@ -33,7 +33,7 @@ class MethodEntityTest extends TestCase
      */
     protected function getMethodEntity(string $method, string $class = Cat::class): MethodEntity
     {
-        return $this->getClassEntity($class)->getMethod($method);
+        return $this->getClassEntityFromTests($class)->getMethod($method);
     }
 
     /**

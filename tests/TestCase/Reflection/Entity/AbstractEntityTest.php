@@ -33,7 +33,7 @@ class AbstractEntityTest extends TestCase
      */
     public function testCall()
     {
-        $entity = $this->getClassEntity(Cat::class);
+        $entity = $this->getClassEntityFromTests(Cat::class);
         $this->assertNotEmpty($entity->getConstant('LEGS'));
         $this->assertNotEmpty($entity->getImmediateReflectionConstants());
 

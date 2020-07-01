@@ -78,7 +78,7 @@ HEREDOC;
      */
     public function testConstantTemplate()
     {
-        $constant = $this->getClassEntity(Cat::class)->getConstant('LEGS');
+        $constant = $this->getClassEntityFromTests(Cat::class)->getConstant('LEGS');
         $result = $this->Twig->render('elements/constant.twig', compact('constant'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'costant.html', $result);
     }
@@ -142,15 +142,15 @@ HEREDOC;
      */
     public function testMethodSummaryTemplate()
     {
-        $method = $this->getClassEntity(Cat::class)->getMethod('doMeow');
+        $method = $this->getClassEntityFromTests(Cat::class)->getMethod('doMeow');
         $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary1.html', $result);
 
-        $method = $this->getClassEntity(Cat::class)->getMethod('name');
+        $method = $this->getClassEntityFromTests(Cat::class)->getMethod('name');
         $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary2.html', $result);
 
-        $method = $this->getClassEntity(Cat::class)->getMethod('getType');
+        $method = $this->getClassEntityFromTests(Cat::class)->getMethod('getType');
         $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary3.html', $result);
     }
@@ -161,11 +161,11 @@ HEREDOC;
      */
     public function testPropertyTemplate()
     {
-        $property = $this->getClassEntity(Cat::class)->getProperty('description');
+        $property = $this->getClassEntityFromTests(Cat::class)->getProperty('description');
         $result = $this->Twig->render('elements/property.twig', compact('property'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'property1.html', $result);
 
-        $property = $this->getClassEntity(Cat::class)->getProperty('Puppy');
+        $property = $this->getClassEntityFromTests(Cat::class)->getProperty('Puppy');
         $result = $this->Twig->render('elements/property.twig', compact('property'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'property2.html', $result);
     }

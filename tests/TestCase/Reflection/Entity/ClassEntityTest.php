@@ -39,7 +39,7 @@ class ClassEntityTest extends TestCase
     {
         parent::setUp();
 
-        $this->Class = $this->getClassEntity(Cat::class);
+        $this->Class = $this->getClassEntityFromTests(Cat::class);
     }
 
     /**

@@ -41,34 +41,7 @@ class FunctionEntityTest extends TestCase
     {
         parent::setUp();
 
-        $this->Function = $this->getFunctionEntity('a_test_function');
-    }
-
-    /**
-     * Internal method to get a `FunctionEntity` instance.
-     *
-     * It looks for the function in the `tests/test_app/functions.php` file.
-     * @param string $function Function name
-     * @return FunctionEntity
-     * @throws RuntimeException
-     */
-    protected function getFunctionEntity(string $function): FunctionEntity
-    {
-        $configuration = new BetterReflection();
-        $astLocator = $configuration->astLocator();
-        $classReflector = $configuration->classReflector();
-        $sourceLocator = new SingleFileSourceLocator(TESTS . DS . 'test_app' . DS . 'functions.php', $astLocator);
-        $reflector = new FunctionReflector($sourceLocator, $classReflector);
-
-        $functions = array_filter($reflector->getAllFunctions(), function (ReflectionFunction $currentFunction) use ($function) {
-            return $currentFunction->getName() === $function;
-        });
-
-        if (!$functions) {
-            throw new RuntimeException(sprintf('Can\'t found `%s()` function', $function));
-        }
-
-        return new FunctionEntity(array_value_first($functions));
+        $this->Function = $this->getFunctionEntityFromTests('a_test_function');
     }
 
     /**
@@ -86,7 +59,7 @@ class FunctionEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('<p>Use instead <code>a_test_function()</code></p>', $this->getFunctionEntity('old_function')->getDeprecatedDescription());
+        $this->assertSame('<p>Use instead <code>a_test_function()</code></p>', $this->getFunctionEntityFromTests('old_function')->getDeprecatedDescription());
     }
 
     /**
@@ -123,7 +96,7 @@ class FunctionEntityTest extends TestCase
     public function testGetParametersAsString()
     {
         $this->assertSame('string $string = \'my string\'', $this->Function->getParametersAsString());
-        $this->assertSame('', $this->getFunctionEntity('get_woof')->getParametersAsString());
+        $this->assertSame('', $this->getFunctionEntityFromTests('get_woof')->getParametersAsString());
     }
 
     /**
@@ -150,7 +123,7 @@ class FunctionEntityTest extends TestCase
      */
     public function testGetSeeTags()
     {
-        $this->assertSame(['https://en.wikipedia.org/wiki/Dog'], $this->getFunctionEntity('get_woof')->getSeeTags());
+        $this->assertSame(['https://en.wikipedia.org/wiki/Dog'], $this->getFunctionEntityFromTests('get_woof')->getSeeTags());
     }
 
     /**
@@ -162,7 +135,7 @@ class FunctionEntityTest extends TestCase
         $this->assertSame([[
             'type' => 'Exception',
             'description' => 'Exception that will always be thowned',
-        ]], $this->getFunctionEntity('throw_an_exception')->getThrowsTags());
+        ]], $this->getFunctionEntityFromTests('throw_an_exception')->getThrowsTags());
     }
 
     /**
@@ -181,7 +154,7 @@ class FunctionEntityTest extends TestCase
     public function testIsDeprecated()
     {
         $this->assertFalse($this->Function->isDeprecated());
-        $this->assertTrue($this->getFunctionEntity('old_function')->isDeprecated());
+        $this->assertTrue($this->getFunctionEntityFromTests('old_function')->isDeprecated());
     }
 
     /**

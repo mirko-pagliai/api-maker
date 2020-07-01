@@ -33,7 +33,7 @@ class ParameterEntityTest extends TestCase
      */
     protected function getParameterEntity(string $parameter, string $method, string $class = Cat::class): ParameterEntity
     {
-        return $this->getClassEntity($class)->getMethod($method)->getParameter($parameter);
+        return $this->getClassEntityFromTests($class)->getMethod($method)->getParameter($parameter);
     }
 
     /**
