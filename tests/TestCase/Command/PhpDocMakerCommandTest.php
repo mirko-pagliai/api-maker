@@ -95,7 +95,7 @@ HEREDOC;
         $this->assertRegExp('/Elapsed time\: \d+\.\d+ seconds/', $output);
 
         $this->skipIf(version_compare(Version::id(), '8', '<'));
-        $this->assertStringContainsString('Reading sources from: ' . $source, $output);
+        $this->assertStringContainsString('Sources directory: ' . $source, $output);
         $this->assertStringContainsString('Target directory: ' . $target, $output);
         $this->assertStringContainsString('Rendered index page', $output);
         $this->assertStringContainsString('Rendered functions page', $output);

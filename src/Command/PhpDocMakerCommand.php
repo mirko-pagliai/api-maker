@@ -23,6 +23,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Terminal;
 
 /**
  * PhpDocMakerCommand
@@ -47,11 +48,11 @@ class PhpDocMakerCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('source', InputArgument::REQUIRED, 'Path from which to read the sources')
+            ->addArgument('source', InputArgument::OPTIONAL, 'Path from which to read the sources. If not specified, the current directory will be used')
             ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug')
             ->addOption('no-cache', null, InputOption::VALUE_NONE, 'Disables cache')
-            ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project')
-            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory');
+            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory where to generate the documentation. If not specified, the `output` directory will be created')
+            ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project. If not specified, the title will be self-determined using the name of the source directory');
     }
 
     /**
@@ -64,7 +65,7 @@ class PhpDocMakerCommand extends Command
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
         if (!$input->getArgument('source')) {
-            return;
+            $input->setArgument('source', getcwd());
         }
 
         //Reads configuration from xml file
@@ -80,6 +81,10 @@ class PhpDocMakerCommand extends Command
                 }
             }
         }
+
+        if (!$input->getOption('target')) {
+            $input->setOption('target', add_slash_term($input->getArgument('source')) . 'output');
+        }
     }
 
     /**
@@ -91,13 +96,11 @@ class PhpDocMakerCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        [$source, $target] = [$input->getArgument('source'), $input->getOption('target')];
 
-        $source = $input->getArgument('source');
-        $target = $input->getOption('target') ?? add_slash_term(ROOT) . 'output';
-
-        $io->text('Reading sources from: ' . $source);
+        $io->text('Sources directory: ' . $source);
         $io->text('Target directory: ' . $target);
-        $io->text('===================================================');
+        $output->writeln(str_repeat('=', (new Terminal())->getWidth()));
 
         $start = microtime(true);
 

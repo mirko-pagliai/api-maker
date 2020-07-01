@@ -4,4 +4,5 @@
 *.old.*
 composer.lock
 coverage/
+tests/test_app/output/
 vendor/
