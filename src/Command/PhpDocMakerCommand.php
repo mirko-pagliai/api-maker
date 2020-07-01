@@ -63,6 +63,10 @@ class PhpDocMakerCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
+        if (!$input->getArgument('source')) {
+            return;
+        }
+
         //Reads configuration from xml file
         $xmlConfigFile = add_slash_term($input->getArgument('source')) . 'php-doc-maker.xml';
         if (is_readable($xmlConfigFile)) {
