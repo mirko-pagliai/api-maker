@@ -1,7 +1,7 @@
 <ul class="list-unstyled m-0">
     {%~ for class in classes %}
-    <li>
-        <a href="{{ class.link }}">
+    <li class="text-truncate">
+        <a href="{{ class.link }}" title="{{ class.name }}">
             {%- if class.isDeprecated -%}
                 <del>{{ class.name }}</del>
             {%- else -%}

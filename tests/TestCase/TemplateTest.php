@@ -63,13 +63,12 @@ class TemplateTest extends TestCase
     {
         $expectedStringStartsWith = <<<HEREDOC
 <ul class="list-unstyled m-0">
-    <li>
-        <a href="Class-App-Animals-Animal.html">App\Animals\Animal</a>
+    <li class="text-truncate">
+        <a href="Class-App-Animals-Animal.html" title="App\Animals\Animal">App\Animals\Animal</a>
     </li>
-    <li>
 HEREDOC;
         $expectedStringEndsWith = <<<HEREDOC
-        <a href="Class-Cake-Routing-Router.html">Cake\Routing\Router</a>
+        <a href="Class-Cake-Routing-Router.html" title="Cake\Routing\Router">Cake\Routing\Router</a>
     </li>
 </ul>
 HEREDOC;
@@ -79,7 +78,7 @@ HEREDOC;
         $this->assertStringEndsWith($expectedStringEndsWith, $result);
 
         $this->skipIf(version_compare(Version::id(), '8', '<'));
-        $this->assertStringContainsString('<a href="Class-App-DeprecatedClassExample.html"><del>App\DeprecatedClassExample</del></a>', $result);
+        $this->assertStringContainsString('<a href="Class-App-DeprecatedClassExample.html" title="App\DeprecatedClassExample"><del>App\DeprecatedClassExample</del></a>', $result);
     }
 
     /**
