@@ -49,6 +49,7 @@ class PhpDocMakerCommand extends Command
         $this
             ->addArgument('source', InputArgument::REQUIRED, 'Path from which to read the sources')
             ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug')
+            ->addOption('no-cache', null, InputOption::VALUE_NONE, 'Disables cache')
             ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project')
             ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory');
     }
@@ -97,17 +98,18 @@ class PhpDocMakerCommand extends Command
         $start = microtime(true);
 
         try {
-            if (!$this->PhpDocMaker) {
-                $options = [];
-                foreach (['debug', 'title'] as $name) {
-                    if ($input->getOption($name)) {
-                        $options[$name] = $input->getOption($name);
-                    }
+            //Parses options
+            $options = [];
+            if ($input->getOption('no-cache')) {
+               $options['cache'] = false;
+            }
+            foreach (['debug', 'title'] as $name) {
+                if ($input->getOption($name)) {
+                    $options[$name] = $input->getOption($name);
                 }
-
-                $this->PhpDocMaker = new PhpDocMaker($source, $options);
             }
 
+            $this->PhpDocMaker = $this->PhpDocMaker ?: new PhpDocMaker($source, $options);
             $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new PhpDocMakerCommandSubscriber($io));
             $this->PhpDocMaker->build($target);
         } catch (Exception $e) {

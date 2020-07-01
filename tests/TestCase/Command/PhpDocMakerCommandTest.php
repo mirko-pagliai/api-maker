@@ -28,6 +28,17 @@ use Symfony\Component\Filesystem\Filesystem;
 class PhpDocMakerCommandTest extends TestCase
 {
     /**
+     * Teardown any static object changes and restore them
+     * @return void
+     */
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        @unlink(TESTS . DS . 'test_app' . DS . 'php-doc-maker.xml');
+    }
+
+    /**
      * Test for `execute()` method
      * @test
      */
@@ -47,11 +58,13 @@ class PhpDocMakerCommandTest extends TestCase
         //Tests options
         $expectedOptions = [
             'debug' => true,
+            'no-cache' => false,
             'target' => $target,
             'title' => 'A project title',
         ];
         $commandTester->execute(compact('source') + [
             '--debug' => true,
+            '--no-cache' => false,
             '--target' => $target,
             '--title' => 'A project title',
         ]);
@@ -59,20 +72,21 @@ class PhpDocMakerCommandTest extends TestCase
         $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
         //Tests options from xml file
-        $xmlFile = $source . DS . 'php-doc-maker.xml';
         $xml = <<<HEREDOC
 <?xml version="1.0" encoding="UTF-8" ?>
 <php-doc-maker>
     <title>My test app</title>
     <target>$target</target>
     <debug>true</debug>
+    <no-cache>true</no-cache>
 </php-doc-maker>
 HEREDOC;
-        file_put_contents($xmlFile, $xml);
+        file_put_contents($source . DS . 'php-doc-maker.xml', $xml);
+        $expectedOptions['title'] = 'My test app';
+        $expectedOptions['no-cache'] = true;
         $commandTester->execute(compact('source'));
         $this->assertSame(0, $commandTester->getStatusCode());
-        $this->assertEquals(['title' => 'My test app'] + $expectedOptions, $commandTester->getInput()->getOptions());
-        @unlink($xmlFile);
+        $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
         //Tests output
         $output = $commandTester->getDisplay();
