@@ -24,7 +24,6 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Terminal;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * PhpDocMakerCommand
@@ -99,7 +98,6 @@ class PhpDocMakerCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $start = microtime(true);
         [$source, $target] = [$input->getArgument('source'), $input->getOption('target')];
-        $target = (new Filesystem())->isAbsolutePath($target) ? $target : add_slash_term($source) . $target;
 
         $io->text('Sources directory: ' . $source);
         $io->text('Target directory: ' . $target);
