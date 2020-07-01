@@ -46,7 +46,17 @@ class TemplateTest extends TestCase
     }
 
     /**
-     * Test for menu template element
+     * Test for `layout/footer` template element
+     * @test
+     */
+    public function testFooterTemplate()
+    {
+        $result = $this->Twig->render('layout/footer.twig');
+        $this->assertStringStartsWith('<div id="footer">', $result);
+    }
+
+    /**
+     * Test for `layout/menu` template element
      * @test
      */
     public function testMenuTemplate()
