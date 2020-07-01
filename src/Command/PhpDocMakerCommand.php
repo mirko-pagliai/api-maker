@@ -38,7 +38,7 @@ class PhpDocMakerCommand extends Command
      * Name of the command
      * @var string
      */
-    protected static $defaultName = 'php-doc-maker';
+    protected static $defaultName = 'make';
 
     /**
      * Sets the configuration
