@@ -55,6 +55,11 @@ class PhpDocMakerTest extends TestCase
         $this->assertTrue($this->PhpDocMaker->Twig->isStrictVariables());
         $this->assertSame([$this->PhpDocMaker->getTemplatePath()], $this->PhpDocMaker->Twig->getLoader()->getPaths());
         $this->assertNotEmpty($this->PhpDocMaker->Twig->getExtension(DebugExtension::class));
+        $this->assertEquals([
+            "cache" => true,
+            "title" => "test_app",
+            "debug" => true,
+        ], $this->PhpDocMaker->getOptions());
     }
 
     /**
@@ -77,6 +82,7 @@ class PhpDocMakerTest extends TestCase
         $this->assertFileExists($output . DS . 'assets' . DS . 'bootstrap' . DS . 'bootstrap.min.css');
         $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'default.css');
         $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'highlight.pack.js');
+        $this->assertFileExists($output . DS . 'cache');
         $this->assertFileExists($output . DS . 'layout' . DS . 'menu.html');
         $this->assertFileExists($output . DS . 'functions.html');
         $this->assertFileExists($output . DS . 'index.html');

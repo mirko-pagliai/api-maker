@@ -47,7 +47,7 @@ class PhpDocMaker
     /**
      * @var array
      */
-    protected $options;
+    protected $options = [];
 
     /**
      * @var string
@@ -95,9 +95,19 @@ class PhpDocMaker
         $titleFromPath = array_value_last(array_filter(explode(DS, $this->source)));
 
         $resolver->setDefaults([
+            'cache' => true,
             'debug' => false,
             'title' => $titleFromPath ?? 'My project',
         ]);
+    }
+
+    /**
+     * Gets options
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
     }
 
     /**
@@ -118,7 +128,11 @@ class PhpDocMaker
     {
         $this->Filesystem->mkdir($target, 0755);
         $this->Twig->getLoader()->addPath($target, 'target');
-        $this->Twig->setCache($target . DS . 'cache');
+
+        if ($this->options['cache']) {
+            $this->Filesystem->mkdir($target . DS . 'cache', 0755);
+            $this->Twig->setCache($target . DS . 'cache');
+        }
 
         //Copies assets files
         if (is_readable($this->getTemplatePath() . DS . 'assets')) {
