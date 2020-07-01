@@ -61,7 +61,7 @@ class ClassesExplorer
 
         $astLocator = (new BetterReflection())->astLocator();
         $finder = new Finder();
-        $finder->in($path)->files()->name('*.php')->notPath('tests')->notPath('vendor');
+        $finder->in($path)->files()->name('*.php')->notPath('tests')->notPath('vendor')->notPath('/.+\/cache/');
         $classLoader = require add_slash_term($path) . 'vendor' . DS . 'autoload.php';
 
         $this->SourceLocator = new AggregateSourceLocator([
