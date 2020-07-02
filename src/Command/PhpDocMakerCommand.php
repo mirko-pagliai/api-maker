@@ -48,10 +48,10 @@ class PhpDocMakerCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('source', InputArgument::OPTIONAL, 'Path from which to read the sources. If not specified, the current directory will be used')
+            ->addArgument('source', InputArgument::OPTIONAL, 'Path from which to read the sources. If not specified, the current directory will be used', getcwd())
             ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug. This automatically activates verbose mode and disables the cache')
             ->addOption('no-cache', null, InputOption::VALUE_NONE, 'Disables the cache')
-            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory where to generate the documentation. If not specified, the `output` directory will be created')
+            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory where to generate the documentation. If not specified, the `output` directory will be created', add_slash_term(getcwd()) . 'output')
             ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project. If not specified, the title will be self-determined using the name of the source directory');
     }
 
@@ -64,10 +64,6 @@ class PhpDocMakerCommand extends Command
      */
     protected function initialize(InputInterface $input, OutputInterface $output): void
     {
-        if (!$input->getArgument('source')) {
-            $input->setArgument('source', getcwd());
-        }
-
         //Reads and parses configuration from xml file
         $xmlConfigFile = add_slash_term($input->getArgument('source')) . 'php-doc-maker.xml';
         if (is_readable($xmlConfigFile)) {
@@ -80,8 +76,14 @@ class PhpDocMakerCommand extends Command
             }
 
             foreach ($options as $name => $value) {
-                $value = $value === 'true' ? true : ($value === 'false' ? false : $value);
-                $input->setOption($name, $value);
+                $option = $this->getDefinition()->getOption($name);
+
+                if (!$option->getDefault() && $value === 'true') {
+                    $input->setOption($name, true);
+                } else {
+                    $value = $value === 'true' ? true : ($value === 'false' ? false : $value);
+                    $option->setDefault($value);
+                }
             }
         }
 
@@ -89,10 +91,6 @@ class PhpDocMakerCommand extends Command
         if ($input->getOption('debug')) {
             $output->setVerbosity(OutputInterface::VERBOSITY_VERBOSE);
             $input->setOption('no-cache', true);
-        }
-
-        if (!$input->getOption('target')) {
-            $input->setOption('target', add_slash_term($input->getArgument('source')) . 'output');
         }
     }
 

@@ -80,9 +80,7 @@ class PhpDocMakerCommandTest extends TestCase
 </php-doc-maker>
 HEREDOC;
         file_put_contents($source . DS . 'php-doc-maker.xml', $xml);
-        $expectedOptions['title'] = 'My test app';
-        $expectedOptions['debug'] = false;
-        $expectedOptions['no-cache'] = false;
+        $expectedOptions = ['title' => 'My test app', 'debug' => false, 'no-cache' => false] + $expectedOptions;
         $commandTester->execute(compact('source'));
         $this->assertFalse($commandTester->getOutput()->isVerbose());
         $this->assertSame(0, $commandTester->getStatusCode());
@@ -94,14 +92,10 @@ HEREDOC;
     <title>My test app</title>
     <target>$target</target>
     <debug>true</debug>
-    <no-cache>true</no-cache>
-    <verbose>true</verbose>
 </php-doc-maker>
 HEREDOC;
         file_put_contents($source . DS . 'php-doc-maker.xml', $xml);
-        $expectedOptions['title'] = 'My test app';
-        $expectedOptions['no-cache'] = true;
-        $expectedOptions['debug'] = true;
+        $expectedOptions = ['debug' => true, 'no-cache' => true] + $expectedOptions;
         $commandTester->execute(compact('source'));
         $this->assertTrue($commandTester->getOutput()->isVerbose());
         $this->assertSame(0, $commandTester->getStatusCode());
