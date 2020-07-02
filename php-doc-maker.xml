@@ -2,4 +2,5 @@
 <php-doc-maker>
     <title>php-doc-maker</title>
     <target>../php-doc-maker-gh-pages</target>
+    <debug>true</debug>
 </php-doc-maker>

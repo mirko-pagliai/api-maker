@@ -58,16 +58,16 @@ class PhpDocMakerCommandTest extends TestCase
         //Tests options
         $expectedOptions = [
             'debug' => true,
-            'no-cache' => false,
+            'no-cache' => true,
             'target' => $target,
             'title' => 'A project title',
         ];
         $commandTester->execute(compact('source') + [
             '--debug' => true,
-            '--no-cache' => false,
             '--target' => $target,
             '--title' => 'A project title',
         ]);
+        $this->assertTrue($commandTester->getOutput()->isVerbose());
         $this->assertSame(0, $commandTester->getStatusCode());
         $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
@@ -77,14 +77,33 @@ class PhpDocMakerCommandTest extends TestCase
 <php-doc-maker>
     <title>My test app</title>
     <target>$target</target>
+</php-doc-maker>
+HEREDOC;
+        file_put_contents($source . DS . 'php-doc-maker.xml', $xml);
+        $expectedOptions['title'] = 'My test app';
+        $expectedOptions['debug'] = false;
+        $expectedOptions['no-cache'] = false;
+        $commandTester->execute(compact('source'));
+        $this->assertFalse($commandTester->getOutput()->isVerbose());
+        $this->assertSame(0, $commandTester->getStatusCode());
+        $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
+
+        $xml = <<<HEREDOC
+<?xml version="1.0" encoding="UTF-8" ?>
+<php-doc-maker>
+    <title>My test app</title>
+    <target>$target</target>
     <debug>true</debug>
     <no-cache>true</no-cache>
+    <verbose>true</verbose>
 </php-doc-maker>
 HEREDOC;
         file_put_contents($source . DS . 'php-doc-maker.xml', $xml);
         $expectedOptions['title'] = 'My test app';
         $expectedOptions['no-cache'] = true;
+        $expectedOptions['debug'] = true;
         $commandTester->execute(compact('source'));
+        $this->assertTrue($commandTester->getOutput()->isVerbose());
         $this->assertSame(0, $commandTester->getStatusCode());
         $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
