@@ -55,12 +55,12 @@ class AbstractEntityTest extends TestCase
         $this->assertSame('<p>Animal abstract class.</p>' . PHP_EOL . '<p>Other animal classes have to extend this class.</p>', $class->getDocBlockAsString());
 
         $class = $this->getClassEntityFromTests(Dog::class);
-        $expectedDocBlockDescriptionAsString = <<<HEREDOC
+        $expected = <<<HEREDOC
 <h3>Is it really a dog?</h3>
 <p>Yeah, this is a dog!</p>
 HEREDOC;
-        $this->assertSame($expectedDocBlockDescriptionAsString, $class->getDocBlockDescriptionAsString());
-        $this->assertSame('<p>Dog class.</p>' . PHP_EOL . $expectedDocBlockDescriptionAsString, $class->getDocBlockAsString());
+        $this->assertSame($expected, $class->getDocBlockDescriptionAsString());
+        $this->assertSame('<p>Dog class.</p>' . PHP_EOL . $expected, $class->getDocBlockAsString());
 
         //Class with no DocBlock
         $this->assertSame('', $this->getClassEntityFromTests(ArrayExample::class)->getDocBlockAsString());

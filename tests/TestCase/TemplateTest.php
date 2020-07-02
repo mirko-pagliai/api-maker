@@ -61,21 +61,21 @@ class TemplateTest extends TestCase
      */
     public function testMenuTemplate()
     {
-        $expectedStringStartsWith = <<<HEREDOC
+        $expectedStart = <<<HEREDOC
 <ul class="list-unstyled m-0">
     <li class="text-truncate">
         <a href="Class-App-Animals-Animal.html" title="App\Animals\Animal">App\Animals\Animal</a>
     </li>
 HEREDOC;
-        $expectedStringEndsWith = <<<HEREDOC
+        $expectedEnd = <<<HEREDOC
         <a href="Class-Cake-Routing-Router.html" title="Cake\Routing\Router">Cake\Routing\Router</a>
     </li>
 </ul>
 HEREDOC;
         $classes = $this->getClassesExplorerInstance()->getAllClasses();
         $result = $this->Twig->render('layout/menu.twig', compact('classes'));
-        $this->assertStringStartsWith($expectedStringStartsWith, $result);
-        $this->assertStringEndsWith($expectedStringEndsWith, $result);
+        $this->assertStringStartsWith($expectedStart, $result);
+        $this->assertStringEndsWith($expectedEnd, $result);
 
         $this->skipIf(version_compare(Version::id(), '8', '<'));
         $this->assertStringContainsString('<a href="Class-App-DeprecatedClassExample.html" title="App\DeprecatedClassExample"><del>App\DeprecatedClassExample</del></a>', $result);
