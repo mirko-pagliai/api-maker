@@ -15,8 +15,8 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test;
 
 use App\Animals\Cat;
-use App\Vehicles\Car;
 use App\DeprecatedClassExample;
+use App\Vehicles\Car;
 use PhpDocMaker\TestSuite\TestCase;
 use PHPUnit\Runner\Version;
 use Twig\Environment;
