@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test;
 
 use App\Animals\Cat;
+use App\Vehicles\Car;
 use App\DeprecatedClassExample;
 use PhpDocMaker\TestSuite\TestCase;
 use PHPUnit\Runner\Version;
@@ -89,7 +90,11 @@ HEREDOC;
     {
         $constant = $this->getClassEntityFromTests(Cat::class)->getConstant('LEGS');
         $result = $this->Twig->render('elements/constant.twig', compact('constant'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'costant.html', $result);
+        $this->assertStringEqualsFile(EXPECTED_FILES . 'constant1.html', $result);
+
+        $constant = $this->getClassEntityFromTests(Car::class)->getConstant('TYPES');
+        $result = $this->Twig->render('elements/constant.twig', compact('constant'));
+        $this->assertStringEqualsFile(EXPECTED_FILES . 'constant2.html', $result);
     }
 
     /**

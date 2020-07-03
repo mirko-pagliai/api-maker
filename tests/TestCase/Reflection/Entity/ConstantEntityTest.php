@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
+use App\Vehicles\Car;
 use PhpDocMaker\Reflection\Entity\ConstantEntity;
 use PhpDocMaker\TestSuite\TestCase;
 
@@ -42,6 +43,7 @@ class ConstantEntityTest extends TestCase
     {
         $this->assertSame('LEGS', (string)$this->getConstantEntity('LEGS'));
         $this->assertSame('GENUS', (string)$this->getConstantEntity('GENUS'));
+        $this->assertSame('TYPES', (string)$this->getConstantEntity('TYPES', Car::class));
     }
 
     /**
@@ -83,6 +85,17 @@ class ConstantEntityTest extends TestCase
             'https://en.wikipedia.org/wiki/Genus',
             'https://en.wikipedia.org/wiki/Felis',
         ], $this->getConstantEntity('GENUS')->getSeeTags());
+    }
+
+    /**
+     * Test for `getValueAsString()` method
+     * @test
+     */
+    public function testGetValueAsString()
+    {
+        $this->assertSame('4', $this->getConstantEntity('LEGS')->getValueAsString());
+        $this->assertSame('Felis', $this->getConstantEntity('GENUS')->getValueAsString());
+        $this->assertSame('sedan|station wagon|sport', $this->getConstantEntity('TYPES', Car::class)->getValueAsString());
     }
 
     /**

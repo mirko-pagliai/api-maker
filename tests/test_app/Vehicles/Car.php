@@ -23,6 +23,11 @@ use App\Vehicles\Vehicle;
 class Car extends Vehicle implements MotorVehicle
 {
     /**
+     * Possible car types
+     */
+    protected const TYPES = ['sedan', 'station wagon', 'sport'];
+
+    /**
      * Starts the vehicle
      * @return bool
      */
