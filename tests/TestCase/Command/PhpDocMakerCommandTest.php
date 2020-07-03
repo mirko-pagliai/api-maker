@@ -104,6 +104,7 @@ HEREDOC;
 
         //Tests output
         $output = $commandTester->getDisplay();
+        $this->assertStringContainsString('[OK] Done!', $output);
         $this->assertRegExp('/Founded \d+ classes/', $output);
         $this->assertRegExp('/Founded \d+ functions/', $output);
         $this->assertRegExp('/Elapsed time\: \d+\.\d+ seconds/', $output);
@@ -114,6 +115,63 @@ HEREDOC;
         $this->assertStringContainsString('Rendered index page', $output);
         $this->assertStringContainsString('Rendered functions page', $output);
         $this->assertStringContainsString('Rendered class page for', $output);
+    }
+
+    /**
+     * Test for `execute()` method, on error (notice)
+     * @test
+     */
+    public function testExecuteOnError()
+    {
+        $source = TESTS . DS . 'test_app';
+        $Command = new PhpDocMakerCommand();
+        $Command->PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
+            ->setConstructorArgs(compact('source'))
+            ->setMethods(['build'])
+            ->getMock();
+
+        $Command->PhpDocMaker->method('build')->will($this->returnCallback(function () {
+            trigger_error('A notice error...', E_USER_NOTICE);
+        }));
+
+        putenv('COLUMNS=120');
+
+        $commandTester = new CommandTester($Command);
+        $commandTester->execute(['--debug' => true] + compact('source'));
+        $this->assertSame(1, $commandTester->getStatusCode());
+
+        $this->skipIf(version_compare(Version::id(), '8', '<'));
+        $output = $commandTester->getDisplay();
+        $this->assertStringContainsString('[ERROR] A notice error...', $output);
+        $this->assertStringContainsString(sprintf('On file `%s`', __FILE__), $output);
+    }
+
+    /**
+     * Test for `execute()` method, on error (notice)
+     * @test
+     */
+    public function testExecuteOnSuppressedError()
+    {
+        $source = TESTS . DS . 'test_app';
+        $Command = new PhpDocMakerCommand();
+        $Command->PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
+            ->setConstructorArgs(compact('source'))
+            ->setMethods(['build'])
+            ->getMock();
+
+        $Command->PhpDocMaker->method('build')->will($this->returnCallback(function () {
+            @trigger_error('A notice error...', E_USER_NOTICE);
+        }));
+
+        putenv('COLUMNS=120');
+
+        $commandTester = new CommandTester($Command);
+        $commandTester->execute(['--debug' => true] + compact('source'));
+        $this->assertSame(0, $commandTester->getStatusCode());
+
+        $this->skipIf(version_compare(Version::id(), '8', '<'));
+        $output = $commandTester->getDisplay();
+        $this->assertStringContainsString('[OK] Done!', $output);
     }
 
     /**
@@ -130,8 +188,7 @@ HEREDOC;
             ->setMethods(['build'])
             ->getMock();
 
-        $Command->PhpDocMaker->method('build')
-            ->willThrowException($expectedException);
+        $Command->PhpDocMaker->method('build')->willThrowException($expectedException);
 
         putenv('COLUMNS=120');
         $commandTester = new CommandTester($Command);

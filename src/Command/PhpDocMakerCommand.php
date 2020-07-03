@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Command;
 
+use ErrorException;
 use Exception;
 use PhpDocMaker\Command\PhpDocMakerCommandSubscriber;
 use PhpDocMaker\PhpDocMaker;
@@ -125,6 +126,16 @@ class PhpDocMakerCommand extends Command
         }
 
         try {
+            //Turns all PHP errors into exceptions
+            set_error_handler(function ($severity, $message, $filename, $lineno) {
+                //Error was suppressed with the @-operator
+                if (0 === error_reporting()) {
+                    return false;
+                }
+
+                throw new ErrorException($message, 0, $severity, $filename, $lineno);
+            });
+
             //Parses options
             $options = [];
             if ($input->getOption('no-cache')) {
@@ -148,6 +159,8 @@ class PhpDocMakerCommand extends Command
             $io->error($message);
 
             return defined('Command::FAILURE') ? Command::FAILURE : 1;
+        } finally {
+            restore_error_handler();
         }
 
         $io->text(sprintf('Elapsed time: %s seconds', round(microtime(true) - $start, 2)));
