@@ -102,6 +102,22 @@ class ClassEntity extends AbstractEntity
     }
 
     /**
+     * Gets the parent class
+     * @return \PhpDocMaker\Reflection\Entity\ClassEntity|null
+     * @throws \RuntimeException
+     */
+    public function getParentClass(): ?ClassEntity
+    {
+        try {
+            $class = $this->reflectionObject->getParentClass();
+        } catch (IdentifierNotFound $e) {
+            throw new RuntimeException(sprintf('Class `%s` (parent of `%s`) could not be found', $e->getIdentifier()->getName(), $this->getName()));
+        }
+
+        return $class ? new ClassEntity($class) : null;
+    }
+
+    /**
      * Gets a property
      * @param string $name Property name
      * @return \PhpDocMaker\Reflection\Entity\PropertyEntity

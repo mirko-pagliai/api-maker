@@ -14,12 +14,16 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Test\Reflection\Entity;
 
+use App\Animals\Animal;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
+use App\InvalidClassParent;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\ConstantEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\PropertyEntity;
 use PhpDocMaker\TestSuite\TestCase;
+use RuntimeException;
 
 /**
  * ClassEntityTest class
@@ -123,6 +127,23 @@ class ClassEntityTest extends TestCase
     public function testGetName()
     {
         $this->assertSame(Cat::class, $this->Class->getName());
+    }
+
+    /**
+     * Test for `getParentClass()` method
+     * @test
+     */
+    public function testGetParentClass()
+    {
+        $parent = $this->Class->getParentClass();
+        $this->assertInstanceOf(ClassEntity::class, $parent);
+        $this->assertSame(Animal::class, $parent->getName());
+
+        $this->assertNull($parent->getParentClass());
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Class `App\NoExistingClass` (parent of `App\InvalidClassParent`) could not be found');
+        $this->getClassEntityFromTests(InvalidClassParent::class)->getParentClass();
     }
 
     /**
