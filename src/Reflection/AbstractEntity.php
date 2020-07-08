@@ -17,7 +17,9 @@ namespace PhpDocMaker\Reflection;
 use BadMethodCallException;
 use League\CommonMark\CommonMarkConverter;
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
 use phpDocumentor\Reflection\DocBlockFactory;
+use RuntimeException;
 
 /**
  * AbstractEntity class
@@ -110,6 +112,38 @@ abstract class AbstractEntity
     public function getName(): string
     {
         return $this->reflectionObject->getName();
+    }
+
+    /**
+     * Gets tags by name
+     * @param string $name Tags
+     * @return array
+     * @throws \RuntimeException
+     */
+    public function getTagsByName($name): array
+    {
+        $DocBlockInstance = $this->getDocBlockInstance();
+        if (!$DocBlockInstance) {
+            return [];
+        }
+
+        $tags = $DocBlockInstance->getTagsByName($name);
+
+        //Throws an exception for invalid tags
+        foreach ($tags as $tag) {
+            if (get_class($tag) === InvalidTag::class) {
+                preg_match('/^\"(.+)\" is not a valid Fqsen\.$/', $tag->getException()->getMessage(), $matches);
+
+                $message = '@' . $tag->getName();
+                if (isset($matches[1])) {
+                    $message .= ' ' . $matches[1];
+                }
+
+                throw new RuntimeException(sprintf('Invalid tag `%s`', $message));
+            }
+        }
+
+        return $tags;
     }
 
     /**

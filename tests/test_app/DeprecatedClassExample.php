@@ -51,4 +51,11 @@ abstract class DeprecatedClassExample
      * @throws \RuntimeException
      */
     public function anotherAnonymousMethod(): string {}
+
+    /**
+     * This method has an invalid `see` tag
+     * @return string
+     * @see 1
+     */
+    public function methodWithInvalidTag(): string {}
 }

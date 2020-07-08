@@ -27,15 +27,13 @@ trait SeeTagsTrait
      */
     public function getSeeTags(): array
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
-
-        return $DocBlockInstance ? array_map(function (See $see) {
+        return array_map(function (See $see) {
             $see = (string)$see->getReference();
             if (!is_url($see) && strpos('::', $see) === false) {
                 $see = ltrim($see, '\\');
             }
 
             return $see;
-        }, $DocBlockInstance->getTagsByName('see')) : [];
+        }, $this->getTagsByName('see'));
     }
 }

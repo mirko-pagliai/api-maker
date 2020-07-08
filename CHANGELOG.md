@@ -2,6 +2,7 @@
 ## 1.0 branch
 ### 1.0.1-beta2
 * `PhpDocMakerCommand` now correctly handles PHP errors too (e.g. notice);
+* added `AbstractEntity::getTagsByName()` method. Invalid tags will throw an exception;
 * added `ConstantEntity::getValueAsString()` method, fixed bug for class costants
     with an array as value;
 * fixed little bug for binary file.

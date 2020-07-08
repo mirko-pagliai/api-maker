@@ -18,9 +18,12 @@ use App\Animals\Animal;
 use App\Animals\Cat;
 use App\Animals\Dog;
 use App\ArrayExample;
+use App\DeprecatedClassExample;
 use BadMethodCallException;
 use PhpDocMaker\TestSuite\TestCase;
+use phpDocumentor\Reflection\DocBlock\Tags\See;
 use Roave\BetterReflection\Reflection\ReflectionClass;
+use RuntimeException;
 
 /**
  * AbstractEntityTest class
@@ -64,5 +67,23 @@ HEREDOC;
 
         //Class with no DocBlock
         $this->assertSame('', $this->getClassEntityFromTests(ArrayExample::class)->getDocBlockAsString());
+    }
+
+    /**
+     * Test for `getTagsByName()` method
+     * @test
+     */
+    public function testGetTagsByName()
+    {
+        $tags = $this->getClassEntityFromTests(Cat::class)->getMethod('doMeow')->getTagsByName('see');
+        $this->assertContainsOnlyInstancesOf(See::class, $tags);
+
+        $entity = $this->getClassEntityFromTests(DeprecatedClassExample::class);
+        $tags = $entity->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('see');
+        $this->assertEmpty($tags);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Invalid tag `@see \1`');
+        $tags = $entity->getMethod('methodWithInvalidTag')->getTagsByName('see');
     }
 }
