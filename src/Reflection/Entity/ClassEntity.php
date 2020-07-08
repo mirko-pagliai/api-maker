@@ -21,10 +21,11 @@ use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionClassConstant;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 use Roave\BetterReflection\Reflection\ReflectionProperty;
+use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
+use RuntimeException;
 
 /**
  * Class entity
- * @method ?\Roave\BetterReflection\Reflection\ReflectionClass getParentClass()
  * @method array getImmediateInterfaces()
  * @method bool isAbstract()
  * @method bool isInterface()
@@ -67,7 +68,7 @@ class ClassEntity extends AbstractEntity
     {
         return array_map(function (ReflectionClassConstant $constant) {
             return new ConstantEntity($constant);
-        }, $this->reflectionObject->getReflectionConstants());
+        }, $this->reflectionObject->getImmediateReflectionConstants());
     }
 
     /**

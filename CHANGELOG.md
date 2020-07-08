@@ -5,6 +5,7 @@
 * added `AbstractEntity::getTagsByName()` method. Invalid tags will throw an exception;
 * added `ConstantEntity::getValueAsString()` method, fixed bug for class costants
     with an array as value;
+* fixed little bug for `ClassEntity::getConstants()` method;
 * fixed little bug for binary file.
 
 ### 1.0.0-beta1
