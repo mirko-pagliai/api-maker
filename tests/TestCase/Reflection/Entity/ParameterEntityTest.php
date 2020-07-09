@@ -16,6 +16,8 @@ namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
+use PhpDocMaker\Reflection\Entity\FunctionEntity;
+use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
 use PhpDocMaker\TestSuite\TestCase;
 
@@ -92,6 +94,18 @@ class ParameterEntityTest extends TestCase
     public function testGetName()
     {
         $this->assertSame('name', $this->getParameterEntity('name', 'setName')->getName());
+    }
+
+    /**
+     * Test for `getDeclaringFunction()`
+     * @test
+     */
+    public function testGetDeclaringFunction()
+    {
+        $this->assertInstanceOf(MethodEntity::class, $this->getParameterEntity('name', 'setName')->getDeclaringFunction());
+
+        //Parameter from a function
+        $this->assertInstanceOf(FunctionEntity::class, $this->getFunctionEntityFromTests('old_function')->getParameter('int2')->getDeclaringFunction());
     }
 
     /**

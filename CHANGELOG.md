@@ -11,6 +11,7 @@
 * `ClassesExplorer` throws a correct exception on missing Composer autoloader;
 * added `AbstractEntity::getTagsByName()` method. Invalid tags will throw an exception;
 * added `ClassEntity::getParentClass()` method;
+* added `ParameterEntity::getDeclaringFunction()` method;
 * added `ConstantEntity::getValueAsString()` method, fixed bug for class costants
     with an array as value;
 * fixed little bug for `ClassEntity::getConstants()` method;

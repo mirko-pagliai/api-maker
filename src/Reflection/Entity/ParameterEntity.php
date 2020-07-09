@@ -15,8 +15,12 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection\Entity;
 
 use PhpDocMaker\Reflection\AbstractEntity;
+use PhpDocMaker\Reflection\AbstractMethodEntity;
+use PhpDocMaker\Reflection\Entity\FunctionEntity;
+use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\Traits\GetTypeAsStringTrait;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
+use Roave\BetterReflection\Reflection\ReflectionMethod;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
@@ -98,13 +102,23 @@ class ParameterEntity extends AbstractEntity
      */
     public function getDocBlockAsString(): string
     {
-        $declaringMethod = new MethodEntity($this->reflectionObject->getDeclaringFunction());
-
         //Takes the right parameter
-        $param = array_value_first(array_filter($declaringMethod->getTagsByName('param'), function (Param $param) {
-            return $param->getVariableName() === $this->reflectionObject->getName();
+        $param = array_value_first(array_filter($this->getDeclaringFunction()->getTagsByName('param'), function (Param $param) {
+            return $param->getVariableName() === $this->getName();
         }));
 
         return $param ? $param->getDescription()->render() : '';
+    }
+
+    /**
+     * Gets the declaring function or method for this parameter
+     * @return \PhpDocMaker\Reflection\Entity\FunctionEntity|\PhpDocMaker\Reflection\Entity\MethodEntity
+     */
+    public function getDeclaringFunction(): AbstractMethodEntity
+    {
+        $declaringFunction = $this->reflectionObject->getDeclaringFunction();
+        $entityClass = $declaringFunction instanceof ReflectionMethod ? MethodEntity::class : FunctionEntity::class;
+
+        return new $entityClass($declaringFunction);
     }
 }
