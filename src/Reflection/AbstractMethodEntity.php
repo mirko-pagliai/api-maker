@@ -90,7 +90,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
     {
         $DocBlockInstance = $this->getDocBlockInstance();
 
-        return $DocBlockInstance ? implode(', ',  array_map(function (Return_ $return) {
+        return $DocBlockInstance ? implode(', ', array_map(function (Return_ $return) {
             return ltrim((string)$return->getType(), '\\');
         }, $DocBlockInstance->getTagsByName('return'))) : '';
     }
