@@ -21,3 +21,5 @@ define('EXPECTED_FILES', TESTS . DS . 'expectedFiles' . DS);
 define('TMP', sys_get_temp_dir() . DS . 'php-doc-maker' . DS);
 
 @mkdir(TMP, 0777, true);
+
+putenv('COLUMNS=120');
