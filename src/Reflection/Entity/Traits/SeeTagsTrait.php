@@ -29,11 +29,8 @@ trait SeeTagsTrait
     {
         return array_map(function (See $see) {
             $see = (string)$see->getReference();
-            if (!is_url($see) && strpos('::', $see) === false) {
-                $see = ltrim($see, '\\');
-            }
 
-            return $see;
+            return is_url($see) || strpos('::', $see) !== false ? $see : ltrim($see, '\\');
         }, $this->getTagsByName('see'));
     }
 }

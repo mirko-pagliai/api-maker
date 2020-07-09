@@ -25,14 +25,9 @@ trait DeprecatedTrait
      */
     public function getDeprecatedDescription(): string
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
-        if (!$DocBlockInstance) {
-            return '';
-        }
+        $tag = $this->getTagsByName('deprecated');
 
-        $deprecatedTag = $DocBlockInstance->getTagsByName('deprecated');
-
-        return $deprecatedTag ? ucfirst((string)$deprecatedTag[0]->getDescription()) : '';
+        return $tag ? ucfirst((string)$tag[0]->getDescription()) : '';
     }
 
     /**

@@ -88,11 +88,9 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getReturnTypeAsString(): string
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
-
-        return $DocBlockInstance ? implode(', ', array_map(function (Return_ $return) {
+        return implode(', ', array_map(function (Return_ $return) {
             return ltrim((string)$return->getType(), '\\');
-        }, $DocBlockInstance->getTagsByName('return'))) : '';
+        }, $this->getTagsByName('return'))) ?? '';
     }
 
     /**
@@ -101,7 +99,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getReturnDescription(): string
     {
-        $returnTag = $this->getDocBlockInstance()->getTagsByName('return');
+        $returnTag = $this->getTagsByName('return');
 
         return $returnTag ? (string)$returnTag[0]->getDescription() : '';
     }
@@ -118,14 +116,12 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getThrowsTags(): array
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
-
-        return $DocBlockInstance ? array_map(function (Throws $throws) {
+        return array_map(function (Throws $throws) {
             return [
                 'type' => ltrim((string)$throws->getType(), '\\'),
                 'description' => (string)$throws->getDescription(),
             ];
-        }, $DocBlockInstance->getTagsByName('throws')) : [];
+        }, $this->getTagsByName('throws'));
     }
 
     /**

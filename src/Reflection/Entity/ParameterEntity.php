@@ -98,16 +98,13 @@ class ParameterEntity extends AbstractEntity
      */
     public function getDocBlockAsString(): string
     {
-        $docblock = $this->getDocBlockInstance($this->reflectionObject->getDeclaringFunction());
-        if (!$docblock) {
-            return '';
-        }
+        $declaringMethod = new MethodEntity($this->reflectionObject->getDeclaringFunction());
 
         //Takes the right parameter
-        $param = array_value_first(array_filter($docblock->getTagsByName('param'), function (Param $param) {
+        $param = array_value_first(array_filter($declaringMethod->getTagsByName('param'), function (Param $param) {
             return $param->getVariableName() === $this->reflectionObject->getName();
         }));
 
-        return $param->getDescription()->render() ?? '';
+        return $param ? $param->getDescription()->render() : '';
     }
 }
