@@ -48,10 +48,13 @@ abstract class AbstractEntity
      * `__toString()` magic method
      * @return string
      */
-    public function __toString(): string
-    {
-        return $this->getName();
-    }
+    abstract public function __toString(): string;
+
+    /**
+     * Returns the representation of this object as a signature
+     * @return string
+     */
+    abstract public function toSignature(): string;
 
     /**
      * Internal method to get the `DocBlock` instance
@@ -106,7 +109,7 @@ abstract class AbstractEntity
     }
 
     /**
-     * Gets the class name
+     * Gets the object name
      * @return string
      */
     public function getName(): string
