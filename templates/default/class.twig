@@ -22,7 +22,7 @@
 {% block content %}
     <h2>{{ classType }} <em>{{ class.getShortName }}</em></h2>
 
-    <div>{{ class.getDocBlockAsString }}</div>
+    <p>{{ class.getDocBlockAsString }}</p>
 
     {% if class.getParentClass %}
         <p>
