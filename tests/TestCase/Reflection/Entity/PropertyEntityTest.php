@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\PropertyEntity;
 use PhpDocMaker\TestSuite\TestCase;
 
@@ -52,6 +53,15 @@ class PropertyEntityTest extends TestCase
     {
         $this->assertSame('$name', $this->getPropertyEntity('name')->toSignature());
         $this->assertSame('$position', $this->getPropertyEntity('position')->toSignature());
+    }
+
+    /**
+     * Test for `getDeclaringClass()` method
+     * @test
+     */
+    public function testGetDeclaringClass()
+    {
+        $this->assertInstanceOf(ClassEntity::class, $this->getPropertyEntity('isCat')->getDeclaringClass());
     }
 
     /**

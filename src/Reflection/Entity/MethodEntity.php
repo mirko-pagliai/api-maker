@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection\Entity;
 
 use PhpDocMaker\Reflection\AbstractMethodEntity;
+use PhpDocMaker\Reflection\Entity\Traits\GetDeclaringClassTrait;
 use PhpDocMaker\Reflection\Entity\Traits\VisibilityTrait;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 
@@ -23,6 +24,7 @@ use Roave\BetterReflection\Reflection\ReflectionMethod;
  */
 class MethodEntity extends AbstractMethodEntity
 {
+    use GetDeclaringClassTrait;
     use VisibilityTrait;
 
     /**
@@ -45,9 +47,7 @@ class MethodEntity extends AbstractMethodEntity
      */
     public function __toString(): string
     {
-        $class = new ClassEntity($this->reflectionObject->getDeclaringClass());
-
-        return $class->toSignature() . '::' . $this->reflectionObject->getName() . '()';
+        return (string)$this->getDeclaringClass() . '::' . $this->reflectionObject->getName() . '()';
     }
 
     /**

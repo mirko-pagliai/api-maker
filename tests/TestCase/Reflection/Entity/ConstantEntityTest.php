@@ -16,6 +16,7 @@ namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
 use App\Vehicles\Car;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\ConstantEntity;
 use PhpDocMaker\TestSuite\TestCase;
 
@@ -55,6 +56,15 @@ class ConstantEntityTest extends TestCase
         $this->assertSame('LEGS', $this->getConstantEntity('LEGS')->toSignature());
         $this->assertSame('GENUS', $this->getConstantEntity('GENUS')->toSignature());
         $this->assertSame('TYPES', $this->getConstantEntity('TYPES', Car::class)->toSignature());
+    }
+
+    /**
+     * Test for `getDeclaringClass()` method
+     * @test
+     */
+    public function testGetDeclaringClass()
+    {
+        $this->assertInstanceOf(ClassEntity::class, $this->getConstantEntity('LEGS')->getDeclaringClass());
     }
 
     /**

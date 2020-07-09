@@ -16,6 +16,7 @@ namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
 use PhpDocMaker\TestSuite\TestCase;
@@ -54,6 +55,15 @@ class MethodEntityTest extends TestCase
     {
         $this->assertSame('createPuppy()', $this->getMethodEntity('createPuppy')->toSignature());
         $this->assertSame('name(string|null $name = null)', $this->getMethodEntity('name')->toSignature());
+    }
+
+    /**
+     * Test for `getDeclaringClass()` method
+     * @test
+     */
+    public function testGetDeclaringClass()
+    {
+        $this->assertInstanceOf(ClassEntity::class, $this->getMethodEntity('createPuppy')->getDeclaringClass());
     }
 
     /**

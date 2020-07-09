@@ -4,6 +4,7 @@
 * `PhpDocMakerCommand` now correctly handles PHP errors too (e.g. notice);
 * each entity now has a coherent `__toString()` method, as well as a
     `toSignature()` method that returns a humanized version of its signature;
+* added the `GetDeclaringClassTrait`, for methods, properties and constants;
 * `ClassesExplorer` throws a correct exception on missing Composer autoloader;
 * added `AbstractEntity::getTagsByName()` method. Invalid tags will throw an exception;
 * added `ClassEntity::getParentClass()` method;
