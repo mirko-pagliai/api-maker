@@ -69,8 +69,6 @@ class ConstantEntity extends AbstractEntity
      */
     public function getValueAsString(): string
     {
-        $value = $this->reflectionObject->getValue();
-
-        return is_array($value) ? implode('|', $value) : (string)$value;
+        return implode('|', (array)$this->reflectionObject->getValue());
     }
 }

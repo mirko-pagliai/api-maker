@@ -89,15 +89,10 @@ abstract class AbstractMethodEntity extends AbstractEntity
     public function getReturnTypeAsString(): string
     {
         $DocBlockInstance = $this->getDocBlockInstance();
-        if (!$DocBlockInstance) {
-            return '';
-        }
 
-        $returnType = array_map(function (Return_ $return) {
+        return $DocBlockInstance ? implode(', ',  array_map(function (Return_ $return) {
             return ltrim((string)$return->getType(), '\\');
-        }, $DocBlockInstance->getTagsByName('return'));
-
-        return implode(', ', $returnType);
+        }, $DocBlockInstance->getTagsByName('return'))) : '';
     }
 
     /**
