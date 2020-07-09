@@ -151,7 +151,7 @@ class PhpDocMakerCommand extends Command
             $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new PhpDocMakerCommandSubscriber($io));
             $this->PhpDocMaker->build($target);
         } catch (Exception $e) {
-            $message = $e->getMessage() . PHP_EOL . sprintf('On file `%s`, line %s', $e->getFile(), $e->getLine());
+            $message = $e->getMessage() . '...' . PHP_EOL . sprintf('On file `%s`, line %s', $e->getFile(), $e->getLine());
             if ($input->getOption('debug')) {
                 $message .= PHP_EOL . PHP_EOL . $e->getTraceAsString();
             }
