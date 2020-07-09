@@ -58,8 +58,11 @@ class ClassesExplorer
      */
     public function __construct(string $path)
     {
-        is_readable_or_fail($path);
+        if (!is_readable($path)) {
+            throw new NotReadableException(null, 0, null, $path);
+        }
 
+        //Requires Composer autoloader
         $classLoader = add_slash_term($path) . 'vendor' . DS . 'autoload.php';
         if (!is_readable($classLoader)) {
             throw new NotReadableException('Missing Composer autoloader', 0, null, $classLoader);

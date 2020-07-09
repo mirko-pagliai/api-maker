@@ -48,6 +48,7 @@ class ClassesExplorerTest extends TestCase
     public function testConstructWithNoReadablePath()
     {
         $this->expectException(NotReadableException::class);
+        $this->expectExceptionMessage('Filename `' . DS . 'noExistingPath` is not readable');
         new ClassesExplorer(DS . 'noExistingPath');
     }
 
