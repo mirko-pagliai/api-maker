@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker;
 
+use League\CommonMark\CommonMarkConverter;
 use PhpDocMaker\ClassesExplorer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,6 +22,7 @@ use Tools\Event\EventDispatcherTrait;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
+use Twig\TwigFilter;
 
 /**
  * PhpDocMaker
@@ -57,7 +59,7 @@ class PhpDocMaker
     /**
      * @var string
      */
-    protected $templatePath = ROOT . DS . 'templates' . DS . 'default';
+    protected static $templatePath = ROOT . DS . 'templates' . DS . 'default';
 
     /**
      * Construct
@@ -71,18 +73,32 @@ class PhpDocMaker
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
         $this->options = $resolver->resolve($options);
-
-        $loader = new FilesystemLoader($this->getTemplatePath());
-        $this->Twig = new Environment($loader, [
-            'autoescape' => false,
-            'debug' => $this->options['debug'],
-            'strict_variables' => true,
-        ]);
-        if ($this->options['debug']) {
-            $this->Twig->addExtension(new DebugExtension());
-        }
         $this->ClassesExplorer = new ClassesExplorer($source);
         $this->Filesystem = new Filesystem();
+        $this->Twig = $this->getTwig($this->options['debug']);
+    }
+
+    /**
+     * Gets the `Twig` instance
+     * @param bool $debug Debug
+     * @return \Twig\Environment
+     */
+    public static function getTwig(bool $debug = false)
+    {
+        $loader = new FilesystemLoader(self::getTemplatePath());
+        $twig = new Environment($loader, compact('debug') + [
+            'autoescape' => false,
+            'strict_variables' => true,
+        ]);
+        $twig->addFilter(new TwigFilter('to_html', function ($string) {
+            return trim((new CommonMarkConverter())->convertToHtml($string));
+        }));
+
+        if ($debug) {
+            $twig->addExtension(new DebugExtension());
+        }
+
+        return $twig;
     }
 
     /**
@@ -116,7 +132,7 @@ class PhpDocMaker
      */
     public function getTemplatePath(): string
     {
-        return $this->templatePath;
+        return self::$templatePath;
     }
 
     /**

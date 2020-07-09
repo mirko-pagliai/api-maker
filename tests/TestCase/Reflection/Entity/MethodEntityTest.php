@@ -72,7 +72,7 @@ class MethodEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('<p>Use instead <code>getName()</code>/<code>setName()</code></p>', $this->getMethodEntity('name')->getDeprecatedDescription());
+        $this->assertSame('Use instead `getName()`/`setName()`', $this->getMethodEntity('name')->getDeprecatedDescription());
 
         //This method has no DocBlock
         $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getDeprecatedDescription());
@@ -84,8 +84,8 @@ class MethodEntityTest extends TestCase
      */
     public function testGetDocBlockAsString()
     {
-        $this->assertSame('<p>Sets or gets the name of this animal</p>', $this->getMethodEntity('name')->getDocBlockAsString());
-        $this->assertSame('<p>Creates a puppy.</p>' . PHP_EOL . '<p>This method will return a new <code>Cat</code> instance</p>', $this->getMethodEntity('createPuppy')->getDocBlockAsString());
+        $this->assertSame('Sets or gets the name of this animal', $this->getMethodEntity('name')->getDocBlockAsString());
+        $this->assertSame('Creates a puppy.' . PHP_EOL . 'This method will return a new `Cat` instance', $this->getMethodEntity('createPuppy')->getDocBlockAsString());
     }
 
     /**
@@ -153,7 +153,7 @@ class MethodEntityTest extends TestCase
      */
     public function testGetReturnDescription()
     {
-        $this->assertSame('<p>Returns the current instance or the name as string</p>', $this->getMethodEntity('name')->getReturnDescription());
+        $this->assertSame('Returns the current instance or the name as string', $this->getMethodEntity('name')->getReturnDescription());
         $this->assertSame('', $this->getMethodEntity('getColor')->getReturnDescription());
         $this->assertSame('', $this->getMethodEntity('doMeow')->getReturnDescription());
     }

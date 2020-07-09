@@ -4,6 +4,8 @@
 * `PhpDocMakerCommand` now correctly handles PHP errors too (e.g. notice);
 * each entity now has a coherent `__toString()` method, as well as a
     `toSignature()` method that returns a humanized version of its signature;
+* the common mark is turned into html directly in the template, thanks to a Twig
+    filter. Added the `PhpDocMaker::getTwig()` static method;
 * added the `GetDeclaringClassTrait`, for methods, properties and constants;
 * added the `GetTypeAsStringTrait`, for parameters and properties;
 * `ClassesExplorer` throws a correct exception on missing Composer autoloader;

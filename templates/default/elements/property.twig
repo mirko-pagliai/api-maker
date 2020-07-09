@@ -5,4 +5,4 @@
     {%~ endif %}
 </div>
 <div><span class="badge badge-light">{{ property.getTypeAsString }}</span></div>
-<div>{{ property.getDocBlockAsString }}</div>
+<div>{{ property.getDocBlockAsString|to_html }}</div>

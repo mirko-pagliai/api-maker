@@ -14,5 +14,5 @@
     {%~ if method.isDeprecated %}
     <span class="badge badge-light">deprecated</span>
     {%~ endif %}
-    <div>{{ method.getDocBlockSummaryAsString }}</div>
+    <div>{{ method.getDocBlockSummaryAsString|to_html }}</div>
 </div>

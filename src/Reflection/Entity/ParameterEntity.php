@@ -107,8 +107,7 @@ class ParameterEntity extends AbstractEntity
         $param = array_value_first(array_filter($docblock->getTagsByName('param'), function (Param $param) {
             return $param->getVariableName() === $this->reflectionObject->getName();
         }));
-        $docComment = $param->getDescription()->render();
 
-        return $docComment ? $this->toHtml($docComment) : '';
+        return $param->getDescription()->render() ?? '';
     }
 }

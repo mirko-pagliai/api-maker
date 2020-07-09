@@ -70,7 +70,7 @@ class PropertyEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('<p>Useless property</p>', $this->getPropertyEntity('isCat')->getDeprecatedDescription());
+        $this->assertSame('Useless property', $this->getPropertyEntity('isCat')->getDeprecatedDescription());
     }
 
     /**
@@ -80,8 +80,8 @@ class PropertyEntityTest extends TestCase
     public function testGetDocBlockAsString()
     {
         $this->assertEmpty($this->getPropertyEntity('isCat')->getDocBlockAsString());
-        $this->assertSame('<p>The name</p>', $this->getPropertyEntity('name')->getDocBlockAsString());
-        $this->assertSame('<p>Position.</p>' . PHP_EOL . '<p>This counts the number of steps from the initial position.</p>', $this->getPropertyEntity('position')->getDocBlockAsString());
+        $this->assertSame('The name', $this->getPropertyEntity('name')->getDocBlockAsString());
+        $this->assertSame('Position.' . PHP_EOL . 'This counts the number of steps from the initial position.', $this->getPropertyEntity('position')->getDocBlockAsString());
     }
 
     /**

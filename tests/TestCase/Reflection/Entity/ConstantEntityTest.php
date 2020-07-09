@@ -73,7 +73,7 @@ class ConstantEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('<p>We are no longer interested in knowing the genus of the animal</p>', $this->getConstantEntity('GENUS')->getDeprecatedDescription());
+        $this->assertSame('We are no longer interested in knowing the genus of the animal', $this->getConstantEntity('GENUS')->getDeprecatedDescription());
     }
 
     /**
@@ -82,8 +82,8 @@ class ConstantEntityTest extends TestCase
      */
     public function testGetDocBlockAsString()
     {
-        $this->assertSame('<p>Number of legs</p>', $this->getConstantEntity('LEGS')->getDocBlockAsString());
-        $this->assertSame('<p>Genus of this animal.</p>' . PHP_EOL . '<p>Every animal has its own genus.</p>', $this->getConstantEntity('GENUS')->getDocBlockAsString());
+        $this->assertSame('Number of legs', $this->getConstantEntity('LEGS')->getDocBlockAsString());
+        $this->assertSame('Genus of this animal.' . PHP_EOL . 'Every animal has its own genus.', $this->getConstantEntity('GENUS')->getDocBlockAsString());
     }
 
     /**

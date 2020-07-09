@@ -79,10 +79,7 @@ class ParameterEntityTest extends TestCase
      */
     public function testGetDocBlockAsString()
     {
-        $this->assertSame(
-            '<p>The name or <code>null</code> to get the current name</p>',
-            $this->getParameterEntity('name', 'name')->getDocBlockAsString()
-        );
+        $this->assertSame('The name or `null` to get the current name', $this->getParameterEntity('name', 'name')->getDocBlockAsString());
 
         //This parameter has no DocBlock
         $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithParameterAndWithoutDocBlock')->getParameter('parameterWithoutDocBlock')->getDocBlockAsString());

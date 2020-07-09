@@ -17,10 +17,9 @@ namespace PhpDocMaker\Test;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use App\Vehicles\Car;
+use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
 use PHPUnit\Runner\Version;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 
 /**
  * TemplateTest class
@@ -40,10 +39,7 @@ class TemplateTest extends TestCase
     {
         parent::setUp();
 
-        if (!$this->Twig) {
-            $loader = new FilesystemLoader(ROOT . DS . 'templates' . DS . 'default');
-            $this->Twig = new Environment($loader, ['autoescape' => false]);
-        }
+        $this->Twig = $this->Twig ?? PhpDocMaker::getTwig(true);
     }
 
     /**

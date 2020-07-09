@@ -53,17 +53,14 @@ class AbstractEntityTest extends TestCase
     public function testGetDocBlockMethods()
     {
         $class = $this->getClassEntityFromTests(Animal::class);
-        $this->assertSame('<p>Animal abstract class.</p>', $class->getDocBlockSummaryAsString());
-        $this->assertSame('<p>Other animal classes have to extend this class.</p>', $class->getDocBlockDescriptionAsString());
-        $this->assertSame('<p>Animal abstract class.</p>' . PHP_EOL . '<p>Other animal classes have to extend this class.</p>', $class->getDocBlockAsString());
+        $this->assertSame('Animal abstract class.', $class->getDocBlockSummaryAsString());
+        $this->assertSame('Other animal classes have to extend this class.', $class->getDocBlockDescriptionAsString());
+        $this->assertSame('Animal abstract class.' . PHP_EOL . 'Other animal classes have to extend this class.', $class->getDocBlockAsString());
 
         $class = $this->getClassEntityFromTests(Dog::class);
-        $expected = <<<HEREDOC
-<h3>Is it really a dog?</h3>
-<p>Yeah, this is a dog!</p>
-HEREDOC;
+        $expected = '### Is it really a dog?' . PHP_EOL . 'Yeah, this is a dog!';
         $this->assertSame($expected, $class->getDocBlockDescriptionAsString());
-        $this->assertSame('<p>Dog class.</p>' . PHP_EOL . $expected, $class->getDocBlockAsString());
+        $this->assertSame('Dog class.' . PHP_EOL . $expected, $class->getDocBlockAsString());
 
         //Class with no DocBlock
         $this->assertSame('', $this->getClassEntityFromTests(ArrayExample::class)->getDocBlockAsString());

@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection;
 
 use BadMethodCallException;
-use League\CommonMark\CommonMarkConverter;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
 use phpDocumentor\Reflection\DocBlockFactory;
@@ -78,7 +77,7 @@ abstract class AbstractEntity
     {
         $DocBlockInstance = $this->getDocBlockInstance();
 
-        return $DocBlockInstance ? $this->toHtml($DocBlockInstance->getSummary()) : '';
+        return $DocBlockInstance ? $DocBlockInstance->getSummary() : '';
     }
 
     /**
@@ -89,7 +88,7 @@ abstract class AbstractEntity
     {
         $DocBlockInstance = $this->getDocBlockInstance();
 
-        return $DocBlockInstance ? $this->toHtml($DocBlockInstance->getDescription()->render()) : '';
+        return $DocBlockInstance ? $DocBlockInstance->getDescription()->render() : '';
     }
 
     /**
@@ -147,15 +146,5 @@ abstract class AbstractEntity
         }
 
         return $tags;
-    }
-
-    /**
-     * Internal method to convert Markdown to Html
-     * @param string $string Markdown string
-     * @return string Html string
-     */
-    protected function toHtml($string): string
-    {
-        return trim((new CommonMarkConverter())->convertToHtml($string));
     }
 }

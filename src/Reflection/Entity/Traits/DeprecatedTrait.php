@@ -32,7 +32,7 @@ trait DeprecatedTrait
 
         $deprecatedTag = $DocBlockInstance->getTagsByName('deprecated');
 
-        return $this->toHtml($deprecatedTag ? ucfirst((string)$deprecatedTag[0]->getDescription()) : '');
+        return $deprecatedTag ? ucfirst((string)$deprecatedTag[0]->getDescription()) : '';
     }
 
     /**

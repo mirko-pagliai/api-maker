@@ -88,7 +88,7 @@ class ClassEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('<p>Useless, just for tests</p>', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getDeprecatedDescription());
+        $this->assertSame('Useless, just for tests', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getDeprecatedDescription());
     }
 
     /**
@@ -97,7 +97,7 @@ class ClassEntityTest extends TestCase
      */
     public function testGetDocBlockAsString()
     {
-        $this->assertSame('<p>Cat class</p>', $this->Class->getDocBlockAsString());
+        $this->assertSame('Cat class', $this->Class->getDocBlockAsString());
     }
 
     /**

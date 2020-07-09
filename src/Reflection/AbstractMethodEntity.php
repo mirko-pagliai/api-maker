@@ -103,7 +103,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
     {
         $returnTag = $this->getDocBlockInstance()->getTagsByName('return');
 
-        return $returnTag ? $this->toHtml((string)$returnTag[0]->getDescription()) : '';
+        return $returnTag ? (string)$returnTag[0]->getDescription() : '';
     }
 
     /**

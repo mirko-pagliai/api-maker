@@ -4,7 +4,7 @@
     <pre><code class="language-php">{{ method.toSignature }}</code></pre>
         {%~ if method.getDocBlockAsString %}
     <blockquote class="blockquote">
-        <small class="font-weight-light">{{ method.getDocBlockAsString }}</small>
+        <small class="font-weight-light">{{ method.getDocBlockAsString|to_html }}</small>
     </blockquote>
     {%- endif %}
 
@@ -13,7 +13,7 @@
     <h6>Parameters</h6>
             {%- for parameter in method.getParameters ~%}
     <div class="mb-3">
-        <code class="language-php">{{ parameter.toSignature }}</code> {{ parameter.getDocBlockAsString }}
+        <code class="language-php">{{ parameter.toSignature }}</code> {{ parameter.getDocBlockAsString|to_html }}
     </div>
             {%- endfor %}
         {%- endif %}
@@ -24,7 +24,7 @@
     <div class="mb-3">
         <div><code>{{ method.getReturnTypeAsString }}</code></div>
                 {%~ if method.getReturnDescription %}
-        <div>{{ method.getReturnDescription }}</div>
+        <div>{{ method.getReturnDescription|to_html }}</div>
                 {%~ endif %}
     </div>
         {%- endif %}
@@ -33,7 +33,7 @@
 
     <h6>Deprecated</h6>
     <div class="mb-3">
-        <div>{{ method.getDeprecatedDescription }}</div>
+        <div>{{ method.getDeprecatedDescription|to_html }}</div>
     </div>
         {%- endif %}
 
