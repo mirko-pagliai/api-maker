@@ -118,6 +118,21 @@ HEREDOC;
     }
 
     /**
+     * Test for `execute()` method, on missing Composer autoloader
+     * @test
+     */
+    public function testExecuteMissingComposerAutoloader()
+    {
+        $Command = new PhpDocMakerCommand();
+        $commandTester = new CommandTester($Command);
+        $commandTester->execute(['--debug' => true, 'source' => TMP]);
+        $this->assertSame(1, $commandTester->getStatusCode());
+        $output = $commandTester->getDisplay();
+        $this->assertStringContainsString('[ERROR] Missing Composer autoloader...', $output);
+        $this->assertStringContainsString(sprintf('On file `%s`', ROOT . DS . 'src' . DS . 'ClassesExplorer.php'), $output);
+    }
+
+    /**
      * Test for `execute()` method, on error (notice)
      * @test
      */
@@ -133,8 +148,6 @@ HEREDOC;
         $Command->PhpDocMaker->method('build')->will($this->returnCallback(function () {
             trigger_error('A notice error...', E_USER_NOTICE);
         }));
-
-        putenv('COLUMNS=120');
 
         $commandTester = new CommandTester($Command);
         $commandTester->execute(['--debug' => true] + compact('source'));
@@ -162,8 +175,6 @@ HEREDOC;
         $Command->PhpDocMaker->method('build')->will($this->returnCallback(function () {
             @trigger_error('A notice error...', E_USER_NOTICE);
         }));
-
-        putenv('COLUMNS=120');
 
         $commandTester = new CommandTester($Command);
         $commandTester->execute(['--debug' => true] + compact('source'));

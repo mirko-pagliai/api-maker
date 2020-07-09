@@ -27,6 +27,7 @@ use Roave\BetterReflection\SourceLocator\Type\ComposerSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\FileIteratorSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Symfony\Component\Finder\Finder;
+use Tools\Exception\NotReadableException;
 
 /**
  * ClassesExplorer.
@@ -59,11 +60,16 @@ class ClassesExplorer
     {
         is_readable_or_fail($path);
 
-        $astLocator = (new BetterReflection())->astLocator();
+        $classLoader = add_slash_term($path) . 'vendor' . DS . 'autoload.php';
+        if (!is_readable($classLoader)) {
+            throw new NotReadableException('Missing Composer autoloader', 0, null, $classLoader);
+        }
+        $classLoader = require $classLoader;
+
         $finder = new Finder();
         $finder->in($path)->files()->name('*.php')->notPath('tests')->notPath('vendor')->notPath('/.+\/cache/');
-        $classLoader = require add_slash_term($path) . 'vendor' . DS . 'autoload.php';
 
+        $astLocator = (new BetterReflection())->astLocator();
         $this->SourceLocator = new AggregateSourceLocator([
             new FileIteratorSourceLocator($finder->getIterator(), $astLocator),
             new ComposerSourceLocator($classLoader, $astLocator),

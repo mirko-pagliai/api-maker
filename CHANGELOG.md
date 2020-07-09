@@ -2,6 +2,7 @@
 ## 1.0 branch
 ### 1.0.1-beta2
 * `PhpDocMakerCommand` now correctly handles PHP errors too (e.g. notice);
+* `ClassesExplorer` throws a correct exception on missing Composer autoloader;
 * added `AbstractEntity::getTagsByName()` method. Invalid tags will throw an exception;
 * added `ClassEntity::getParentClass()` method;
 * added `ConstantEntity::getValueAsString()` method, fixed bug for class costants

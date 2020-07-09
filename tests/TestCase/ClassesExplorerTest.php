@@ -52,6 +52,17 @@ class ClassesExplorerTest extends TestCase
     }
 
     /**
+     * Test for the construct, on missing Composer autoloader
+     * @test
+     */
+    public function testConstructMissingComposerAutoloader()
+    {
+        $this->expectException(NotReadableException::class);
+        $this->expectExceptionMessage('Missing Composer autoloader');
+        new ClassesExplorer(TMP);
+    }
+
+    /**
      * Test for `getAllClasses()` method
      * @test
      */
