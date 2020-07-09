@@ -40,6 +40,17 @@ class MethodEntity extends AbstractMethodEntity
     }
 
     /**
+     * `__toString()` magic method
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $class = new ClassEntity($this->reflectionObject->getDeclaringClass());
+
+        return $class->toSignature() . '::' . $this->reflectionObject->getName() . '()';
+    }
+
+    /**
      * Returns `true` if it's static
      * @return bool
      */

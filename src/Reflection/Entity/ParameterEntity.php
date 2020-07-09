@@ -43,16 +43,25 @@ class ParameterEntity extends AbstractEntity
      */
     public function __toString(): string
     {
-        $string = '$' . $this->reflectionObject->getName();
+        return '$' . $this->reflectionObject->getName();
+    }
+
+    /**
+     * Returns the representation of this object as a signature
+     * @return string
+     */
+    public function toSignature(): string
+    {
+        $signature = (string)$this;
 
         if ($this->getTypeAsString()) {
-            $string = $this->getTypeAsString() . ' ' . $string;
+            $signature = $this->getTypeAsString() . ' ' . $signature;
         }
         if ($this->reflectionObject->isDefaultValueAvailable()) {
-            $string .= $this->getDefaultValueAsString();
+            $signature .= $this->getDefaultValueAsString();
         }
 
-        return $string;
+        return $signature;
     }
 
     /**

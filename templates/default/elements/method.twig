@@ -1,7 +1,7 @@
 <a name="{{ method.getName }}"></a>
 <div class="pb-1 pt-2 px-2 mb-3 bg-info text-white"><h5>{{ method.getName }}()</h5></div>
 <div class="ml-3">
-    <pre><code class="language-php">{{ method }}</code></pre>
+    <pre><code class="language-php">{{ method.toSignature }}</code></pre>
         {%~ if method.getDocBlockAsString %}
     <blockquote class="blockquote">
         <small class="font-weight-light">{{ method.getDocBlockAsString }}</small>
@@ -13,7 +13,7 @@
     <h6>Parameters</h6>
             {%- for parameter in method.getParameters ~%}
     <div class="mb-3">
-        <code class="language-php">{{ parameter }}</code> {{ parameter.getDocBlockAsString }}
+        <code class="language-php">{{ parameter.toSignature }}</code> {{ parameter.getDocBlockAsString }}
     </div>
             {%- endfor %}
         {%- endif %}

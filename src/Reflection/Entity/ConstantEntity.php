@@ -44,6 +44,26 @@ class ConstantEntity extends AbstractEntity
     }
 
     /**
+     * `__toString()` magic method
+     * @return string
+     */
+    public function __toString(): string
+    {
+        $declaringClass = new ClassEntity($this->reflectionObject->getDeclaringClass());
+
+        return $declaringClass->toSignature() . '::' . $this->reflectionObject->getName();
+    }
+
+    /**
+     * Returns the representation of this object as a signature
+     * @return string
+     */
+    public function toSignature(): string
+    {
+        return $this->reflectionObject->getName();
+    }
+
+    /**
      * Gets the value as string
      * @return string
      */

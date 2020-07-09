@@ -52,7 +52,16 @@ class ClassEntityTest extends TestCase
      */
     public function testToString()
     {
-        $this->assertSame(Cat::class, (string)$this->Class);
+        $this->assertSame('App\Animals\Cat', (string)$this->Class);
+    }
+
+    /**
+     * Test for `toSignature()` method
+     * @test
+     */
+    public function testToSignature()
+    {
+        $this->assertSame('App\Animals\Cat', $this->Class->toSignature());
     }
 
     /**

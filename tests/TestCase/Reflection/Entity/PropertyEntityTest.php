@@ -40,8 +40,18 @@ class PropertyEntityTest extends TestCase
      */
     public function testToString()
     {
-        $this->assertSame('$name', (string)$this->getPropertyEntity('name'));
-        $this->assertSame('$position', (string)$this->getPropertyEntity('position'));
+        $this->assertSame('App\Animals\Animal::$name', (string)$this->getPropertyEntity('name'));
+        $this->assertSame('App\Animals\Traits\PositionTrait::$position', (string)$this->getPropertyEntity('position'));
+    }
+
+    /**
+     * Test for `toSignature()` magic method
+     * @test
+     */
+    public function testToSignature()
+    {
+        $this->assertSame('$name', $this->getPropertyEntity('name')->toSignature());
+        $this->assertSame('$position', $this->getPropertyEntity('position')->toSignature());
     }
 
     /**

@@ -38,6 +38,15 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function __toString(): string
     {
+        return $this->reflectionObject->getName() . '()';
+    }
+
+    /**
+     * Returns the representation of this object as a signature
+     * @return string
+     */
+    public function toSignature(): string
+    {
         return $this->reflectionObject->getName() . '(' . $this->getParametersAsString() . ')';
     }
 
@@ -68,7 +77,9 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getParametersAsString(): string
     {
-        return implode(', ', array_map('strval', $this->getParameters()));
+        return implode(', ', array_map(function (ParameterEntity $param) {
+            return $param->toSignature();
+        }, $this->getParameters()));
     }
 
     /**

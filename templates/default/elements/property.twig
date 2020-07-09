@@ -1,5 +1,5 @@
 <div>
-    <code>{{ property }}</code> <span class="badge badge-light">{{ property.getVisibility }}</span>
+    <code>{{ property.toSignature }}</code> <span class="badge badge-light">{{ property.getVisibility }}</span>
     {%~ if property.isStatic %}
     <span class="badge badge-light">static</span>
     {%~ endif %}

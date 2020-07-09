@@ -49,6 +49,17 @@ class PropertyEntity extends AbstractEntity
      */
     public function __toString(): string
     {
+        $declaringClass = new ClassEntity($this->reflectionObject->getDeclaringClass());
+
+        return $declaringClass->toSignature() . '::$' . $this->reflectionObject->getName();
+    }
+
+    /**
+     * Returns the representation of this object as a signature
+     * @return string
+     */
+    public function toSignature(): string
+    {
         return '$' . $this->reflectionObject->getName();
     }
 

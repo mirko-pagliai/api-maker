@@ -37,15 +37,27 @@ class ParameterEntityTest extends TestCase
     }
 
     /**
+     * Test for `toSignature()` method
+     * @test
+     */
+    public function testToSignature()
+    {
+        $this->assertSame('string|null $name = null', $this->getParameterEntity('name', 'name')->toSignature());
+        $this->assertSame('string $name', $this->getParameterEntity('name', 'setName')->toSignature());
+        $this->assertSame('string|array $colors = []', $this->getParameterEntity('colors', 'setColors')->toSignature());
+        $this->assertSame('App\Animals\Cat $puppy', $this->getParameterEntity('puppy', 'setPuppy')->toSignature());
+    }
+
+    /**
      * Test for `__toString()` magic method
      * @test
      */
     public function testToString()
     {
-        $this->assertSame('string $name', (string)$this->getParameterEntity('name', 'setName'));
-        $this->assertSame('string|array $colors = []', (string)$this->getParameterEntity('colors', 'setColors'));
-        $this->assertSame('string|null $name = null', (string)$this->getParameterEntity('name', 'name'));
-        $this->assertSame('App\Animals\Cat $puppy', (string)$this->getParameterEntity('puppy', 'setPuppy'));
+        $this->assertSame('$name', (string)$this->getParameterEntity('name', 'setName'));
+        $this->assertSame('$colors', (string)$this->getParameterEntity('colors', 'setColors'));
+        $this->assertSame('$name', (string)$this->getParameterEntity('name', 'name'));
+        $this->assertSame('$puppy', (string)$this->getParameterEntity('puppy', 'setPuppy'));
     }
 
     /**

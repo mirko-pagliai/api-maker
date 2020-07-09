@@ -51,6 +51,24 @@ class ClassEntity extends AbstractEntity
     }
 
     /**
+     * `__toString()` magic method
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
+    /**
+     * Returns the representation of this object as a signature
+     * @return string
+     */
+    public function toSignature(): string
+    {
+        return $this->getName();
+    }
+
+    /**
      * Gets a constant
      * @param string $name Constant name
      * @return \PhpDocMaker\Reflection\Entity\ConstantEntity
