@@ -130,7 +130,7 @@ class PhpDocMaker
      * Gets the template path
      * @return string
      */
-    public function getTemplatePath(): string
+    public static function getTemplatePath(): string
     {
         return self::$templatePath;
     }
