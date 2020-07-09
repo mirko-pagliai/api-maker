@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection\Entity;
 
 use PhpDocMaker\Reflection\AbstractEntity;
+use PhpDocMaker\Reflection\Entity\Traits\GetTypeAsStringTrait;
 use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
@@ -23,6 +24,8 @@ use Roave\BetterReflection\Reflection\ReflectionParameter;
  */
 class ParameterEntity extends AbstractEntity
 {
+    use GetTypeAsStringTrait;
+
     /**
      * @var \Roave\BetterReflection\Reflection\ReflectionParameter
      */
@@ -107,24 +110,5 @@ class ParameterEntity extends AbstractEntity
         $docComment = $param->getDescription()->render();
 
         return $docComment ? $this->toHtml($docComment) : '';
-    }
-
-    /**
-     * Gets the type
-     * @return string
-     */
-    public function getTypeAsString(): string
-    {
-        if (!$this->reflectionObject->hasType()) {
-            return implode('|', array_map(function (string $type) {
-                return ltrim($type, '\\');
-            }, $this->reflectionObject->getDocBlockTypeStrings()));
-        }
-
-        $mapping = ['int' => 'integer', 'bool' => 'boolean'];
-        $originalType = (string)$this->reflectionObject->getType();
-        $type = $mapping[$originalType] ?? $originalType;
-
-        return $this->reflectionObject->allowsNull() ? $type . '|null' : $type;
     }
 }
