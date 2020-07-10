@@ -64,7 +64,9 @@ class ConstantEntityTest extends TestCase
      */
     public function testGetDeclaringClass()
     {
-        $this->assertInstanceOf(ClassEntity::class, $this->getConstantEntity('LEGS')->getDeclaringClass());
+        $class = $this->getConstantEntity('LEGS')->getDeclaringClass();
+        $this->assertInstanceOf(ClassEntity::class, $class);
+        $this->assertSame(Cat::class, $class->getName());
     }
 
     /**
@@ -74,25 +76,6 @@ class ConstantEntityTest extends TestCase
     public function testGetDeprecatedDescription()
     {
         $this->assertSame('We are no longer interested in knowing the genus of the animal', $this->getConstantEntity('GENUS')->getDeprecatedDescription());
-    }
-
-    /**
-     * Test for `getDocBlockAsString()` method
-     * @test
-     */
-    public function testGetDocBlockAsString()
-    {
-        $this->assertSame('Number of legs', $this->getConstantEntity('LEGS')->getDocBlockAsString());
-        $this->assertSame('Genus of this animal.' . PHP_EOL . 'Every animal has its own genus.', $this->getConstantEntity('GENUS')->getDocBlockAsString());
-    }
-
-    /**
-     * Test for `getName()` method
-     * @test
-     */
-    public function testGetName()
-    {
-        $this->assertSame('LEGS', $this->getConstantEntity('LEGS')->getName());
     }
 
     /**

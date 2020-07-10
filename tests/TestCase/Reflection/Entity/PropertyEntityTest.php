@@ -61,7 +61,9 @@ class PropertyEntityTest extends TestCase
      */
     public function testGetDeclaringClass()
     {
-        $this->assertInstanceOf(ClassEntity::class, $this->getPropertyEntity('isCat')->getDeclaringClass());
+        $class = $this->getPropertyEntity('isCat')->getDeclaringClass();
+        $this->assertInstanceOf(ClassEntity::class, $class);
+        $this->assertSame(Cat::class, $class->getName());
     }
 
     /**
@@ -71,26 +73,6 @@ class PropertyEntityTest extends TestCase
     public function testGetDeprecatedDescription()
     {
         $this->assertSame('Useless property', $this->getPropertyEntity('isCat')->getDeprecatedDescription());
-    }
-
-    /**
-     * Test for `getDocBlockAsString()` method
-     * @test
-     */
-    public function testGetDocBlockAsString()
-    {
-        $this->assertEmpty($this->getPropertyEntity('isCat')->getDocBlockAsString());
-        $this->assertSame('The name', $this->getPropertyEntity('name')->getDocBlockAsString());
-        $this->assertSame('Position.' . PHP_EOL . 'This counts the number of steps from the initial position.', $this->getPropertyEntity('position')->getDocBlockAsString());
-    }
-
-    /**
-     * Test for `getName()` method
-     * @test
-     */
-    public function testGetName()
-    {
-        $this->assertSame('name', $this->getPropertyEntity('name')->getName());
     }
 
     /**

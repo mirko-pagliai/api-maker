@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace PhpDocMaker\Test\Reflection\Entity;
+namespace PhpDocMaker\Test\Reflection;
 
 use App\Animals\Animal;
 use App\Animals\Cat;
@@ -37,7 +37,7 @@ class AbstractEntityTest extends TestCase
     public function testCall()
     {
         $entity = $this->getClassEntityFromTests(Cat::class);
-        $this->assertNotEmpty($entity->getConstant('LEGS'));
+        $this->assertFalse(method_exists($entity, 'getImmediateReflectionConstants'));
         $this->assertNotEmpty($entity->getImmediateReflectionConstants());
 
         $this->expectException(BadMethodCallException::class);

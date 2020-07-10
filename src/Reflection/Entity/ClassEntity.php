@@ -129,7 +129,7 @@ class ClassEntity extends AbstractEntity
         try {
             $class = $this->reflectionObject->getParentClass();
         } catch (IdentifierNotFound $e) {
-            throw new RuntimeException(sprintf('Class `%s` (parent of `%s`) could not be found', $e->getIdentifier()->getName(), $this->getName()));
+            throw new RuntimeException(sprintf('Class `%s` could not be found', $e->getIdentifier()->getName()));
         }
 
         return $class ? new ClassEntity($class) : null;

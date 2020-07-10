@@ -63,7 +63,9 @@ class MethodEntityTest extends TestCase
      */
     public function testGetDeclaringClass()
     {
-        $this->assertInstanceOf(ClassEntity::class, $this->getMethodEntity('createPuppy')->getDeclaringClass());
+        $class = $this->getMethodEntity('createPuppy')->getDeclaringClass();
+        $this->assertInstanceOf(ClassEntity::class, $class);
+        $this->assertSame(Cat::class, $class->getName());
     }
 
     /**
@@ -76,25 +78,6 @@ class MethodEntityTest extends TestCase
 
         //This method has no DocBlock
         $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getDeprecatedDescription());
-    }
-
-    /**
-     * Test for `getDocBlockAsString()` method
-     * @test
-     */
-    public function testGetDocBlockAsString()
-    {
-        $this->assertSame('Sets or gets the name of this animal', $this->getMethodEntity('name')->getDocBlockAsString());
-        $this->assertSame('Creates a puppy.' . PHP_EOL . 'This method will return a new `Cat` instance', $this->getMethodEntity('createPuppy')->getDocBlockAsString());
-    }
-
-    /**
-     * Test for `getName()` method
-     * @test
-     */
-    public function testGetName()
-    {
-        $this->assertSame('name', $this->getMethodEntity('name')->getName());
     }
 
     /**

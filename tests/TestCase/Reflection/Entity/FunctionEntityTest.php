@@ -66,24 +66,6 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
-     * Test for `getDocBlockAsString()` method
-     * @test
-     */
-    public function testGetDocBlockAsString()
-    {
-        $this->assertSame('A test function.' . PHP_EOL . 'This function does nothing in particular.', $this->Function->getDocBlockAsString());
-    }
-
-    /**
-     * Test for `getName()` method
-     * @test
-     */
-    public function testGetName()
-    {
-        $this->assertSame('a_test_function', $this->Function->getName());
-    }
-
-    /**
      * Test for `getParameters()` method
      * @test
      */

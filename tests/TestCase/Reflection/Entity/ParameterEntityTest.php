@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
-use App\DeprecatedClassExample;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
@@ -76,36 +75,19 @@ class ParameterEntityTest extends TestCase
     }
 
     /**
-     * Test for `getDocBlockAsString()` method
-     * @test
-     */
-    public function testGetDocBlockAsString()
-    {
-        $this->assertSame('The name or `null` to get the current name', $this->getParameterEntity('name', 'name')->getDocBlockAsString());
-
-        //This parameter has no DocBlock
-        $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithParameterAndWithoutDocBlock')->getParameter('parameterWithoutDocBlock')->getDocBlockAsString());
-    }
-
-    /**
-     * Test for `getName()` method
-     * @test
-     */
-    public function testGetName()
-    {
-        $this->assertSame('name', $this->getParameterEntity('name', 'setName')->getName());
-    }
-
-    /**
      * Test for `getDeclaringFunction()`
      * @test
      */
     public function testGetDeclaringFunction()
     {
-        $this->assertInstanceOf(MethodEntity::class, $this->getParameterEntity('name', 'setName')->getDeclaringFunction());
+        $function = $this->getParameterEntity('name', 'setName')->getDeclaringFunction();
+        $this->assertInstanceOf(MethodEntity::class, $function);
+        $this->assertSame('setName', $function->getName());
 
         //Parameter from a function
-        $this->assertInstanceOf(FunctionEntity::class, $this->getFunctionEntityFromTests('old_function')->getParameter('int2')->getDeclaringFunction());
+        $function = $this->getFunctionEntityFromTests('old_function')->getParameter('int2')->getDeclaringFunction();
+        $this->assertInstanceOf(FunctionEntity::class, $function);
+        $this->assertSame('old_function', $function->getName());
     }
 
     /**

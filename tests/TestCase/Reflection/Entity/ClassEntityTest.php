@@ -70,7 +70,9 @@ class ClassEntityTest extends TestCase
      */
     public function testGetConstant()
     {
-        $this->assertInstanceOf(ConstantEntity::class, $this->Class->getConstant('LEGS'));
+        $constant = $this->Class->getConstant('LEGS');
+        $this->assertInstanceOf(ConstantEntity::class, $constant);
+        $this->assertSame('LEGS', $constant->getName());
     }
 
     /**
@@ -89,15 +91,6 @@ class ClassEntityTest extends TestCase
     public function testGetDeprecatedDescription()
     {
         $this->assertSame('Useless, just for tests', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getDeprecatedDescription());
-    }
-
-    /**
-     * Test for `getDocBlockAsString()` method
-     * @test
-     */
-    public function testGetDocBlockAsString()
-    {
-        $this->assertSame('Cat class', $this->Class->getDocBlockAsString());
     }
 
     /**
@@ -130,15 +123,6 @@ class ClassEntityTest extends TestCase
     }
 
     /**
-     * Test for `getName()` method
-     * @test
-     */
-    public function testGetName()
-    {
-        $this->assertSame(Cat::class, $this->Class->getName());
-    }
-
-    /**
      * Test for `getParentClass()` method
      * @test
      */
@@ -148,10 +132,11 @@ class ClassEntityTest extends TestCase
         $this->assertInstanceOf(ClassEntity::class, $parent);
         $this->assertSame(Animal::class, $parent->getName());
 
+        //Class with no parent class
         $this->assertNull($parent->getParentClass());
 
         $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Class `App\NoExistingClass` (parent of `App\InvalidClassParent`) could not be found');
+        $this->expectExceptionMessage('Class `App\NoExistingClass` could not be found');
         $this->getClassEntityFromTests(InvalidClassParent::class)->getParentClass();
     }
 
@@ -161,7 +146,9 @@ class ClassEntityTest extends TestCase
      */
     public function testGetProperty()
     {
-        $this->assertInstanceOf(PropertyEntity::class, $this->Class->getProperty('Puppy'));
+        $property = $this->Class->getProperty('Puppy');
+        $this->assertInstanceOf(PropertyEntity::class, $property);
+        $this->assertSame('Puppy', $property->getName());
     }
 
     /**
