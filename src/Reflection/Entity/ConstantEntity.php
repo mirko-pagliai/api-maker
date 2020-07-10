@@ -51,7 +51,7 @@ class ConstantEntity extends AbstractEntity
      */
     public function __toString(): string
     {
-        return (string)$this->getDeclaringClass() . '::' . $this->reflectionObject->getName();
+        return (string)$this->getDeclaringClass() . '::' . $this->getName();
     }
 
     /**
@@ -60,7 +60,7 @@ class ConstantEntity extends AbstractEntity
      */
     public function toSignature(): string
     {
-        return $this->reflectionObject->getName();
+        return $this->getName();
     }
 
     /**

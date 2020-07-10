@@ -47,7 +47,7 @@ class MethodEntity extends AbstractMethodEntity
      */
     public function __toString(): string
     {
-        return (string)$this->getDeclaringClass() . '::' . $this->reflectionObject->getName() . '()';
+        return (string)$this->getDeclaringClass() . '::' . $this->getName() . '()';
     }
 
     /**

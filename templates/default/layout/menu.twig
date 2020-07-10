@@ -1,11 +1,11 @@
 <ul class="list-unstyled m-0">
     {%~ for class in classes %}
     <li class="text-truncate">
-        <a href="{{ class.link }}" title="{{ class.name }}">
+        <a href="{{ class.getLink }}" title="{{ class.getName }}">
             {%- if class.isDeprecated -%}
-                <del>{{ class.name }}</del>
+                <del>{{ class.getName }}</del>
             {%- else -%}
-                {{ class.name }}
+                {{ class.getName }}
             {%- endif -%}
         </a>
     </li>

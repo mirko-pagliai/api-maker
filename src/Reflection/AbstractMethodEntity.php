@@ -38,7 +38,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function __toString(): string
     {
-        return $this->reflectionObject->getName() . '()';
+        return $this->getName() . '()';
     }
 
     /**
@@ -47,7 +47,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function toSignature(): string
     {
-        return $this->reflectionObject->getName() . '(' . $this->getParametersAsString() . ')';
+        return $this->getName() . '(' . $this->getParametersAsString() . ')';
     }
 
     /**

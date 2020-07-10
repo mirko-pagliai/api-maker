@@ -22,6 +22,7 @@ use RuntimeException;
 
 /**
  * AbstractEntity class
+ * @method string getName() Gets the object name
  */
 abstract class AbstractEntity
 {
@@ -105,15 +106,6 @@ abstract class AbstractEntity
         $description = $this->getDocBlockDescriptionAsString();
 
         return $summary . ($description ? PHP_EOL . $description : '');
-    }
-
-    /**
-     * Gets the object name
-     * @return string
-     */
-    public function getName(): string
-    {
-        return $this->reflectionObject->getName();
     }
 
     /**

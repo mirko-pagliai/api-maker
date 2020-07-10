@@ -50,7 +50,7 @@ class ParameterEntity extends AbstractEntity
      */
     public function __toString(): string
     {
-        return '$' . $this->reflectionObject->getName();
+        return '$' . $this->getName();
     }
 
     /**
