@@ -25,9 +25,9 @@ trait DeprecatedTrait
      */
     public function getDeprecatedDescription(): string
     {
-        $tag = $this->getTagsByName('deprecated');
+        $tags = $this->getTagsByName('deprecated');
 
-        return $tag ? ucfirst((string)$tag[0]->getDescription()) : '';
+        return $tags ? ucfirst((string)array_value_first($tags)->getDescription()) : '';
     }
 
     /**

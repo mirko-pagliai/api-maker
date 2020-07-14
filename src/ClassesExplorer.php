@@ -42,14 +42,14 @@ class ClassesExplorer
     protected $ClassReflector;
 
     /**
-     * @var \Roave\BetterReflection\SourceLocator\Type\SourceLocator
-     */
-    protected $SourceLocator;
-
-    /**
      * @var \Roave\BetterReflection\Reflector\FunctionReflector
      */
     protected $FunctionReflector;
+
+    /**
+     * @var \Roave\BetterReflection\SourceLocator\Type\SourceLocator
+     */
+    protected $SourceLocator;
 
     /**
      * Construct

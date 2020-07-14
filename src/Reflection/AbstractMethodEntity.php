@@ -99,9 +99,9 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getReturnDescription(): string
     {
-        $returnTag = $this->getTagsByName('return');
+        $tags = $this->getTagsByName('return');
 
-        return $returnTag ? (string)$returnTag[0]->getDescription() : '';
+        return $tags ? (string)array_value_first($tags)->getDescription() : '';
     }
 
     /**

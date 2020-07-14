@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
+use App\ArrayExample;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
@@ -88,6 +89,21 @@ class ParameterEntityTest extends TestCase
         $function = $this->getFunctionEntityFromTests('old_function')->getParameter('int2')->getDeclaringFunction();
         $this->assertInstanceOf(FunctionEntity::class, $function);
         $this->assertSame('old_function', $function->getName());
+    }
+
+    /**
+     * Test for `getDocBlockAsString()`
+     * @test
+     */
+    public function testGetDocBlockAsString()
+    {
+        $this->assertSame('Type of meow', $this->getParameterEntity('meow', 'doMeow')->getDocBlockAsString());
+
+        //Parameter from a function
+        $this->assertSame('Another integer', $this->getFunctionEntityFromTests('old_function')->getParameter('int2')->getDocBlockAsString());
+
+        //Parameter with no DocBlock
+        $this->assertSame('', $this->getParameterEntity('offset', 'offsetExists', ArrayExample::class)->getDocBlockAsString());
     }
 
     /**
