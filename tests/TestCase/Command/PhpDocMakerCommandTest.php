@@ -18,7 +18,6 @@ use Exception;
 use PhpDocMaker\Command\PhpDocMakerCommand;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
-use PHPUnit\Runner\Version;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -104,17 +103,16 @@ HEREDOC;
 
         //Tests output
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('[OK] Done!', $output);
+        $this->assertContains('[OK] Done!', $output);
         $this->assertRegExp('/Founded \d+ classes/', $output);
         $this->assertRegExp('/Founded \d+ functions/', $output);
         $this->assertRegExp('/Elapsed time\: \d+\.\d+ seconds/', $output);
 
-        $this->skipIf(version_compare(Version::id(), '8', '<'));
-        $this->assertStringContainsString('Sources directory: ' . $source, $output);
-        $this->assertStringContainsString('Target directory: ' . $target, $output);
-        $this->assertStringContainsString('Rendered index page', $output);
-        $this->assertStringContainsString('Rendered functions page', $output);
-        $this->assertStringContainsString('Rendered class page for', $output);
+        $this->assertContains('Sources directory: ' . $source, $output);
+        $this->assertContains('Target directory: ' . $target, $output);
+        $this->assertContains('Rendered index page', $output);
+        $this->assertContains('Rendered functions page', $output);
+        $this->assertContains('Rendered class page for', $output);
     }
 
     /**
@@ -128,8 +126,8 @@ HEREDOC;
         $commandTester->execute(['--debug' => true, 'source' => TMP]);
         $this->assertSame(1, $commandTester->getStatusCode());
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('[ERROR] Missing Composer autoloader...', $output);
-        $this->assertStringContainsString(sprintf('On file `%s`', ROOT . DS . 'src' . DS . 'ClassesExplorer.php'), $output);
+        $this->assertContains('[ERROR] Missing Composer autoloader...', $output);
+        $this->assertContains(sprintf('On file `%s`', ROOT . DS . 'src' . DS . 'ClassesExplorer.php'), $output);
     }
 
     /**
@@ -153,10 +151,9 @@ HEREDOC;
         $commandTester->execute(['--debug' => true] + compact('source'));
         $this->assertSame(1, $commandTester->getStatusCode());
 
-        $this->skipIf(version_compare(Version::id(), '8', '<'));
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('[ERROR] A notice error...', $output);
-        $this->assertStringContainsString(sprintf('On file `%s`', __FILE__), $output);
+        $this->assertContains('[ERROR] A notice error...', $output);
+        $this->assertContains(sprintf('On file `%s`', __FILE__), $output);
     }
 
     /**
@@ -180,9 +177,8 @@ HEREDOC;
         $commandTester->execute(['--debug' => true] + compact('source'));
         $this->assertSame(0, $commandTester->getStatusCode());
 
-        $this->skipIf(version_compare(Version::id(), '8', '<'));
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('[OK] Done!', $output);
+        $this->assertContains('[OK] Done!', $output);
     }
 
     /**
@@ -201,15 +197,13 @@ HEREDOC;
 
         $Command->PhpDocMaker->method('build')->willThrowException($expectedException);
 
-        putenv('COLUMNS=120');
         $commandTester = new CommandTester($Command);
         $commandTester->execute(['--debug' => true] + compact('source'));
         $this->assertSame(1, $commandTester->getStatusCode());
 
-        $this->skipIf(version_compare(Version::id(), '8', '<'));
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('[ERROR] Something went wrong...', $output);
-        $this->assertStringContainsString(sprintf('On file `%s`', $expectedException->getFile()), $output);
-        $this->assertStringContainsString(sprintf('line %s', $expectedException->getLine()), $output);
+        $this->assertContains('[ERROR] Something went wrong...', $output);
+        $this->assertContains(sprintf('On file `%s`', $expectedException->getFile()), $output);
+        $this->assertContains(sprintf('line %s', $expectedException->getLine()), $output);
     }
 }
