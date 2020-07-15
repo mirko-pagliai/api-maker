@@ -25,7 +25,7 @@ trait GetTypeAsStringTrait
      */
     public function getTypeAsString(): string
     {
-        if (!$this->reflectionObject->hasType()) {
+        if (!method_exists($this->reflectionObject, 'hasType') || !$this->reflectionObject->hasType()) {
             return implode('|', array_map(function (string $type) {
                 return ltrim($type, '\\');
             }, $this->reflectionObject->getDocBlockTypeStrings()));
