@@ -33,6 +33,11 @@ abstract class TestCase extends BaseTestCase
     protected $ClassesExplorer;
 
     /**
+     * @var array
+     */
+    protected $classesFromTests;
+
+    /**
      * Internal method to get a `ClassesExplorer` instance
      * @return \PhpDocMaker\ClassesExplorer
      */
@@ -46,20 +51,37 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Internal method to get a `ClassEntity` instance from a function located
-     *  in the test app
+     * Gets all classes located in the test app
+     * @return array
+     */
+    protected function getAllClassesFromTests(): array
+    {
+        if (!$this->classesFromTests) {
+            $this->classesFromTests = $this->getClassesExplorerInstance()->getAllClasses();
+        }
+
+        return $this->classesFromTests;
+    }
+
+    /**
+     * Gets a `ClassEntity` instance from a function located in the test app
      * @param string $className Class name
      * @return \PhpDocMaker\Reflection\Entity\ClassEntity
      */
     protected function getClassEntityFromTests(string $className): ClassEntity
     {
-        foreach ($this->getClassesExplorerInstance()->getAllClasses() as $currentClass) {
-            if ($currentClass->getName() === $className) {
-                return $currentClass;
+        $class = array_value_first(array_filter(
+            $this->getAllClassesFromTests(),
+            function (ClassEntity $currentClass) use ($className) {
+                return $currentClass->getName() === $className;
             }
+        ));
+
+        if (!$class) {
+            $this->fail(sprintf('Impossible to find the `%s` class from test files', $className));
         }
 
-        $this->fail(sprintf('Impossible to find the `%s` class from test files', $className));
+        return $class;
     }
 
     /**
