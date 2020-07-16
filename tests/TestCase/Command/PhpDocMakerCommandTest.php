@@ -103,16 +103,16 @@ HEREDOC;
 
         //Tests output
         $output = $commandTester->getDisplay();
-        $this->assertContains('[OK] Done!', $output);
+        $this->assertStringContainsString('[OK] Done!', $output);
         $this->assertRegExp('/Founded \d+ classes/', $output);
         $this->assertRegExp('/Founded \d+ functions/', $output);
         $this->assertRegExp('/Elapsed time\: \d+\.\d+ seconds/', $output);
 
-        $this->assertContains('Sources directory: ' . $source, $output);
-        $this->assertContains('Target directory: ' . $target, $output);
-        $this->assertContains('Rendered index page', $output);
-        $this->assertContains('Rendered functions page', $output);
-        $this->assertContains('Rendered class page for', $output);
+        $this->assertStringContainsString('Sources directory: ' . $source, $output);
+        $this->assertStringContainsString('Target directory: ' . $target, $output);
+        $this->assertStringContainsString('Rendered index page', $output);
+        $this->assertStringContainsString('Rendered functions page', $output);
+        $this->assertStringContainsString('Rendered class page for', $output);
     }
 
     /**
@@ -126,8 +126,8 @@ HEREDOC;
         $commandTester->execute(['--debug' => true, 'source' => TMP]);
         $this->assertSame(1, $commandTester->getStatusCode());
         $output = $commandTester->getDisplay();
-        $this->assertContains('[ERROR] Missing Composer autoloader...', $output);
-        $this->assertContains(sprintf('On file `%s`', ROOT . DS . 'src' . DS . 'ClassesExplorer.php'), $output);
+        $this->assertStringContainsString('[ERROR] Missing Composer autoloader...', $output);
+        $this->assertStringContainsString(sprintf('On file `%s`', ROOT . DS . 'src' . DS . 'ClassesExplorer.php'), $output);
     }
 
     /**
@@ -152,8 +152,8 @@ HEREDOC;
         $this->assertSame(1, $commandTester->getStatusCode());
 
         $output = $commandTester->getDisplay();
-        $this->assertContains('[ERROR] A notice error...', $output);
-        $this->assertContains(sprintf('On file `%s`', __FILE__), $output);
+        $this->assertStringContainsString('[ERROR] A notice error...', $output);
+        $this->assertStringContainsString(sprintf('On file `%s`', __FILE__), $output);
     }
 
     /**
@@ -178,7 +178,7 @@ HEREDOC;
         $this->assertSame(0, $commandTester->getStatusCode());
 
         $output = $commandTester->getDisplay();
-        $this->assertContains('[OK] Done!', $output);
+        $this->assertStringContainsString('[OK] Done!', $output);
     }
 
     /**
@@ -202,8 +202,8 @@ HEREDOC;
         $this->assertSame(1, $commandTester->getStatusCode());
 
         $output = $commandTester->getDisplay();
-        $this->assertContains('[ERROR] Something went wrong...', $output);
-        $this->assertContains(sprintf('On file `%s`', $expectedException->getFile()), $output);
-        $this->assertContains(sprintf('line %s', $expectedException->getLine()), $output);
+        $this->assertStringContainsString('[ERROR] Something went wrong...', $output);
+        $this->assertStringContainsString(sprintf('On file `%s`', $expectedException->getFile()), $output);
+        $this->assertStringContainsString(sprintf('line %s', $expectedException->getLine()), $output);
     }
 }
