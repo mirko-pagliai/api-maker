@@ -24,6 +24,7 @@ use Roave\BetterReflection\Reflection\ReflectionProperty;
 
 /**
  * Property entity
+ * @method bool isStatic()
  */
 class PropertyEntity extends AbstractEntity
 {
