@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-require getcwd() . '/vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
 use PhpDocMaker\Command\PhpDocMakerCommand;
 use Symfony\Component\Console\Application;
