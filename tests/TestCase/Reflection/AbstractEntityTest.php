@@ -61,7 +61,10 @@ class AbstractEntityTest extends TestCase
 
         $class = $this->getClassEntityFromTests(Dog::class);
         $expectedSummary = 'Dog class.';
-        $expectedDesc = '### Is it really a dog?' . PHP_EOL . 'Yeah, this is a dog!';
+$expectedDesc = <<<HEREDOC
+### Is it really a dog?
+Yeah, this is a dog!
+HEREDOC;
         $this->assertSame($expectedSummary, $class->getDocBlockSummaryAsString());
         $this->assertSame($expectedDesc, $class->getDocBlockDescriptionAsString());
         $this->assertSame($expectedSummary . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
