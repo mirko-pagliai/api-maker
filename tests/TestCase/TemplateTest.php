@@ -19,13 +19,17 @@ use App\DeprecatedClassExample;
 use App\Vehicles\Car;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
-use PHPUnit\Runner\Version;
 
 /**
  * TemplateTest class
  */
 class TemplateTest extends TestCase
 {
+    /**
+     * @var \PhpDocMaker\Reflection\Entity\ClassEntity
+     */
+    protected $Class;
+
     /**
      * @var \Twig\Environment
      */
@@ -39,6 +43,7 @@ class TemplateTest extends TestCase
     {
         parent::setUp();
 
+        $this->Class = $this->Class ?? $this->getClassEntityFromTests(Cat::class);
         $this->Twig = $this->Twig ?? PhpDocMaker::getTwig(true);
     }
 
@@ -73,8 +78,6 @@ HEREDOC;
         $result = $this->Twig->render('layout/menu.twig', compact('classes'));
         $this->assertStringStartsWith($expectedStart, $result);
         $this->assertStringEndsWith($expectedEnd, $result);
-
-        $this->skipIf(version_compare(Version::id(), '8', '<'));
         $this->assertStringContainsString('<a href="Class-App-DeprecatedClassExample.html" title="App\DeprecatedClassExample"><del>App\DeprecatedClassExample</del></a>', $result);
     }
 
@@ -84,7 +87,7 @@ HEREDOC;
      */
     public function testConstantTemplate()
     {
-        $constant = $this->getClassEntityFromTests(Cat::class)->getConstant('LEGS');
+        $constant = $this->Class->getConstant('LEGS');
         $result = $this->Twig->render('elements/constant.twig', compact('constant'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'constant1.html', $result);
 
@@ -94,75 +97,41 @@ HEREDOC;
     }
 
     /**
-     * Test for function template element
+     * Test for function template and function summary template elements
      * @test
      */
     public function testFunctionTemplate()
     {
-        $function = $this->getFunctionEntityFromTests('anonymous_function');
-        $result = $this->Twig->render('elements/method.twig', ['method' => $function]);
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'function1.html', $result);
+        foreach (['anonymous_function', 'old_function'] as $k => $functionName) {
+            $method = $this->getFunctionEntityFromTests($functionName);
 
-        $function = $this->getFunctionEntityFromTests('old_function');
-        $result = $this->Twig->render('elements/method.twig', ['method' => $function]);
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'function2.html', $result);
+            $result = $this->Twig->render('elements/method.twig', compact('method'));
+            $this->assertStringEqualsFile(EXPECTED_FILES . 'function' . ++$k . '.html', $result);
+
+            $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
+            $this->assertStringEqualsFile(EXPECTED_FILES . 'function_summary' . $k . '.html', $result);
+        }
     }
 
     /**
-     * Test for function summary template element
-     * @test
-     */
-    public function testFunctionSummaryTemplate()
-    {
-        $function = $this->getFunctionEntityFromTests('anonymous_function');
-        $result = $this->Twig->render('elements/method-summary.twig', ['method' => $function]);
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'function_summary1.html', $result);
-
-        $function = $this->getFunctionEntityFromTests('old_function');
-        $result = $this->Twig->render('elements/method-summary.twig', ['method' => $function]);
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'function_summary2.html', $result);
-    }
-
-    /**
-     * Test for method template element
+     * Test for method template and method summary template elements
      * @test
      */
     public function testMethodTemplate()
     {
-        $method = $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethod');
-        $result = $this->Twig->render('elements/method.twig', compact('method'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'method1.html', $result);
+        $class = $this->getClassEntityFromTests(DeprecatedClassExample::class);
 
-        $method = $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anotherAnonymousMethod');
-        $result = $this->Twig->render('elements/method.twig', compact('method'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'method2.html', $result);
+        foreach (['anonymousMethod', 'anotherAnonymousMethod', 'anonymousMethodWithSomeVars', 'anonymousMethodWithoutDocBlock'] as $k => $methodName) {
+            $method = $class->getMethod($methodName);
+            $result = $this->Twig->render('elements/method.twig', compact('method'));
+            $this->assertStringEqualsFile(EXPECTED_FILES . 'method' . ++$k . '.html', $result);
+        }
 
-        $method = $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithSomeVars');
-        $result = $this->Twig->render('elements/method.twig', compact('method'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'method3.html', $result);
-
-        $method = $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
-        $result = $this->Twig->render('elements/method.twig', compact('method'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'method4.html', $result);
-    }
-
-    /**
-     * Test for method summary template element
-     * @test
-     */
-    public function testMethodSummaryTemplate()
-    {
-        $method = $this->getClassEntityFromTests(Cat::class)->getMethod('doMeow');
-        $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary1.html', $result);
-
-        $method = $this->getClassEntityFromTests(Cat::class)->getMethod('name');
-        $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary2.html', $result);
-
-        $method = $this->getClassEntityFromTests(Cat::class)->getMethod('getType');
-        $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary3.html', $result);
+        foreach (['doMeow', 'name', 'getType'] as $k => $methodName) {
+            $method = $this->Class->getMethod($methodName);
+            $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
+            $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary' . ++$k . '.html', $result);
+        }
     }
 
     /**
@@ -171,11 +140,11 @@ HEREDOC;
      */
     public function testPropertyTemplate()
     {
-        $property = $this->getClassEntityFromTests(Cat::class)->getProperty('description');
+        $property = $this->Class->getProperty('description');
         $result = $this->Twig->render('elements/property.twig', compact('property'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'property1.html', $result);
 
-        $property = $this->getClassEntityFromTests(Cat::class)->getProperty('Puppy');
+        $property = $this->Class->getProperty('Puppy');
         $result = $this->Twig->render('elements/property.twig', compact('property'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'property2.html', $result);
     }

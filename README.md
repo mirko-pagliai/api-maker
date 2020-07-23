@@ -11,7 +11,7 @@ of your PHP project.
 
 ![enter image description here](https://github.com/mirko-pagliai/php-doc-maker/raw/master/docs/screenshot.jpg)
 
-It requires at least PHP 7.1 and `phpunit` 7 or 8.
+It requires at least PHP 7.2.
 
 Yes, the documentation for *php-doc-maker* was also generated with the same and you can find it [here](//mirko-pagliai.github.io/php-doc-maker).
 
