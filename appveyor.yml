@@ -21,7 +21,7 @@ install:
   - echo extension=php_fileinfo.dll >> php.ini
   - echo extension=php_intl.dll >> php.ini
   - echo extension=php_openssl.dll >> php.ini
-  - echo memory_limit=256M >>  >> php.ini
+  - echo memory_limit=256M >> php.ini
   - cd C:\projects\php-doc-maker
   - appveyor DownloadFile https://getcomposer.org/composer.phar
   - php composer.phar install --prefer-dist --no-interaction --ansi --no-progress
