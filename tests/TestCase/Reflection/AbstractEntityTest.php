@@ -61,7 +61,7 @@ class AbstractEntityTest extends TestCase
 
         $class = $this->getClassEntityFromTests(Dog::class);
         $expectedSummary = 'Dog class.';
-$expectedDesc = <<<HEREDOC
+        $expectedDesc = <<<HEREDOC
 ### Is it really a dog?
 Yeah, this is a dog!
 HEREDOC;
