@@ -31,4 +31,4 @@ install:
 
 test_script:
   - cd C:\projects\php-doc-maker
-  - vendor\bin\phpunit.bat --debug
+  - vendor\bin\phpunit.bat
