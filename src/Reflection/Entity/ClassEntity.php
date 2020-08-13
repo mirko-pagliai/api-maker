@@ -162,6 +162,6 @@ class ClassEntity extends AbstractEntity
      */
     public function getSlug(): string
     {
-        return str_replace('\\', '-', $this->getName());
+        return slug($this->getName(), false);
     }
 }
