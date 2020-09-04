@@ -43,9 +43,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getClassesExplorerInstance(): ClassesExplorer
     {
-        if (!$this->ClassesExplorer) {
-            $this->ClassesExplorer = new ClassesExplorer(TEST_APP);
-        }
+        $this->ClassesExplorer = $this->ClassesExplorer ?: new ClassesExplorer(TEST_APP);
 
         return $this->ClassesExplorer;
     }
@@ -56,9 +54,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getAllClassesFromTests(): array
     {
-        if (!$this->classesFromTests) {
-            $this->classesFromTests = $this->getClassesExplorerInstance()->getAllClasses();
-        }
+        $this->classesFromTests = $this->classesFromTests ?: $this->getClassesExplorerInstance()->getAllClasses();
 
         return $this->classesFromTests;
     }

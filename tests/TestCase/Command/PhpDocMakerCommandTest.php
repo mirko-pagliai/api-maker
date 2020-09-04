@@ -126,8 +126,7 @@ HEREDOC;
         $commandTester->execute(['--debug' => true, 'source' => TMP]);
         $this->assertSame(1, $commandTester->getStatusCode());
         $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('[ERROR] Missing Composer autoloader...', $output);
-        $this->assertStringContainsString(sprintf('On file `%s`', ROOT . DS . 'src' . DS . 'ClassesExplorer.php'), $output);
+        $this->assertStringContainsString('[ERROR] Missing Composer autoloader on', $output);
     }
 
     /**

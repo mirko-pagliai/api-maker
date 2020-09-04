@@ -48,7 +48,7 @@ class ClassesExplorerTest extends TestCase
     public function testConstructWithNoReadablePath()
     {
         $this->expectException(NotReadableException::class);
-        $this->expectExceptionMessage('Filename `' . DS . 'noExistingPath` is not readable');
+        $this->expectExceptionMessage('Missing Composer autoloader on `' . DS . 'noExistingPath' . DS . 'vendor' . DS . 'autoload.php`');
         new ClassesExplorer(DS . 'noExistingPath');
     }
 

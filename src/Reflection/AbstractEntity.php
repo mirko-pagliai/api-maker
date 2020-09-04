@@ -15,10 +15,12 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection;
 
 use BadMethodCallException;
+use Exception;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
 use phpDocumentor\Reflection\DocBlockFactory;
 use RuntimeException;
+use Tools\Exceptionist;
 
 /**
  * AbstractEntity class
@@ -37,9 +39,7 @@ abstract class AbstractEntity
      */
     public function __call(string $name, array $arguments)
     {
-        if (!method_exists($this->reflectionObject, $name)) {
-            throw new BadMethodCallException(sprintf('Method %s::%s() does not exist', get_class($this->reflectionObject), $name));
-        }
+        Exceptionist::methodExists([$this->reflectionObject, $name], sprintf('Method %s::%s() does not exist', get_class($this->reflectionObject), $name), BadMethodCallException::class);
 
         return call_user_func_array([$this->reflectionObject, $name], $arguments);
     }
@@ -65,7 +65,7 @@ abstract class AbstractEntity
     {
         try {
             return DocBlockFactory::createInstance()->create($reflectionObject ?: $this->reflectionObject);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
     }

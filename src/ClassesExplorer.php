@@ -27,7 +27,7 @@ use Roave\BetterReflection\SourceLocator\Type\ComposerSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\FileIteratorSourceLocator;
 use Roave\BetterReflection\SourceLocator\Type\PhpInternalSourceLocator;
 use Symfony\Component\Finder\Finder;
-use Tools\Exception\NotReadableException;
+use Tools\Exceptionist;
 
 /**
  * ClassesExplorer.
@@ -54,19 +54,14 @@ class ClassesExplorer
     /**
      * Construct
      * @param string $path Source path
+     * @throws \Tools\Exception\FileNotExistsException
      * @throws \Tools\Exception\NotReadableException
      */
     public function __construct(string $path)
     {
-        if (!is_readable($path)) {
-            throw new NotReadableException(null, 0, null, $path);
-        }
-
         //Requires Composer autoloader
         $classLoader = add_slash_term($path) . 'vendor' . DS . 'autoload.php';
-        if (!is_readable($classLoader)) {
-            throw new NotReadableException('Missing Composer autoloader', 0, null, $classLoader);
-        }
+        Exceptionist::isReadable($classLoader, 'Missing Composer autoloader on `' . rtr($classLoader) . '`');
         $classLoader = require $classLoader;
 
         $finder = new Finder();
@@ -86,9 +81,7 @@ class ClassesExplorer
      */
     protected function getClassReflector(): ClassReflector
     {
-        if (!$this->ClassReflector) {
-            $this->ClassReflector = new ClassReflector($this->SourceLocator);
-        }
+        $this->ClassReflector = $this->ClassReflector ?: new ClassReflector($this->SourceLocator);
 
         return $this->ClassReflector;
     }
@@ -100,9 +93,7 @@ class ClassesExplorer
      */
     protected function getFunctionReflector(): FunctionReflector
     {
-        if (!$this->FunctionReflector) {
-            $this->FunctionReflector = new FunctionReflector($this->SourceLocator, $this->getClassReflector());
-        }
+        $this->FunctionReflector = $this->FunctionReflector ?: new FunctionReflector($this->SourceLocator, $this->getClassReflector());
 
         return $this->FunctionReflector;
     }
