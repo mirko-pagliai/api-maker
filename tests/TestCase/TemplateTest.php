@@ -48,7 +48,7 @@ class TemplateTest extends TestCase
     }
 
     /**
-     * Test for `layout/footer` template element
+     * Test for `layout/footer.twig` layout element
      * @test
      */
     public function testFooterTemplate()
@@ -58,7 +58,7 @@ class TemplateTest extends TestCase
     }
 
     /**
-     * Test for `layout/menu` template element
+     * Test for `layout/menu.twig` layout element
      * @test
      */
     public function testMenuTemplate()
@@ -82,7 +82,7 @@ HEREDOC;
     }
 
     /**
-     * Test for constant template element
+     * Test for `elements/constant.twig` template element
      * @test
      */
     public function testConstantTemplate()
@@ -97,7 +97,8 @@ HEREDOC;
     }
 
     /**
-     * Test for function template and function summary template elements
+     * Test for `elements/method.twig` and `elements/method-summary.twig`
+     *  template elements (with functions)
      * @test
      */
     public function testFunctionTemplate()
@@ -114,7 +115,8 @@ HEREDOC;
     }
 
     /**
-     * Test for method template and method summary template elements
+     * Test for `elements/method.twig` and `elements/method-summary.twig`
+     *  template elements (with methods)
      * @test
      */
     public function testMethodTemplate()
@@ -135,7 +137,7 @@ HEREDOC;
     }
 
     /**
-     * Test for property template element
+     * Test for `elements/property.twig` template element
      * @test
      */
     public function testPropertyTemplate()
