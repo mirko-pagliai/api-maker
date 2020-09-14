@@ -35,7 +35,7 @@ class TestCaseTest extends TestCase
         $this->assertInstanceOf(ClassEntity::class, $result);
 
         $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage('Impossible to find the `\App\NoExistingClass` class from test files');
+        $this->expectExceptionMessage('Impossible to find the `App\NoExistingClass` class from test files');
         $this->getClassEntityFromTests('\\App\\NoExistingClass');
     }
 

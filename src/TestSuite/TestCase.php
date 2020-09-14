@@ -66,12 +66,11 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getClassEntityFromTests(string $className): ClassEntity
     {
-        $class = array_value_first(array_filter(
-            $this->getAllClassesFromTests(),
-            function (ClassEntity $currentClass) use ($className) {
-                return $currentClass->getName() === $className;
-            }
-        ));
+        $className = ltrim($className, '\\');
+        $extractCurrentClass = function (ClassEntity $currentClass) use ($className) {
+            return $currentClass->getName() === $className;
+        };
+        $class = array_value_first(array_filter($this->getAllClassesFromTests(), $extractCurrentClass));
 
         if (!$class) {
             $this->fail(sprintf('Impossible to find the `%s` class from test files', $className));
