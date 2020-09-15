@@ -1,7 +1,8 @@
 # 1.x branch
 ## 1.0 branch
 ### 1.0.2-beta3
-* added `ClassEntity::getType()` method.
+* added `ClassEntity::getType()` method;
+* added `ClassEntity::createFromName()` static method.
 
 ### 1.0.1-beta2
 * `PhpDocMakerCommand` now correctly handles PHP errors too (e.g. notice);

@@ -34,7 +34,7 @@ class MethodEntityTest extends TestCase
      */
     protected function getMethodEntity(string $method, string $class = Cat::class): MethodEntity
     {
-        return $this->getClassEntityFromTests($class)->getMethod($method);
+        return ClassEntity::createFromName($class)->getMethod($method);
     }
 
     /**
@@ -77,7 +77,8 @@ class MethodEntityTest extends TestCase
         $this->assertSame('Use instead `getName()`/`setName()`', $this->getMethodEntity('name')->getDeprecatedDescription());
 
         //This method has no DocBlock
-        $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getDeprecatedDescription());
+        $method = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
+        $this->assertSame('', $method->getDeprecatedDescription());
     }
 
     /**
@@ -127,7 +128,8 @@ class MethodEntityTest extends TestCase
         $this->assertSame('void', $this->getMethodEntity('doMeow')->getReturnTypeAsString());
 
         //This method has no DocBlock
-        $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getReturnTypeAsString());
+        $method = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
+        $this->assertSame('', $method->getReturnTypeAsString());
     }
 
     /**

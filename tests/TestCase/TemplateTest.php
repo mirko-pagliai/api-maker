@@ -18,6 +18,7 @@ use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use App\Vehicles\Car;
 use PhpDocMaker\PhpDocMaker;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\TestSuite\TestCase;
 
 /**
@@ -43,7 +44,7 @@ class TemplateTest extends TestCase
     {
         parent::setUp();
 
-        $this->Class = $this->Class ?? $this->getClassEntityFromTests(Cat::class);
+        $this->Class = $this->Class ?? ClassEntity::createFromName(Cat::class);
         $this->Twig = $this->Twig ?? PhpDocMaker::getTwig(true);
     }
 
@@ -91,7 +92,7 @@ HEREDOC;
         $result = $this->Twig->render('elements/constant.twig', compact('constant'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'constant1.html', $result);
 
-        $constant = $this->getClassEntityFromTests(Car::class)->getConstant('TYPES');
+        $constant = ClassEntity::createFromName(Car::class)->getConstant('TYPES');
         $result = $this->Twig->render('elements/constant.twig', compact('constant'));
         $this->assertStringEqualsFile(EXPECTED_FILES . 'constant2.html', $result);
     }
@@ -121,7 +122,7 @@ HEREDOC;
      */
     public function testMethodTemplate()
     {
-        $class = $this->getClassEntityFromTests(DeprecatedClassExample::class);
+        $class = ClassEntity::createFromName(DeprecatedClassExample::class);
 
         foreach (['anonymousMethod', 'anotherAnonymousMethod', 'anonymousMethodWithSomeVars', 'anonymousMethodWithoutDocBlock'] as $k => $methodName) {
             $method = $class->getMethod($methodName);

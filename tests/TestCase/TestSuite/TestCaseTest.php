@@ -14,8 +14,6 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Test\TestSuite;
 
-use App\Animals\Cat;
-use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use PhpDocMaker\TestSuite\TestCase;
 use PHPUnit\Framework\AssertionFailedError;
@@ -25,20 +23,6 @@ use PHPUnit\Framework\AssertionFailedError;
  */
 class TestCaseTest extends TestCase
 {
-    /**
-     * Test for `getClassEntityFromTests()` method
-     * @test
-     */
-    public function testGetClassEntityFromTests()
-    {
-        $result = $this->getClassEntityFromTests(Cat::class);
-        $this->assertInstanceOf(ClassEntity::class, $result);
-
-        $this->expectException(AssertionFailedError::class);
-        $this->expectExceptionMessage('Impossible to find the `App\NoExistingClass` class from test files');
-        $this->getClassEntityFromTests('\\App\\NoExistingClass');
-    }
-
     /**
      * Test for `getFunctionEntityFromTests()` method
      * @test

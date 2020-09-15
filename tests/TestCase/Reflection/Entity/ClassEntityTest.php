@@ -44,7 +44,7 @@ class ClassEntityTest extends TestCase
     {
         parent::setUp();
 
-        $this->Class = $this->getClassEntityFromTests(Cat::class);
+        $this->Class = $this->Class ?: ClassEntity::createFromName(Cat::class);
     }
 
     /**
@@ -91,7 +91,8 @@ class ClassEntityTest extends TestCase
      */
     public function testGetDeprecatedDescription()
     {
-        $this->assertSame('Useless, just for tests', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getDeprecatedDescription());
+        $class = ClassEntity::createFromName(DeprecatedClassExample::class);
+        $this->assertSame('Useless, just for tests', $class->getDeprecatedDescription());
     }
 
     /**
@@ -138,7 +139,7 @@ class ClassEntityTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Class `App\NoExistingClass` could not be found');
-        $this->getClassEntityFromTests(InvalidClassParent::class)->getParentClass();
+        ClassEntity::createFromName(InvalidClassParent::class)->getParentClass();
     }
 
     /**
@@ -186,10 +187,10 @@ class ClassEntityTest extends TestCase
     public function testGetType()
     {
         $this->assertSame('Class', $this->Class->getType());
-        $this->assertSame('Trait', $this->getClassEntityFromTests('\App\Animals\Traits\ColorsTrait')->getType());
-        $this->assertSame('Abstract', $this->getClassEntityFromTests(Animal::class)->getType());
-        $this->assertSame('Interface', $this->getClassEntityFromTests(MotorVehicle::class)->getType());
-        $this->assertSame('Deprecated Abstract', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getType());
+        $this->assertSame('Trait', ClassEntity::createFromName('\App\Animals\Traits\ColorsTrait')->getType());
+        $this->assertSame('Abstract', ClassEntity::createFromName(Animal::class)->getType());
+        $this->assertSame('Interface', ClassEntity::createFromName(MotorVehicle::class)->getType());
+        $this->assertSame('Deprecated Abstract', ClassEntity::createFromName(DeprecatedClassExample::class)->getType());
     }
 
     /**
@@ -199,6 +200,6 @@ class ClassEntityTest extends TestCase
     public function testIsDeprecated()
     {
         $this->assertFalse($this->Class->isDeprecated());
-        $this->assertTrue($this->getClassEntityFromTests(DeprecatedClassExample::class)->isDeprecated());
+        $this->assertTrue(ClassEntity::createFromName(DeprecatedClassExample::class)->isDeprecated());
     }
 }

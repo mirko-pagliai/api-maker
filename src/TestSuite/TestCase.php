@@ -16,7 +16,6 @@ namespace PhpDocMaker\TestSuite;
 
 use PhpDocMaker\ClassesExplorer;
 use PhpDocMaker\PhpDocMaker;
-use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use Tools\TestSuite\TestCase as BaseTestCase;
 use Twig\Environment;
@@ -57,26 +56,6 @@ abstract class TestCase extends BaseTestCase
         $this->classesFromTests = $this->classesFromTests ?: $this->getClassesExplorerInstance()->getAllClasses();
 
         return $this->classesFromTests;
-    }
-
-    /**
-     * Gets a `ClassEntity` instance from a function located in the test app
-     * @param string $className Class name
-     * @return \PhpDocMaker\Reflection\Entity\ClassEntity
-     */
-    protected function getClassEntityFromTests(string $className): ClassEntity
-    {
-        $className = ltrim($className, '\\');
-        $extractCurrentClass = function (ClassEntity $currentClass) use ($className) {
-            return $currentClass->getName() === $className;
-        };
-        $class = array_value_first(array_filter($this->getAllClassesFromTests(), $extractCurrentClass));
-
-        if (!$class) {
-            $this->fail(sprintf('Impossible to find the `%s` class from test files', $className));
-        }
-
-        return $class;
     }
 
     /**

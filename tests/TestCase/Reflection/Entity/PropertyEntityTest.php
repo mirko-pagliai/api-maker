@@ -32,7 +32,7 @@ class PropertyEntityTest extends TestCase
      */
     protected function getPropertyEntity(string $property, string $class = Cat::class): PropertyEntity
     {
-        return $this->getClassEntityFromTests($class)->getProperty($property);
+        return ClassEntity::createFromName($class)->getProperty($property);
     }
 
     /**

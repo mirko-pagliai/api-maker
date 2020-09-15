@@ -51,6 +51,16 @@ class ClassEntity extends AbstractEntity
     }
 
     /**
+     * Creates a `ClassEntity` from a class name
+     * @param string $name Class name
+     * @return \PhpDocMaker\Reflection\Entity\ClassEntity
+     */
+    public static function createFromName(string $name): ClassEntity
+    {
+        return new ClassEntity(ReflectionClass::createFromName($name));
+    }
+
+    /**
      * `__toString()` magic method
      * @return string
      */

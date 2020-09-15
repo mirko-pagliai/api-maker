@@ -16,6 +16,7 @@ namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
 use App\ArrayExample;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
@@ -35,7 +36,7 @@ class ParameterEntityTest extends TestCase
      */
     protected function getParameterEntity(string $parameter, string $method, string $class = Cat::class): ParameterEntity
     {
-        return $this->getClassEntityFromTests($class)->getMethod($method)->getParameter($parameter);
+        return ClassEntity::createFromName($class)->getMethod($method)->getParameter($parameter);
     }
 
     /**

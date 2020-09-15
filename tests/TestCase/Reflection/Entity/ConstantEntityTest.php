@@ -33,7 +33,7 @@ class ConstantEntityTest extends TestCase
      */
     protected function getConstantEntity(string $constant, string $class = Cat::class): ConstantEntity
     {
-        return $this->getClassEntityFromTests($class)->getConstant($constant);
+        return ClassEntity::createFromName($class)->getConstant($constant);
     }
 
     /**
