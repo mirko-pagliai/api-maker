@@ -144,6 +144,7 @@ class PhpDocMaker
     {
         $this->Filesystem->mkdir($target, 0755);
         $this->Twig->getLoader()->addPath($target, 'target');
+        $this->Twig->addGlobal('project', array_intersect_key($this->options, array_flip(['title'])));
 
         if ($this->options['cache']) {
             $this->Filesystem->mkdir($target . DS . 'cache', 0755);
@@ -163,28 +164,26 @@ class PhpDocMaker
         $functions = $this->ClassesExplorer->getAllFunctions();
         $this->dispatchEvent('functions.founded', [$functions]);
 
-        $project = array_intersect_key($this->options, array_flip(['title']));
-
         //Renders the menu
         $output = $this->Twig->render('layout/menu.twig', compact('classes'));
         $this->Filesystem->dumpFile($target . DS . 'layout' . DS . 'menu.html', $output);
         $this->dispatchEvent('menu.rendered');
 
         //Renders index page
-        $output = $this->Twig->render('index.twig', compact('classes', 'project'));
+        $output = $this->Twig->render('index.twig', compact('classes'));
         $this->Filesystem->dumpFile($target . DS . 'index.html', $output);
         $this->dispatchEvent('index.rendered');
 
         //Renders functions page
         if ($functions) {
-            $output = $this->Twig->render('functions.twig', compact('functions', 'project'));
+            $output = $this->Twig->render('functions.twig', compact('functions'));
             $this->Filesystem->dumpFile($target . DS . 'functions.html', $output);
             $this->dispatchEvent('functions.rendered');
         }
 
         //Renders each class page
         foreach ($classes as $class) {
-            $output = $this->Twig->render('class.twig', compact('class', 'project'));
+            $output = $this->Twig->render('class.twig', compact('class'));
             $this->Filesystem->dumpFile($target . DS . 'Class-' . $class->getSlug() . '.html', $output);
             $this->dispatchEvent('class.rendered', [$class]);
         }
