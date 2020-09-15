@@ -164,4 +164,26 @@ class ClassEntity extends AbstractEntity
     {
         return slug($this->getName(), false);
     }
+
+    /**
+     * Gets the type class
+     * @return string
+     */
+    public function getType(): string
+    {
+        $type = 'Class';
+        if ($this->isTrait()) {
+            $type = 'Trait';
+        } elseif ($this->isInterface()) {
+            $type = 'Interface';
+        } elseif ($this->isAbstract()) {
+            $type = 'Abstract';
+        }
+
+        if ($this->isDeprecated()) {
+            $type = 'Deprecated ' . $type;
+        }
+
+        return $type;
+    }
 }

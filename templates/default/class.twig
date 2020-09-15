@@ -1,26 +1,9 @@
 {% extends "layout.twig" %}
 
-{% set classType %}
-    {% if class.isTrait %}
-        Trait
-    {% elseif class.isInterface %}
-        Interface
-    {% elseif class.isAbstract %}
-        Abstract class
-    {% else %}
-        Class
-    {% endif %}
-{% endset %}
-{% if class.isDeprecated %}
-    {% set classType = 'Deprecated' ~ classType|capitalize %}
-{% endif %}
-
-{% block title %}
-    {{ classType }} {{ class.getName }}
-{% endblock %}
+{% block title %}{{ class.getType }} {{ class.getName }}{% endblock %}
 
 {% block content %}
-    <h2>{{ classType }} <em>{{ class.getShortName }}</em></h2>
+    <h2>{{ class.getType }} <em>{{ class.getShortName }}</em></h2>
 
     <p>{{ class.getDocBlockAsString }}</p>
 

@@ -18,6 +18,7 @@ use App\Animals\Animal;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use App\InvalidClassParent;
+use App\Vehicles\MotorVehicle;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\ConstantEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
@@ -176,6 +177,19 @@ class ClassEntityTest extends TestCase
     public function testGetSlug()
     {
         $this->assertSame('App-Animals-Cat', $this->Class->getSlug());
+    }
+
+    /**
+     * Test for `getType()` method
+     * @test
+     */
+    public function testGetType()
+    {
+        $this->assertSame('Class', $this->Class->getType());
+        $this->assertSame('Trait', $this->getClassEntityFromTests('\App\Animals\Traits\ColorsTrait')->getType());
+        $this->assertSame('Abstract', $this->getClassEntityFromTests(Animal::class)->getType());
+        $this->assertSame('Interface', $this->getClassEntityFromTests(MotorVehicle::class)->getType());
+        $this->assertSame('Deprecated Abstract', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getType());
     }
 
     /**
