@@ -4,7 +4,8 @@
 * added `ClassEntity::getType()` method;
 * added `ClassEntity::createFromName()` static method;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
-* added template `class` element.
+* added template `class` element;
+* updated `bootstrap` and `highlight` asset files.
 
 ### 1.0.1-beta2
 * `PhpDocMakerCommand` now correctly handles PHP errors too (e.g. notice);
