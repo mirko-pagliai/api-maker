@@ -17,6 +17,7 @@ namespace PhpDocMaker\TestSuite;
 use PhpDocMaker\ClassesExplorer;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
+use Symfony\Component\Filesystem\Filesystem;
 use Tools\TestSuite\TestCase as BaseTestCase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -35,6 +36,24 @@ abstract class TestCase extends BaseTestCase
      * @var array
      */
     protected $classesFromTests;
+
+    /**
+     * Asserts that the actual string content is equaled to the expected template
+     *  file.
+     * @param string $expectedTemplateFilename The expected template filename
+     * @param string $actualString The actual string content
+     * @param string $message The failure message that will be appended to the
+     *  generated message
+     * @return void
+     */
+    protected static function assertStringEqualsTemplate(string $expectedTemplateFilename, string $actualString, string $message = ''): void
+    {
+        if (!Filesystem::isAbsolutePath($expectedTemplateFilename)) {
+            $expectedTemplateFilename = EXPECTED_FILES . $expectedTemplateFilename;
+        }
+        $actualString = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $actualString), PHP_EOL);
+        self::assertStringEqualsFile($expectedTemplateFilename, $actualString, $message);
+    }
 
     /**
      * Internal method to get a `ClassesExplorer` instance
