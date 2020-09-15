@@ -109,11 +109,11 @@ HEREDOC;
             $method = $this->getFunctionEntityFromTests($functionName);
 
             $result = $this->Twig->render('elements/method.twig', compact('method'));
-            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
+            $result = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
             $this->assertStringEqualsFile(EXPECTED_FILES . 'function' . ++$k . '.html', $result);
 
             $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
-            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
+            $result = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
             $this->assertStringEqualsFile(EXPECTED_FILES . 'function_summary' . $k . '.html', $result);
         }
     }
@@ -129,14 +129,14 @@ HEREDOC;
         foreach (['anonymousMethod', 'anotherAnonymousMethod', 'anonymousMethodWithSomeVars', 'anonymousMethodWithoutDocBlock'] as $k => $methodName) {
             $method = $class->getMethod($methodName);
             $result = $this->Twig->render('elements/method.twig', compact('method'));
-            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
+            $result = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
             $this->assertStringEqualsFile(EXPECTED_FILES . 'method' . ++$k . '.html', $result);
         }
 
         foreach (['doMeow', 'name', 'getType'] as $k => $methodName) {
             $method = $this->Class->getMethod($methodName);
             $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
-            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
+            $result = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
             $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary' . ++$k . '.html', $result);
         }
     }
@@ -163,7 +163,7 @@ HEREDOC;
         foreach ([SimpleClassExample::class, \stdClass::class] as $k => $className) {
             $class = ClassEntity::createFromName($className);
             $result = $this->Twig->render('elements/class.twig', compact('class'));
-            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
+            $result = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
             $this->assertStringEqualsFile(EXPECTED_FILES . 'class' . ++$k . '.html', $result);
         }
     }
