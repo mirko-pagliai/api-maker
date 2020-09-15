@@ -2,61 +2,67 @@
 
 <p>{{ class.getDocBlockAsString }}</p>
 
-{% if class.getParentClass %}
-    <p>Extends <code>{{ class.getParentClass.getName }}</code>.</p>
-{% endif %}
+{%~ if class.getParentClass %}
+<p>Extends <code>{{ class.getParentClass.getName }}</code>.</p>
+{%~ endif %}
 
-{% if class.getImmediateInterfaces %}
-    <p>Implements {{ class.getImmediateInterfaces|map(interface => "<code>#{interface.getName}</code>")|join(', ') }}.</p>
-{% endif %}
+{%~ if class.getImmediateInterfaces %}
+<p>Implements {{ class.getImmediateInterfaces|map(interface => "<code>#{interface.getName}</code>")|join(', ') }}.</p>
+{%~ endif %}
 
-{% if class.getTraits|length > 0 %}
-    <p>Uses {{ class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') }}.</p>
-{% endif %}
+{%~ if class.getTraits|length > 0 %}
+<p>Uses {{ class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') }}.</p>
+{%~ endif %}
 
+{%~ if class.getNamespaceName or class.getFilename %}
 <div class="p-3 mb-2 bg-light text-dark">
+    {%~ if class.getNamespaceName %}
     <div><strong>Namespace:</strong> {{ class.getNamespaceName }}</div>
+    {%~ endif %}
+    {%~ if class.getFilename %}
     <div><strong>Location:</strong> {{ class.getFilename }}</div>
+    {%~ endif %}
 </div>
+{%~ endif %}
 
-{% if class.getConstants|length > 0 %}
-    <h4>Constants summary</h4>
-    <ul>
-        {% for constant in class.getConstants %}
-            <li>
-                {{ include('elements/constant.twig') }}
-            </li>
-        {% endfor %}
-    </ul>
-{% endif %}
+{%~ if class.getConstants|length > 0 %}
+<h4>Constants summary</h4>
+<ul>
+    {%~ for constant in class.getConstants %}
+    <li>
+        {{ include('elements/constant.twig') }}
+    </li>
+    {%~ endfor %}
+</ul>
+{%~ endif %}
 
-{% if class.getProperties|length > 0 %}
-    <h4>Properties summary</h4>
-    <ul>
-        {% for property in class.getProperties %}
-            <li>
-                {{ include('elements/property.twig') }}
-            </li>
-        {% endfor %}
-    </ul>
-{% endif %}
+{%~ if class.getProperties|length > 0 %}
+<h4>Properties summary</h4>
+<ul>
+    {%~ for property in class.getProperties %}
+    <li>
+        {{ include('elements/property.twig') }}
+    </li>
+    {%~ endfor %}
+</ul>
+{%~ endif %}
 
-{% if class.getMethods|length > 0 %}
-    <h4>Methods summary</h4>
-    <ul>
-        {% for method in class.getMethods %}
-            <li>
-                {% include 'elements/method-summary.twig' %}
-            </li>
-        {% endfor %}
-    </ul>
-{% endif %}
+{%~ if class.getMethods|length > 0 %}
+<h4>Methods summary</h4>
+<ul>
+    {%~ for method in class.getMethods %}
+    <li>
+        {% include 'elements/method-summary.twig' %}
+    </li>
+    {%~ endfor %}
+</ul>
+{%~ endif %}
 
-{% if class.getMethods|length > 0 %}
-    <h4>Methods detail</h4>
-    {% for method in class.getMethods %}
-        <div class="mb-4">
-            {% include 'elements/method.twig' %}
-        </div>
-    {% endfor %}
-{% endif %}
+{%~ if class.getMethods|length > 0 %}
+<h4>Methods detail</h4>
+{%~ for method in class.getMethods %}
+<div class="mb-4">
+    {% include 'elements/method.twig' %}
+</div>
+{%~ endfor %}
+{%~ endif %}

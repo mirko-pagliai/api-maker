@@ -16,6 +16,7 @@ namespace PhpDocMaker\Test;
 
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
+use App\SimpleClassExample;
 use App\Vehicles\Car;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
@@ -88,13 +89,13 @@ HEREDOC;
      */
     public function testConstantTemplate()
     {
-        $constant = $this->Class->getConstant('LEGS');
-        $result = $this->Twig->render('elements/constant.twig', compact('constant'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'constant1.html', $result);
-
-        $constant = ClassEntity::createFromName(Car::class)->getConstant('TYPES');
-        $result = $this->Twig->render('elements/constant.twig', compact('constant'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'constant2.html', $result);
+        foreach ([
+            $this->Class->getConstant('LEGS'),
+            ClassEntity::createFromName(Car::class)->getConstant('TYPES'),
+        ] as $k => $costantEntity) {
+            $result = $this->Twig->render('elements/constant.twig', ['constant' => $costantEntity]);
+            $this->assertStringEqualsFile(EXPECTED_FILES . 'constant' . ++$k . '.html', $result);
+        }
     }
 
     /**
@@ -108,9 +109,11 @@ HEREDOC;
             $method = $this->getFunctionEntityFromTests($functionName);
 
             $result = $this->Twig->render('elements/method.twig', compact('method'));
+            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
             $this->assertStringEqualsFile(EXPECTED_FILES . 'function' . ++$k . '.html', $result);
 
             $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
+            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
             $this->assertStringEqualsFile(EXPECTED_FILES . 'function_summary' . $k . '.html', $result);
         }
     }
@@ -123,16 +126,17 @@ HEREDOC;
     public function testMethodTemplate()
     {
         $class = ClassEntity::createFromName(DeprecatedClassExample::class);
-
         foreach (['anonymousMethod', 'anotherAnonymousMethod', 'anonymousMethodWithSomeVars', 'anonymousMethodWithoutDocBlock'] as $k => $methodName) {
             $method = $class->getMethod($methodName);
             $result = $this->Twig->render('elements/method.twig', compact('method'));
+            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
             $this->assertStringEqualsFile(EXPECTED_FILES . 'method' . ++$k . '.html', $result);
         }
 
         foreach (['doMeow', 'name', 'getType'] as $k => $methodName) {
             $method = $this->Class->getMethod($methodName);
             $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
+            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
             $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary' . ++$k . '.html', $result);
         }
     }
@@ -143,12 +147,24 @@ HEREDOC;
      */
     public function testPropertyTemplate()
     {
-        $property = $this->Class->getProperty('description');
-        $result = $this->Twig->render('elements/property.twig', compact('property'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'property1.html', $result);
+        foreach (['description', 'Puppy'] as $k => $propertyName) {
+            $property = $this->Class->getProperty($propertyName);
+            $result = $this->Twig->render('elements/property.twig', compact('property'));
+            $this->assertStringEqualsFile(EXPECTED_FILES . 'property' . ++$k . '.html', $result);
+        }
+    }
 
-        $property = $this->Class->getProperty('Puppy');
-        $result = $this->Twig->render('elements/property.twig', compact('property'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'property2.html', $result);
+    /**
+     * Test for `elements/class.twig` template element
+     * @test
+     */
+    public function testClassTemplate()
+    {
+        foreach ([SimpleClassExample::class, \stdClass::class] as $k => $className) {
+            $class = ClassEntity::createFromName($className);
+            $result = $this->Twig->render('elements/class.twig', compact('class'));
+            $result = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $result), PHP_EOL);
+            $this->assertStringEqualsFile(EXPECTED_FILES . 'class' . ++$k . '.html', $result);
+        }
     }
 }
