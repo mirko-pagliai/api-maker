@@ -3,6 +3,7 @@
 ### 1.0.2-beta3
 * added `ClassEntity::getType()` method;
 * added `ClassEntity::createFromName()` static method;
+* added `TestCase::assertStringEqualsTemplate()` assertion method;
 * added template `class` element.
 
 ### 1.0.1-beta2
