@@ -30,7 +30,7 @@
 <ul>
     {%~ for constant in class.getConstants %}
     <li>
-        {{ include('elements/constant.twig') }}
+        {{ include('elements/constant.twig', {constant: constant}, with_context = false) }}
     </li>
     {%~ endfor %}
 </ul>
@@ -41,7 +41,7 @@
 <ul>
     {%~ for property in class.getProperties %}
     <li>
-        {{ include('elements/property.twig') }}
+        {{ include('elements/property.twig', {property: property}, with_context = false) }}
     </li>
     {%~ endfor %}
 </ul>
@@ -52,7 +52,7 @@
 <ul>
     {%~ for method in class.getMethods %}
     <li>
-        {% include 'elements/method-summary.twig' %}
+        {{ include ('elements/method-summary.twig', {method: method}, with_context = false)|trim }}
     </li>
     {%~ endfor %}
 </ul>
@@ -62,7 +62,7 @@
 <h4>Methods detail</h4>
 {%~ for method in class.getMethods %}
 <div class="mb-4">
-    {% include 'elements/method.twig' %}
+    {{ include ('elements/method.twig', {method: method}, with_context = false)|trim }}
 </div>
 {%~ endfor %}
 {%~ endif %}
