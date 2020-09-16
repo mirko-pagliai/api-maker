@@ -86,16 +86,6 @@ class ClassEntityTest extends TestCase
     }
 
     /**
-     * Test for `getDeprecatedDescription()` method
-     * @test
-     */
-    public function testGetDeprecatedDescription()
-    {
-        $class = ClassEntity::createFromName(DeprecatedClassExample::class);
-        $this->assertSame('Useless, just for tests', $class->getDeprecatedDescription());
-    }
-
-    /**
      * Test for `getLink()` method
      * @test
      */

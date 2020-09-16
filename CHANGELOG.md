@@ -6,6 +6,7 @@
 * added `ClassEntity::createFromName()` static method;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * added template `class` element;
+* removed `DeprecatedTrait::getDeprecatedDescription()`. Use instead the `TagEntity`;
 * updated `bootstrap` and `highlight` asset files.
 
 ### 1.0.1-beta2

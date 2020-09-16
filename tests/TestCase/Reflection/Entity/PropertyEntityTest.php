@@ -67,15 +67,6 @@ class PropertyEntityTest extends TestCase
     }
 
     /**
-     * Test for `getDeprecatedDescription()` method
-     * @test
-     */
-    public function testGetDeprecatedDescription()
-    {
-        $this->assertSame('Useless property', $this->getPropertyEntity('isCat')->getDeprecatedDescription());
-    }
-
-    /**
      * Test for `getSeeTags()` method
      * @test
      */

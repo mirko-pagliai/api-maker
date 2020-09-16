@@ -20,17 +20,6 @@ namespace PhpDocMaker\Reflection\Entity\Traits;
 trait DeprecatedTrait
 {
     /**
-     * Returns the `@deprecated` description
-     * @return string
-     */
-    public function getDeprecatedDescription(): string
-    {
-        $tags = $this->getTagsByName('deprecated');
-
-        return $tags ? ucfirst((string)array_value_first($tags)->getDescription()) : '';
-    }
-
-    /**
      * Returns `true` if it's deprecated (`@deprecated` tag)
      * @return bool
      */

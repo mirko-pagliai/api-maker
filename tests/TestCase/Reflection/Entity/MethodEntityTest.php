@@ -69,19 +69,6 @@ class MethodEntityTest extends TestCase
     }
 
     /**
-     * Test for `getDeprecatedDescription()` method
-     * @test
-     */
-    public function testGetDeprecatedDescription()
-    {
-        $this->assertSame('Use instead `getName()`/`setName()`', $this->getMethodEntity('name')->getDeprecatedDescription());
-
-        //This method has no DocBlock
-        $method = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
-        $this->assertSame('', $method->getDeprecatedDescription());
-    }
-
-    /**
      * Test for `getParameter()` method
      * @test
      */

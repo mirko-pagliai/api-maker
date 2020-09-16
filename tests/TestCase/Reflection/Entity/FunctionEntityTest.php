@@ -57,15 +57,6 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
-     * Test for `getDeprecatedDescription()` method
-     * @test
-     */
-    public function testGetDeprecatedDescription()
-    {
-        $this->assertSame('Use instead `a_test_function()`', $this->getFunctionEntityFromTests('old_function')->getDeprecatedDescription());
-    }
-
-    /**
      * Test for `getParameters()` method
      * @test
      */

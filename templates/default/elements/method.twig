@@ -28,7 +28,9 @@
     {%~ if method.isDeprecated %}
     <h6>Deprecated</h6>
     <div class="mb-3">
-        <div>{{ method.getDeprecatedDescription|to_html }}</div>
+        {%~ for tag in method.getTagsByName('deprecated') %}
+        <div>{{ tag.getDescription|to_html }}</div>
+        {%~ endfor %}
     </div>
     {%~ endif %}
 
