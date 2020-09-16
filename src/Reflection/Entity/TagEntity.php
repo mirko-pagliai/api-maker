@@ -14,7 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection\Entity;
 
-use PhpDocMaker\Reflection\AbstractEntity;
+use PhpDocMaker\Reflection\ParentAbstractEntity;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
 use RuntimeException;
@@ -22,7 +22,7 @@ use RuntimeException;
 /**
  * Tag entity
  */
-class TagEntity extends AbstractEntity
+class TagEntity extends ParentAbstractEntity
 {
     /**
      * @var \phpDocumentor\Reflection\DocBlock\Tag

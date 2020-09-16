@@ -14,48 +14,18 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection;
 
-use BadMethodCallException;
 use Exception;
 use PhpDocMaker\Reflection\Entity\TagEntity;
+use PhpDocMaker\Reflection\ParentAbstractEntity;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlockFactory;
-use Tools\Exceptionist;
 
 /**
  * AbstractEntity class
- * @method string getName() Gets the object name
  */
-abstract class AbstractEntity
+abstract class AbstractEntity extends ParentAbstractEntity
 {
-    /**
-     * `__call()` magic method.
-     *
-     * It allows access to the methods of the reflected object.
-     * @param string $name Method name
-     * @param array $arguments Method arguments
-     * @return mixed
-     * @throws \BadMethodCallException
-     */
-    public function __call(string $name, array $arguments)
-    {
-        Exceptionist::methodExists([$this->reflectionObject, $name], sprintf('Method %s::%s() does not exist', get_class($this->reflectionObject), $name), BadMethodCallException::class);
-
-        return call_user_func_array([$this->reflectionObject, $name], $arguments);
-    }
-
-    /**
-     * `__toString()` magic method
-     * @return string
-     */
-    abstract public function __toString(): string;
-
-    /**
-     * Returns the representation of this object as a signature
-     * @return string
-     */
-    abstract public function toSignature(): string;
-
     /**
      * Internal method to get the `DocBlock` instance
      * @param \Roave\BetterReflection\Reflection\Reflection|\Roave\BetterReflection\Reflection\ReflectionFunctionAbstract|null $reflectionObject A `Reflection` object
