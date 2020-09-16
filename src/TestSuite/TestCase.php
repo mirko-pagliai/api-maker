@@ -52,7 +52,7 @@ abstract class TestCase extends BaseTestCase
             $expectedTemplateFilename = EXPECTED_FILES . $expectedTemplateFilename;
         }
         $actualString = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, $actualString), PHP_EOL);
-        $actualFile = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, file_get_contents($expectedTemplateFilename), PHP_EOL);
+        $actualFile = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, file_get_contents($expectedTemplateFilename), PHP_EOL));
         self::assertSame($actualFile, $actualString, $message);
     }
 
