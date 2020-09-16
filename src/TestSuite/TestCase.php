@@ -53,6 +53,7 @@ abstract class TestCase extends BaseTestCase
             $expectedTemplateFilename = EXPECTED_FILES . $expectedTemplateFilename;
         }
         $actualString = trim($actualString, PHP_EOL);
+        $actualString = IS_WIN ? preg_replace('/\S+tests\/test_app\//', TEST_APP, $actualString) : $actualString;
         $actualFile = trim(file_get_contents($expectedTemplateFilename), PHP_EOL);
         self::assertSame($actualFile, $actualString, $message);
     }
