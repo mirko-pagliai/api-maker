@@ -48,11 +48,12 @@ abstract class TestCase extends BaseTestCase
      */
     protected static function assertStringEqualsTemplate(string $expectedTemplateFilename, string $actualString, string $message = ''): void
     {
+        $message = $message ?: 'Failed asserting that the actual string content is equaled to the `'. $expectedTemplateFilename . '` expected template file';
         if (!Filesystem::isAbsolutePath($expectedTemplateFilename)) {
             $expectedTemplateFilename = EXPECTED_FILES . $expectedTemplateFilename;
         }
-        $actualString = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, $actualString), PHP_EOL);
-        $actualFile = trim(preg_replace('/(' . PHP_EOL . '){3,}/', PHP_EOL . PHP_EOL, file_get_contents($expectedTemplateFilename)), PHP_EOL);
+        $actualString = trim($actualString, PHP_EOL);
+        $actualFile = trim(file_get_contents($expectedTemplateFilename), PHP_EOL);
         self::assertSame($actualFile, $actualString, $message);
     }
 
