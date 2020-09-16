@@ -21,6 +21,7 @@ use App\Vehicles\Car;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\TestSuite\TestCase;
+use Roave\BetterReflection\Reflection\ReflectionClass;
 
 /**
  * TemplateTest class
@@ -157,7 +158,15 @@ HEREDOC;
     public function testClassTemplate()
     {
         foreach ([SimpleClassExample::class, \stdClass::class] as $k => $className) {
-            $class = ClassEntity::createFromName($className);
+            $ReflectionClass = ReflectionClass::createFromName($className);
+            $class = $this->getMockBuilder(ClassEntity::class)
+                ->setConstructorArgs([$ReflectionClass])
+                ->setMethods(['getFilename'])
+                ->getMock();
+            $class->method('getFilename')->willReturnCallback(function () use ($ReflectionClass) {
+                return $ReflectionClass->getFileName() ? '/path/to/file' : null;
+            });
+
             $result = $this->Twig->render('elements/class.twig', compact('class'));
             $this->assertStringEqualsTemplate('class' . ++$k . '.html', $result);
         }
