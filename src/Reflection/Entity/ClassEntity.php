@@ -26,7 +26,9 @@ use RuntimeException;
 
 /**
  * Class entity
+ * @method ?string getFilename()
  * @method array getImmediateInterfaces()
+ * @method string getNamespaceName()
  * @method bool isAbstract()
  * @method bool isInterface()
  * @method bool isTrait()
