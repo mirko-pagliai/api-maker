@@ -21,10 +21,9 @@ use App\ArrayExample;
 use App\DeprecatedClassExample;
 use BadMethodCallException;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
+use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\TestSuite\TestCase;
-use phpDocumentor\Reflection\DocBlock\Tags\See;
 use Roave\BetterReflection\Reflection\ReflectionClass;
-use RuntimeException;
 
 /**
  * AbstractEntityTest class
@@ -81,14 +80,10 @@ HEREDOC;
     public function testGetTagsByName()
     {
         $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTagsByName('see');
-        $this->assertContainsOnlyInstancesOf(See::class, $tags);
+        $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
 
         $entity = ClassEntity::createFromName(DeprecatedClassExample::class);
         $tags = $entity->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('see');
         $this->assertEmpty($tags);
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Invalid tag `@see \1`');
-        $tags = $entity->getMethod('methodWithInvalidTag')->getTagsByName('see');
     }
 }

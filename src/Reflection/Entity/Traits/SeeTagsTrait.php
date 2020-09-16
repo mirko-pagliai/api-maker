@@ -14,7 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection\Entity\Traits;
 
-use phpDocumentor\Reflection\DocBlock\Tags\See;
+use PhpDocMaker\Reflection\Entity\TagEntity;
 
 /**
  * SeeTagsTrait
@@ -27,10 +27,10 @@ trait SeeTagsTrait
      */
     public function getSeeTags(): array
     {
-        return array_map(function (See $see) {
-            $see = (string)$see->getReference();
+        return array_map(function (TagEntity $tag) {
+            $description = $tag->getDescription();
 
-            return is_url($see) || strpos('::', $see) !== false ? $see : ltrim($see, '\\');
+            return !string_contains($description, '::') || is_url($description) ? ltrim($description, '\\') : $description;
         }, $this->getTagsByName('see'));
     }
 }

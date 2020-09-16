@@ -87,8 +87,8 @@ class Cat extends Animal
     /**
      * Do a meow
      * @param string $meow Type of meow
-     * @return void
-     * @throws RuntimeException
+     * @return void This method returns void
+     * @throws RuntimeException With a bad "meow"
      * @see https://en.wikipedia.org/wiki/Meow
      */
     public function doMeow(string $meow = 'meow!'): void

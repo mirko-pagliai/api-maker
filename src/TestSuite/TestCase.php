@@ -48,7 +48,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected static function assertStringEqualsTemplate(string $expectedTemplateFilename, string $actualString, string $message = ''): void
     {
-        $message = $message ?: 'Failed asserting that the actual string content is equaled to the `'. $expectedTemplateFilename . '` expected template file';
+        $message = $message ?: 'Failed asserting that the actual string content is equaled to the `' . $expectedTemplateFilename . '` expected template file';
         if (!Filesystem::isAbsolutePath($expectedTemplateFilename)) {
             $expectedTemplateFilename = EXPECTED_FILES . $expectedTemplateFilename;
         }

@@ -140,7 +140,7 @@ class MethodEntityTest extends TestCase
     {
         $this->assertSame('Returns the current instance or the name as string', $this->getMethodEntity('name')->getReturnDescription());
         $this->assertSame('', $this->getMethodEntity('getColor')->getReturnDescription());
-        $this->assertSame('', $this->getMethodEntity('doMeow')->getReturnDescription());
+        $this->assertSame('This method returns void', $this->getMethodEntity('doMeow')->getReturnDescription());
     }
 
     /**
@@ -164,7 +164,7 @@ class MethodEntityTest extends TestCase
         ]], $this->getMethodEntity('getLegs')->getThrowsTags());
         $this->assertSame([[
             'type' => 'RuntimeException',
-            'description' => '',
+            'description' => 'With a bad "meow"',
         ]], $this->getMethodEntity('doMeow')->getThrowsTags());
     }
 

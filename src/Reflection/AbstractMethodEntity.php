@@ -16,10 +16,9 @@ namespace PhpDocMaker\Reflection;
 
 use PhpDocMaker\Reflection\AbstractEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
+use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\Reflection\Entity\Traits\DeprecatedTrait;
 use PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
@@ -88,8 +87,8 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getReturnTypeAsString(): string
     {
-        return implode(', ', array_map(function (Return_ $return) {
-            return ltrim((string)$return->getType(), '\\');
+        return implode(', ', array_map(function (TagEntity $tag) {
+            return ltrim((string)$tag->getType(), '\\');
         }, $this->getTagsByName('return'))) ?? '';
     }
 
@@ -101,7 +100,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
     {
         $tags = $this->getTagsByName('return');
 
-        return $tags ? (string)array_value_first($tags)->getDescription() : '';
+        return $tags ? array_value_first($tags)->getDescription() : '';
     }
 
     /**
@@ -116,10 +115,10 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getThrowsTags(): array
     {
-        return array_map(function (Throws $throws) {
+        return array_map(function (TagEntity $tag) {
             return [
-                'type' => ltrim((string)$throws->getType(), '\\'),
-                'description' => (string)$throws->getDescription(),
+                'type' => ltrim((string)$tag->getType(), '\\'),
+                'description' => $tag->getDescription(),
             ];
         }, $this->getTagsByName('throws'));
     }
