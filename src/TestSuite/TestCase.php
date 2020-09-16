@@ -51,8 +51,8 @@ abstract class TestCase extends BaseTestCase
         if (!Filesystem::isAbsolutePath($expectedTemplateFilename)) {
             $expectedTemplateFilename = EXPECTED_FILES . $expectedTemplateFilename;
         }
-        $actualString = str_replace('\r\n', '\n', trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $actualString), PHP_EOL));
-        $actualFile = str_replace('\r\n', '\n', file_get_contents($expectedTemplateFilename));
+        $actualString = trim(preg_replace('/(\\n){3,}/', PHP_EOL . PHP_EOL, $actualString), PHP_EOL);
+        $actualFile = file_get_contents($expectedTemplateFilename);
         self::assertSame($actualFile, $actualString, $message);
     }
 
