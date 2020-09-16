@@ -80,7 +80,7 @@ class PhpDocMakerTest extends TestCase
         $this->assertEventFired('functions.founded', $dispatcher);
 
         $this->assertFileExists($output . DS . 'assets' . DS . 'bootstrap' . DS . 'bootstrap.min.css');
-        $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'default.css');
+        $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'styles' . DS . 'default.css');
         $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'highlight.pack.js');
         $this->assertFileExists($output . DS . 'cache');
         $this->assertFileExists($output . DS . 'layout' . DS . 'menu.html');
