@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection\Entity;
 
 use PhpDocMaker\Reflection\AbstractEntity;
-use PhpDocMaker\Reflection\Entity\Traits\DeprecatedTrait;
 use PhpDocMaker\Reflection\Entity\Traits\GetDeclaringClassTrait;
 use PhpDocMaker\Reflection\Entity\Traits\GetTypeAsStringTrait;
 use PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait;
@@ -28,7 +27,6 @@ use Roave\BetterReflection\Reflection\ReflectionProperty;
  */
 class PropertyEntity extends AbstractEntity
 {
-    use DeprecatedTrait;
     use GetDeclaringClassTrait;
     use GetTypeAsStringTrait;
     use SeeTagsTrait;

@@ -91,4 +91,15 @@ abstract class AbstractEntity extends ParentAbstractEntity
             return new TagEntity($tag);
         }, $DocBlockInstance->getTagsByName($name)) : [];
     }
+
+    /**
+     * Returns `true` if it's deprecated (`@deprecated` tag)
+     * @return bool
+     */
+    public function isDeprecated(): bool
+    {
+        $DocBlockInstance = $this->getDocBlockInstance();
+
+        return $DocBlockInstance ? $DocBlockInstance->hasTag('deprecated') : false;
+    }
 }
