@@ -102,16 +102,16 @@ class ParameterEntity extends AbstractEntity
      */
     public function getDocBlockAsString(): string
     {
-        $params = $this->getDeclaringFunction()->getTagsByName('param');
+        $tags = $this->getDeclaringFunction()->getTagsByName('param');
 
         //Takes the right parameter tag
-        $param = call_user_func(function () use ($params): ?TagEntity {
-            return array_value_first(array_filter($params, function (TagEntity $tag) {
+        $tag = call_user_func(function () use ($tags): ?TagEntity {
+            return array_value_first(array_filter($tags, function (TagEntity $tag) {
                 return $tag->getVariableName() === $this->getName();
             }));
         });
 
-        return $param ? $param->getDescription() : '';
+        return $tag ? $tag->getDescription() : '';
     }
 
     /**
