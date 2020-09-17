@@ -103,18 +103,6 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
-     * Test for `getThrowsTags()` method
-     * @test
-     */
-    public function testGetThrowsTags()
-    {
-        $this->assertSame([[
-            'type' => 'Exception',
-            'description' => 'Exception that will always be thowned',
-        ]], $this->getFunctionEntityFromTests('throw_an_exception')->getThrowsTags());
-    }
-
-    /**
      * Test for `getVisibility()` method
      * @test
      */

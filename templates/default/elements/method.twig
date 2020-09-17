@@ -43,13 +43,13 @@
     </div>
     {%~ endif %}
 
-    {%~ if method.getThrowsTags|length > 0 %}
+    {%~ if method.hasTag('throws') %}
     <h6>Throws</h6>
-    {%~ for throws in method.getThrowsTags %}
+    {%~ for throws in method.getTagsByName('throws') %}
     <div class="mb-3">
-        <div><code>{{ throws.type }}</code></div>
-        {%~ if throws.description %}
-        <div>{{ throws.description }}</div>
+        <div><code>{{ throws.getType }}</code></div>
+        {%~ if throws.getDescription %}
+        <div>{{ throws.getDescription }}</div>
         {%~ endif %}
     </div>
     {%~ endfor %}

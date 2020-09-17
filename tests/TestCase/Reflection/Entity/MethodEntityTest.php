@@ -140,22 +140,6 @@ class MethodEntityTest extends TestCase
     }
 
     /**
-     * Test for `getThrowsTags()` method
-     * @test
-     */
-    public function testGetThrowsTags()
-    {
-        $this->assertSame([[
-            'type' => 'LogicException',
-            'description' => 'If the `LEGS` constant is not defined',
-        ]], $this->getMethodEntity('getLegs')->getThrowsTags());
-        $this->assertSame([[
-            'type' => 'RuntimeException',
-            'description' => 'With a bad "meow"',
-        ]], $this->getMethodEntity('doMeow')->getThrowsTags());
-    }
-
-    /**
      * Test for `getVisibility()` method
      * @test
      */
