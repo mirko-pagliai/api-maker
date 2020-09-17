@@ -103,13 +103,4 @@ abstract class AbstractEntity extends ParentAbstractEntity
 
         return $DocBlockInstance ? $DocBlockInstance->hasTag($name) : false;
     }
-
-    /**
-     * Returns `true` if it's deprecated (`@deprecated` tag)
-     * @return bool
-     */
-    public function isDeprecated(): bool
-    {
-        return $this->hasTag('deprecated');
-    }
 }
