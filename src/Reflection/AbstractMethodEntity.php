@@ -82,9 +82,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getReturnTypeAsString(): string
     {
-        return implode(', ', array_map(function (TagEntity $tag) {
-            return ltrim((string)$tag->getType(), '\\');
-        }, $this->getTagsByName('return'))) ?? '';
+        return implode(', ', objects_map($this->getTagsByName('return'), 'getType'));
     }
 
     /**
