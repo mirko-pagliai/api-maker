@@ -171,6 +171,7 @@ class ClassEntityTest extends TestCase
         $this->assertSame('Trait', ClassEntity::createFromName('\App\Animals\Traits\ColorsTrait')->getType());
         $this->assertSame('Abstract', ClassEntity::createFromName(Animal::class)->getType());
         $this->assertSame('Interface', ClassEntity::createFromName(MotorVehicle::class)->getType());
+        $this->assertSame('Final Class', ClassEntity::createFromName('\App\Animals\Horse')->getType());
         $this->assertSame('Deprecated Abstract', ClassEntity::createFromName(DeprecatedClassExample::class)->getType());
     }
 }
