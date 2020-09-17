@@ -190,7 +190,7 @@ class ClassEntity extends AbstractEntity
             $type = 'Abstract';
         }
 
-        if ($this->isDeprecated()) {
+        if ($this->hasTag('deprecated')) {
             $type = 'Deprecated ' . $type;
         }
 

@@ -182,14 +182,4 @@ class ClassEntityTest extends TestCase
         $this->assertSame('Interface', ClassEntity::createFromName(MotorVehicle::class)->getType());
         $this->assertSame('Deprecated Abstract', ClassEntity::createFromName(DeprecatedClassExample::class)->getType());
     }
-
-    /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
-    public function testIsDeprecated()
-    {
-        $this->assertFalse($this->Class->isDeprecated());
-        $this->assertTrue(ClassEntity::createFromName(DeprecatedClassExample::class)->isDeprecated());
-    }
 }

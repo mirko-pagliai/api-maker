@@ -96,14 +96,4 @@ class PropertyEntityTest extends TestCase
         $this->assertSame('protected', $this->getPropertyEntity('name')->getVisibility());
         $this->assertSame('public', $this->getPropertyEntity('isCat')->getVisibility());
     }
-
-    /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
-    public function testIsDeprecated()
-    {
-        $this->assertFalse($this->getPropertyEntity('name')->isDeprecated());
-        $this->assertTrue($this->getPropertyEntity('isCat')->isDeprecated());
-    }
 }

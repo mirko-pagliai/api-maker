@@ -102,14 +102,4 @@ class ConstantEntityTest extends TestCase
         $this->assertSame('protected', $this->getConstantEntity('LEGS')->getVisibility());
         $this->assertSame('public', $this->getConstantEntity('GENUS')->getVisibility());
     }
-
-    /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
-    public function testIsDeprecated()
-    {
-        $this->assertFalse($this->getConstantEntity('LEGS')->isDeprecated());
-        $this->assertTrue($this->getConstantEntity('GENUS')->isDeprecated());
-    }
 }

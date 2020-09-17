@@ -166,16 +166,6 @@ class MethodEntityTest extends TestCase
     }
 
     /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
-    public function testIsDeprecated()
-    {
-        $this->assertFalse($this->getMethodEntity('setName')->isDeprecated());
-        $this->assertTrue($this->getMethodEntity('name')->isDeprecated());
-    }
-
-    /**
      * Test for `isStatic()` method
      * @test
      */

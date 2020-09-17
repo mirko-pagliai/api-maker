@@ -1,7 +1,7 @@
 <div>
     <code>
         <a href="#{{ method.getName }}">
-            {%- if method.isDeprecated -%}
+            {%- if method.hasTag('deprecated') -%}
                 <del>{{ method.getName }}()</del>
             {%- else -%}
                 {{ method.getName }}()
@@ -11,7 +11,7 @@
     {%~ if method.isStatic %}
     <span class="badge badge-light">static</span>
     {%~ endif %}
-    {%~ if method.isDeprecated %}
+    {%~ if method.hasTag('deprecated') %}
     <span class="badge badge-light">deprecated</span>
     {%~ endif %}
     <div>{{ method.getDocBlockSummaryAsString|to_html }}</div>

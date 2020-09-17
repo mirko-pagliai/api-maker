@@ -127,16 +127,6 @@ class FunctionEntityTest extends TestCase
      * Test for `isDeprecated()` method
      * @test
      */
-    public function testIsDeprecated()
-    {
-        $this->assertFalse($this->Function->isDeprecated());
-        $this->assertTrue($this->getFunctionEntityFromTests('old_function')->isDeprecated());
-    }
-
-    /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
     public function testIsStatic()
     {
         $this->assertFalse($this->Function->isStatic());

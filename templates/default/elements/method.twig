@@ -25,7 +25,7 @@
     </div>
     {%~ endif %}
 
-    {%~ if method.isDeprecated %}
+    {%~ if method.hasTag('deprecated') %}
     <h6>Deprecated</h6>
     <div class="mb-3">
         {%~ for tag in method.getTagsByName('deprecated') %}
