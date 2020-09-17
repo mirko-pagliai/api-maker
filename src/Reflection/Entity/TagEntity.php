@@ -80,4 +80,17 @@ class TagEntity extends ParentAbstractEntity
 
         return (string)$description;
     }
+
+    /**
+     * Returns the tag type
+     * @return string
+     */
+    public function getType(): string
+    {
+        if (!method_exists($this->reflectionObject, 'getType')) {
+            return '';
+        }
+
+        return ltrim((string)$this->reflectionObject->getType(), '\\');
+    }
 }

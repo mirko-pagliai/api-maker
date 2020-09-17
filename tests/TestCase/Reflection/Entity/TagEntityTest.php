@@ -95,4 +95,26 @@ class TagEntityTest extends TestCase
             }
         }
     }
+
+    /**
+     * Test for `getType()` method
+     * @test
+     */
+    public function testGetType()
+    {
+        foreach ([
+            'param' => 'string',
+            'return' => 'void',
+            'throws' => 'RuntimeException',
+        ] as $tagName => $expectedType) {
+            foreach ($this->Method->getTagsByName($tagName) as $tag) {
+                $this->assertSame($expectedType, $tag->getType());
+            }
+        }
+
+        //Tag with no type
+        foreach ($this->Method->getTagsByName('see') as $tag) {
+            $this->assertEmpty($tag->getType());
+        }
+    }
 }
