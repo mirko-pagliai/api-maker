@@ -77,15 +77,6 @@ abstract class AbstractMethodEntity extends AbstractEntity
     }
 
     /**
-     * Gets return types as string, separated by a comma
-     * @return string
-     */
-    public function getReturnTypeAsString(): string
-    {
-        return implode(', ', objects_map($this->getTagsByName('return'), 'getType'));
-    }
-
-    /**
      * Gets the return description
      * @return string
      */
@@ -94,6 +85,15 @@ abstract class AbstractMethodEntity extends AbstractEntity
         $tags = $this->getTagsByName('return');
 
         return $tags ? array_value_first($tags)->getDescription() : '';
+    }
+
+    /**
+     * Gets return types as string, separated by a comma
+     * @return string
+     */
+    public function getReturnTypeAsString(): string
+    {
+        return implode(', ', objects_map($this->getTagsByName('return'), 'getType'));
     }
 
     /**

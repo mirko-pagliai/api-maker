@@ -104,6 +104,17 @@ class MethodEntityTest extends TestCase
     }
 
     /**
+     * Test for `getReturnDescription()` method
+     * @test
+     */
+    public function testGetReturnDescription()
+    {
+        $this->assertSame('Returns the current instance or the name as string', $this->getMethodEntity('name')->getReturnDescription());
+        $this->assertSame('', $this->getMethodEntity('getColor')->getReturnDescription());
+        $this->assertSame('This method returns void', $this->getMethodEntity('doMeow')->getReturnDescription());
+    }
+
+    /**
      * Test for `getReturnTypeAsString()` method
      * @test
      */
@@ -117,17 +128,6 @@ class MethodEntityTest extends TestCase
         //This method has no DocBlock
         $method = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
         $this->assertSame('', $method->getReturnTypeAsString());
-    }
-
-    /**
-     * Test for `getReturnDescription()` method
-     * @test
-     */
-    public function testGetReturnDescription()
-    {
-        $this->assertSame('Returns the current instance or the name as string', $this->getMethodEntity('name')->getReturnDescription());
-        $this->assertSame('', $this->getMethodEntity('getColor')->getReturnDescription());
-        $this->assertSame('This method returns void', $this->getMethodEntity('doMeow')->getReturnDescription());
     }
 
     /**
