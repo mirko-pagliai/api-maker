@@ -67,16 +67,6 @@ class PropertyEntityTest extends TestCase
     }
 
     /**
-     * Test for `getSeeTags()` method
-     * @test
-     */
-    public function testGetSeeTags()
-    {
-        $this->assertSame([], $this->getPropertyEntity('name')->getSeeTags());
-        $this->assertSame(['run()', 'walk()'], $this->getPropertyEntity('position')->getSeeTags());
-    }
-
-    /**
      * Test for `getTypeAsString()` method
      * @test
      */

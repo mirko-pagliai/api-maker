@@ -94,15 +94,6 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
-     * Test for `getSeeTags()` method
-     * @test
-     */
-    public function testGetSeeTags()
-    {
-        $this->assertSame(['https://en.wikipedia.org/wiki/Dog'], $this->getFunctionEntityFromTests('get_woof')->getSeeTags());
-    }
-
-    /**
      * Test for `getVisibility()` method
      * @test
      */

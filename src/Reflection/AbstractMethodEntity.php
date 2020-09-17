@@ -17,7 +17,6 @@ namespace PhpDocMaker\Reflection;
 use PhpDocMaker\Reflection\AbstractEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
 use PhpDocMaker\Reflection\Entity\TagEntity;
-use PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
@@ -27,8 +26,6 @@ use Roave\BetterReflection\Reflection\ReflectionParameter;
  */
 abstract class AbstractMethodEntity extends AbstractEntity
 {
-    use SeeTagsTrait;
-
     /**
      * `__toString()` magic method
      * @return string

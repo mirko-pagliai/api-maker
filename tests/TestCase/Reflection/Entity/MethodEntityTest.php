@@ -131,15 +131,6 @@ class MethodEntityTest extends TestCase
     }
 
     /**
-     * Test for `getSeeTags()` method
-     * @test
-     */
-    public function testGetSeeTags()
-    {
-        $this->assertSame(['https://en.wikipedia.org/wiki/Meow'], $this->getMethodEntity('doMeow')->getSeeTags());
-    }
-
-    /**
      * Test for `getVisibility()` method
      * @test
      */

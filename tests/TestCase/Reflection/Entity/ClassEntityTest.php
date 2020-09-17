@@ -153,15 +153,6 @@ class ClassEntityTest extends TestCase
     }
 
     /**
-     * Test for `getSeeTags()` method
-     * @test
-     */
-    public function testGetSeeTags()
-    {
-        $this->assertSame(['https://en.wikipedia.org/wiki/Cat'], $this->Class->getSeeTags());
-    }
-
-    /**
      * Test for `getSlug()` method
      * @test
      */

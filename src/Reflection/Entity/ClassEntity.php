@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection\Entity;
 
 use PhpDocMaker\Reflection\AbstractEntity;
-use PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionClassConstant;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
@@ -34,8 +33,6 @@ use RuntimeException;
  */
 class ClassEntity extends AbstractEntity
 {
-    use SeeTagsTrait;
-
     /**
      * @var \Roave\BetterReflection\Reflection\ReflectionClass
      */

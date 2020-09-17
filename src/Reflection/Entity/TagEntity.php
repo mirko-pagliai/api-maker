@@ -78,7 +78,7 @@ class TagEntity extends ParentAbstractEntity
             $description = $this->reflectionObject->getReference();
         }
 
-        return (string)$description;
+        return ltrim((string)$description, '\\');
     }
 
     /**

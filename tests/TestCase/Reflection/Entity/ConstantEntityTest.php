@@ -70,19 +70,6 @@ class ConstantEntityTest extends TestCase
     }
 
     /**
-     * Test for `getSeeTags()` method
-     * @test
-     */
-    public function testGetSeeTags()
-    {
-        $this->assertSame([], $this->getConstantEntity('LEGS')->getSeeTags());
-        $this->assertSame([
-            'https://en.wikipedia.org/wiki/Genus',
-            'https://en.wikipedia.org/wiki/Felis',
-        ], $this->getConstantEntity('GENUS')->getSeeTags());
-    }
-
-    /**
      * Test for `getValueAsString()` method
      * @test
      */

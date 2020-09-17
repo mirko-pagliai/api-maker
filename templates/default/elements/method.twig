@@ -34,11 +34,11 @@
     </div>
     {%~ endif %}
 
-    {%~ if method.getSeeTags|length > 0 %}
+    {%~ if method.hasTag('see') %}
     <h6>See</h6>
     <div class="mb-3">
-        {%~ for see in method.getSeeTags %}
-        <div>{{ see }}</div>
+        {%~ for tag in method.getTagsByName('see') %}
+        <div>{{ tag.getDescription|to_html }}</div>
         {%~ endfor %}
     </div>
     {%~ endif %}

@@ -8,8 +8,9 @@
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * added template `class` element;
 * removed `DeprecatedTrait::getDeprecatedDescription()`,
-    `DeprecatedTrait::isDeprecated()` and `AbstractMethodEntity::getThrowsTags()`
-    methods. Use instead the `TagEntity` and its methods;
+    `DeprecatedTrait::isDeprecated()`, `SeeTagsTrait::getSeeTags()` and
+    `AbstractMethodEntity::getThrowsTags()` methods. Use instead the `TagEntity`
+    and its methods;
 * updated `bootstrap` and `highlight` asset files.
 
 ### 1.0.1-beta2
