@@ -2,6 +2,7 @@
 ## 1.0 branch
 ### 1.0.2-beta3
 * added `TagEntity`, which now represents the tags;
+* added `AbstractEntity::hasTag()` method;
 * added `ClassEntity::getType()` method;
 * added `ClassEntity::createFromName()` static method;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;

@@ -93,13 +93,23 @@ abstract class AbstractEntity extends ParentAbstractEntity
     }
 
     /**
+     * Returns true if the DocBlock has the tag
+     * @param string $name Tag name
+     * @return bool
+     */
+    public function hasTag(string $name): bool
+    {
+        $DocBlockInstance = $this->getDocBlockInstance();
+
+        return $DocBlockInstance ? $DocBlockInstance->hasTag($name) : false;
+    }
+
+    /**
      * Returns `true` if it's deprecated (`@deprecated` tag)
      * @return bool
      */
     public function isDeprecated(): bool
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
-
-        return $DocBlockInstance ? $DocBlockInstance->hasTag('deprecated') : false;
+        return $this->hasTag('deprecated');
     }
 }

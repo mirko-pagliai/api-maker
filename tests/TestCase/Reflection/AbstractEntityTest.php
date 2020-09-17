@@ -86,4 +86,19 @@ HEREDOC;
         $tags = $entity->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('see');
         $this->assertEmpty($tags);
     }
+
+    /**
+     * Test for `hasTag()` method
+     * @test
+     */
+    public function testHasTag()
+    {
+        $method = ClassEntity::createFromName(Cat::class)->getMethod('doMeow');
+        $this->assertTrue($method->hasTag('see'));
+        $this->assertFalse($method->hasTag('use'));
+
+        //This method has no DocBlock
+        $method = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
+        $this->assertFalse($method->hasTag('see'));
+    }
 }
