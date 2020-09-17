@@ -103,20 +103,6 @@ abstract class AbstractMethodEntity extends AbstractEntity
     abstract public function getVisibility(): string;
 
     /**
-     * Returns `@throws` tags
-     * @return array
-     */
-//    public function getThrowsTags(): array
-//    {
-//        return array_map(function (TagEntity $tag) {
-//            return [
-//                'type' => ltrim((string)$tag->getType(), '\\'),
-//                'description' => $tag->getDescription(),
-//            ];
-//        }, $this->getTagsByName('throws'));
-//    }
-
-    /**
      * Returns `true` if it's static
      * @return bool
      */
