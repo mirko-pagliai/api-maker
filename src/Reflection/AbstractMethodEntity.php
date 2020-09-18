@@ -84,7 +84,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
     {
         $tags = $this->getTagsByName('return');
 
-        return $tags ? array_value_first($tags)->getDescription() : '';
+        return $tags ? $tags->first()->getDescription() : '';
     }
 
     /**
@@ -93,7 +93,9 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getReturnTypeAsString(): string
     {
-        return implode(', ', objects_map($this->getTagsByName('return'), 'getType'));
+        return implode(', ', $this->getTagsByName('return')->map(function (TagEntity $tag) {
+            return $tag->getType();
+        })->toList());
     }
 
     /**

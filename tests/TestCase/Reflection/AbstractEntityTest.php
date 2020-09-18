@@ -80,11 +80,12 @@ HEREDOC;
     public function testGetTagsByName()
     {
         $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTagsByName('see');
+        $this->assertFalse($tags->isEmpty());
         $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
 
         $entity = ClassEntity::createFromName(DeprecatedClassExample::class);
         $tags = $entity->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('see');
-        $this->assertEmpty($tags);
+        $this->assertTrue($tags->isEmpty());
     }
 
     /**

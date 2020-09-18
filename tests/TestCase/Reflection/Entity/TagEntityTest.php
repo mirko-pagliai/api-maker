@@ -97,8 +97,7 @@ class TagEntityTest extends TestCase
         }
 
         $method = ClassEntity::createFromName(Car::class)->getMethod('start');
-        $tag = array_value_first($method->getTagsByName('see'));
-        $this->assertSame('App\Vehicles\MotorVehicle::start()', $tag->getDescription());
+        $this->assertSame('App\Vehicles\MotorVehicle::start()', $method->getTagsByName('see')->first()->getDescription());
     }
 
     /**

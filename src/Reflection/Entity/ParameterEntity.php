@@ -107,9 +107,9 @@ class ParameterEntity extends AbstractEntity
             return '';
         }
 
-        return array_value_first(array_filter($function->getTagsByName('param'), function (TagEntity $tag) {
+        return $function->getTagsByName('param')->filter(function (TagEntity $tag) {
             return $tag->getVariableName() === $this->getName();
-        }))->getDescription();
+        })->first()->getDescription();
     }
 
     /**

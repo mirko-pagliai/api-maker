@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection;
 
+use Cake\Collection\Collection;
 use Exception;
 use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\Reflection\ParentAbstractEntity;
@@ -83,13 +84,14 @@ abstract class AbstractEntity extends ParentAbstractEntity
      * @param string $name Tags
      * @return array
      */
-    public function getTagsByName($name): array
+    public function getTagsByName($name): Collection
     {
         $DocBlockInstance = $this->getDocBlockInstance();
-
-        return $DocBlockInstance ? array_map(function (Tag $tag) {
+        $tags = $DocBlockInstance ? array_map(function (Tag $tag) {
             return new TagEntity($tag);
         }, $DocBlockInstance->getTagsByName($name)) : [];
+
+        return new Collection($tags);
     }
 
     /**
