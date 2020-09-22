@@ -103,6 +103,17 @@ abstract class AbstractEntity extends ParentAbstractEntity
     }
 
     /**
+     * Gets all tags grouped by name
+     * @return \Cake\Collection\Collection
+     */
+    public function getTagsGroupedByName(): Collection
+    {
+        return $this->getTags()->groupBy(function (TagEntity $tag) {
+            return $tag->getName();
+        });
+    }
+
+    /**
      * Gets tags by name
      * @param string $name Tags
      * @return \Cake\Collection\Collection
