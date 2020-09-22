@@ -3,7 +3,7 @@
 ### 1.0.2-beta3
 * added `TagEntity`, which now represents the tags;
 * tags are now a collection (so `AbstractEntity::getTagsByName()` returns now a
-    `Collection` instance);
+    `Collection` instance). Added `AbstractEntity::getTags()` method.
 * added `AbstractEntity::hasTag()` method;
 * added `ClassEntity::getType()` method;
 * added `ClassEntity::createFromName()` static method;

@@ -74,6 +74,21 @@ HEREDOC;
     }
 
     /**
+     * Test for `getTags()` method
+     * @test
+     */
+    public function testGetTags()
+    {
+        $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTags();
+        $this->assertCount(4, $tags);
+        $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
+        $names = $tags->map(function (TagEntity $tag) {
+            return $tag->getName();
+        })->toList();
+        $this->assertSame(['param', 'return', 'throws', 'see'], $names);
+    }
+
+    /**
      * Test for `getTagsByName()` method
      * @test
      */
