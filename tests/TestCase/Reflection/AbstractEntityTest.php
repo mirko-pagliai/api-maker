@@ -85,6 +85,23 @@ HEREDOC;
     }
 
     /**
+     * Test for `getTagsGroupedByName()` method
+     * @test
+     */
+    public function testGetTagsGroupedByName()
+    {
+        $tags = ClassEntity::createFromName(Cat::class)->getConstant('GENUS')->getTagsGroupedByName()->toArray();
+        $this->assertCount(2, $tags);
+
+        //`@see` tags are grouped
+        $this->assertCount(2, $tags['see']);
+        $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags['see']);
+        foreach ($tags['see'] as $tag) {
+            $this->assertSame('see', $tag->getName());
+        }
+    }
+
+    /**
      * Test for `getTagsByName()` method
      * @test
      */
