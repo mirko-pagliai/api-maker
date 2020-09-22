@@ -21,7 +21,8 @@ use RuntimeException;
 
 /**
  * Cat class
- * @see https://en.wikipedia.org/wiki/Cat
+ * @link https://en.wikipedia.org/wiki/Cat
+ * @see \App\Animals\Animal
  */
 class Cat extends Animal
 {
@@ -33,8 +34,8 @@ class Cat extends Animal
      *
      * Every animal has its own genus.
      * @deprecated We are no longer interested in knowing the genus of the animal
-     * @see https://en.wikipedia.org/wiki/Genus
-     * @see https://en.wikipedia.org/wiki/Felis
+     * @link https://en.wikipedia.org/wiki/Genus
+     * @link https://en.wikipedia.org/wiki/Felis
      */
     const GENUS = 'Felis';
 
@@ -89,7 +90,7 @@ class Cat extends Animal
      * @param string $meow Type of meow
      * @return void This method returns void
      * @throws RuntimeException With a bad "meow"
-     * @see https://en.wikipedia.org/wiki/Meow
+     * @link https://en.wikipedia.org/wiki/Meow
      */
     public function doMeow(string $meow = 'meow!'): void
     {
