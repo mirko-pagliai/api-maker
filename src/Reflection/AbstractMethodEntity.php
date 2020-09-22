@@ -16,7 +16,6 @@ namespace PhpDocMaker\Reflection;
 
 use PhpDocMaker\Reflection\AbstractEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
-use PhpDocMaker\Reflection\Entity\TagEntity;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
@@ -74,28 +73,6 @@ abstract class AbstractMethodEntity extends AbstractEntity
         return implode(', ', array_map(function (ParameterEntity $param) {
             return $param->toSignature();
         }, $this->getParameters()));
-    }
-
-    /**
-     * Gets the return description
-     * @return string
-     */
-    public function getReturnDescription(): string
-    {
-        $tags = $this->getTagsByName('return');
-
-        return $tags ? $tags->first()->getDescription() : '';
-    }
-
-    /**
-     * Gets return types as string, separated by a comma
-     * @return string
-     */
-    public function getReturnTypeAsString(): string
-    {
-        return implode(', ', $this->getTagsByName('return')->map(function (TagEntity $tag) {
-            return $tag->getType();
-        })->toList());
     }
 
     /**

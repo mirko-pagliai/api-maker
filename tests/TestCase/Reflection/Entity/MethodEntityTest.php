@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
-use App\DeprecatedClassExample;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
@@ -101,33 +100,6 @@ class MethodEntityTest extends TestCase
         $this->assertSame('string $mother, string $father', $this->getMethodEntity('setParents')->getParametersAsString());
         $this->assertSame('string|null $name = null', $this->getMethodEntity('name')->getParametersAsString());
         $this->assertSame('', $this->getMethodEntity('createPuppy')->getParametersAsString());
-    }
-
-    /**
-     * Test for `getReturnDescription()` method
-     * @test
-     */
-    public function testGetReturnDescription()
-    {
-        $this->assertSame('Returns the current instance or the name as string', $this->getMethodEntity('name')->getReturnDescription());
-        $this->assertSame('', $this->getMethodEntity('getColor')->getReturnDescription());
-        $this->assertSame('This method returns void', $this->getMethodEntity('doMeow')->getReturnDescription());
-    }
-
-    /**
-     * Test for `getReturnTypeAsString()` method
-     * @test
-     */
-    public function testGetReturnTypeAsString()
-    {
-        $this->assertSame('mixed', $this->getMethodEntity('name')->getReturnTypeAsString());
-        $this->assertSame('App\Animals\Cat', $this->getMethodEntity('createPuppy')->getReturnTypeAsString());
-        $this->assertSame('string|null', $this->getMethodEntity('getColor')->getReturnTypeAsString());
-        $this->assertSame('void', $this->getMethodEntity('doMeow')->getReturnTypeAsString());
-
-        //This method has no DocBlock
-        $method = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
-        $this->assertSame('', $method->getReturnTypeAsString());
     }
 
     /**

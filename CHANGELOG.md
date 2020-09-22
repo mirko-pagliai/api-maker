@@ -9,9 +9,11 @@
 * added `ClassEntity::createFromName()` static method;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * added template `class` element;
-* removed `DeprecatedTrait::getDeprecatedDescription()`,
-    `DeprecatedTrait::isDeprecated()`, `SeeTagsTrait::getSeeTags()` and
-    `AbstractMethodEntity::getThrowsTags()` methods. Use instead the `TagEntity`
+* removed `AbstractMethodEntity::getReturnDescription()`,
+    `AbstractMethodEntity::getReturnTypeAsString()`,
+    `AbstractMethodEntity::getThrowsTags()`,
+    `DeprecatedTrait::getDeprecatedDescription()`, `DeprecatedTrait::isDeprecated()`,
+    and `SeeTagsTrait::getSeeTags()` methods. Use instead the `TagEntity`
     and its methods;
 * updated `bootstrap` and `highlight` asset files.
 
