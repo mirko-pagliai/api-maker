@@ -70,17 +70,6 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Gets all classes located in the test app
-     * @return array
-     */
-    protected function getAllClassesFromTests(): array
-    {
-        $this->classesFromTests = $this->classesFromTests ?: $this->getClassesExplorerInstance()->getAllClasses();
-
-        return $this->classesFromTests;
-    }
-
-    /**
      * Internal method to get a `FunctionEntity` instance from a function located
      *  in the test app (see `tests/test_app/functions.php` file)
      * @param string $functionName Function name
