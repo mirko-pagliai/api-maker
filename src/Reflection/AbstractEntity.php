@@ -80,18 +80,40 @@ abstract class AbstractEntity extends ParentAbstractEntity
     }
 
     /**
-     * Gets tags by name
-     * @param string $name Tags
-     * @return array
+     * Internal method to parse tags
+     * @param array $tags An array of `Tag` instances
+     * @return array An array of `TagEntity` instances
      */
-    public function getTagsByName($name): Collection
+    protected function parseTags(array $tags): array
+    {
+        return array_map(function (Tag $tag) {
+            return new TagEntity($tag);
+        }, $tags);
+    }
+
+    /**
+     * Gets all tags
+     * @return \Cake\Collection\Collection
+     */
+    public function getTags(): Collection
     {
         $DocBlockInstance = $this->getDocBlockInstance();
-        $tags = $DocBlockInstance ? array_map(function (Tag $tag) {
-            return new TagEntity($tag);
-        }, $DocBlockInstance->getTagsByName($name)) : [];
+        $tags = $DocBlockInstance ? $this->parseTags($DocBlockInstance->getTags()) : [];
 
-        return new Collection($tags);
+        return Collection($tags);
+    }
+
+    /**
+     * Gets tags by name
+     * @param string $name Tags
+     * @return \Cake\Collection\Collection
+     */
+    public function getTagsByName(string $name): Collection
+    {
+        $DocBlockInstance = $this->getDocBlockInstance();
+        $tags = $DocBlockInstance ? $this->parseTags($DocBlockInstance->getTagsByName($name)) : [];
+
+        return Collection($tags);
     }
 
     /**
