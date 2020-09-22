@@ -15,13 +15,15 @@
     {%~ endfor %}
     {%~ endif %}
 
-    {%~ if method.getReturnTypeAsString and method.getReturnTypeAsString != 'void' %}
+    {%~ if method.hasTag('return') %}
     <h6>Return</h6>
     <div class="mb-3">
-        <div><code>{{ method.getReturnTypeAsString }}</code></div>
-        {%~ if method.getReturnDescription %}
-        <div>{{ method.getReturnDescription|to_html }}</div>
+        {%~ for tag in method.getTagsByName('return') %}
+        <div><code>{{ tag.getType }}</code></div>
+        {%~ if tag.getDescription %}
+        <div>{{ tag.getDescription|to_html }}</div>
         {%~ endif %}
+        {%~ endfor %}
     </div>
     {%~ endif %}
 
