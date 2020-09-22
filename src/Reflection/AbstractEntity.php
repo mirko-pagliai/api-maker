@@ -14,48 +14,19 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection;
 
-use BadMethodCallException;
+use Cake\Collection\Collection;
+use Exception;
+use PhpDocMaker\Reflection\Entity\TagEntity;
+use PhpDocMaker\Reflection\ParentAbstractEntity;
 use phpDocumentor\Reflection\DocBlock;
-use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
+use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlockFactory;
-use RuntimeException;
 
 /**
  * AbstractEntity class
- * @method string getName() Gets the object name
  */
-abstract class AbstractEntity
+abstract class AbstractEntity extends ParentAbstractEntity
 {
-    /**
-     * `__call()` magic method.
-     *
-     * It allows access to the methods of the reflected object.
-     * @param string $name Method name
-     * @param array $arguments Method arguments
-     * @return mixed
-     * @throws \BadMethodCallException
-     */
-    public function __call(string $name, array $arguments)
-    {
-        if (!method_exists($this->reflectionObject, $name)) {
-            throw new BadMethodCallException(sprintf('Method %s::%s() does not exist', get_class($this->reflectionObject), $name));
-        }
-
-        return call_user_func_array([$this->reflectionObject, $name], $arguments);
-    }
-
-    /**
-     * `__toString()` magic method
-     * @return string
-     */
-    abstract public function __toString(): string;
-
-    /**
-     * Returns the representation of this object as a signature
-     * @return string
-     */
-    abstract public function toSignature(): string;
-
     /**
      * Internal method to get the `DocBlock` instance
      * @param \Roave\BetterReflection\Reflection\Reflection|\Roave\BetterReflection\Reflection\ReflectionFunctionAbstract|null $reflectionObject A `Reflection` object
@@ -65,7 +36,7 @@ abstract class AbstractEntity
     {
         try {
             return DocBlockFactory::createInstance()->create($reflectionObject ?: $this->reflectionObject);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return null;
         }
     }
@@ -112,31 +83,26 @@ abstract class AbstractEntity
      * Gets tags by name
      * @param string $name Tags
      * @return array
-     * @throws \RuntimeException
      */
-    public function getTagsByName($name): array
+    public function getTagsByName($name): Collection
     {
         $DocBlockInstance = $this->getDocBlockInstance();
-        if (!$DocBlockInstance) {
-            return [];
-        }
+        $tags = $DocBlockInstance ? array_map(function (Tag $tag) {
+            return new TagEntity($tag);
+        }, $DocBlockInstance->getTagsByName($name)) : [];
 
-        $tags = $DocBlockInstance->getTagsByName($name);
+        return new Collection($tags);
+    }
 
-        //Throws an exception for invalid tags
-        foreach ($tags as $tag) {
-            if (get_class($tag) === InvalidTag::class) {
-                preg_match('/^\"(.+)\" is not a valid Fqsen\.$/', $tag->getException()->getMessage(), $matches);
+    /**
+     * Returns true if the DocBlock has the tag
+     * @param string $name Tag name
+     * @return bool
+     */
+    public function hasTag(string $name): bool
+    {
+        $DocBlockInstance = $this->getDocBlockInstance();
 
-                $message = '@' . $tag->getName();
-                if (isset($matches[1])) {
-                    $message .= ' ' . $matches[1];
-                }
-
-                throw new RuntimeException(sprintf('Invalid tag `%s`', $message));
-            }
-        }
-
-        return $tags;
+        return $DocBlockInstance ? $DocBlockInstance->hasTag($name) : false;
     }
 }

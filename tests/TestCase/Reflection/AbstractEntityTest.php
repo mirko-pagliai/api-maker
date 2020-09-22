@@ -20,10 +20,10 @@ use App\Animals\Dog;
 use App\ArrayExample;
 use App\DeprecatedClassExample;
 use BadMethodCallException;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
+use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\TestSuite\TestCase;
-use phpDocumentor\Reflection\DocBlock\Tags\See;
 use Roave\BetterReflection\Reflection\ReflectionClass;
-use RuntimeException;
 
 /**
  * AbstractEntityTest class
@@ -36,7 +36,7 @@ class AbstractEntityTest extends TestCase
      */
     public function testCall()
     {
-        $entity = $this->getClassEntityFromTests(Cat::class);
+        $entity = ClassEntity::createFromName(Cat::class);
         $this->assertFalse(method_exists($entity, 'getImmediateReflectionConstants'));
         $this->assertNotEmpty($entity->getImmediateReflectionConstants());
 
@@ -52,14 +52,14 @@ class AbstractEntityTest extends TestCase
      */
     public function testGetDocBlockMethods()
     {
-        $class = $this->getClassEntityFromTests(Animal::class);
+        $class = ClassEntity::createFromName(Animal::class);
         $expectedSummary = 'Animal abstract class.';
         $expectedDesc = 'Other animal classes have to extend this class.';
         $this->assertSame($expectedSummary, $class->getDocBlockSummaryAsString());
         $this->assertSame($expectedDesc, $class->getDocBlockDescriptionAsString());
         $this->assertSame($expectedSummary . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
 
-        $class = $this->getClassEntityFromTests(Dog::class);
+        $class = ClassEntity::createFromName(Dog::class);
         $expectedSummary = 'Dog class.';
         $expectedDesc = <<<HEREDOC
 ### Is it really a dog?
@@ -70,7 +70,7 @@ HEREDOC;
         $this->assertSame($expectedSummary . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
 
         //Class with no DocBlock
-        $this->assertSame('', $this->getClassEntityFromTests(ArrayExample::class)->getDocBlockAsString());
+        $this->assertSame('', ClassEntity::createFromName(ArrayExample::class)->getDocBlockAsString());
     }
 
     /**
@@ -79,15 +79,27 @@ HEREDOC;
      */
     public function testGetTagsByName()
     {
-        $tags = $this->getClassEntityFromTests(Cat::class)->getMethod('doMeow')->getTagsByName('see');
-        $this->assertContainsOnlyInstancesOf(See::class, $tags);
+        $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTagsByName('see');
+        $this->assertFalse($tags->isEmpty());
+        $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
 
-        $entity = $this->getClassEntityFromTests(DeprecatedClassExample::class);
+        $entity = ClassEntity::createFromName(DeprecatedClassExample::class);
         $tags = $entity->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('see');
-        $this->assertEmpty($tags);
+        $this->assertTrue($tags->isEmpty());
+    }
 
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Invalid tag `@see \1`');
-        $tags = $entity->getMethod('methodWithInvalidTag')->getTagsByName('see');
+    /**
+     * Test for `hasTag()` method
+     * @test
+     */
+    public function testHasTag()
+    {
+        $method = ClassEntity::createFromName(Cat::class)->getMethod('doMeow');
+        $this->assertTrue($method->hasTag('see'));
+        $this->assertFalse($method->hasTag('use'));
+
+        //This method has no DocBlock
+        $method = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
+        $this->assertFalse($method->hasTag('see'));
     }
 }

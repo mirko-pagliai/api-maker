@@ -1,5 +1,20 @@
 # 1.x branch
 ## 1.0 branch
+### 1.0.2-beta3
+* added `TagEntity`, which now represents the tags;
+* tags are now a collection (so `AbstractEntity::getTagsByName()` returns now a
+    `Collection` instance);
+* added `AbstractEntity::hasTag()` method;
+* added `ClassEntity::getType()` method;
+* added `ClassEntity::createFromName()` static method;
+* added `TestCase::assertStringEqualsTemplate()` assertion method;
+* added template `class` element;
+* removed `DeprecatedTrait::getDeprecatedDescription()`,
+    `DeprecatedTrait::isDeprecated()`, `SeeTagsTrait::getSeeTags()` and
+    `AbstractMethodEntity::getThrowsTags()` methods. Use instead the `TagEntity`
+    and its methods;
+* updated `bootstrap` and `highlight` asset files.
+
 ### 1.0.1-beta2
 * `PhpDocMakerCommand` now correctly handles PHP errors too (e.g. notice);
 * each entity now has a coherent `__toString()` method, as well as a

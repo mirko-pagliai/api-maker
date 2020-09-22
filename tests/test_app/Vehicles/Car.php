@@ -30,6 +30,7 @@ class Car extends Vehicle implements MotorVehicle
     /**
      * Starts the vehicle
      * @return bool
+     * @see \App\Vehicles\MotorVehicle::start()
      */
     public function start(): bool
     {

@@ -16,10 +16,7 @@ namespace PhpDocMaker\Reflection;
 
 use PhpDocMaker\Reflection\AbstractEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
-use PhpDocMaker\Reflection\Entity\Traits\DeprecatedTrait;
-use PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
-use phpDocumentor\Reflection\DocBlock\Tags\Throws;
+use PhpDocMaker\Reflection\Entity\TagEntity;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
 /**
@@ -29,9 +26,6 @@ use Roave\BetterReflection\Reflection\ReflectionParameter;
  */
 abstract class AbstractMethodEntity extends AbstractEntity
 {
-    use DeprecatedTrait;
-    use SeeTagsTrait;
-
     /**
      * `__toString()` magic method
      * @return string
@@ -83,17 +77,6 @@ abstract class AbstractMethodEntity extends AbstractEntity
     }
 
     /**
-     * Gets return types as string, separated by a comma
-     * @return string
-     */
-    public function getReturnTypeAsString(): string
-    {
-        return implode(', ', array_map(function (Return_ $return) {
-            return ltrim((string)$return->getType(), '\\');
-        }, $this->getTagsByName('return'))) ?? '';
-    }
-
-    /**
      * Gets the return description
      * @return string
      */
@@ -101,7 +84,18 @@ abstract class AbstractMethodEntity extends AbstractEntity
     {
         $tags = $this->getTagsByName('return');
 
-        return $tags ? (string)array_value_first($tags)->getDescription() : '';
+        return $tags ? $tags->first()->getDescription() : '';
+    }
+
+    /**
+     * Gets return types as string, separated by a comma
+     * @return string
+     */
+    public function getReturnTypeAsString(): string
+    {
+        return implode(', ', $this->getTagsByName('return')->map(function (TagEntity $tag) {
+            return $tag->getType();
+        })->toList());
     }
 
     /**
@@ -109,20 +103,6 @@ abstract class AbstractMethodEntity extends AbstractEntity
      * @return string
      */
     abstract public function getVisibility(): string;
-
-    /**
-     * Returns `@throws` tags
-     * @return array
-     */
-    public function getThrowsTags(): array
-    {
-        return array_map(function (Throws $throws) {
-            return [
-                'type' => ltrim((string)$throws->getType(), '\\'),
-                'description' => (string)$throws->getDescription(),
-            ];
-        }, $this->getTagsByName('throws'));
-    }
 
     /**
      * Returns `true` if it's static

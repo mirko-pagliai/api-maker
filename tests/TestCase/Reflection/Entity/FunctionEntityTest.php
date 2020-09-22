@@ -57,15 +57,6 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
-     * Test for `getDeprecatedDescription()` method
-     * @test
-     */
-    public function testGetDeprecatedDescription()
-    {
-        $this->assertSame('Use instead `a_test_function()`', $this->getFunctionEntityFromTests('old_function')->getDeprecatedDescription());
-    }
-
-    /**
      * Test for `getParameters()` method
      * @test
      */
@@ -85,15 +76,6 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
-     * Test for `getReturnTypeAsString()` method
-     * @test
-     */
-    public function testGetReturnTypeAsString()
-    {
-        $this->assertSame('string', $this->Function->getReturnTypeAsString());
-    }
-
-    /**
      * Test for `getReturnDescription()` method
      * @test
      */
@@ -103,24 +85,12 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
-     * Test for `getSeeTags()` method
+     * Test for `getReturnTypeAsString()` method
      * @test
      */
-    public function testGetSeeTags()
+    public function testGetReturnTypeAsString()
     {
-        $this->assertSame(['https://en.wikipedia.org/wiki/Dog'], $this->getFunctionEntityFromTests('get_woof')->getSeeTags());
-    }
-
-    /**
-     * Test for `getThrowsTags()` method
-     * @test
-     */
-    public function testGetThrowsTags()
-    {
-        $this->assertSame([[
-            'type' => 'Exception',
-            'description' => 'Exception that will always be thowned',
-        ]], $this->getFunctionEntityFromTests('throw_an_exception')->getThrowsTags());
+        $this->assertSame('string', $this->Function->getReturnTypeAsString());
     }
 
     /**
@@ -130,16 +100,6 @@ class FunctionEntityTest extends TestCase
     public function testGetVisibility()
     {
         $this->assertSame('', $this->Function->getVisibility());
-    }
-
-    /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
-    public function testIsDeprecated()
-    {
-        $this->assertFalse($this->Function->isDeprecated());
-        $this->assertTrue($this->getFunctionEntityFromTests('old_function')->isDeprecated());
     }
 
     /**

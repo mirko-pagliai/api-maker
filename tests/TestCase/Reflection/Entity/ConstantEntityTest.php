@@ -33,7 +33,7 @@ class ConstantEntityTest extends TestCase
      */
     protected function getConstantEntity(string $constant, string $class = Cat::class): ConstantEntity
     {
-        return $this->getClassEntityFromTests($class)->getConstant($constant);
+        return ClassEntity::createFromName($class)->getConstant($constant);
     }
 
     /**
@@ -70,28 +70,6 @@ class ConstantEntityTest extends TestCase
     }
 
     /**
-     * Test for `getDeprecatedDescription()` method
-     * @test
-     */
-    public function testGetDeprecatedDescription()
-    {
-        $this->assertSame('We are no longer interested in knowing the genus of the animal', $this->getConstantEntity('GENUS')->getDeprecatedDescription());
-    }
-
-    /**
-     * Test for `getSeeTags()` method
-     * @test
-     */
-    public function testGetSeeTags()
-    {
-        $this->assertSame([], $this->getConstantEntity('LEGS')->getSeeTags());
-        $this->assertSame([
-            'https://en.wikipedia.org/wiki/Genus',
-            'https://en.wikipedia.org/wiki/Felis',
-        ], $this->getConstantEntity('GENUS')->getSeeTags());
-    }
-
-    /**
      * Test for `getValueAsString()` method
      * @test
      */
@@ -110,15 +88,5 @@ class ConstantEntityTest extends TestCase
     {
         $this->assertSame('protected', $this->getConstantEntity('LEGS')->getVisibility());
         $this->assertSame('public', $this->getConstantEntity('GENUS')->getVisibility());
-    }
-
-    /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
-    public function testIsDeprecated()
-    {
-        $this->assertFalse($this->getConstantEntity('LEGS')->isDeprecated());
-        $this->assertTrue($this->getConstantEntity('GENUS')->isDeprecated());
     }
 }

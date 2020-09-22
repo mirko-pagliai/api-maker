@@ -34,7 +34,7 @@ class MethodEntityTest extends TestCase
      */
     protected function getMethodEntity(string $method, string $class = Cat::class): MethodEntity
     {
-        return $this->getClassEntityFromTests($class)->getMethod($method);
+        return ClassEntity::createFromName($class)->getMethod($method);
     }
 
     /**
@@ -66,18 +66,6 @@ class MethodEntityTest extends TestCase
         $class = $this->getMethodEntity('createPuppy')->getDeclaringClass();
         $this->assertInstanceOf(ClassEntity::class, $class);
         $this->assertSame(Cat::class, $class->getName());
-    }
-
-    /**
-     * Test for `getDeprecatedDescription()` method
-     * @test
-     */
-    public function testGetDeprecatedDescription()
-    {
-        $this->assertSame('Use instead `getName()`/`setName()`', $this->getMethodEntity('name')->getDeprecatedDescription());
-
-        //This method has no DocBlock
-        $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getDeprecatedDescription());
     }
 
     /**
@@ -116,6 +104,17 @@ class MethodEntityTest extends TestCase
     }
 
     /**
+     * Test for `getReturnDescription()` method
+     * @test
+     */
+    public function testGetReturnDescription()
+    {
+        $this->assertSame('Returns the current instance or the name as string', $this->getMethodEntity('name')->getReturnDescription());
+        $this->assertSame('', $this->getMethodEntity('getColor')->getReturnDescription());
+        $this->assertSame('This method returns void', $this->getMethodEntity('doMeow')->getReturnDescription());
+    }
+
+    /**
      * Test for `getReturnTypeAsString()` method
      * @test
      */
@@ -127,43 +126,8 @@ class MethodEntityTest extends TestCase
         $this->assertSame('void', $this->getMethodEntity('doMeow')->getReturnTypeAsString());
 
         //This method has no DocBlock
-        $this->assertSame('', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getReturnTypeAsString());
-    }
-
-    /**
-     * Test for `getReturnDescription()` method
-     * @test
-     */
-    public function testGetReturnDescription()
-    {
-        $this->assertSame('Returns the current instance or the name as string', $this->getMethodEntity('name')->getReturnDescription());
-        $this->assertSame('', $this->getMethodEntity('getColor')->getReturnDescription());
-        $this->assertSame('', $this->getMethodEntity('doMeow')->getReturnDescription());
-    }
-
-    /**
-     * Test for `getSeeTags()` method
-     * @test
-     */
-    public function testGetSeeTags()
-    {
-        $this->assertSame(['https://en.wikipedia.org/wiki/Meow'], $this->getMethodEntity('doMeow')->getSeeTags());
-    }
-
-    /**
-     * Test for `getThrowsTags()` method
-     * @test
-     */
-    public function testGetThrowsTags()
-    {
-        $this->assertSame([[
-            'type' => 'LogicException',
-            'description' => 'If the `LEGS` constant is not defined',
-        ]], $this->getMethodEntity('getLegs')->getThrowsTags());
-        $this->assertSame([[
-            'type' => 'RuntimeException',
-            'description' => '',
-        ]], $this->getMethodEntity('doMeow')->getThrowsTags());
+        $method = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
+        $this->assertSame('', $method->getReturnTypeAsString());
     }
 
     /**
@@ -174,16 +138,6 @@ class MethodEntityTest extends TestCase
     {
         $this->assertSame('public', $this->getMethodEntity('name')->getVisibility());
         $this->assertSame('protected', $this->getMethodEntity('resetPosition')->getVisibility());
-    }
-
-    /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
-    public function testIsDeprecated()
-    {
-        $this->assertFalse($this->getMethodEntity('setName')->isDeprecated());
-        $this->assertTrue($this->getMethodEntity('name')->isDeprecated());
     }
 
     /**

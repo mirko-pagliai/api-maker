@@ -3,60 +3,55 @@
 <div class="ml-3">
     <pre><code class="language-php">{{ method.toSignature }}</code></pre>
         {%~ if method.getDocBlockAsString %}
-    <blockquote class="blockquote">
-        <small class="font-weight-light">{{ method.getDocBlockAsString|to_html }}</small>
-    </blockquote>
-    {%- endif %}
+    <blockquote class="blockquote font-weight-light small">{{ method.getDocBlockAsString|to_html }}</blockquote>
+    {%~ endif %}
 
-        {%- if method.getParameters|length > 0 ~%}
-
+    {%~ if method.getParameters|length > 0 %}
     <h6>Parameters</h6>
-            {%- for parameter in method.getParameters ~%}
+    {%~ for parameter in method.getParameters %}
     <div class="mb-3">
         <code class="language-php">{{ parameter.toSignature }}</code> {{ parameter.getDocBlockAsString|to_html }}
     </div>
-            {%- endfor %}
-        {%- endif %}
+    {%~ endfor %}
+    {%~ endif %}
 
-        {%- if method.getReturnTypeAsString and method.getReturnTypeAsString != 'void' ~%}
-
+    {%~ if method.getReturnTypeAsString and method.getReturnTypeAsString != 'void' %}
     <h6>Return</h6>
     <div class="mb-3">
         <div><code>{{ method.getReturnTypeAsString }}</code></div>
-                {%~ if method.getReturnDescription %}
+        {%~ if method.getReturnDescription %}
         <div>{{ method.getReturnDescription|to_html }}</div>
-                {%~ endif %}
+        {%~ endif %}
     </div>
-        {%- endif %}
+    {%~ endif %}
 
-        {%- if method.isDeprecated ~%}
-
+    {%~ if method.hasTag('deprecated') %}
     <h6>Deprecated</h6>
     <div class="mb-3">
-        <div>{{ method.getDeprecatedDescription|to_html }}</div>
+        {%~ for tag in method.getTagsByName('deprecated') %}
+        <div>{{ tag.getDescription|to_html }}</div>
+        {%~ endfor %}
     </div>
-        {%- endif %}
+    {%~ endif %}
 
-        {%- if method.getSeeTags|length > 0 ~%}
-
+    {%~ if method.hasTag('see') %}
     <h6>See</h6>
     <div class="mb-3">
-                {%~ for see in method.getSeeTags %}
-        <div>{{ see }}</div>
-                {%~ endfor %}
+        {%~ for tag in method.getTagsByName('see') %}
+        <div>{{ tag.getDescription|to_html }}</div>
+        {%~ endfor %}
     </div>
-        {%- endif %}
+    {%~ endif %}
 
-        {%- if method.getThrowsTags|length > 0 ~%}
-
+    {%~ if method.hasTag('throws') %}
     <h6>Throws</h6>
-            {%~ for throws in method.getThrowsTags %}
+    {%~ for throws in method.getTagsByName('throws') %}
     <div class="mb-3">
-        <div><code>{{ throws.type }}</code></div>
-                {%~ if throws.description %}
-        <div>{{ throws.description }}</div>
-                {%~ endif %}
+        <div><code>{{ throws.getType }}</code></div>
+        {%~ if throws.getDescription %}
+        <div>{{ throws.getDescription }}</div>
+        {%~ endif %}
     </div>
-            {%~ endfor %}
-        {%- endif %}
+    {%~ endfor %}
+    {%~ endif %}
 </div>

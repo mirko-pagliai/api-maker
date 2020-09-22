@@ -18,8 +18,8 @@ use PhpDocMaker\Reflection\AbstractEntity;
 use PhpDocMaker\Reflection\AbstractMethodEntity;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
+use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\Reflection\Entity\Traits\GetTypeAsStringTrait;
-use phpDocumentor\Reflection\DocBlock\Tags\Param;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
 
@@ -102,16 +102,14 @@ class ParameterEntity extends AbstractEntity
      */
     public function getDocBlockAsString(): string
     {
-        $params = $this->getDeclaringFunction()->getTagsByName('param');
+        $function = $this->getDeclaringFunction();
+        if (!$function->hasTag('param')) {
+            return '';
+        }
 
-        //Takes the right parameter
-        $param = call_user_func(function () use ($params): ?Param {
-            return array_value_first(array_filter($params, function (Param $param) {
-                return $param->getVariableName() === $this->getName();
-            }));
-        });
-
-        return $param ? $param->getDescription()->render() : '';
+        return $function->getTagsByName('param')->filter(function (TagEntity $tag) {
+            return $tag->getVariableName() === $this->getName();
+        })->first()->getDescription();
     }
 
     /**

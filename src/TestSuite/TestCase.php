@@ -16,8 +16,8 @@ namespace PhpDocMaker\TestSuite;
 
 use PhpDocMaker\ClassesExplorer;
 use PhpDocMaker\PhpDocMaker;
-use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
+use Symfony\Component\Filesystem\Filesystem;
 use Tools\TestSuite\TestCase as BaseTestCase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
@@ -38,50 +38,35 @@ abstract class TestCase extends BaseTestCase
     protected $classesFromTests;
 
     /**
+     * Asserts that the actual string content is equaled to the expected template
+     *  file.
+     * @param string $expectedTemplateFilename The expected template filename
+     * @param string $actualString The actual string content
+     * @param string $message The failure message that will be appended to the
+     *  generated message
+     * @return void
+     */
+    protected static function assertStringEqualsTemplate(string $expectedTemplateFilename, string $actualString, string $message = ''): void
+    {
+        $message = $message ?: 'Failed asserting that the actual string content is equaled to the `' . $expectedTemplateFilename . '` expected template file';
+        if (!(new Filesystem())->isAbsolutePath($expectedTemplateFilename)) {
+            $expectedTemplateFilename = EXPECTED_FILES . $expectedTemplateFilename;
+        }
+        $actualString = trim($actualString, PHP_EOL);
+        $actualFile = trim(file_get_contents($expectedTemplateFilename), PHP_EOL);
+        $actualFile = IS_WIN ? preg_replace('/\S+tests\/test_app\//', TEST_APP, $actualFile) : $actualFile;
+        self::assertSame($actualFile, $actualString, $message);
+    }
+
+    /**
      * Internal method to get a `ClassesExplorer` instance
      * @return \PhpDocMaker\ClassesExplorer
      */
     protected function getClassesExplorerInstance(): ClassesExplorer
     {
-        if (!$this->ClassesExplorer) {
-            $this->ClassesExplorer = new ClassesExplorer(TEST_APP);
-        }
+        $this->ClassesExplorer = $this->ClassesExplorer ?: new ClassesExplorer(TEST_APP);
 
         return $this->ClassesExplorer;
-    }
-
-    /**
-     * Gets all classes located in the test app
-     * @return array
-     */
-    protected function getAllClassesFromTests(): array
-    {
-        if (!$this->classesFromTests) {
-            $this->classesFromTests = $this->getClassesExplorerInstance()->getAllClasses();
-        }
-
-        return $this->classesFromTests;
-    }
-
-    /**
-     * Gets a `ClassEntity` instance from a function located in the test app
-     * @param string $className Class name
-     * @return \PhpDocMaker\Reflection\Entity\ClassEntity
-     */
-    protected function getClassEntityFromTests(string $className): ClassEntity
-    {
-        $class = array_value_first(array_filter(
-            $this->getAllClassesFromTests(),
-            function (ClassEntity $currentClass) use ($className) {
-                return $currentClass->getName() === $className;
-            }
-        ));
-
-        if (!$class) {
-            $this->fail(sprintf('Impossible to find the `%s` class from test files', $className));
-        }
-
-        return $class;
     }
 
     /**

@@ -18,6 +18,7 @@ use App\Animals\Animal;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use App\InvalidClassParent;
+use App\Vehicles\MotorVehicle;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\ConstantEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
@@ -43,7 +44,7 @@ class ClassEntityTest extends TestCase
     {
         parent::setUp();
 
-        $this->Class = $this->getClassEntityFromTests(Cat::class);
+        $this->Class = $this->Class ?: ClassEntity::createFromName(Cat::class);
     }
 
     /**
@@ -82,15 +83,6 @@ class ClassEntityTest extends TestCase
     public function testGetConstants()
     {
         $this->assertContainsOnlyInstancesOf(ConstantEntity::class, $this->Class->getConstants());
-    }
-
-    /**
-     * Test for `getDeprecatedDescription()` method
-     * @test
-     */
-    public function testGetDeprecatedDescription()
-    {
-        $this->assertSame('Useless, just for tests', $this->getClassEntityFromTests(DeprecatedClassExample::class)->getDeprecatedDescription());
     }
 
     /**
@@ -137,7 +129,7 @@ class ClassEntityTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Class `App\NoExistingClass` could not be found');
-        $this->getClassEntityFromTests(InvalidClassParent::class)->getParentClass();
+        ClassEntity::createFromName(InvalidClassParent::class)->getParentClass();
     }
 
     /**
@@ -161,15 +153,6 @@ class ClassEntityTest extends TestCase
     }
 
     /**
-     * Test for `getSeeTags()` method
-     * @test
-     */
-    public function testGetSeeTags()
-    {
-        $this->assertSame(['https://en.wikipedia.org/wiki/Cat'], $this->Class->getSeeTags());
-    }
-
-    /**
      * Test for `getSlug()` method
      * @test
      */
@@ -179,12 +162,16 @@ class ClassEntityTest extends TestCase
     }
 
     /**
-     * Test for `isDeprecated()` method
+     * Test for `getType()` method
      * @test
      */
-    public function testIsDeprecated()
+    public function testGetType()
     {
-        $this->assertFalse($this->Class->isDeprecated());
-        $this->assertTrue($this->getClassEntityFromTests(DeprecatedClassExample::class)->isDeprecated());
+        $this->assertSame('Class', $this->Class->getType());
+        $this->assertSame('Trait', ClassEntity::createFromName('\App\Animals\Traits\ColorsTrait')->getType());
+        $this->assertSame('Abstract', ClassEntity::createFromName(Animal::class)->getType());
+        $this->assertSame('Interface', ClassEntity::createFromName(MotorVehicle::class)->getType());
+        $this->assertSame('Final Class', ClassEntity::createFromName('\App\Animals\Horse')->getType());
+        $this->assertSame('Deprecated Abstract', ClassEntity::createFromName(DeprecatedClassExample::class)->getType());
     }
 }

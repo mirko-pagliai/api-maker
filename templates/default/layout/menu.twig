@@ -2,7 +2,7 @@
     {%~ for class in classes %}
     <li class="text-truncate">
         <a href="{{ class.getLink }}" title="{{ class.getName }}">
-            {%- if class.isDeprecated -%}
+            {%- if class.hasTag('deprecated') -%}
                 <del>{{ class.getName }}</del>
             {%- else -%}
                 {{ class.getName }}

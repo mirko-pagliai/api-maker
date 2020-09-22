@@ -16,9 +16,12 @@ namespace PhpDocMaker\Test;
 
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
+use App\SimpleClassExample;
 use App\Vehicles\Car;
 use PhpDocMaker\PhpDocMaker;
+use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\TestSuite\TestCase;
+use Roave\BetterReflection\Reflection\ReflectionClass;
 
 /**
  * TemplateTest class
@@ -43,12 +46,12 @@ class TemplateTest extends TestCase
     {
         parent::setUp();
 
-        $this->Class = $this->Class ?? $this->getClassEntityFromTests(Cat::class);
+        $this->Class = $this->Class ?? ClassEntity::createFromName(Cat::class);
         $this->Twig = $this->Twig ?? PhpDocMaker::getTwig(true);
     }
 
     /**
-     * Test for `layout/footer` template element
+     * Test for `layout/footer.twig` layout element
      * @test
      */
     public function testFooterTemplate()
@@ -58,7 +61,7 @@ class TemplateTest extends TestCase
     }
 
     /**
-     * Test for `layout/menu` template element
+     * Test for `layout/menu.twig` layout element
      * @test
      */
     public function testMenuTemplate()
@@ -82,22 +85,23 @@ HEREDOC;
     }
 
     /**
-     * Test for constant template element
+     * Test for `elements/constant.twig` template element
      * @test
      */
     public function testConstantTemplate()
     {
-        $constant = $this->Class->getConstant('LEGS');
-        $result = $this->Twig->render('elements/constant.twig', compact('constant'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'constant1.html', $result);
-
-        $constant = $this->getClassEntityFromTests(Car::class)->getConstant('TYPES');
-        $result = $this->Twig->render('elements/constant.twig', compact('constant'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'constant2.html', $result);
+        foreach ([
+            $this->Class->getConstant('LEGS'),
+            ClassEntity::createFromName(Car::class)->getConstant('TYPES'),
+        ] as $k => $costantEntity) {
+            $result = $this->Twig->render('elements/constant.twig', ['constant' => $costantEntity]);
+            $this->assertStringEqualsTemplate('constant' . ++$k . '.html', $result);
+        }
     }
 
     /**
-     * Test for function template and function summary template elements
+     * Test for `elements/method.twig` and `elements/method-summary.twig`
+     *  template elements (with functions)
      * @test
      */
     public function testFunctionTemplate()
@@ -106,46 +110,65 @@ HEREDOC;
             $method = $this->getFunctionEntityFromTests($functionName);
 
             $result = $this->Twig->render('elements/method.twig', compact('method'));
-            $this->assertStringEqualsFile(EXPECTED_FILES . 'function' . ++$k . '.html', $result);
+            $this->assertStringEqualsTemplate('function' . ++$k . '.html', $result);
 
             $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
-            $this->assertStringEqualsFile(EXPECTED_FILES . 'function_summary' . $k . '.html', $result);
+            $this->assertStringEqualsTemplate('function_summary' . $k . '.html', $result);
         }
     }
 
     /**
-     * Test for method template and method summary template elements
+     * Test for `elements/method.twig` and `elements/method-summary.twig`
+     *  template elements (with methods)
      * @test
      */
     public function testMethodTemplate()
     {
-        $class = $this->getClassEntityFromTests(DeprecatedClassExample::class);
-
+        $class = ClassEntity::createFromName(DeprecatedClassExample::class);
         foreach (['anonymousMethod', 'anotherAnonymousMethod', 'anonymousMethodWithSomeVars', 'anonymousMethodWithoutDocBlock'] as $k => $methodName) {
             $method = $class->getMethod($methodName);
             $result = $this->Twig->render('elements/method.twig', compact('method'));
-            $this->assertStringEqualsFile(EXPECTED_FILES . 'method' . ++$k . '.html', $result);
+            $this->assertStringEqualsTemplate('method' . ++$k . '.html', $result);
         }
 
         foreach (['doMeow', 'name', 'getType'] as $k => $methodName) {
             $method = $this->Class->getMethod($methodName);
             $result = $this->Twig->render('elements/method-summary.twig', compact('method'));
-            $this->assertStringEqualsFile(EXPECTED_FILES . 'method_summary' . ++$k . '.html', $result);
+            $this->assertStringEqualsTemplate('method_summary' . ++$k . '.html', $result);
         }
     }
 
     /**
-     * Test for property template element
+     * Test for `elements/property.twig` template element
      * @test
      */
     public function testPropertyTemplate()
     {
-        $property = $this->Class->getProperty('description');
-        $result = $this->Twig->render('elements/property.twig', compact('property'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'property1.html', $result);
+        foreach (['description', 'Puppy'] as $k => $propertyName) {
+            $property = $this->Class->getProperty($propertyName);
+            $result = $this->Twig->render('elements/property.twig', compact('property'));
+            $this->assertStringEqualsTemplate('property' . ++$k . '.html', $result);
+        }
+    }
 
-        $property = $this->Class->getProperty('Puppy');
-        $result = $this->Twig->render('elements/property.twig', compact('property'));
-        $this->assertStringEqualsFile(EXPECTED_FILES . 'property2.html', $result);
+    /**
+     * Test for `elements/class.twig` template element
+     * @test
+     */
+    public function testClassTemplate()
+    {
+        foreach ([SimpleClassExample::class, \stdClass::class] as $k => $className) {
+            $ReflectionClass = ReflectionClass::createFromName($className);
+            $class = $this->getMockBuilder(ClassEntity::class)
+                ->setConstructorArgs([$ReflectionClass])
+                ->setMethods(['getFilename'])
+                ->getMock();
+            $class->method('getFilename')->willReturnCallback(function () use ($ReflectionClass) {
+                return $ReflectionClass->getFileName() ? '/path/to/file' : null;
+            });
+
+            $result = $this->Twig->render('elements/class.twig', compact('class'));
+            $this->assertStringEqualsTemplate('class' . ++$k . '.html', $result);
+        }
     }
 }

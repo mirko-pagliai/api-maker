@@ -32,7 +32,7 @@ class PropertyEntityTest extends TestCase
      */
     protected function getPropertyEntity(string $property, string $class = Cat::class): PropertyEntity
     {
-        return $this->getClassEntityFromTests($class)->getProperty($property);
+        return ClassEntity::createFromName($class)->getProperty($property);
     }
 
     /**
@@ -67,25 +67,6 @@ class PropertyEntityTest extends TestCase
     }
 
     /**
-     * Test for `getDeprecatedDescription()` method
-     * @test
-     */
-    public function testGetDeprecatedDescription()
-    {
-        $this->assertSame('Useless property', $this->getPropertyEntity('isCat')->getDeprecatedDescription());
-    }
-
-    /**
-     * Test for `getSeeTags()` method
-     * @test
-     */
-    public function testGetSeeTags()
-    {
-        $this->assertSame([], $this->getPropertyEntity('name')->getSeeTags());
-        $this->assertSame(['run()', 'walk()'], $this->getPropertyEntity('position')->getSeeTags());
-    }
-
-    /**
      * Test for `getTypeAsString()` method
      * @test
      */
@@ -104,15 +85,5 @@ class PropertyEntityTest extends TestCase
     {
         $this->assertSame('protected', $this->getPropertyEntity('name')->getVisibility());
         $this->assertSame('public', $this->getPropertyEntity('isCat')->getVisibility());
-    }
-
-    /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
-    public function testIsDeprecated()
-    {
-        $this->assertFalse($this->getPropertyEntity('name')->isDeprecated());
-        $this->assertTrue($this->getPropertyEntity('isCat')->isDeprecated());
     }
 }

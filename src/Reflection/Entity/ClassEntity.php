@@ -15,8 +15,6 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection\Entity;
 
 use PhpDocMaker\Reflection\AbstractEntity;
-use PhpDocMaker\Reflection\Entity\Traits\DeprecatedTrait;
-use PhpDocMaker\Reflection\Entity\Traits\SeeTagsTrait;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionClassConstant;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
@@ -26,16 +24,15 @@ use RuntimeException;
 
 /**
  * Class entity
+ * @method ?string getFilename()
  * @method array getImmediateInterfaces()
+ * @method string getNamespaceName()
  * @method bool isAbstract()
  * @method bool isInterface()
  * @method bool isTrait()
  */
 class ClassEntity extends AbstractEntity
 {
-    use DeprecatedTrait;
-    use SeeTagsTrait;
-
     /**
      * @var \Roave\BetterReflection\Reflection\ReflectionClass
      */
@@ -48,6 +45,16 @@ class ClassEntity extends AbstractEntity
     public function __construct(ReflectionClass $class)
     {
         $this->reflectionObject = $class;
+    }
+
+    /**
+     * Creates a `ClassEntity` from a class name
+     * @param string $name Class name
+     * @return self
+     */
+    public static function createFromName(string $name): self
+    {
+        return new ClassEntity(ReflectionClass::createFromName($name));
     }
 
     /**
@@ -162,6 +169,31 @@ class ClassEntity extends AbstractEntity
      */
     public function getSlug(): string
     {
-        return str_replace('\\', '-', $this->getName());
+        return slug($this->getName(), false);
+    }
+
+    /**
+     * Gets the type class
+     * @return string
+     */
+    public function getType(): string
+    {
+        $type = 'Class';
+        if ($this->isTrait()) {
+            $type = 'Trait';
+        } elseif ($this->isInterface()) {
+            $type = 'Interface';
+        } elseif ($this->isAbstract()) {
+            $type = 'Abstract';
+        }
+
+        if ($this->isFinal()) {
+            $type = 'Final ' . $type;
+        }
+        if ($this->hasTag('deprecated')) {
+            $type = 'Deprecated ' . $type;
+        }
+
+        return $type;
     }
 }
