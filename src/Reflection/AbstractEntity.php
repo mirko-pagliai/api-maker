@@ -76,7 +76,7 @@ abstract class AbstractEntity extends ParentAbstractEntity
 
         $description = $this->getDocBlockDescriptionAsString();
 
-        return $summary . ($description ? PHP_EOL . $description : '');
+        return $summary . ($description ? PHP_EOL . PHP_EOL . $description : '');
     }
 
     /**
