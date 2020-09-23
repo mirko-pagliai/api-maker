@@ -86,11 +86,17 @@ class TagEntityTest extends TestCase
     public function testGetDescription()
     {
         foreach ([
+            'link' => 'https://en.wikipedia.org/wiki/Meow',
             'param' => 'Type of meow',
             'return' => 'This method returns void',
-            'see' => 'https://en.wikipedia.org/wiki/Meow',
+            'see' => 'OtherClass::otherMethod()',
+            'since' => '1.4.0',
             'throws' => 'With a bad "meow"',
         ] as $tagName => $expectedDescription) {
+            if (!$this->Method->hasTag($tagName)) {
+                $this->fail('The method has no the `@' . $tagName . ' `tag');
+            }
+
             foreach ($this->Method->getTagsByName($tagName) as $tag) {
                 $this->assertSame($expectedDescription, $tag->getDescription());
             }

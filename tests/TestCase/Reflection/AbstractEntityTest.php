@@ -90,14 +90,15 @@ HEREDOC;
      */
     public function testGetTagsGroupedByName()
     {
-        $tags = ClassEntity::createFromName(Cat::class)->getConstant('GENUS')->getTagsGroupedByName()->toArray();
+        $tags = ClassEntity::createFromName(Cat::class)->getConstant('GENUS')->getTagsGroupedByName();
         $this->assertCount(2, $tags);
 
-        //`@see` tags are grouped
-        $this->assertCount(2, $tags['see']);
-        $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags['see']);
-        foreach ($tags['see'] as $tag) {
-            $this->assertSame('see', $tag->getName());
+        //`@link` tags are grouped
+        $linkTags = $tags->toArray()['link'];
+        $this->assertCount(2, $linkTags);
+        $this->assertContainsOnlyInstancesOf(TagEntity::class, $linkTags);
+        foreach ($linkTags as $tag) {
+            $this->assertSame('link', $tag->getName());
         }
     }
 

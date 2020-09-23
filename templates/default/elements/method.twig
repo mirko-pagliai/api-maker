@@ -15,45 +15,18 @@
     {%~ endfor %}
     {%~ endif %}
 
-    {%~ if method.hasTag('return') %}
-    <h6>Return</h6>
+    {%~ for tagName, tags in method.getTagsGroupedByName|filter((tags, tagName) => tagName != 'param') %}
+    <h6>{{ tagName|capitalize }}</h6>
     <div class="mb-3">
-        {%~ for tag in method.getTagsByName('return') %}
+        {%~ for tag in tags %}
+        {%~ if tag.getType %}
         <div><code>{{ tag.getType }}</code></div>
+        {%~ endif %}
         {%~ if tag.getDescription %}
         <div>{{ tag.getDescription|to_html }}</div>
         {%~ endif %}
         {%~ endfor %}
     </div>
-    {%~ endif %}
 
-    {%~ if method.hasTag('deprecated') %}
-    <h6>Deprecated</h6>
-    <div class="mb-3">
-        {%~ for tag in method.getTagsByName('deprecated') %}
-        <div>{{ tag.getDescription|to_html }}</div>
-        {%~ endfor %}
-    </div>
-    {%~ endif %}
-
-    {%~ if method.hasTag('see') %}
-    <h6>See</h6>
-    <div class="mb-3">
-        {%~ for tag in method.getTagsByName('see') %}
-        <div>{{ tag.getDescription|to_html }}</div>
-        {%~ endfor %}
-    </div>
-    {%~ endif %}
-
-    {%~ if method.hasTag('throws') %}
-    <h6>Throws</h6>
-    {%~ for throws in method.getTagsByName('throws') %}
-    <div class="mb-3">
-        <div><code>{{ throws.getType }}</code></div>
-        {%~ if throws.getDescription %}
-        <div>{{ throws.getDescription }}</div>
-        {%~ endif %}
-    </div>
     {%~ endfor %}
-    {%~ endif %}
 </div>

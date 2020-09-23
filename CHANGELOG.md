@@ -1,6 +1,7 @@
 # 1.x branch
 ## 1.0 branch
 ### 1.0.2-beta3
+* for methods now all available tags are shown;
 * added `TagEntity`, which now represents the tags;
 * tags are now a collection (so `AbstractEntity::getTagsByName()` returns now a
     `Collection` instance). Added `AbstractEntity::getTags()` and

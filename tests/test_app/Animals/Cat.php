@@ -91,6 +91,8 @@ class Cat extends Animal
      * @return void This method returns void
      * @throws RuntimeException With a bad "meow"
      * @link https://en.wikipedia.org/wiki/Meow
+     * @see \OtherClass::otherMethod()
+     * @since 1.4.0
      */
     public function doMeow(string $meow = 'meow!'): void
     {
