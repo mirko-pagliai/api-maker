@@ -15,18 +15,5 @@
     {%~ endfor %}
     {%~ endif %}
 
-    {%~ for tagName, tags in method.getTagsGroupedByName|filter((tags, tagName) => tagName != 'param') %}
-    <h6>{{ tagName|capitalize }}</h6>
-    <div class="mb-3">
-        {%~ for tag in tags %}
-        {%~ if tag.getType %}
-        <div><code>{{ tag.getType }}</code></div>
-        {%~ endif %}
-        {%~ if tag.getDescription %}
-        <div>{{ tag.getDescription|to_html }}</div>
-        {%~ endif %}
-        {%~ endfor %}
-    </div>
-
-    {%~ endfor %}
+    {{ include('elements/tags.twig', {tags: method.getTagsGroupedByName}, with_context = false) }}
 </div>
