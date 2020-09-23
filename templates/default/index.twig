@@ -7,7 +7,7 @@
             <li>
                 <a href="{{ class.getLink }}"><code>{{ class.getName }}</code></a>
                 <div>
-                    {{ class.getDocBlockSummaryAsString }}
+                    {{ class.getDocBlockSummaryAsString|trim('.', 'right') }}
                 </div>
             </li>
         {% endfor %}

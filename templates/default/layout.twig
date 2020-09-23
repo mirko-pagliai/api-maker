@@ -22,14 +22,16 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 col-lg-4 p-3">
-                    {{ source('@target/layout/menu.html') }}
+                    {{~ source('@target/layout/menu.html') }}
                 </div>
                 <div class="col-md-9 col-lg-8 p-3">
+                    {%~ if block("content") is defined %}
                     {{ block('content') }}
+                    {%~ endif %}
                 </div>
             </div>
         </div>
 
-        {{ include('layout/footer.twig') }}
+        {{~ include('layout/footer.twig') }}
     </body>
 </html>

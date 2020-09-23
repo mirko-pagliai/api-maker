@@ -10,7 +10,8 @@
     <h6>Parameters</h6>
     {%~ for parameter in method.getParameters %}
     <div class="mb-3">
-        <code class="language-php">{{ parameter.toSignature }}</code> {{ parameter.getDocBlockAsString|to_html }}
+        <pre><code class="language-php">{{ parameter.toSignature }}</code></pre>
+            {{ parameter.getDocBlockAsString|to_html }}
     </div>
     {%~ endfor %}
     {%~ endif %}

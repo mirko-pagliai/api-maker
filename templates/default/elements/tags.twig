@@ -4,9 +4,9 @@
 <div class="mb-3">
     {%~ for tag in tagValues %}
     {%~ if tag.getType %}
-    <div><code>{{ tag.getType }}</code></div>
-    {%~ endif %}
-    {%~ if tag.getDescription %}
+    <pre><code class="language-php">{{ tag.getType }}</code></pre>
+        {%~ endif %}
+        {%~ if tag.getDescription %}
     <div>{{ tag.getDescription|to_html }}</div>
     {%~ endif %}
     {%~ endfor %}
