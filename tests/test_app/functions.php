@@ -37,7 +37,7 @@ if (!function_exists('get_woof')) {
     /**
      * Gets a `Woof!`
      * @return string
-     * @see https://en.wikipedia.org/wiki/Dog
+     * @link https://en.wikipedia.org/wiki/Dog
      */
     function get_woof(): string
     {

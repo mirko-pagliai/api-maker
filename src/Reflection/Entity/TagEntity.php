@@ -69,14 +69,19 @@ class TagEntity extends ParentAbstractEntity
     /**
      * Returns the tag description
      * @return string
+     * @todo An exception should be throwned if no method is available
      */
     public function getDescription(): string
     {
-        $description = $this->reflectionObject->getDescription();
-
-        if (!$description && method_exists($this->reflectionObject, 'getReference')) {
-            $description = $this->reflectionObject->getReference();
+        //First it looks for alternative methods to the `getDescription()` method
+        foreach (['getLink', 'getReference', 'getVersion'] as $methodToCall) {
+            if (method_exists($this->reflectionObject, $methodToCall)) {
+                $description = call_user_func([$this->reflectionObject, $methodToCall]);
+                break;
+            }
         }
+
+        $description = $description ?? $this->reflectionObject->getDescription();
 
         return ltrim((string)$description, '\\');
     }

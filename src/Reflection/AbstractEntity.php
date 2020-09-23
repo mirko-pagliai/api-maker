@@ -80,18 +80,51 @@ abstract class AbstractEntity extends ParentAbstractEntity
     }
 
     /**
-     * Gets tags by name
-     * @param string $name Tags
-     * @return array
+     * Internal method to parse tags
+     * @param array $tags An array of `Tag` instances
+     * @return \Cake\Collection\Collection A `Collection` of `TagEntity` instances
      */
-    public function getTagsByName($name): Collection
+    protected function parseTags(array $tags): Collection
+    {
+        return collection(array_map(function (Tag $tag) {
+            return new TagEntity($tag);
+        }, $tags))->sortBy(function (TagEntity $tag) {
+            return $tag->getName();
+        }, SORT_ASC, SORT_STRING);
+    }
+
+    /**
+     * Gets all tags
+     * @return \Cake\Collection\Collection
+     */
+    public function getTags(): Collection
     {
         $DocBlockInstance = $this->getDocBlockInstance();
-        $tags = $DocBlockInstance ? array_map(function (Tag $tag) {
-            return new TagEntity($tag);
-        }, $DocBlockInstance->getTagsByName($name)) : [];
 
-        return new Collection($tags);
+        return $this->parseTags($DocBlockInstance ? $DocBlockInstance->getTags() : []);
+    }
+
+    /**
+     * Gets all tags grouped by name
+     * @return \Cake\Collection\Collection
+     */
+    public function getTagsGroupedByName(): Collection
+    {
+        return $this->getTags()->groupBy(function (TagEntity $tag) {
+            return $tag->getName();
+        });
+    }
+
+    /**
+     * Gets tags by name
+     * @param string $name Tags
+     * @return \Cake\Collection\Collection
+     */
+    public function getTagsByName(string $name): Collection
+    {
+        $DocBlockInstance = $this->getDocBlockInstance();
+
+        return $this->parseTags($DocBlockInstance ? $DocBlockInstance->getTagsByName($name) : []);
     }
 
     /**

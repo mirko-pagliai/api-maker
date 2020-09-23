@@ -74,17 +74,46 @@ HEREDOC;
     }
 
     /**
+     * Test for `getTags()` method
+     * @test
+     */
+    public function testGetTags()
+    {
+        $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTags();
+        $this->assertNotEmpty($tags);
+        $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
+    }
+
+    /**
+     * Test for `getTagsGroupedByName()` method
+     * @test
+     */
+    public function testGetTagsGroupedByName()
+    {
+        $tags = ClassEntity::createFromName(Cat::class)->getConstant('GENUS')->getTagsGroupedByName();
+        $this->assertCount(2, $tags);
+
+        //`@link` tags are grouped
+        $linkTags = $tags->toArray()['link'];
+        $this->assertCount(2, $linkTags);
+        $this->assertContainsOnlyInstancesOf(TagEntity::class, $linkTags);
+        foreach ($linkTags as $tag) {
+            $this->assertSame('link', $tag->getName());
+        }
+    }
+
+    /**
      * Test for `getTagsByName()` method
      * @test
      */
     public function testGetTagsByName()
     {
-        $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTagsByName('see');
+        $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTagsByName('link');
         $this->assertFalse($tags->isEmpty());
         $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
 
         $entity = ClassEntity::createFromName(DeprecatedClassExample::class);
-        $tags = $entity->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('see');
+        $tags = $entity->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('link');
         $this->assertTrue($tags->isEmpty());
     }
 
@@ -95,11 +124,11 @@ HEREDOC;
     public function testHasTag()
     {
         $method = ClassEntity::createFromName(Cat::class)->getMethod('doMeow');
-        $this->assertTrue($method->hasTag('see'));
+        $this->assertTrue($method->hasTag('link'));
         $this->assertFalse($method->hasTag('use'));
 
         //This method has no DocBlock
         $method = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock');
-        $this->assertFalse($method->hasTag('see'));
+        $this->assertFalse($method->hasTag('link'));
     }
 }

@@ -1,17 +1,21 @@
 # 1.x branch
 ## 1.0 branch
 ### 1.0.2-beta3
+* now all tags for methods, properties and constants are shown correctly;
 * added `TagEntity`, which now represents the tags;
 * tags are now a collection (so `AbstractEntity::getTagsByName()` returns now a
-    `Collection` instance);
+    `Collection` instance). Added `AbstractEntity::getTags()` and
+    `AbstractEntity::getTagsGroupedByName()` methods.
 * added `AbstractEntity::hasTag()` method;
 * added `ClassEntity::getType()` method;
 * added `ClassEntity::createFromName()` static method;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * added template `class` element;
-* removed `DeprecatedTrait::getDeprecatedDescription()`,
-    `DeprecatedTrait::isDeprecated()`, `SeeTagsTrait::getSeeTags()` and
-    `AbstractMethodEntity::getThrowsTags()` methods. Use instead the `TagEntity`
+* removed `AbstractMethodEntity::getReturnDescription()`,
+    `AbstractMethodEntity::getReturnTypeAsString()`,
+    `AbstractMethodEntity::getThrowsTags()`,
+    `DeprecatedTrait::getDeprecatedDescription()`, `DeprecatedTrait::isDeprecated()`,
+    and `SeeTagsTrait::getSeeTags()` methods. Use instead the `TagEntity`
     and its methods;
 * updated `bootstrap` and `highlight` asset files.
 

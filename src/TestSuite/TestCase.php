@@ -52,6 +52,7 @@ abstract class TestCase extends BaseTestCase
         if (!(new Filesystem())->isAbsolutePath($expectedTemplateFilename)) {
             $expectedTemplateFilename = EXPECTED_FILES . $expectedTemplateFilename;
         }
+        self::assertFileExists($expectedTemplateFilename);
         $actualString = trim($actualString, PHP_EOL);
         $actualFile = trim(file_get_contents($expectedTemplateFilename), PHP_EOL);
         $actualFile = IS_WIN ? preg_replace('/\S+tests\/test_app\//', TEST_APP, $actualFile) : $actualFile;

@@ -2,3 +2,5 @@
 <div><code>{{ constant.toSignature }}</code></div>
 <div>{{ constant.getDocBlockAsString|to_html }}</div>
 <div><code>{{ constant.getValueAsString }}</code></div>
+
+{{- include('elements/tags.twig', {tags: constant.getTagsGroupedByName}, with_context = false) }}

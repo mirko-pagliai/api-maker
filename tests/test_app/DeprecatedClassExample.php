@@ -33,8 +33,8 @@ abstract class DeprecatedClassExample
      * @param array $second Second argument
      * @deprecated This method is deprecated
      * @return string A string as result
-     * @see http://example.com/first-link
-     * @see http://example.com/second-link
+     * @link http://example.com/first-link
+     * @link http://example.com/second-link
      * @throws \RuntimeException
      * @throws \LogicException
      */
