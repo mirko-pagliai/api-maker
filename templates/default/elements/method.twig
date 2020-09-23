@@ -15,5 +15,5 @@
     {%~ endfor %}
     {%~ endif %}
 
-    {{ include('elements/tags.twig', {tags: method.getTagsGroupedByName}, with_context = false) }}
+    {{- include('elements/tags.twig', {tags: method.getTagsGroupedByName}, with_context = false) }}
 </div>

@@ -1,4 +1,5 @@
-{%~ for tagName, tagValues in tags|filter((tagValues, tagName) => tagName != 'param') %}
+{%~ for tagName, tagValues in tags|filter((tagValues, tagName) => tagName not in ['param', 'var']) %}
+
 <h6>{{ tagName|capitalize }}</h6>
 <div class="mb-3">
     {%~ for tag in tagValues %}
@@ -10,5 +11,4 @@
     {%~ endif %}
     {%~ endfor %}
 </div>
-
 {%~ endfor %}
