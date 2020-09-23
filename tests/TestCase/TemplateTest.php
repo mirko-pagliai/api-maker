@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test;
 
 use App\Animals\Cat;
+use App\ClassWithManyTags;
 use App\DeprecatedClassExample;
 use App\SimpleClassExample;
 use App\Vehicles\Car;
@@ -157,7 +158,7 @@ HEREDOC;
      */
     public function testClassTemplate()
     {
-        foreach ([SimpleClassExample::class, \stdClass::class] as $k => $className) {
+        foreach ([SimpleClassExample::class, \stdClass::class, ClassWithManyTags::class] as $k => $className) {
             $ReflectionClass = ReflectionClass::createFromName($className);
             $class = $this->getMockBuilder(ClassEntity::class)
                 ->setConstructorArgs([$ReflectionClass])
