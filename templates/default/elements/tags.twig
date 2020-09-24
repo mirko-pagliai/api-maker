@@ -5,9 +5,15 @@
     {%~ for tag in tagValues %}
     {%~ if tag.getType %}
     <pre><code class="language-php">{{ tag.getType }}</code></pre>
-        {%~ endif %}
-        {%~ if tag.getDescription %}
-    <div>{{ tag.getDescription|to_html }}</div>
+    {%~ endif %}
+    {%~ if tag.getDescription %}
+    <div>
+        {%- if tag.getDescription|is_url -%}
+        <p><a href="{{ tag.getDescription }}" target="_blank">{{ tag.getDescription }}</a></p>
+        {%- else -%}
+        {{ tag.getDescription|to_html }}
+        {%- endif -%}
+    </div>
     {%~ endif %}
     {%~ endfor %}
 </div>

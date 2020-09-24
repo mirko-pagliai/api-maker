@@ -90,7 +90,8 @@ class PhpDocMaker
             'autoescape' => false,
             'strict_variables' => true,
         ]);
-        $twig->addFilter(new TwigFilter('to_html', function ($string) {
+        $twig->addFilter(new TwigFilter('is_url', 'is_url'));
+        $twig->addFilter(new TwigFilter('to_html', function (string $string) {
             return trim((new CommonMarkConverter())->convertToHtml($string));
         }));
 
