@@ -149,6 +149,8 @@ class PhpDocMaker
         if ($this->options['cache']) {
             $this->Filesystem->mkdir($target . DS . 'cache', 0755);
             $this->Twig->setCache($target . DS . 'cache');
+        } else {
+            unlink_recursive($target . DS . 'cache');
         }
 
         //Copies assets files

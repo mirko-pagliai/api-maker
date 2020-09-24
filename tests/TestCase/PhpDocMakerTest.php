@@ -41,7 +41,7 @@ class PhpDocMakerTest extends TestCase
     {
         parent::setUp();
 
-        $this->PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app', ['debug' => true]);
+        $this->PhpDocMaker = $this->PhpDocMaker ?: new PhpDocMaker(TESTS . DS . 'test_app', ['debug' => true]);
     }
 
     /**
@@ -68,23 +68,30 @@ class PhpDocMakerTest extends TestCase
      */
     public function testBuild()
     {
-        $output = TMP . 'output';
-        rmdir_recursive($output);
+        $target = TMP . 'output';
+        rmdir_recursive($target);
+        $cacheFile = TMP . 'output' . DS . 'cache' . DS . 'example';
+        create_file(TMP . 'output' . DS . 'cache' . DS . 'example');
 
         $this->PhpDocMaker->Twig = $this->getTwigMock();
-
         $dispatcher = $this->PhpDocMaker->getEventDispatcher();
-        $this->PhpDocMaker->build($output);
+        $this->PhpDocMaker->build($target);
+        $this->assertFileExists($cacheFile);
 
         $this->assertEventFired('classes.founded', $dispatcher);
         $this->assertEventFired('functions.founded', $dispatcher);
 
-        $this->assertFileExists($output . DS . 'assets' . DS . 'bootstrap' . DS . 'bootstrap.min.css');
-        $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'styles' . DS . 'default.css');
-        $this->assertFileExists($output . DS . 'assets' . DS . 'highlight' . DS . 'highlight.pack.js');
-        $this->assertFileExists($output . DS . 'cache');
-        $this->assertFileExists($output . DS . 'layout' . DS . 'menu.html');
-        $this->assertFileExists($output . DS . 'functions.html');
-        $this->assertFileExists($output . DS . 'index.html');
+        $this->assertFileExists($target . DS . 'assets' . DS . 'bootstrap' . DS . 'bootstrap.min.css');
+        $this->assertFileExists($target . DS . 'assets' . DS . 'highlight' . DS . 'styles' . DS . 'default.css');
+        $this->assertFileExists($target . DS . 'assets' . DS . 'highlight' . DS . 'highlight.pack.js');
+        $this->assertFileExists($target . DS . 'cache');
+        $this->assertFileExists($target . DS . 'layout' . DS . 'menu.html');
+        $this->assertFileExists($target . DS . 'functions.html');
+        $this->assertFileExists($target . DS . 'index.html');
+
+        $PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app', ['cache' => false]);
+        $PhpDocMaker->Twig = $this->getTwigMock();
+        $PhpDocMaker->build($target);
+        $this->assertFileNotExists($cacheFile);
     }
 }
