@@ -17,6 +17,7 @@ namespace PhpDocMaker\Test\Reflection\Entity;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use App\Vehicles\Car;
+use InvalidArgumentException;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\TestSuite\TestCase;
 use RuntimeException;
@@ -43,11 +44,15 @@ class TagEntityTest extends TestCase
     }
 
     /**
-     * Test for `__construct()` method, with an invalid tag
+     * Test for `__construct()` method, with an invalid tags
      * @test
      */
-    public function testConstructWithInvalidTag()
+    public function testConstructWithInvalidTags()
     {
+        $this->assertException(InvalidArgumentException::class, function () {
+            ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('methodWithAnotherInvalidTag')->getTags();
+        });
+
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Invalid tag `@see \1`');
         ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('methodWithInvalidTag')->getTagsByName('see');

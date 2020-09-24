@@ -16,6 +16,7 @@ namespace PhpDocMaker\Reflection;
 
 use Cake\Collection\Collection;
 use Exception;
+use InvalidArgumentException;
 use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\Reflection\ParentAbstractEntity;
 use phpDocumentor\Reflection\DocBlock;
@@ -36,6 +37,13 @@ abstract class AbstractEntity extends ParentAbstractEntity
     {
         try {
             return DocBlockFactory::createInstance()->create($reflectionObject ?: $this->reflectionObject);
+        } catch (InvalidArgumentException $e) {
+            //The exception will still be throwned in case of a malformed tag
+            if (string_contains($e->getMessage(), 'does not seem to be wellformed, please check it for errors')) {
+                throw $e;
+            }
+
+            return null;
         } catch (Exception $e) {
             return null;
         }
