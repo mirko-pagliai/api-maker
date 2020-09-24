@@ -57,7 +57,7 @@ class AbstractEntityTest extends TestCase
         $expectedDesc = 'Other animal classes have to extend this class.';
         $this->assertSame($expectedSummary, $class->getDocBlockSummaryAsString());
         $this->assertSame($expectedDesc, $class->getDocBlockDescriptionAsString());
-        $this->assertSame($expectedSummary . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
+        $this->assertSame($expectedSummary . PHP_EOL . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
 
         $class = ClassEntity::createFromName(Dog::class);
         $expectedSummary = 'Dog class.';
@@ -67,7 +67,7 @@ Yeah, this is a dog!
 HEREDOC;
         $this->assertSame($expectedSummary, $class->getDocBlockSummaryAsString());
         $this->assertSame($expectedDesc, $class->getDocBlockDescriptionAsString());
-        $this->assertSame($expectedSummary . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
+        $this->assertSame($expectedSummary . PHP_EOL . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
 
         //Class with no DocBlock
         $this->assertSame('', ClassEntity::createFromName(ArrayExample::class)->getDocBlockAsString());

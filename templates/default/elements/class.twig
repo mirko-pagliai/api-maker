@@ -1,6 +1,6 @@
 <h2>{{ class.getType }} <em>{{ class.getShortName }}</em></h2>
 
-<p>{{ class.getDocBlockAsString|to_html }}</p>
+{{ class.getDocBlockAsString|to_html }}
 
 {%~ if class.getParentClass %}
 <p>Extends <code>{{ class.getParentClass.getName }}</code>.</p>
