@@ -168,7 +168,7 @@ class PhpDocMaker
         $this->dispatchEvent('functions.founded', [$functions]);
 
         //Renders the menu
-        $output = $this->Twig->render('layout/menu.twig', compact('classes'));
+        $output = $this->Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => !empty($functions)]);
         $this->Filesystem->dumpFile($target . DS . 'layout' . DS . 'menu.html', $output);
         $this->dispatchEvent('menu.rendered');
 
