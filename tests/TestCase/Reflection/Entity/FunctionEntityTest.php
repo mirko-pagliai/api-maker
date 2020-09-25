@@ -83,13 +83,4 @@ class FunctionEntityTest extends TestCase
     {
         $this->assertSame('', $this->Function->getVisibility());
     }
-
-    /**
-     * Test for `isDeprecated()` method
-     * @test
-     */
-    public function testIsStatic()
-    {
-        $this->assertFalse($this->Function->isStatic());
-    }
 }

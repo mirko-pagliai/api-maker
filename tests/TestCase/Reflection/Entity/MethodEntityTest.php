@@ -111,14 +111,4 @@ class MethodEntityTest extends TestCase
         $this->assertSame('public', $this->getMethodEntity('name')->getVisibility());
         $this->assertSame('protected', $this->getMethodEntity('resetPosition')->getVisibility());
     }
-
-    /**
-     * Test for `isStatic()` method
-     * @test
-     */
-    public function testIsStatic()
-    {
-        $this->assertFalse($this->getMethodEntity('setName')->isStatic());
-        $this->assertTrue($this->getMethodEntity('getType')->isStatic());
-    }
 }

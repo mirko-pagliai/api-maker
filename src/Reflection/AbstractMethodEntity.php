@@ -80,10 +80,4 @@ abstract class AbstractMethodEntity extends AbstractEntity
      * @return string
      */
     abstract public function getVisibility(): string;
-
-    /**
-     * Returns `true` if it's static
-     * @return bool
-     */
-    abstract public function isStatic(): bool;
 }

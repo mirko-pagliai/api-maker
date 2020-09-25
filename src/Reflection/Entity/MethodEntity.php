@@ -21,6 +21,8 @@ use Roave\BetterReflection\Reflection\ReflectionMethod;
 
 /**
  * Method entity
+ * @method bool isAbstract() Returns `true` if the method is abstract
+ * @method bool isStatic() Returns `true` if the method is static
  */
 class MethodEntity extends AbstractMethodEntity
 {
@@ -48,14 +50,5 @@ class MethodEntity extends AbstractMethodEntity
     public function __toString(): string
     {
         return (string)$this->getDeclaringClass() . '::' . $this->getName() . '()';
-    }
-
-    /**
-     * Returns `true` if it's static
-     * @return bool
-     */
-    public function isStatic(): bool
-    {
-        return $this->reflectionObject->isStatic();
     }
 }

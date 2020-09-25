@@ -44,13 +44,4 @@ class FunctionEntity extends AbstractMethodEntity
     {
         return '';
     }
-
-    /**
-     * Returns `true` if it's static
-     * @return bool
-     */
-    public function isStatic(): bool
-    {
-        return false;
-    }
 }
