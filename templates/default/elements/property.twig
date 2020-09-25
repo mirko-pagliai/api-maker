@@ -1,10 +1,11 @@
-<div>
-    <code>{{ property.toSignature }}</code> <span class="badge badge-light">{{ property.getVisibility }}</span>
-    {%~ if property.isStatic %}
-    <span class="badge badge-light">static</span>
-    {%~ endif %}
-</div>
-<pre>{{ property.getTypeAsString }}</pre>
-<div>{{ property.getDocBlockAsString|to_html }}</div>
+<div class="property-element">
+    <div>
+        <code>{{ property.toSignature }}</code> <span class="badge badge-light">{{ property.getVisibility }}</span>
+        {%- if property.isStatic %} <span class="badge badge-light">static</span>{% endif %}
 
-{{- include('elements/tags.twig', {tags: property.getTagsGroupedByName}, with_context = false) }}
+    </div>
+    <pre>{{ property.getTypeAsString }}</pre>
+    <div class="description">{{ property.getDocBlockAsString|to_html }}</div>
+
+    {{- include('elements/tags.twig', {tags: property.getTagsGroupedByName}, with_context = false) }}
+</div>

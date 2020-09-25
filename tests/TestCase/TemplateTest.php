@@ -79,7 +79,7 @@ HEREDOC;
 </ul>
 HEREDOC;
         $classes = $this->getClassesExplorerInstance()->getAllClasses();
-        $result = $this->Twig->render('layout/menu.twig', compact('classes'));
+        $result = $this->Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => false]);
         $this->assertStringStartsWith($expectedStart, $result);
         $this->assertStringEndsWith($expectedEnd, $result);
         $this->assertStringContainsString('<a href="Class-App-DeprecatedClassExample.html" title="App\DeprecatedClassExample"><del>App\DeprecatedClassExample</del></a>', $result);
