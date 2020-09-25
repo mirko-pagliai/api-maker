@@ -17,10 +17,10 @@
 {%~ if class.getNamespaceName or class.getFilename %}
 <div class="p-3 mb-2 bg-light text-dark">
     {%~ if class.getNamespaceName %}
-    <div><strong>Namespace:</strong> {{ class.getNamespaceName }}</div>
+    <div><strong>Namespace:</strong> <pre class="d-inline">{{ class.getNamespaceName }}</pre></div>
     {%~ endif %}
     {%~ if class.getFilename %}
-    <div><strong>Location:</strong> {{ class.getFilename }}</div>
+    <div><strong>Location:</strong> <pre class="d-inline">{{ class.getFilename }}</pre></div>
     {%~ endif %}
 </div>
 {%~ endif %}

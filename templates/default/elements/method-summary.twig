@@ -8,9 +8,8 @@
             {%- endif -%}
         </a>
     </code> <span class="badge badge-light">{{ method.getVisibility }}</span>
-    {%~ if method.isStatic %}
-    <span class="badge badge-light">static</span>
-    {%~ endif %}
+    {%- if method.isAbstract %} <span class="badge badge-light">abstract</span>{% endif -%}
+    {%- if method.isStatic %} <span class="badge badge-light">static</span>{% endif -%}
     {%~ if method.hasTag('deprecated') %}
     <span class="badge badge-light">deprecated</span>
     {%~ endif %}

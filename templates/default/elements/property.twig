@@ -4,7 +4,7 @@
     <span class="badge badge-light">static</span>
     {%~ endif %}
 </div>
-<div><span class="badge badge-light">{{ property.getTypeAsString }}</span></div>
+<pre>{{ property.getTypeAsString }}</pre>
 <div>{{ property.getDocBlockAsString|to_html }}</div>
 
 {{- include('elements/tags.twig', {tags: property.getTagsGroupedByName}, with_context = false) }}

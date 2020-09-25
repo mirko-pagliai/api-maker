@@ -1,6 +1,7 @@
-<div><span class="badge badge-light">{{ constant.getVisibility }}</span></div>
-<div><code>{{ constant.toSignature }}</code></div>
+<div>
+    <code>{{ constant.toSignature }}</code> <span class="badge badge-light">{{ constant.getVisibility }}</span>
+</div>
+<pre>{{ constant.getValueAsString }}</pre>
 <div>{{ constant.getDocBlockAsString|to_html }}</div>
-<div><code>{{ constant.getValueAsString }}</code></div>
 
 {{- include('elements/tags.twig', {tags: constant.getTagsGroupedByName}, with_context = false) }}
