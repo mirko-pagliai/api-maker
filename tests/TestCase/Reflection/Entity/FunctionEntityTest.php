@@ -83,4 +83,22 @@ class FunctionEntityTest extends TestCase
     {
         $this->assertSame('', $this->Function->getVisibility());
     }
+
+    /**
+     * Test for `isAbstract()` method
+     * @test
+     */
+    public function testIsAbstract()
+    {
+        $this->assertFalse($this->Function->isAbstract());
+    }
+
+    /**
+     * Test for `isStatic()` method
+     * @test
+     */
+    public function testIsStatic()
+    {
+        $this->assertFalse($this->Function->isStatic());
+    }
 }

@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Test\Reflection\Entity;
 
+use App\Animals\Animal;
 use App\Animals\Cat;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
@@ -110,5 +111,25 @@ class MethodEntityTest extends TestCase
     {
         $this->assertSame('public', $this->getMethodEntity('name')->getVisibility());
         $this->assertSame('protected', $this->getMethodEntity('resetPosition')->getVisibility());
+    }
+
+    /**
+     * Test for `isAbstract()` method
+     * @test
+     */
+    public function testIsAbstract()
+    {
+        $this->assertTrue($this->getMethodEntity('createPuppy', Animal::class)->isAbstract());
+        $this->assertFalse($this->getMethodEntity('createPuppy')->isAbstract());
+    }
+
+    /**
+     * Test for `isStatic()` method
+     * @test
+     */
+    public function testIsStatic()
+    {
+        $this->assertTrue($this->getMethodEntity('getType')->isStatic());
+        $this->assertFalse($this->getMethodEntity('setDescription')->isStatic());
     }
 }
