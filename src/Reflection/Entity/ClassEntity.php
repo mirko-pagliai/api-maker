@@ -26,7 +26,6 @@ use RuntimeException;
 /**
  * Class entity
  * @method ?string getFilename()
- * @method array getImmediateReflectionConstants()
  * @method string getNamespaceName()
  * @method string getShortName()
  * @method bool isAbstract()
