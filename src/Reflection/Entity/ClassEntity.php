@@ -26,8 +26,12 @@ use RuntimeException;
  * Class entity
  * @method ?string getFilename()
  * @method array getImmediateInterfaces()
+ * @method array getImmediateReflectionConstants()
  * @method string getNamespaceName()
+ * @method string getShortName()
+ * @method array getTraits()
  * @method bool isAbstract()
+ * @method bool isFinal()
  * @method bool isInterface()
  * @method bool isTrait()
  */
