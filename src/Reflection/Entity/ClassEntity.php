@@ -89,13 +89,13 @@ class ClassEntity extends AbstractEntity
 
     /**
      * Gets all constants as array of `ConstantEntity`
-     * @return array
+     * @return \Cake\Collection\Collection A collection of `ConstantEntity`
      */
-    public function getConstants(): array
+    public function getConstants(): Collection
     {
-        return array_map(function (ReflectionClassConstant $constant) {
+        return collection($this->reflectionObject->getImmediateReflectionConstants())->map(function (ReflectionClassConstant $constant) {
             return new ConstantEntity($constant);
-        }, $this->reflectionObject->getImmediateReflectionConstants());
+        });
     }
 
     /**
@@ -130,13 +130,13 @@ class ClassEntity extends AbstractEntity
 
     /**
      * Gets all methods as array of `MethodEntity`
-     * @return array
+     * @return \Cake\Collection\Collection A collection of `MethodEntity`
      */
-    public function getMethods(): array
+    public function getMethods(): Collection
     {
-        return array_map(function (ReflectionMethod $method) {
+        return collection($this->reflectionObject->getImmediateMethods())->map(function (ReflectionMethod $method) {
             return new MethodEntity($method);
-        }, $this->reflectionObject->getImmediateMethods());
+        });
     }
 
     /**
@@ -167,13 +167,13 @@ class ClassEntity extends AbstractEntity
 
     /**
      * Gets all properties as array of `PropertyEntity`
-     * @return array
+     * @return \Cake\Collection\Collection A collection of `PropertyEntity`
      */
-    public function getProperties(): array
+    public function getProperties(): Collection
     {
-        return array_map(function (ReflectionProperty $property) {
+        return collection($this->reflectionObject->getImmediateProperties())->map(function (ReflectionProperty $property) {
             return new PropertyEntity($property);
-        }, $this->reflectionObject->getImmediateProperties());
+        });
     }
 
     /**

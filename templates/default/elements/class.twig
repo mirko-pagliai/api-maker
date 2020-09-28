@@ -46,7 +46,7 @@
     </div>
     {%~ endif %}
 
-    {%~ if class.getConstants|length > 0 %}
+    {%~ if class.getConstants.isEmpty != true %}
     <h4>Constants summary</h4>
     <ul>
         {%~ for constant in class.getConstants %}
@@ -57,7 +57,7 @@
     </ul>
     {%~ endif %}
 
-    {%~ if class.getProperties|length > 0 %}
+    {%~ if class.getProperties.isEmpty != true %}
     <h4>Properties summary</h4>
     <ul>
         {%~ for property in class.getProperties %}
@@ -68,7 +68,7 @@
     </ul>
     {%~ endif %}
 
-    {%~ if class.getMethods|length > 0 %}
+    {%~ if class.getMethods.isEmpty != true %}
     <h4>Methods summary</h4>
     <ul>
         {%~ for method in class.getMethods %}
@@ -77,9 +77,7 @@
         </li>
         {%~ endfor %}
     </ul>
-    {%~ endif %}
 
-    {%~ if class.getMethods|length > 0 %}
     <h4>Methods detail</h4>
     {%~ for method in class.getMethods %}
     <div class="mb-4">

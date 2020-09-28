@@ -9,7 +9,9 @@
 * when you explicitly ask not to use the cache, the cache is emptied;
 * added `AbstractEntity::hasTag()` method;
 * added `createFromName()`, `getInterfaces()`, `getType()` and `getTraits()`
-    methods to the `ClassEntity`;
+    methods to the `ClassEntity`
+* `getConstants()`, `getMethods()` and `getProperties()` methods from `ClassEntity`
+    return now a collection of entities;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * added template `class` element;
 * removed `AbstractMethodEntity::getReturnDescription()`,
