@@ -8,9 +8,8 @@
     `AbstractEntity::getTagsGroupedByName()` methods;
 * when you explicitly ask not to use the cache, the cache is emptied;
 * added `AbstractEntity::hasTag()` method;
-* added `ClassEntity::getType()` method;
-* added `ClassEntity::createFromName()` static method;
-* added `ClassEntity::getInterfaces()` method;
+* added `createFromName()`, `getInterfaces()`, `getType()` and `getTraits()`
+    methods to the `ClassEntity`;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * added template `class` element;
 * removed `AbstractMethodEntity::getReturnDescription()`,

@@ -21,7 +21,7 @@
     </div>
     {%~ endif %}
 
-    {%~ if class.getTraits %}
+    {%~ if class.getTraits.isEmpty != true %}
     <div class="mb-2">Uses
         {%~ if class.getTraits|length > 1 %}
         <ul>
@@ -30,7 +30,7 @@
         {%~ endfor %}
         </ul>
         {%~ else %}
-        {{ class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') }}
+        <code>{{ class.getTraits.first.getName }}</code>
         {%~ endif %}
     </div>
     {%~ endif %}

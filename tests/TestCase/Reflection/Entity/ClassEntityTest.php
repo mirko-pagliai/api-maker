@@ -179,6 +179,21 @@ class ClassEntityTest extends TestCase
     }
 
     /**
+     * Test for `getTraits()` method
+     * @test
+     */
+    public function testGetTraits()
+    {
+        $this->assertTrue(ClassEntity::createFromName(Car::class)->getTraits()->isEmpty());
+
+        $traits = $this->Class->getTraits();
+        $this->assertContainsOnlyInstancesOf(ClassEntity::class, $traits);
+        $this->assertSame(['ColorsTrait', 'PositionTrait'], $traits->map(function (ClassEntity $trait) {
+            return $trait->getShortName();
+        })->toList());
+    }
+
+    /**
      * Test for `getType()` method
      * @test
      */

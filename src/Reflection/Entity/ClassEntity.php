@@ -29,7 +29,6 @@ use RuntimeException;
  * @method array getImmediateReflectionConstants()
  * @method string getNamespaceName()
  * @method string getShortName()
- * @method array getTraits()
  * @method bool isAbstract()
  * @method bool isFinal()
  * @method bool isInterface()
@@ -185,6 +184,17 @@ class ClassEntity extends AbstractEntity
     public function getSlug(): string
     {
         return slug($this->getName(), false);
+    }
+
+    /**
+     * Gets all traits used by this class
+     * @return \Cake\Collection\Collection A collection of `ClassEntity`
+     */
+    public function getTraits(): Collection
+    {
+        return collection($this->reflectionObject->getTraits())->map(function ($trait) {
+            return new ClassEntity($trait);
+        });
     }
 
     /**
