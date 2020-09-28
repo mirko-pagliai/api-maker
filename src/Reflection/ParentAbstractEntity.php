@@ -24,6 +24,11 @@ use Tools\Exceptionist;
 abstract class ParentAbstractEntity
 {
     /**
+     * @var \Roave\BetterReflection\Reflection\ReflectionClass|\Roave\BetterReflection\Reflection\ReflectionClassConstant|\Roave\BetterReflection\Reflection\ReflectionFunctionAbstract|\Roave\BetterReflection\Reflection\ReflectionParameter|\Roave\BetterReflection\Reflection\ReflectionProperty|\phpDocumentor\Reflection\DocBlock\Tag
+     */
+    protected $reflectionObject;
+
+    /**
      * `__call()` magic method.
      *
      * It allows access to the methods of the reflected object.
