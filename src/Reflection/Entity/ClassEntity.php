@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection\Entity;
 
+use Cake\Collection\Collection;
 use PhpDocMaker\Reflection\AbstractEntity;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionClassConstant;
@@ -25,7 +26,6 @@ use RuntimeException;
 /**
  * Class entity
  * @method ?string getFilename()
- * @method array getImmediateInterfaces()
  * @method array getImmediateReflectionConstants()
  * @method string getNamespaceName()
  * @method string getShortName()
@@ -98,6 +98,17 @@ class ClassEntity extends AbstractEntity
         return array_map(function (ReflectionClassConstant $constant) {
             return new ConstantEntity($constant);
         }, $this->reflectionObject->getImmediateReflectionConstants());
+    }
+
+    /**
+     * Gets all interfaces implemented by this class
+     * @return \Cake\Collection\Collection A collection of `ClassEntity`
+     */
+    public function getInterfaces(): Collection
+    {
+        return collection($this->reflectionObject->getImmediateInterfaces())->map(function (ReflectionClass $interface) {
+            return new ClassEntity($interface);
+        });
     }
 
     /**

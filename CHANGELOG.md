@@ -10,6 +10,7 @@
 * added `AbstractEntity::hasTag()` method;
 * added `ClassEntity::getType()` method;
 * added `ClassEntity::createFromName()` static method;
+* added `ClassEntity::getInterfaces()` method;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * added template `class` element;
 * removed `AbstractMethodEntity::getReturnDescription()`,

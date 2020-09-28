@@ -18,6 +18,8 @@ use App\Animals\Animal;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use App\InvalidClassParent;
+use App\Vehicles\Car;
+use App\Vehicles\Interfaces\Brake;
 use App\Vehicles\Interfaces\MotorVehicle;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\ConstantEntity;
@@ -83,6 +85,21 @@ class ClassEntityTest extends TestCase
     public function testGetConstants()
     {
         $this->assertContainsOnlyInstancesOf(ConstantEntity::class, $this->Class->getConstants());
+    }
+
+    /**
+     * Test for `getInterfaces()` method
+     * @test
+     */
+    public function testGetInterfaces()
+    {
+        $this->assertTrue($this->Class->getInterfaces()->isEmpty());
+
+        $interfaces = ClassEntity::createFromName(Car::class)->getInterfaces();
+        $this->assertContainsOnlyInstancesOf(ClassEntity::class, $interfaces);
+        $this->assertSame([Brake::class, MotorVehicle::class], $interfaces->map(function (ClassEntity $interface) {
+            return $interface->getName();
+        })->toList());
     }
 
     /**

@@ -7,16 +7,16 @@
     <div class="mb-2">Extends <code>{{ class.getParentClass.getName }}</code>.</div>
     {%~ endif %}
 
-    {%~ if class.getImmediateInterfaces %}
+    {%~ if class.getInterfaces.isEmpty != true %}
     <div class="mb-2">Implements
-        {%~ if class.getImmediateInterfaces|length > 1 %}
+        {%~ if class.getInterfaces|length > 1 %}
         <ul>
-        {%~ for interface in class.getImmediateInterfaces %}
+        {%~ for interface in class.getInterfaces %}
             <li><code>{{ interface.getName }}</code></li>
         {%~ endfor %}
         </ul>
-        {%~ else -%}
-        {{- class.getImmediateInterfaces|map(trait => "<code>#{interface.getName}</code>")|join(', ') -}}
+        {%~ else %}
+        <code>{{ class.getInterfaces.first.getName }}</code>
         {%~ endif %}
     </div>
     {%~ endif %}
@@ -29,8 +29,8 @@
             <li><code>{{ trait.getName }}</code></li>
         {%~ endfor %}
         </ul>
-        {%~ else -%}
-        {{- class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') -}}
+        {%~ else %}
+        {{ class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') }}
         {%~ endif %}
     </div>
     {%~ endif %}
