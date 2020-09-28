@@ -10,6 +10,13 @@
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
 
+.class-element .namespace {
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin-bottom: .5rem;
+    padding: 1rem;
+}
+
 .constant-element p,
 .parameter-element p,
 .property-element p {
@@ -27,13 +34,14 @@
     margin-bottom: 0;
 }
 
-.parameter-element {
-    margin-bottom: 1rem;
+.method-element .body {
+    margin-left: 1rem;
 }
 
-.parameter-element pre,
-.tag-element pre {
-    margin-bottom: .3rem;
+.method-element .body .description {
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
 }
 
 .method-element .title {
@@ -43,12 +51,11 @@
     padding: .5rem .5rem .25rem;
 }
 
-.method-element .body {
-    margin-left: 1rem;
+.parameter-element {
+    margin-bottom: 1rem;
 }
 
-.method-element .body .description {
-    font-size: 1.25rem;
-    font-weight: 300;
-    margin-bottom: 1rem;
+.parameter-element pre,
+.tag-element pre {
+    margin-bottom: .3rem;
 }

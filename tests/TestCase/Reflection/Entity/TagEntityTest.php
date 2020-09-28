@@ -16,6 +16,7 @@ namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
+use App\Vehicles\Interfaces\MotorVehicle;
 use App\Vehicles\Car;
 use InvalidArgumentException;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
@@ -108,7 +109,7 @@ class TagEntityTest extends TestCase
         }
 
         $method = ClassEntity::createFromName(Car::class)->getMethod('start');
-        $this->assertSame('App\Vehicles\MotorVehicle::start()', $method->getTagsByName('see')->first()->getDescription());
+        $this->assertSame(MotorVehicle::class . '::start()', $method->getTagsByName('see')->first()->getDescription());
     }
 
     /**

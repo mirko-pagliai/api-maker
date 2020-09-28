@@ -1,22 +1,42 @@
 <div class="class-element">
     <h2>{{ class.getType }} <em>{{ class.getShortName }}</em></h2>
 
-    {{ class.getDocBlockAsString|to_html }}
+    <div class="description">{{ class.getDocBlockAsString|to_html }}</div>
 
     {%~ if class.getParentClass %}
-    <p>Extends <code>{{ class.getParentClass.getName }}</code>.</p>
+    <div class="mb-2">Extends <code>{{ class.getParentClass.getName }}</code>.</div>
     {%~ endif %}
 
     {%~ if class.getImmediateInterfaces %}
-    <p>Implements {{ class.getImmediateInterfaces|map(interface => "<code>#{interface.getName}</code>")|join(', ') }}.</p>
+    <div class="mb-2">Implements
+        {%~ if class.getImmediateInterfaces|length > 1 %}
+        <ul>
+        {%~ for interface in class.getImmediateInterfaces %}
+            <li><code>{{ interface.getName }}</code></li>
+        {%~ endfor %}
+        </ul>
+        {%~ else -%}
+        {{- class.getImmediateInterfaces|map(trait => "<code>#{interface.getName}</code>")|join(', ') -}}
+        {%~ endif %}
+    </div>
     {%~ endif %}
 
-    {%~ if class.getTraits|length > 0 %}
-    <p>Uses {{ class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') }}.</p>
+    {%~ if class.getTraits %}
+    <div class="mb-2">Uses
+        {%~ if class.getTraits|length > 1 %}
+        <ul>
+        {%~ for trait in class.getTraits %}
+            <li><code>{{ trait.getName }}</code></li>
+        {%~ endfor %}
+        </ul>
+        {%~ else -%}
+        {{- class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') -}}
+        {%~ endif %}
+    </div>
     {%~ endif %}
 
     {%~ if class.getNamespaceName or class.getFilename %}
-    <div class="p-3 mb-2 bg-light text-dark">
+    <div class="namespace">
         {%~ if class.getNamespaceName %}
         <div><strong>Namespace:</strong> <pre class="d-inline">{{ class.getNamespaceName }}</pre></div>
         {%~ endif %}

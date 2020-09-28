@@ -14,13 +14,14 @@ declare(strict_types=1);
  */
 namespace App\Vehicles;
 
-use App\Vehicles\MotorVehicle;
+use App\Vehicles\Interfaces\Brake;
+use App\Vehicles\Interfaces\MotorVehicle;
 use App\Vehicles\Vehicle;
 
 /**
  * A car
  */
-class Car extends Vehicle implements MotorVehicle
+class Car extends Vehicle implements Brake, MotorVehicle
 {
     /**
      * Possible car types
@@ -28,9 +29,19 @@ class Car extends Vehicle implements MotorVehicle
     protected const TYPES = ['sedan', 'station wagon', 'sport'];
 
     /**
+     * Brake the vehicle
+     * @return bool
+     * @see \App\Vehicles\Interfaces\Brake
+     */
+    public function brake(): bool
+    {
+        //Do something
+    }
+
+    /**
      * Starts the vehicle
      * @return bool
-     * @see \App\Vehicles\MotorVehicle::start()
+     * @see \App\Vehicles\Interfaces\MotorVehicle::start()
      */
     public function start(): bool
     {

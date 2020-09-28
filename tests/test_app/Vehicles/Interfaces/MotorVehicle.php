@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace App\Vehicles;
+namespace App\Vehicles\Interfaces;
 
 /**
  * A motor vehicle

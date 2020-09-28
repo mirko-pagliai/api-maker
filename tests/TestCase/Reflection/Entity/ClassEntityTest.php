@@ -18,7 +18,7 @@ use App\Animals\Animal;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use App\InvalidClassParent;
-use App\Vehicles\MotorVehicle;
+use App\Vehicles\Interfaces\MotorVehicle;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\ConstantEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;

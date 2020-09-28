@@ -158,7 +158,13 @@ HEREDOC;
      */
     public function testClassTemplate()
     {
-        foreach ([SimpleClassExample::class, \stdClass::class, ClassWithManyTags::class] as $k => $className) {
+        foreach ([
+            SimpleClassExample::class,
+            \stdClass::class,
+            ClassWithManyTags::class,
+            Cat::class,
+            Car::class,
+        ] as $k => $className) {
             $ReflectionClass = ReflectionClass::createFromName($className);
             $class = $this->getMockBuilder(ClassEntity::class)
                 ->setConstructorArgs([$ReflectionClass])
