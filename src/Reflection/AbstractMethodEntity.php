@@ -71,9 +71,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getParametersAsString(): string
     {
-        return implode(', ', $this->getParameters()->map(function (ParameterEntity $param) {
-            return $param->getSignature();
-        })->toList());
+        return implode(', ', $this->getParameters()->extract('signature')->toList());
     }
 
     /**
