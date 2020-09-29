@@ -39,7 +39,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
      * Returns the representation of this object as a signature
      * @return string
      */
-    public function toSignature(): string
+    public function getSignature(): string
     {
         return $this->getName() . '(' . $this->getParametersAsString() . ')';
     }
@@ -72,7 +72,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
     public function getParametersAsString(): string
     {
         return implode(', ', $this->getParameters()->map(function (ParameterEntity $param) {
-            return $param->toSignature();
+            return $param->getSignature();
         })->toList());
     }
 

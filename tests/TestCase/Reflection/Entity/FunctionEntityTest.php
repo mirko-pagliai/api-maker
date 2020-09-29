@@ -39,21 +39,21 @@ class FunctionEntityTest extends TestCase
     }
 
     /**
+     * Test for `getSignature()` method
+     * @test
+     */
+    public function testGetSignature()
+    {
+        $this->assertSame('a_test_function(string $string = \'my string\')', $this->Function->getSignature());
+    }
+
+    /**
      * Test for `__toString()` magic method
      * @test
      */
     public function testToString()
     {
         $this->assertSame('a_test_function()', (string)$this->Function);
-    }
-
-    /**
-     * Test for `toSignature()` method
-     * @test
-     */
-    public function testToSignature()
-    {
-        $this->assertSame('a_test_function(string $string = \'my string\')', $this->Function->toSignature());
     }
 
     /**

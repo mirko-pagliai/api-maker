@@ -73,14 +73,14 @@ class TagEntityTest extends TestCase
     }
 
     /**
-     * Test for `toSignature()` method
+     * Test for `getSignature()` method
      * @test
      */
-    public function testToSignature()
+    public function testGetSignature()
     {
         foreach (['param', 'return', 'see', 'throws'] as $tagName) {
             foreach ($this->Method->getTagsByName($tagName) as $tag) {
-                $this->assertSame($tagName, $tag->toSignature());
+                $this->assertSame($tagName, $tag->getSignature());
             }
         }
     }

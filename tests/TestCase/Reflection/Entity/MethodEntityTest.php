@@ -38,6 +38,16 @@ class MethodEntityTest extends TestCase
     }
 
     /**
+     * Test for `getSignature()` method
+     * @test
+     */
+    public function testGetSignature()
+    {
+        $this->assertSame('createPuppy()', $this->getMethodEntity('createPuppy')->getSignature());
+        $this->assertSame('name(string|null $name = null)', $this->getMethodEntity('name')->getSignature());
+    }
+
+    /**
      * Test for `__toString()` magic method
      * @test
      */
@@ -45,16 +55,6 @@ class MethodEntityTest extends TestCase
     {
         $this->assertSame('App\Animals\Cat::createPuppy()', (string)$this->getMethodEntity('createPuppy'));
         $this->assertSame('App\Animals\Animal::name()', (string)$this->getMethodEntity('name'));
-    }
-
-    /**
-     * Test for `toSignature()` method
-     * @test
-     */
-    public function testToSignature()
-    {
-        $this->assertSame('createPuppy()', $this->getMethodEntity('createPuppy')->toSignature());
-        $this->assertSame('name(string|null $name = null)', $this->getMethodEntity('name')->toSignature());
     }
 
     /**

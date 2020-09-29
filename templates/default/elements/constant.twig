@@ -1,5 +1,5 @@
 <div class="constant-element">
-    <div><code>{{ constant.toSignature }}</code> <span class="badge badge-light">{{ constant.getVisibility }}</span></div>
+    <div><code>{{ constant.getSignature }}</code> <span class="badge badge-light">{{ constant.getVisibility }}</span></div>
     <pre>{{ constant.getValueAsString }}</pre>
     <div class="description">{{ constant.getDocBlockAsString|to_html }}</div>
 

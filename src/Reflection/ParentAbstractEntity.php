@@ -56,7 +56,7 @@ abstract class ParentAbstractEntity implements ArrayAccess
      * Returns the representation of this object as a signature
      * @return string
      */
-    abstract public function toSignature(): string;
+    abstract public function getSignature(): string;
 
     /**
      * Whether an offset exists

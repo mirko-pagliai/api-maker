@@ -61,7 +61,7 @@ class TagEntity extends ParentAbstractEntity
      * Returns the representation of this object as a signature
      * @return string
      */
-    public function toSignature(): string
+    public function getSignature(): string
     {
         return $this->getName();
     }

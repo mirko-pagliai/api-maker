@@ -36,6 +36,16 @@ class PropertyEntityTest extends TestCase
     }
 
     /**
+     * Test for `getSignature()` magic method
+     * @test
+     */
+    public function testGetSignature()
+    {
+        $this->assertSame('$name', $this->getPropertyEntity('name')->getSignature());
+        $this->assertSame('$position', $this->getPropertyEntity('position')->getSignature());
+    }
+
+    /**
      * Test for `__toString()` magic method
      * @test
      */
@@ -43,16 +53,6 @@ class PropertyEntityTest extends TestCase
     {
         $this->assertSame('App\Animals\Animal::$name', (string)$this->getPropertyEntity('name'));
         $this->assertSame('App\Animals\Traits\PositionTrait::$position', (string)$this->getPropertyEntity('position'));
-    }
-
-    /**
-     * Test for `toSignature()` magic method
-     * @test
-     */
-    public function testToSignature()
-    {
-        $this->assertSame('$name', $this->getPropertyEntity('name')->toSignature());
-        $this->assertSame('$position', $this->getPropertyEntity('position')->toSignature());
     }
 
     /**

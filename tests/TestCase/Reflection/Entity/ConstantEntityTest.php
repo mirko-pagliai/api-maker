@@ -37,6 +37,17 @@ class ConstantEntityTest extends TestCase
     }
 
     /**
+     * Test for `getSignature()` magic method
+     * @test
+     */
+    public function testGetSignature()
+    {
+        $this->assertSame('LEGS', $this->getConstantEntity('LEGS')->getSignature());
+        $this->assertSame('GENUS', $this->getConstantEntity('GENUS')->getSignature());
+        $this->assertSame('TYPES', $this->getConstantEntity('TYPES', Car::class)->getSignature());
+    }
+
+    /**
      * Test for `__toString()` magic method
      * @test
      */
@@ -45,17 +56,6 @@ class ConstantEntityTest extends TestCase
         $this->assertSame('App\Animals\Cat::LEGS', (string)$this->getConstantEntity('LEGS'));
         $this->assertSame('App\Animals\Cat::GENUS', (string)$this->getConstantEntity('GENUS'));
         $this->assertSame('App\Vehicles\Car::TYPES', (string)$this->getConstantEntity('TYPES', Car::class));
-    }
-
-    /**
-     * Test for `toSignature()` magic method
-     * @test
-     */
-    public function testToSignature()
-    {
-        $this->assertSame('LEGS', $this->getConstantEntity('LEGS')->toSignature());
-        $this->assertSame('GENUS', $this->getConstantEntity('GENUS')->toSignature());
-        $this->assertSame('TYPES', $this->getConstantEntity('TYPES', Car::class)->toSignature());
     }
 
     /**

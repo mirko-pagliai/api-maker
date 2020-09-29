@@ -50,21 +50,21 @@ class ClassEntityTest extends TestCase
     }
 
     /**
+     * Test for `getSignature()` method
+     * @test
+     */
+    public function testGetSignature()
+    {
+        $this->assertSame('App\Animals\Cat', $this->Class->getSignature());
+    }
+
+    /**
      * Test for `__toString()` magic method
      * @test
      */
     public function testToString()
     {
         $this->assertSame('App\Animals\Cat', (string)$this->Class);
-    }
-
-    /**
-     * Test for `toSignature()` method
-     * @test
-     */
-    public function testToSignature()
-    {
-        $this->assertSame('App\Animals\Cat', $this->Class->toSignature());
     }
 
     /**

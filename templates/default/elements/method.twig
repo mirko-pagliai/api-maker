@@ -11,7 +11,7 @@
         <h5>{{ method.getName }}()</h5>
     </div>
     <div class="body">
-        <pre><code class="language-php">{{ method.toSignature }}</code></pre>
+        <pre><code class="language-php">{{ method.getSignature }}</code></pre>
         {%~ if method.getDocBlockAsString %}
         <div class="description">{{ method.getDocBlockAsString|to_html }}</div>
         {%~ endif %}
@@ -20,7 +20,7 @@
         <h6>Parameters</h6>
         {%~ for parameter in method.getParameters %}
         <div class="parameter-element">
-            <pre><code class="language-php">{{ parameter.toSignature }}</code></pre>
+            <pre><code class="language-php">{{ parameter.getSignature }}</code></pre>
             {%~ if method.getDocBlockAsString %}
             <div class="description">{{ parameter.getDocBlockAsString|to_html }}</div>
             {%~ endif %}

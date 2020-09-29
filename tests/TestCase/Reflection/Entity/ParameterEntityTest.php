@@ -40,15 +40,15 @@ class ParameterEntityTest extends TestCase
     }
 
     /**
-     * Test for `toSignature()` method
+     * Test for `getSignature()` method
      * @test
      */
-    public function testToSignature()
+    public function testGetSignature()
     {
-        $this->assertSame('string|null $name = null', $this->getParameterEntity('name', 'name')->toSignature());
-        $this->assertSame('string $name', $this->getParameterEntity('name', 'setName')->toSignature());
-        $this->assertSame('string|array $colors = []', $this->getParameterEntity('colors', 'setColors')->toSignature());
-        $this->assertSame('App\Animals\Cat $puppy', $this->getParameterEntity('puppy', 'setPuppy')->toSignature());
+        $this->assertSame('string|null $name = null', $this->getParameterEntity('name', 'name')->getSignature());
+        $this->assertSame('string $name', $this->getParameterEntity('name', 'setName')->getSignature());
+        $this->assertSame('string|array $colors = []', $this->getParameterEntity('colors', 'setColors')->getSignature());
+        $this->assertSame('App\Animals\Cat $puppy', $this->getParameterEntity('puppy', 'setPuppy')->getSignature());
     }
 
     /**

@@ -15,6 +15,7 @@
     `ClassEntity::getMethods()`, `ClassEntity::getProperties()`,
     `ClassesExplorer::getAllClasses()` and `ClassesExplorer::getAllFunctions()`
     methods return now a collection of entities;
+* `ParentAbstractEntity::toSignature()` method renamed as `getSignature()`;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * removed `AbstractMethodEntity::getReturnDescription()`,
     `AbstractMethodEntity::getReturnTypeAsString()`,
