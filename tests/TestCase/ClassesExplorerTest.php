@@ -70,14 +70,14 @@ class ClassesExplorerTest extends TestCase
     public function testGetAllClasses()
     {
         $classes = $this->ClassesExplorer->getAllClasses();
-        $names = objects_map($classes, 'getName');
         $this->assertContainsOnlyInstancesOf(ClassEntity::class, $classes);
+        $names = $classes->extract('name');
         $this->assertContains('Cake\Routing\Router', $names);
         $this->assertContains('App\Animals\Dog', $names);
 
         //Classes are properly sorted
-        $this->assertSame('App\Animals\Animal', array_value_first($names));
-        $this->assertSame('Cake\Routing\Router', array_value_last($names));
+        $this->assertSame('App\Animals\Animal', $names->first());
+        $this->assertSame('Cake\Routing\Router', $names->last());
     }
 
     /**
@@ -87,7 +87,7 @@ class ClassesExplorerTest extends TestCase
     public function testGetAllFunctions()
     {
         $functions = $this->ClassesExplorer->getAllFunctions();
-        $names = objects_map($functions, 'getName');
+        $names = $functions->extract('name');
         $this->assertContainsOnlyInstancesOf(FunctionEntity::class, $functions);
         $this->assertContains('a_test_function', $names);
         $this->assertContains('get_woof', $names);

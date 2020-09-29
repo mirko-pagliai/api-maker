@@ -6,12 +6,15 @@
 * tags are now a collection (so `AbstractEntity::getTagsByName()` returns now a
     `Collection` instance). Added `AbstractEntity::hasTag()` method,
     `AbstractEntity::getTags()` and `AbstractEntity::getTagsGroupedByName()` methods;
+* all entities implements the `ArrayAccess`, so now any "get" method can be used
+    as the entity is an array;
 * when you explicitly ask not to use the cache, the cache is emptied;
 * added `createFromName()`, `getInterfaces()`, `getType()` and `getTraits()`
     methods to the `ClassEntity`
 * `AbstractMethodEntity::getParameters()`, `ClassEntity::getConstants()`,
-    `ClassEntity::getMethods()` and `ClassEntity::getProperties()` methods return
-    now a collection of entities;
+    `ClassEntity::getMethods()`, `ClassEntity::getProperties()`,
+    `ClassesExplorer::getAllClasses()` and `ClassesExplorer::getAllFunctions()`
+    methods return now a collection of entities;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * removed `AbstractMethodEntity::getReturnDescription()`,
     `AbstractMethodEntity::getReturnTypeAsString()`,

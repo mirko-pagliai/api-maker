@@ -96,9 +96,7 @@ abstract class AbstractEntity extends ParentAbstractEntity
     {
         return collection($tags)->map(function (Tag $tag) {
             return new TagEntity($tag);
-        }, $tags)->sortBy(function (TagEntity $tag) {
-            return $tag->getName();
-        }, SORT_ASC, SORT_STRING);
+        }, $tags)->sortBy('name', SORT_ASC, SORT_STRING);
     }
 
     /**
@@ -118,9 +116,7 @@ abstract class AbstractEntity extends ParentAbstractEntity
      */
     public function getTagsGroupedByName(): Collection
     {
-        return $this->getTags()->groupBy(function (TagEntity $tag) {
-            return $tag->getName();
-        });
+        return $this->getTags()->groupBy('name');
     }
 
     /**

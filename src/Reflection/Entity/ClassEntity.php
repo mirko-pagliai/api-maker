@@ -191,7 +191,7 @@ class ClassEntity extends AbstractEntity
      */
     public function getTraits(): Collection
     {
-        return collection($this->reflectionObject->getTraits())->map(function ($trait) {
+        return collection($this->reflectionObject->getTraits())->map(function (ReflectionClass $trait) {
             return new ClassEntity($trait);
         });
     }

@@ -60,7 +60,7 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onClassFounded(Event $event): void
     {
-        $this->io->text(sprintf('Founded %d classes', count($event->getArg(0))));
+        $this->io->text(sprintf('Founded %d classes', $event->getArg(0)->count()));
     }
 
     /**
@@ -80,7 +80,7 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onFunctionsFounded(Event $event): void
     {
-        $this->io->text(sprintf('Founded %d functions', count($event->getArg(0))));
+        $this->io->text(sprintf('Founded %d functions', $event->getArg(0)->count()));
     }
 
     /**

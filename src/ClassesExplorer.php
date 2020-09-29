@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker;
 
+use Cake\Collection\Collection;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\FunctionEntity;
 use Roave\BetterReflection\BetterReflection;
@@ -100,31 +101,25 @@ class ClassesExplorer
 
     /**
      * Gets all classes found in the path
-     * @return array Array of `ClassEntity` instances
+     * @return \Cake\Collection\Collection Collection of `ClassEntity`
      * @uses getClassReflector()
      */
-    public function getAllClasses(): array
+    public function getAllClasses(): Collection
     {
-        $classes = array_map(function (ReflectionClass $class) {
+        return collection($this->getClassReflector()->getAllClasses())->map(function (ReflectionClass $class) {
             return new ClassEntity($class);
-        }, $this->getClassReflector()->getAllClasses());
-
-        usort($classes, function (ClassEntity $first, ClassEntity $second) {
-            return strcmp($first->getName(), $second->getName());
-        });
-
-        return $classes;
+        })->sortBy('name', SORT_ASC, SORT_STRING);
     }
 
     /**
      * Gets all functions found in the path
-     * @return array Array of `FunctionEntity` instances
+     * @return \Cake\Collection\Collection Collection of `FunctionEntity`
      * @uses getFunctionReflector()
      */
-    public function getAllFunctions(): array
+    public function getAllFunctions(): Collection
     {
-        return array_map(function (ReflectionFunction $function) {
+        return collection($this->getFunctionReflector()->getAllFunctions())->map(function (ReflectionFunction $function) {
             return new FunctionEntity($function);
-        }, $this->getFunctionReflector()->getAllFunctions());
+        });
     }
 }

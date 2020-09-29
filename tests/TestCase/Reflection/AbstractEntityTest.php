@@ -20,6 +20,7 @@ use App\Animals\Dog;
 use App\ArrayExample;
 use App\DeprecatedClassExample;
 use BadMethodCallException;
+use LogicException;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\TestSuite\TestCase;
@@ -43,6 +44,21 @@ class AbstractEntityTest extends TestCase
         $this->expectException(BadMethodCallException::class);
         $this->expectExceptionMessage('Method ' . ReflectionClass::class . '::noExistingMethod() does not exist');
         $entity->noExistingMethod();
+    }
+
+    public function testArrayAccessMethods()
+    {
+        $entity = ClassEntity::createFromName(Cat::class);
+        $this->assertSame('App\Animals\Cat', $entity['name']);
+        $this->assertTrue(isset($entity['name']));
+        $this->assertFalse(isset($entity['noExisting']));
+
+        $this->assertException(LogicException::class, function () use ($entity) {
+            $entity['name'] = 'new name';
+        });
+        $this->assertException(LogicException::class, function () use ($entity) {
+            unset($entity['name']);
+        });
     }
 
     /**
@@ -82,6 +98,8 @@ HEREDOC;
         $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTags();
         $this->assertNotEmpty($tags);
         $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
+        $this->assertSame('link', $tags->extract('name')->first());
+        $this->assertSame('throws', $tags->extract('name')->last());
     }
 
     /**
