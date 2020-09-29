@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection;
 
 use Cake\Collection\Collection;
-use Exception;
 use InvalidArgumentException;
 use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\Reflection\ParentAbstractEntity;
@@ -43,8 +42,6 @@ abstract class AbstractEntity extends ParentAbstractEntity
                 throw $e;
             }
 
-            return null;
-        } catch (Exception $e) {
             return null;
         }
     }
