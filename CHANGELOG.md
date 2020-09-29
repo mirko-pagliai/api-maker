@@ -9,8 +9,9 @@
 * when you explicitly ask not to use the cache, the cache is emptied;
 * added `createFromName()`, `getInterfaces()`, `getType()` and `getTraits()`
     methods to the `ClassEntity`
-* `ClassEntity::getConstants()`, `ClassEntity::getMethods()` and
-    `ClassEntity::getProperties()` methods return now a collection of entities;
+* `AbstractMethodEntity::getParameters()`, `ClassEntity::getConstants()`,
+    `ClassEntity::getMethods()` and `ClassEntity::getProperties()` methods return
+    now a collection of entities;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
 * removed `AbstractMethodEntity::getReturnDescription()`,
     `AbstractMethodEntity::getReturnTypeAsString()`,

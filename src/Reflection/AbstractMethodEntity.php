@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection;
 
+use Cake\Collection\Collection;
 use PhpDocMaker\Reflection\AbstractEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
@@ -55,13 +56,13 @@ abstract class AbstractMethodEntity extends AbstractEntity
 
     /**
      * Gets parameters
-     * @return array Array of `ParameterEntity` instances
+     * @return \Cake\Collection\Collection A collection of `ParameterEntity`
      */
-    public function getParameters(): array
+    public function getParameters(): Collection
     {
-        return array_map(function (ReflectionParameter $parameter) {
+        return collection($this->reflectionObject->getParameters())->map(function (ReflectionParameter $parameter) {
             return new ParameterEntity($parameter);
-        }, $this->reflectionObject->getParameters());
+        });
     }
 
     /**
@@ -70,9 +71,9 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getParametersAsString(): string
     {
-        return implode(', ', array_map(function (ParameterEntity $param) {
+        return implode(', ', $this->getParameters()->map(function (ParameterEntity $param) {
             return $param->toSignature();
-        }, $this->getParameters()));
+        })->toList());
     }
 
     /**

@@ -89,7 +89,7 @@ class MethodEntityTest extends TestCase
         $this->assertCount(2, $parameters);
         $this->assertContainsOnlyInstancesOf(ParameterEntity::class, $parameters);
 
-        $this->assertSame([], $this->getMethodEntity('createPuppy')->getParameters());
+        $this->assertTrue($this->getMethodEntity('createPuppy')->getParameters()->isEmpty());
     }
 
     /**
