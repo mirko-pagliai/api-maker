@@ -4,16 +4,14 @@
 * now all tags for methods, properties and constants are shown correctly;
 * added `TagEntity`, which now represents the tags;
 * tags are now a collection (so `AbstractEntity::getTagsByName()` returns now a
-    `Collection` instance). Added `AbstractEntity::getTags()` and
-    `AbstractEntity::getTagsGroupedByName()` methods;
+    `Collection` instance). Added `AbstractEntity::hasTag()` method,
+    `AbstractEntity::getTags()` and `AbstractEntity::getTagsGroupedByName()` methods;
 * when you explicitly ask not to use the cache, the cache is emptied;
-* added `AbstractEntity::hasTag()` method;
 * added `createFromName()`, `getInterfaces()`, `getType()` and `getTraits()`
     methods to the `ClassEntity`
-* `getConstants()`, `getMethods()` and `getProperties()` methods from `ClassEntity`
-    return now a collection of entities;
+* `ClassEntity::getConstants()`, `ClassEntity::getMethods()` and
+    `ClassEntity::getProperties()` methods return now a collection of entities;
 * added `TestCase::assertStringEqualsTemplate()` assertion method;
-* added template `class` element;
 * removed `AbstractMethodEntity::getReturnDescription()`,
     `AbstractMethodEntity::getReturnTypeAsString()`,
     `AbstractMethodEntity::getThrowsTags()`,
