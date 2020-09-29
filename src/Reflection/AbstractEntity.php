@@ -94,9 +94,9 @@ abstract class AbstractEntity extends ParentAbstractEntity
      */
     protected function parseTags(array $tags): Collection
     {
-        return collection(array_map(function (Tag $tag) {
+        return collection($tags)->map(function (Tag $tag) {
             return new TagEntity($tag);
-        }, $tags))->sortBy(function (TagEntity $tag) {
+        }, $tags)->sortBy(function (TagEntity $tag) {
             return $tag->getName();
         }, SORT_ASC, SORT_STRING);
     }
