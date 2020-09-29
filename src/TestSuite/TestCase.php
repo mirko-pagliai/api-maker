@@ -78,13 +78,7 @@ abstract class TestCase extends BaseTestCase
      */
     protected function getFunctionEntityFromTests(string $functionName): FunctionEntity
     {
-        foreach ($this->getClassesExplorerInstance()->getAllFunctions() as $currentFunction) {
-            if ($currentFunction->getName() === $functionName) {
-                return $currentFunction;
-            }
-        }
-
-        $this->fail(sprintf('Impossible to find the `%s()` function from test files', $functionName));
+        return $this->getClassesExplorerInstance()->getAllFunctions()->firstMatch(['name' => $functionName]) ?? $this->fail(sprintf('Impossible to find the `%s()` function from test files', $functionName));
     }
 
     /**
