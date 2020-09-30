@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of php-doc-maker.
@@ -12,22 +11,16 @@ declare(strict_types=1);
  * @link        https://github.com/mirko-pagliai/php-doc-maker
  * @license     https://opensource.org/licenses/mit-license.php MIT License
  */
-namespace App\Vehicles;
+namespace App;
 
 /**
- * A motor vehicle
+ * A simple interface
  */
-interface MotorVehicle
+interface SimpleInterface
 {
     /**
-     * Starts the vehicle
-     * @return bool
+     * This is a method from `SimpleInterface`
+     * @return string
      */
-    public function start(): bool;
-
-    /**
-     * Stops the vehicle
-     * @return bool
-     */
-    public function stop(): bool;
+    public function aMethodFromSimpleInterface(): string;
 }

@@ -79,7 +79,7 @@ HEREDOC;
 </ul>
 HEREDOC;
         $classes = $this->getClassesExplorerInstance()->getAllClasses();
-        $result = $this->Twig->render('layout/menu.twig', compact('classes'));
+        $result = $this->Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => false]);
         $this->assertStringStartsWith($expectedStart, $result);
         $this->assertStringEndsWith($expectedEnd, $result);
         $this->assertStringContainsString('<a href="Class-App-DeprecatedClassExample.html" title="App\DeprecatedClassExample"><del>App\DeprecatedClassExample</del></a>', $result);
@@ -158,7 +158,13 @@ HEREDOC;
      */
     public function testClassTemplate()
     {
-        foreach ([SimpleClassExample::class, \stdClass::class, ClassWithManyTags::class] as $k => $className) {
+        foreach ([
+            SimpleClassExample::class,
+            \stdClass::class,
+            ClassWithManyTags::class,
+            Cat::class,
+            Car::class,
+        ] as $k => $className) {
             $ReflectionClass = ReflectionClass::createFromName($className);
             $class = $this->getMockBuilder(ClassEntity::class)
                 ->setConstructorArgs([$ReflectionClass])

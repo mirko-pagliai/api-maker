@@ -1,14 +1,22 @@
 {%~ for tagName, tagValues in tags|filter((tagValues, tagName) => tagName not in ['param', 'var']) %}
 
-<h6>{{ tagName|capitalize }}</h6>
-<div class="mb-3">
-    {%~ for tag in tagValues %}
-    {%~ if tag.getType %}
-    <div><code>{{ tag.getType }}</code></div>
-    {%~ endif %}
-    {%~ if tag.getDescription %}
-    <div>{{ tag.getDescription|to_html }}</div>
-    {%~ endif %}
-    {%~ endfor %}
+<div class="tag-element">
+    <h6>{{ tagName|capitalize }}</h6>
+    <div class="mb-3">
+        {%~ for tag in tagValues %}
+        {%~ if tag.getType %}
+        <pre><code class="language-php">{{ tag.getType }}</code></pre>
+        {%~ endif %}
+        {%~ if tag.getDescription %}
+        <div class="description">
+            {%- if tag.getDescription|is_url -%}
+            <a href="{{ tag.getDescription }}" target="_blank">{{ tag.getDescription }}</a>
+            {%- else -%}
+            {{ tag.getDescription|to_html }}
+            {%- endif -%}
+        </div>
+        {%~ endif %}
+        {%~ endfor %}
+    </div>
 </div>
 {%~ endfor %}

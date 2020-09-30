@@ -90,7 +90,8 @@ class PhpDocMaker
             'autoescape' => false,
             'strict_variables' => true,
         ]);
-        $twig->addFilter(new TwigFilter('to_html', function ($string) {
+        $twig->addFilter(new TwigFilter('is_url', 'is_url'));
+        $twig->addFilter(new TwigFilter('to_html', function (string $string) {
             return trim((new CommonMarkConverter())->convertToHtml($string));
         }));
 
@@ -149,6 +150,8 @@ class PhpDocMaker
         if ($this->options['cache']) {
             $this->Filesystem->mkdir($target . DS . 'cache', 0755);
             $this->Twig->setCache($target . DS . 'cache');
+        } else {
+            unlink_recursive($target . DS . 'cache');
         }
 
         //Copies assets files
@@ -165,7 +168,7 @@ class PhpDocMaker
         $this->dispatchEvent('functions.founded', [$functions]);
 
         //Renders the menu
-        $output = $this->Twig->render('layout/menu.twig', compact('classes'));
+        $output = $this->Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => !empty($functions)]);
         $this->Filesystem->dumpFile($target . DS . 'layout' . DS . 'menu.html', $output);
         $this->dispatchEvent('menu.rendered');
 

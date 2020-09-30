@@ -17,6 +17,8 @@ namespace PhpDocMaker\Test\Reflection\Entity;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use App\Vehicles\Car;
+use App\Vehicles\Interfaces\MotorVehicle;
+use InvalidArgumentException;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\TestSuite\TestCase;
 use RuntimeException;
@@ -43,11 +45,15 @@ class TagEntityTest extends TestCase
     }
 
     /**
-     * Test for `__construct()` method, with an invalid tag
+     * Test for `__construct()` method, with an invalid tags
      * @test
      */
-    public function testConstructWithInvalidTag()
+    public function testConstructWithInvalidTags()
     {
+        $this->assertException(InvalidArgumentException::class, function () {
+            ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('methodWithAnotherInvalidTag')->getTags();
+        });
+
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Invalid tag `@see \1`');
         ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('methodWithInvalidTag')->getTagsByName('see');
@@ -67,14 +73,14 @@ class TagEntityTest extends TestCase
     }
 
     /**
-     * Test for `toSignature()` method
+     * Test for `getSignature()` method
      * @test
      */
-    public function testToSignature()
+    public function testGetSignature()
     {
         foreach (['param', 'return', 'see', 'throws'] as $tagName) {
             foreach ($this->Method->getTagsByName($tagName) as $tag) {
-                $this->assertSame($tagName, $tag->toSignature());
+                $this->assertSame($tagName, $tag->getSignature());
             }
         }
     }
@@ -103,7 +109,7 @@ class TagEntityTest extends TestCase
         }
 
         $method = ClassEntity::createFromName(Car::class)->getMethod('start');
-        $this->assertSame('App\Vehicles\MotorVehicle::start()', $method->getTagsByName('see')->first()->getDescription());
+        $this->assertSame(MotorVehicle::class . '::start()', $method->getTagsByName('see')->first()->getDescription());
     }
 
     /**

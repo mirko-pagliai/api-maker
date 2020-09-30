@@ -18,7 +18,9 @@ use App\Animals\Animal;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
 use App\InvalidClassParent;
-use App\Vehicles\MotorVehicle;
+use App\Vehicles\Car;
+use App\Vehicles\Interfaces\Brake;
+use App\Vehicles\Interfaces\MotorVehicle;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\ConstantEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
@@ -48,21 +50,21 @@ class ClassEntityTest extends TestCase
     }
 
     /**
+     * Test for `getSignature()` method
+     * @test
+     */
+    public function testGetSignature()
+    {
+        $this->assertSame('App\Animals\Cat', $this->Class->getSignature());
+    }
+
+    /**
      * Test for `__toString()` magic method
      * @test
      */
     public function testToString()
     {
         $this->assertSame('App\Animals\Cat', (string)$this->Class);
-    }
-
-    /**
-     * Test for `toSignature()` method
-     * @test
-     */
-    public function testToSignature()
-    {
-        $this->assertSame('App\Animals\Cat', $this->Class->toSignature());
     }
 
     /**
@@ -82,7 +84,24 @@ class ClassEntityTest extends TestCase
      */
     public function testGetConstants()
     {
-        $this->assertContainsOnlyInstancesOf(ConstantEntity::class, $this->Class->getConstants());
+        $constants = $this->Class->getConstants();
+        $this->assertContainsOnlyInstancesOf(ConstantEntity::class, $constants);
+        $this->assertSame(['GENUS', 'LEGS'], $constants->map(function (ConstantEntity $constant) {
+            return $constant->getName();
+        })->toList());
+    }
+
+    /**
+     * Test for `getInterfaces()` method
+     * @test
+     */
+    public function testGetInterfaces()
+    {
+        $interfaces = ClassEntity::createFromName(Car::class)->getInterfaces();
+        $this->assertContainsOnlyInstancesOf(ClassEntity::class, $interfaces);
+        $this->assertSame([Brake::class, MotorVehicle::class], $interfaces->map(function (ClassEntity $interface) {
+            return $interface->getName();
+        })->toList());
     }
 
     /**
@@ -111,7 +130,11 @@ class ClassEntityTest extends TestCase
      */
     public function testGetMethods()
     {
-        $this->assertContainsOnlyInstancesOf(MethodEntity::class, $this->Class->getMethods());
+        $methods = $this->Class->getMethods();
+        $this->assertContainsOnlyInstancesOf(MethodEntity::class, $methods);
+        $this->assertSame(['createPuppy', 'setPuppy', 'doMeow', 'setDescription', 'getType'], $methods->map(function (MethodEntity $method) {
+            return $method->getName();
+        })->toList());
     }
 
     /**
@@ -149,7 +172,11 @@ class ClassEntityTest extends TestCase
      */
     public function testGetProperties()
     {
-        $this->assertContainsOnlyInstancesOf(PropertyEntity::class, $this->Class->getProperties());
+        $properties = $this->Class->getProperties();
+        $this->assertContainsOnlyInstancesOf(PropertyEntity::class, $properties);
+        $this->assertSame(['Puppy', 'description', 'isCat'], $properties->map(function (PropertyEntity $property) {
+            return $property->getName();
+        })->toList());
     }
 
     /**
@@ -159,6 +186,19 @@ class ClassEntityTest extends TestCase
     public function testGetSlug()
     {
         $this->assertSame('App-Animals-Cat', $this->Class->getSlug());
+    }
+
+    /**
+     * Test for `getTraits()` method
+     * @test
+     */
+    public function testGetTraits()
+    {
+        $traits = $this->Class->getTraits();
+        $this->assertContainsOnlyInstancesOf(ClassEntity::class, $traits);
+        $this->assertSame(['ColorsTrait', 'PositionTrait'], $traits->map(function (ClassEntity $trait) {
+            return $trait->getShortName();
+        })->toList());
     }
 
     /**

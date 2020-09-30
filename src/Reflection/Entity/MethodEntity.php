@@ -51,7 +51,16 @@ class MethodEntity extends AbstractMethodEntity
     }
 
     /**
-     * Returns `true` if it's static
+     * Returns `true` if the method is abstract
+     * @return bool
+     */
+    public function isAbstract(): bool
+    {
+        return $this->reflectionObject->isAbstract();
+    }
+
+    /**
+     * Returns `true` if the method is static
      * @return bool
      */
     public function isStatic(): bool

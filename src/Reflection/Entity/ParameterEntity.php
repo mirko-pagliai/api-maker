@@ -57,7 +57,7 @@ class ParameterEntity extends AbstractEntity
      * Returns the representation of this object as a signature
      * @return string
      */
-    public function toSignature(): string
+    public function getSignature(): string
     {
         $signature = (string)$this;
 

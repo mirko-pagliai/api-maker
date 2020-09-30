@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection\Entity;
 
+use Cake\Collection\Collection;
 use PhpDocMaker\Reflection\AbstractEntity;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionClassConstant;
@@ -25,9 +26,10 @@ use RuntimeException;
 /**
  * Class entity
  * @method ?string getFilename()
- * @method array getImmediateInterfaces()
  * @method string getNamespaceName()
+ * @method string getShortName()
  * @method bool isAbstract()
+ * @method bool isFinal()
  * @method bool isInterface()
  * @method bool isTrait()
  */
@@ -70,7 +72,7 @@ class ClassEntity extends AbstractEntity
      * Returns the representation of this object as a signature
      * @return string
      */
-    public function toSignature(): string
+    public function getSignature(): string
     {
         return $this->getName();
     }
@@ -87,13 +89,24 @@ class ClassEntity extends AbstractEntity
 
     /**
      * Gets all constants as array of `ConstantEntity`
-     * @return array
+     * @return \Cake\Collection\Collection A collection of `ConstantEntity`
      */
-    public function getConstants(): array
+    public function getConstants(): Collection
     {
-        return array_map(function (ReflectionClassConstant $constant) {
+        return collection($this->reflectionObject->getImmediateReflectionConstants())->map(function (ReflectionClassConstant $constant) {
             return new ConstantEntity($constant);
-        }, $this->reflectionObject->getImmediateReflectionConstants());
+        });
+    }
+
+    /**
+     * Gets all interfaces implemented by this class
+     * @return \Cake\Collection\Collection A collection of `ClassEntity`
+     */
+    public function getInterfaces(): Collection
+    {
+        return collection($this->reflectionObject->getImmediateInterfaces())->map(function (ReflectionClass $interface) {
+            return new ClassEntity($interface);
+        });
     }
 
     /**
@@ -117,13 +130,13 @@ class ClassEntity extends AbstractEntity
 
     /**
      * Gets all methods as array of `MethodEntity`
-     * @return array
+     * @return \Cake\Collection\Collection A collection of `MethodEntity`
      */
-    public function getMethods(): array
+    public function getMethods(): Collection
     {
-        return array_map(function (ReflectionMethod $method) {
+        return collection($this->reflectionObject->getImmediateMethods())->map(function (ReflectionMethod $method) {
             return new MethodEntity($method);
-        }, $this->reflectionObject->getImmediateMethods());
+        });
     }
 
     /**
@@ -154,13 +167,13 @@ class ClassEntity extends AbstractEntity
 
     /**
      * Gets all properties as array of `PropertyEntity`
-     * @return array
+     * @return \Cake\Collection\Collection A collection of `PropertyEntity`
      */
-    public function getProperties(): array
+    public function getProperties(): Collection
     {
-        return array_map(function (ReflectionProperty $property) {
+        return collection($this->reflectionObject->getImmediateProperties())->map(function (ReflectionProperty $property) {
             return new PropertyEntity($property);
-        }, $this->reflectionObject->getImmediateProperties());
+        });
     }
 
     /**
@@ -170,6 +183,17 @@ class ClassEntity extends AbstractEntity
     public function getSlug(): string
     {
         return slug($this->getName(), false);
+    }
+
+    /**
+     * Gets all traits used by this class
+     * @return \Cake\Collection\Collection A collection of `ClassEntity`
+     */
+    public function getTraits(): Collection
+    {
+        return collection($this->reflectionObject->getTraits())->map(function (ReflectionClass $trait) {
+            return new ClassEntity($trait);
+        });
     }
 
     /**

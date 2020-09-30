@@ -58,4 +58,12 @@ abstract class DeprecatedClassExample
      * @see 1
      */
     public function methodWithInvalidTag(): string {}
+
+    /**
+     * This method has an invalid `see` tag
+     * @return string
+     * @@todo This `todo` is invalid
+     * @throws \RuntimeException
+     */
+    public function methodWithAnotherInvalidTag(): string {}
 }

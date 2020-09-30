@@ -14,15 +14,22 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection;
 
+use ArrayAccess;
 use BadMethodCallException;
+use LogicException;
 use Tools\Exceptionist;
 
 /**
  * ParentAbstractEntity class
  * @method string getName() Gets the object name
  */
-abstract class ParentAbstractEntity
+abstract class ParentAbstractEntity implements ArrayAccess
 {
+    /**
+     * @var \Roave\BetterReflection\Reflection\ReflectionClass|\Roave\BetterReflection\Reflection\ReflectionClassConstant|\Roave\BetterReflection\Reflection\ReflectionFunctionAbstract|\Roave\BetterReflection\Reflection\ReflectionParameter|\Roave\BetterReflection\Reflection\ReflectionProperty|\phpDocumentor\Reflection\DocBlock\Tag
+     */
+    protected $reflectionObject;
+
     /**
      * `__call()` magic method.
      *
@@ -49,5 +56,50 @@ abstract class ParentAbstractEntity
      * Returns the representation of this object as a signature
      * @return string
      */
-    abstract public function toSignature(): string;
+    abstract public function getSignature(): string;
+
+    /**
+     * Whether an offset exists
+     * @param mixed $offset An offset to check for
+     * @return bool
+     */
+    public function offsetExists($offset): bool
+    {
+        $method = 'get' . ucfirst($offset);
+
+        return method_exists($this, $method) || method_exists($this->reflectionObject, $method);
+    }
+
+    /**
+     * Offset to retrieve
+     * @param mixed $offset The offset to retrieve
+     * @return mixed
+     */
+    public function offsetGet($offset)
+    {
+        return call_user_func([$this, 'get' . ucfirst($offset)]);
+    }
+
+    /**
+     * Assign a value to the specified offset
+     * @param string $offset The offset to assign the value to
+     * @param mixed $value The value to set
+     * @return void
+     * @throws \LogicException
+     */
+    public function offsetSet($offset, $value): void
+    {
+        throw new LogicException('Attempting to write to an immutable array');
+    }
+
+    /**
+     * Unset an offset
+     * @param string $offset The offset to unset
+     * @return void
+     * @throws \LogicException
+     */
+    public function offsetUnset($offset): void
+    {
+        throw new LogicException('Attempting to write to an immutable array');
+    }
 }

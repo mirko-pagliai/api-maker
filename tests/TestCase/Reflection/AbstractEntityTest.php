@@ -20,6 +20,7 @@ use App\Animals\Dog;
 use App\ArrayExample;
 use App\DeprecatedClassExample;
 use BadMethodCallException;
+use LogicException;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\TestSuite\TestCase;
@@ -45,6 +46,21 @@ class AbstractEntityTest extends TestCase
         $entity->noExistingMethod();
     }
 
+    public function testArrayAccessMethods()
+    {
+        $entity = ClassEntity::createFromName(Cat::class);
+        $this->assertSame('App\Animals\Cat', $entity['name']);
+        $this->assertTrue(isset($entity['name']));
+        $this->assertFalse(isset($entity['noExisting']));
+
+        $this->assertException(LogicException::class, function () use ($entity) {
+            $entity['name'] = 'new name';
+        });
+        $this->assertException(LogicException::class, function () use ($entity) {
+            unset($entity['name']);
+        });
+    }
+
     /**
      * Test for `getDocBlockAsString()`, `getDocBlockDescriptionAsString()` and
      *  `getDocBlockSummaryAsString()` methods
@@ -57,7 +73,7 @@ class AbstractEntityTest extends TestCase
         $expectedDesc = 'Other animal classes have to extend this class.';
         $this->assertSame($expectedSummary, $class->getDocBlockSummaryAsString());
         $this->assertSame($expectedDesc, $class->getDocBlockDescriptionAsString());
-        $this->assertSame($expectedSummary . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
+        $this->assertSame($expectedSummary . PHP_EOL . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
 
         $class = ClassEntity::createFromName(Dog::class);
         $expectedSummary = 'Dog class.';
@@ -67,7 +83,7 @@ Yeah, this is a dog!
 HEREDOC;
         $this->assertSame($expectedSummary, $class->getDocBlockSummaryAsString());
         $this->assertSame($expectedDesc, $class->getDocBlockDescriptionAsString());
-        $this->assertSame($expectedSummary . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
+        $this->assertSame($expectedSummary . PHP_EOL . PHP_EOL . $expectedDesc, $class->getDocBlockAsString());
 
         //Class with no DocBlock
         $this->assertSame('', ClassEntity::createFromName(ArrayExample::class)->getDocBlockAsString());
@@ -82,6 +98,8 @@ HEREDOC;
         $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTags();
         $this->assertNotEmpty($tags);
         $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
+        $this->assertSame('link', $tags->extract('name')->first());
+        $this->assertSame('throws', $tags->extract('name')->last());
     }
 
     /**

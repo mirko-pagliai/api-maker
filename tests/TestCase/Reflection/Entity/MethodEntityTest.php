@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Test\Reflection\Entity;
 
+use App\Animals\Animal;
 use App\Animals\Cat;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
@@ -37,6 +38,16 @@ class MethodEntityTest extends TestCase
     }
 
     /**
+     * Test for `getSignature()` method
+     * @test
+     */
+    public function testGetSignature()
+    {
+        $this->assertSame('createPuppy()', $this->getMethodEntity('createPuppy')->getSignature());
+        $this->assertSame('name(string|null $name = null)', $this->getMethodEntity('name')->getSignature());
+    }
+
+    /**
      * Test for `__toString()` magic method
      * @test
      */
@@ -44,16 +55,6 @@ class MethodEntityTest extends TestCase
     {
         $this->assertSame('App\Animals\Cat::createPuppy()', (string)$this->getMethodEntity('createPuppy'));
         $this->assertSame('App\Animals\Animal::name()', (string)$this->getMethodEntity('name'));
-    }
-
-    /**
-     * Test for `toSignature()` method
-     * @test
-     */
-    public function testToSignature()
-    {
-        $this->assertSame('createPuppy()', $this->getMethodEntity('createPuppy')->toSignature());
-        $this->assertSame('name(string|null $name = null)', $this->getMethodEntity('name')->toSignature());
     }
 
     /**
@@ -88,7 +89,7 @@ class MethodEntityTest extends TestCase
         $this->assertCount(2, $parameters);
         $this->assertContainsOnlyInstancesOf(ParameterEntity::class, $parameters);
 
-        $this->assertSame([], $this->getMethodEntity('createPuppy')->getParameters());
+        $this->assertTrue($this->getMethodEntity('createPuppy')->getParameters()->isEmpty());
     }
 
     /**
@@ -113,12 +114,22 @@ class MethodEntityTest extends TestCase
     }
 
     /**
+     * Test for `isAbstract()` method
+     * @test
+     */
+    public function testIsAbstract()
+    {
+        $this->assertTrue($this->getMethodEntity('createPuppy', Animal::class)->isAbstract());
+        $this->assertFalse($this->getMethodEntity('createPuppy')->isAbstract());
+    }
+
+    /**
      * Test for `isStatic()` method
      * @test
      */
     public function testIsStatic()
     {
-        $this->assertFalse($this->getMethodEntity('setName')->isStatic());
         $this->assertTrue($this->getMethodEntity('getType')->isStatic());
+        $this->assertFalse($this->getMethodEntity('setDescription')->isStatic());
     }
 }

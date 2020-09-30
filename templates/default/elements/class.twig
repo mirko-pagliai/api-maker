@@ -1,68 +1,88 @@
-<h2>{{ class.getType }} <em>{{ class.getShortName }}</em></h2>
+<div class="class-element">
+    <h2>{{ class.getType }} <em>{{ class.getShortName }}</em></h2>
 
-<p>{{ class.getDocBlockAsString }}</p>
+    <div class="description">{{ class.getDocBlockAsString|to_html }}</div>
 
-{%~ if class.getParentClass %}
-<p>Extends <code>{{ class.getParentClass.getName }}</code>.</p>
-{%~ endif %}
-
-{%~ if class.getImmediateInterfaces %}
-<p>Implements {{ class.getImmediateInterfaces|map(interface => "<code>#{interface.getName}</code>")|join(', ') }}.</p>
-{%~ endif %}
-
-{%~ if class.getTraits|length > 0 %}
-<p>Uses {{ class.getTraits|map(trait => "<code>#{trait.getName}</code>")|join(', ') }}.</p>
-{%~ endif %}
-
-{%~ if class.getNamespaceName or class.getFilename %}
-<div class="p-3 mb-2 bg-light text-dark">
-    {%~ if class.getNamespaceName %}
-    <div><strong>Namespace:</strong> {{ class.getNamespaceName }}</div>
+    {%~ if class.getParentClass %}
+    <div class="mb-2">Extends <code>{{ class.getParentClass.getName }}</code>.</div>
     {%~ endif %}
-    {%~ if class.getFilename %}
-    <div><strong>Location:</strong> {{ class.getFilename }}</div>
+
+    {%~ if class.getInterfaces.isEmpty != true %}
+    <div class="mb-2">Implements
+        {%~ if class.getInterfaces|length > 1 %}
+        <ul>
+        {%~ for interface in class.getInterfaces %}
+            <li><code>{{ interface.getName }}</code></li>
+        {%~ endfor %}
+        </ul>
+        {%~ else %}
+        <code>{{ class.getInterfaces.first.getName }}</code>
+        {%~ endif %}
+    </div>
     {%~ endif %}
-</div>
-{%~ endif %}
 
-{%~ if class.getConstants|length > 0 %}
-<h4>Constants summary</h4>
-<ul>
-    {%~ for constant in class.getConstants %}
-    <li>
-        {{ include('elements/constant.twig', {constant: constant}, with_context = false) }}
-    </li>
-    {%~ endfor %}
-</ul>
-{%~ endif %}
+    {%~ if class.getTraits.isEmpty != true %}
+    <div class="mb-2">Uses
+        {%~ if class.getTraits|length > 1 %}
+        <ul>
+        {%~ for trait in class.getTraits %}
+            <li><code>{{ trait.getName }}</code></li>
+        {%~ endfor %}
+        </ul>
+        {%~ else %}
+        <code>{{ class.getTraits.first.getName }}</code>
+        {%~ endif %}
+    </div>
+    {%~ endif %}
 
-{%~ if class.getProperties|length > 0 %}
-<h4>Properties summary</h4>
-<ul>
-    {%~ for property in class.getProperties %}
-    <li>
-        {{ include('elements/property.twig', {property: property}, with_context = false) }}
-    </li>
-    {%~ endfor %}
-</ul>
-{%~ endif %}
+    {%~ if class.getNamespaceName or class.getFilename %}
+    <div class="namespace">
+        {%~ if class.getNamespaceName %}
+        <div><strong>Namespace:</strong> <pre class="d-inline">{{ class.getNamespaceName }}</pre></div>
+        {%~ endif %}
+        {%~ if class.getFilename %}
+        <div><strong>Location:</strong> <pre class="d-inline">{{ class.getFilename }}</pre></div>
+        {%~ endif %}
+    </div>
+    {%~ endif %}
 
-{%~ if class.getMethods|length > 0 %}
-<h4>Methods summary</h4>
-<ul>
+    {%~ if class.getConstants.isEmpty != true %}
+    <h4>Constants summary</h4>
+    <ul>
+        {%~ for constant in class.getConstants %}
+        <li>
+            {{~ include('elements/constant.twig', {constant: constant}, with_context = false) }}
+        </li>
+        {%~ endfor %}
+    </ul>
+    {%~ endif %}
+
+    {%~ if class.getProperties.isEmpty != true %}
+    <h4>Properties summary</h4>
+    <ul>
+        {%~ for property in class.getProperties %}
+        <li>
+            {{~ include('elements/property.twig', {property: property}, with_context = false) }}
+        </li>
+        {%~ endfor %}
+    </ul>
+    {%~ endif %}
+
+    {%~ if class.getMethods.isEmpty != true %}
+    <h4>Methods summary</h4>
+    <ul>
+        {%~ for method in class.getMethods %}
+        <li>
+            {{~ include ('elements/method-summary.twig', {method: method}, with_context = false)|trim }}
+        </li>
+        {%~ endfor %}
+    </ul>
+
+    <h4>Methods detail</h4>
     {%~ for method in class.getMethods %}
-    <li>
-        {{ include ('elements/method-summary.twig', {method: method}, with_context = false)|trim }}
-    </li>
+    <div class="mb-4">
+        {{~ include ('elements/method.twig', {method: method}, with_context = false)|trim }}
+    </div>
     {%~ endfor %}
-</ul>
-{%~ endif %}
-
-{%~ if class.getMethods|length > 0 %}
-<h4>Methods detail</h4>
-{%~ for method in class.getMethods %}
-<div class="mb-4">
-    {{ include ('elements/method.twig', {method: method}, with_context = false)|trim }}
+    {%~ endif %}
 </div>
-{%~ endfor %}
-{%~ endif %}

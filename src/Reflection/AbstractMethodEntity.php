@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection;
 
+use Cake\Collection\Collection;
 use PhpDocMaker\Reflection\AbstractEntity;
 use PhpDocMaker\Reflection\Entity\ParameterEntity;
 use Roave\BetterReflection\Reflection\ReflectionParameter;
@@ -38,7 +39,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
      * Returns the representation of this object as a signature
      * @return string
      */
-    public function toSignature(): string
+    public function getSignature(): string
     {
         return $this->getName() . '(' . $this->getParametersAsString() . ')';
     }
@@ -55,13 +56,13 @@ abstract class AbstractMethodEntity extends AbstractEntity
 
     /**
      * Gets parameters
-     * @return array Array of `ParameterEntity` instances
+     * @return \Cake\Collection\Collection A collection of `ParameterEntity`
      */
-    public function getParameters(): array
+    public function getParameters(): Collection
     {
-        return array_map(function (ReflectionParameter $parameter) {
+        return collection($this->reflectionObject->getParameters())->map(function (ReflectionParameter $parameter) {
             return new ParameterEntity($parameter);
-        }, $this->reflectionObject->getParameters());
+        });
     }
 
     /**
@@ -70,9 +71,7 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getParametersAsString(): string
     {
-        return implode(', ', array_map(function (ParameterEntity $param) {
-            return $param->toSignature();
-        }, $this->getParameters()));
+        return implode(', ', $this->getParameters()->extract('signature')->toList());
     }
 
     /**
@@ -82,7 +81,13 @@ abstract class AbstractMethodEntity extends AbstractEntity
     abstract public function getVisibility(): string;
 
     /**
-     * Returns `true` if it's static
+     * Returns `true` if the method is abstract
+     * @return bool
+     */
+    abstract public function isAbstract(): bool;
+
+    /**
+     * Returns `true` if the method is static
      * @return bool
      */
     abstract public function isStatic(): bool;
