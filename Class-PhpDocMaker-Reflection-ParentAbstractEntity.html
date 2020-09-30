@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>php-doc-maker - Abstract PhpDocMaker\Reflection\AbstractEntity</title>
+        <title>php-doc-maker - Abstract PhpDocMaker\Reflection\ParentAbstractEntity</title>
         <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
         <link rel="stylesheet" href="assets/highlight/styles/default.css">
         <link rel="stylesheet" href="assets/default.css">
@@ -80,101 +80,98 @@
                 </div>
                 <div class="col-md-9 col-lg-8 p-3">
                         <div class="class-element">
-    <h2>Abstract <em>AbstractEntity</em></h2>
+    <h2>Abstract <em>ParentAbstractEntity</em></h2>
 
-    <div class="description"><p>AbstractEntity class</p></div>
+    <div class="description"><p>ParentAbstractEntity class</p></div>
 
-    <div class="mb-2">Extends <code>PhpDocMaker\Reflection\ParentAbstractEntity</code>.</div>
 
+    <div class="mb-2">Implements
+        <code>ArrayAccess</code>
+    </div>
 
 
     <div class="namespace">
         <div><strong>Namespace:</strong> <pre class="d-inline">PhpDocMaker\Reflection</pre></div>
-        <div><strong>Location:</strong> <pre class="d-inline">/home/mirko/Libs/php-doc-maker/src/Reflection/AbstractEntity.php</pre></div>
+        <div><strong>Location:</strong> <pre class="d-inline">/home/mirko/Libs/php-doc-maker/src/Reflection/ParentAbstractEntity.php</pre></div>
     </div>
 
 
+    <h4>Properties summary</h4>
+    <ul>
+        <li>
+<div class="property-element">
+    <div>
+        <code>$reflectionObject</code> <span class="badge badge-light">protected</span>
+    </div>
+    <pre>Roave\BetterReflection\Reflection\ReflectionClass|Roave\BetterReflection\Reflection\ReflectionClassConstant|Roave\BetterReflection\Reflection\ReflectionFunctionAbstract|Roave\BetterReflection\Reflection\ReflectionParameter|Roave\BetterReflection\Reflection\ReflectionProperty|phpDocumentor\Reflection\DocBlock\Tag</pre>
+    <div class="description"></div>
+</div>
+        </li>
+    </ul>
 
     <h4>Methods summary</h4>
     <ul>
         <li>
 <div class="method-summary-element">
     <code>
-        <a href="#getDocBlockInstance">getDocBlockInstance()</a>
-    </code> <span class="badge badge-light">protected</span>
-    <div class="description"><p>Internal method to get the <code>DocBlock</code> instance</p></div>
-
-</div>
-        </li>
-        <li>
-<div class="method-summary-element">
-    <code>
-        <a href="#getDocBlockSummaryAsString">getDocBlockSummaryAsString()</a>
+        <a href="#__call">__call()</a>
     </code> <span class="badge badge-light">public</span>
-    <div class="description"><p>Gets the doc block summary</p></div>
+    <div class="description"><p><code>__call()</code> magic method.</p>
+<p>It allows access to the methods of the reflected object.</p></div>
 
 </div>
         </li>
         <li>
 <div class="method-summary-element">
     <code>
-        <a href="#getDocBlockDescriptionAsString">getDocBlockDescriptionAsString()</a>
+        <a href="#__toString">__toString()</a>
+    </code> <span class="badge badge-light">public</span> <span class="badge badge-light">abstract</span>
+    <div class="description"><p><code>__toString()</code> magic method</p></div>
+
+</div>
+        </li>
+        <li>
+<div class="method-summary-element">
+    <code>
+        <a href="#getSignature">getSignature()</a>
+    </code> <span class="badge badge-light">public</span> <span class="badge badge-light">abstract</span>
+    <div class="description"><p>Returns the representation of this object as a signature</p></div>
+
+</div>
+        </li>
+        <li>
+<div class="method-summary-element">
+    <code>
+        <a href="#offsetExists">offsetExists()</a>
     </code> <span class="badge badge-light">public</span>
-    <div class="description"><p>Gets the doc block description</p></div>
+    <div class="description"><p>Whether an offset exists</p></div>
 
 </div>
         </li>
         <li>
 <div class="method-summary-element">
     <code>
-        <a href="#getDocBlockAsString">getDocBlockAsString()</a>
+        <a href="#offsetGet">offsetGet()</a>
     </code> <span class="badge badge-light">public</span>
-    <div class="description"><p>Gets the doc block as string</p></div>
+    <div class="description"><p>Offset to retrieve</p></div>
 
 </div>
         </li>
         <li>
 <div class="method-summary-element">
     <code>
-        <a href="#parseTags">parseTags()</a>
-    </code> <span class="badge badge-light">protected</span>
-    <div class="description"><p>Internal method to parse tags</p></div>
-
-</div>
-        </li>
-        <li>
-<div class="method-summary-element">
-    <code>
-        <a href="#getTags">getTags()</a>
+        <a href="#offsetSet">offsetSet()</a>
     </code> <span class="badge badge-light">public</span>
-    <div class="description"><p>Gets all tags</p></div>
+    <div class="description"><p>Assign a value to the specified offset</p></div>
 
 </div>
         </li>
         <li>
 <div class="method-summary-element">
     <code>
-        <a href="#getTagsGroupedByName">getTagsGroupedByName()</a>
+        <a href="#offsetUnset">offsetUnset()</a>
     </code> <span class="badge badge-light">public</span>
-    <div class="description"><p>Gets all tags grouped by name</p></div>
-
-</div>
-        </li>
-        <li>
-<div class="method-summary-element">
-    <code>
-        <a href="#getTagsByName">getTagsByName()</a>
-    </code> <span class="badge badge-light">public</span>
-    <div class="description"><p>Gets tags by name</p></div>
-
-</div>
-        </li>
-        <li>
-<div class="method-summary-element">
-    <code>
-        <a href="#hasTag">hasTag()</a>
-    </code> <span class="badge badge-light">public</span>
-    <div class="description"><p>Returns true if the DocBlock has the tag</p></div>
+    <div class="description"><p>Unset an offset</p></div>
 
 </div>
         </li>
@@ -183,190 +180,37 @@
     <h4>Methods detail</h4>
     <div class="mb-4">
 <div class="method-element">
-    <a name="getDocBlockInstance"></a>
-    <div class="title">
-        <div>protected</div>
-        <h5>getDocBlockInstance()</h5>
-    </div>
-    <div class="body">
-        <pre><code class="language-php">getDocBlockInstance(Roave\BetterReflection\Reflection\Reflection|Roave\BetterReflection\Reflection\ReflectionFunctionAbstract|null $reflectionObject = null)</code></pre>
-        <div class="description"><p>Internal method to get the <code>DocBlock</code> instance</p></div>
-
-        <h6>Parameters</h6>
-        <div class="parameter-element">
-            <pre><code class="language-php">Roave\BetterReflection\Reflection\Reflection|Roave\BetterReflection\Reflection\ReflectionFunctionAbstract|null $reflectionObject = null</code></pre>
-            <div class="description"><p>A <code>Reflection</code> object</p></div>
-        </div>
-
-<div class="tag-element">
-    <h6>Return</h6>
-    <div class="mb-3">
-        <pre><code class="language-php">phpDocumentor\Reflection\DocBlock|null</code></pre>
-    </div>
-</div>
-
-    </div>
-</div>
-    </div>
-    <div class="mb-4">
-<div class="method-element">
-    <a name="getDocBlockSummaryAsString"></a>
+    <a name="__call"></a>
     <div class="title">
         <div>public</div>
-        <h5>getDocBlockSummaryAsString()</h5>
+        <h5>__call()</h5>
     </div>
     <div class="body">
-        <pre><code class="language-php">getDocBlockSummaryAsString()</code></pre>
-        <div class="description"><p>Gets the doc block summary</p></div>
-
-
-<div class="tag-element">
-    <h6>Return</h6>
-    <div class="mb-3">
-        <pre><code class="language-php">string</code></pre>
-    </div>
-</div>
-
-    </div>
-</div>
-    </div>
-    <div class="mb-4">
-<div class="method-element">
-    <a name="getDocBlockDescriptionAsString"></a>
-    <div class="title">
-        <div>public</div>
-        <h5>getDocBlockDescriptionAsString()</h5>
-    </div>
-    <div class="body">
-        <pre><code class="language-php">getDocBlockDescriptionAsString()</code></pre>
-        <div class="description"><p>Gets the doc block description</p></div>
-
-
-<div class="tag-element">
-    <h6>Return</h6>
-    <div class="mb-3">
-        <pre><code class="language-php">string</code></pre>
-    </div>
-</div>
-
-    </div>
-</div>
-    </div>
-    <div class="mb-4">
-<div class="method-element">
-    <a name="getDocBlockAsString"></a>
-    <div class="title">
-        <div>public</div>
-        <h5>getDocBlockAsString()</h5>
-    </div>
-    <div class="body">
-        <pre><code class="language-php">getDocBlockAsString()</code></pre>
-        <div class="description"><p>Gets the doc block as string</p></div>
-
-
-<div class="tag-element">
-    <h6>Return</h6>
-    <div class="mb-3">
-        <pre><code class="language-php">string</code></pre>
-    </div>
-</div>
-
-    </div>
-</div>
-    </div>
-    <div class="mb-4">
-<div class="method-element">
-    <a name="parseTags"></a>
-    <div class="title">
-        <div>protected</div>
-        <h5>parseTags()</h5>
-    </div>
-    <div class="body">
-        <pre><code class="language-php">parseTags(array $tags)</code></pre>
-        <div class="description"><p>Internal method to parse tags</p></div>
-
-        <h6>Parameters</h6>
-        <div class="parameter-element">
-            <pre><code class="language-php">array $tags</code></pre>
-            <div class="description"><p>An array of <code>Tag</code> instances</p></div>
-        </div>
-
-<div class="tag-element">
-    <h6>Return</h6>
-    <div class="mb-3">
-        <pre><code class="language-php">Cake\Collection\Collection</code></pre>
-        <div class="description"><p>A <code>Collection</code> of <code>TagEntity</code> instances</p></div>
-    </div>
-</div>
-
-    </div>
-</div>
-    </div>
-    <div class="mb-4">
-<div class="method-element">
-    <a name="getTags"></a>
-    <div class="title">
-        <div>public</div>
-        <h5>getTags()</h5>
-    </div>
-    <div class="body">
-        <pre><code class="language-php">getTags()</code></pre>
-        <div class="description"><p>Gets all tags</p></div>
-
-
-<div class="tag-element">
-    <h6>Return</h6>
-    <div class="mb-3">
-        <pre><code class="language-php">Cake\Collection\Collection</code></pre>
-    </div>
-</div>
-
-    </div>
-</div>
-    </div>
-    <div class="mb-4">
-<div class="method-element">
-    <a name="getTagsGroupedByName"></a>
-    <div class="title">
-        <div>public</div>
-        <h5>getTagsGroupedByName()</h5>
-    </div>
-    <div class="body">
-        <pre><code class="language-php">getTagsGroupedByName()</code></pre>
-        <div class="description"><p>Gets all tags grouped by name</p></div>
-
-
-<div class="tag-element">
-    <h6>Return</h6>
-    <div class="mb-3">
-        <pre><code class="language-php">Cake\Collection\Collection</code></pre>
-    </div>
-</div>
-
-    </div>
-</div>
-    </div>
-    <div class="mb-4">
-<div class="method-element">
-    <a name="getTagsByName"></a>
-    <div class="title">
-        <div>public</div>
-        <h5>getTagsByName()</h5>
-    </div>
-    <div class="body">
-        <pre><code class="language-php">getTagsByName(string $name)</code></pre>
-        <div class="description"><p>Gets tags by name</p></div>
+        <pre><code class="language-php">__call(string $name, array $arguments)</code></pre>
+        <div class="description"><p><code>__call()</code> magic method.</p>
+<p>It allows access to the methods of the reflected object.</p></div>
 
         <h6>Parameters</h6>
         <div class="parameter-element">
             <pre><code class="language-php">string $name</code></pre>
-            <div class="description"><p>Tags</p></div>
+            <div class="description"><p>Method name</p></div>
+        </div>
+        <div class="parameter-element">
+            <pre><code class="language-php">array $arguments</code></pre>
+            <div class="description"><p>Method arguments</p></div>
         </div>
 
 <div class="tag-element">
     <h6>Return</h6>
     <div class="mb-3">
-        <pre><code class="language-php">Cake\Collection\Collection</code></pre>
+        <pre><code class="language-php">mixed</code></pre>
+    </div>
+</div>
+
+<div class="tag-element">
+    <h6>Throws</h6>
+    <div class="mb-3">
+        <pre><code class="language-php">BadMethodCallException</code></pre>
     </div>
 </div>
 
@@ -375,25 +219,168 @@
     </div>
     <div class="mb-4">
 <div class="method-element">
-    <a name="hasTag"></a>
+    <a name="__toString"></a>
     <div class="title">
-        <div>public</div>
-        <h5>hasTag()</h5>
+        <div>public abstract</div>
+        <h5>__toString()</h5>
     </div>
     <div class="body">
-        <pre><code class="language-php">hasTag(string $name)</code></pre>
-        <div class="description"><p>Returns true if the DocBlock has the tag</p></div>
+        <pre><code class="language-php">__toString()</code></pre>
+        <div class="description"><p><code>__toString()</code> magic method</p></div>
+
+
+<div class="tag-element">
+    <h6>Return</h6>
+    <div class="mb-3">
+        <pre><code class="language-php">string</code></pre>
+    </div>
+</div>
+
+    </div>
+</div>
+    </div>
+    <div class="mb-4">
+<div class="method-element">
+    <a name="getSignature"></a>
+    <div class="title">
+        <div>public abstract</div>
+        <h5>getSignature()</h5>
+    </div>
+    <div class="body">
+        <pre><code class="language-php">getSignature()</code></pre>
+        <div class="description"><p>Returns the representation of this object as a signature</p></div>
+
+
+<div class="tag-element">
+    <h6>Return</h6>
+    <div class="mb-3">
+        <pre><code class="language-php">string</code></pre>
+    </div>
+</div>
+
+    </div>
+</div>
+    </div>
+    <div class="mb-4">
+<div class="method-element">
+    <a name="offsetExists"></a>
+    <div class="title">
+        <div>public</div>
+        <h5>offsetExists()</h5>
+    </div>
+    <div class="body">
+        <pre><code class="language-php">offsetExists(mixed $offset)</code></pre>
+        <div class="description"><p>Whether an offset exists</p></div>
 
         <h6>Parameters</h6>
         <div class="parameter-element">
-            <pre><code class="language-php">string $name</code></pre>
-            <div class="description"><p>Tag name</p></div>
+            <pre><code class="language-php">mixed $offset</code></pre>
+            <div class="description"><p>An offset to check for</p></div>
         </div>
 
 <div class="tag-element">
     <h6>Return</h6>
     <div class="mb-3">
         <pre><code class="language-php">bool</code></pre>
+    </div>
+</div>
+
+    </div>
+</div>
+    </div>
+    <div class="mb-4">
+<div class="method-element">
+    <a name="offsetGet"></a>
+    <div class="title">
+        <div>public</div>
+        <h5>offsetGet()</h5>
+    </div>
+    <div class="body">
+        <pre><code class="language-php">offsetGet(mixed $offset)</code></pre>
+        <div class="description"><p>Offset to retrieve</p></div>
+
+        <h6>Parameters</h6>
+        <div class="parameter-element">
+            <pre><code class="language-php">mixed $offset</code></pre>
+            <div class="description"><p>The offset to retrieve</p></div>
+        </div>
+
+<div class="tag-element">
+    <h6>Return</h6>
+    <div class="mb-3">
+        <pre><code class="language-php">mixed</code></pre>
+    </div>
+</div>
+
+    </div>
+</div>
+    </div>
+    <div class="mb-4">
+<div class="method-element">
+    <a name="offsetSet"></a>
+    <div class="title">
+        <div>public</div>
+        <h5>offsetSet()</h5>
+    </div>
+    <div class="body">
+        <pre><code class="language-php">offsetSet(string $offset, mixed $value)</code></pre>
+        <div class="description"><p>Assign a value to the specified offset</p></div>
+
+        <h6>Parameters</h6>
+        <div class="parameter-element">
+            <pre><code class="language-php">string $offset</code></pre>
+            <div class="description"><p>The offset to assign the value to</p></div>
+        </div>
+        <div class="parameter-element">
+            <pre><code class="language-php">mixed $value</code></pre>
+            <div class="description"><p>The value to set</p></div>
+        </div>
+
+<div class="tag-element">
+    <h6>Return</h6>
+    <div class="mb-3">
+        <pre><code class="language-php">void</code></pre>
+    </div>
+</div>
+
+<div class="tag-element">
+    <h6>Throws</h6>
+    <div class="mb-3">
+        <pre><code class="language-php">LogicException</code></pre>
+    </div>
+</div>
+
+    </div>
+</div>
+    </div>
+    <div class="mb-4">
+<div class="method-element">
+    <a name="offsetUnset"></a>
+    <div class="title">
+        <div>public</div>
+        <h5>offsetUnset()</h5>
+    </div>
+    <div class="body">
+        <pre><code class="language-php">offsetUnset(string $offset)</code></pre>
+        <div class="description"><p>Unset an offset</p></div>
+
+        <h6>Parameters</h6>
+        <div class="parameter-element">
+            <pre><code class="language-php">string $offset</code></pre>
+            <div class="description"><p>The offset to unset</p></div>
+        </div>
+
+<div class="tag-element">
+    <h6>Return</h6>
+    <div class="mb-3">
+        <pre><code class="language-php">void</code></pre>
+    </div>
+</div>
+
+<div class="tag-element">
+    <h6>Throws</h6>
+    <div class="mb-3">
+        <pre><code class="language-php">LogicException</code></pre>
     </div>
 </div>
 
