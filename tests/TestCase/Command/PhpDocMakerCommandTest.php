@@ -111,7 +111,9 @@ HEREDOC;
         $this->assertStringContainsString('Sources directory: ' . $source, $output);
         $this->assertStringContainsString('Target directory: ' . $target, $output);
         $this->assertStringContainsString('Rendered index page', $output);
+        $this->assertStringContainsString('Rendering functions page', $output);
         $this->assertStringContainsString('Rendered functions page', $output);
+        $this->assertStringContainsString('Rendering class page for', $output);
         $this->assertStringContainsString('Rendered class page for', $output);
     }
 

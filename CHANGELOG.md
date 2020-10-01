@@ -1,5 +1,9 @@
 # 1.x branch
 ## 1.0 branch
+### 1.0.3-beta4
+* added `functions.rendering` and `class.rendering` events, dispatched by
+    `PhpDocMaker`. This allows easier identification of errors.
+
 ### 1.0.2-beta3
 * now all tags for methods, properties and constants are shown correctly;
 * added `TagEntity`, which now represents the tags;

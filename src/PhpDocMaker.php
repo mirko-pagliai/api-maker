@@ -179,6 +179,7 @@ class PhpDocMaker
 
         //Renders functions page
         if ($functions) {
+            $this->dispatchEvent('functions.rendering');
             $output = $this->Twig->render('functions.twig', compact('functions'));
             $this->Filesystem->dumpFile($target . DS . 'functions.html', $output);
             $this->dispatchEvent('functions.rendered');
@@ -186,6 +187,7 @@ class PhpDocMaker
 
         //Renders each class page
         foreach ($classes as $class) {
+            $this->dispatchEvent('class.rendering', [$class]);
             $output = $this->Twig->render('class.twig', compact('class'));
             $this->Filesystem->dumpFile($target . DS . 'Class-' . $class->getSlug() . '.html', $output);
             $this->dispatchEvent('class.rendered', [$class]);

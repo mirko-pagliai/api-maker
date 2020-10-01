@@ -37,8 +37,10 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
         return [
             'classes.founded' => 'onClassFounded',
             'class.rendered' => 'onClassRendered',
+            'class.rendering' => 'onClassRendering',
             'functions.founded' => 'onFunctionsFounded',
             'functions.rendered' => 'onFunctionsRendered',
+            'functions.rendering' => 'onFunctionsRendering',
             'index.rendered' => 'onIndexRendered',
             'menu.rendered' => 'onMenuRendered',
         ];
@@ -74,6 +76,16 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * `class.rendering` event
+     * @param \Tools\Event\Event $event The `Event` instance
+     * @return void
+     */
+    public function onClassRendering(Event $event): void
+    {
+        $this->io->text(sprintf('Rendering class page for %s', $event->getArg(0)->getName()));
+    }
+
+    /**
      * `functions.founded` event
      * @param \Tools\Event\Event $event The `Event` instance
      * @return void
@@ -90,6 +102,15 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
     public function onFunctionsRendered(): void
     {
         $this->io->text(sprintf('Rendered functions page'));
+    }
+
+    /**
+     * `functions.rendering` event
+     * @return void
+     */
+    public function onFunctionsRendering(): void
+    {
+        $this->io->text(sprintf('Rendering functions page'));
     }
 
     /**
