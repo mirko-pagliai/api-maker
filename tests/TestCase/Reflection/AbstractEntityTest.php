@@ -126,13 +126,18 @@ HEREDOC;
      */
     public function testGetTagsByName()
     {
-        $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTagsByName('link');
-        $this->assertFalse($tags->isEmpty());
+        $method = ClassEntity::createFromName(Cat::class)->getMethod('doMeow');
+
+        $tags = $method->getTagsByName('link');
+        $this->assertCount(2, $tags);
         $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
 
-        $entity = ClassEntity::createFromName(DeprecatedClassExample::class);
-        $tags = $entity->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('link');
-        $this->assertTrue($tags->isEmpty());
+        $tags = $method->getTagsByName('see');
+        $this->assertCount(1, $tags);
+        $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
+
+        $tags = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('link');
+        $this->assertCount(0, $tags);
     }
 
     /**

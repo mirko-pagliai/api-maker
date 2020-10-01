@@ -90,6 +90,7 @@ class Cat extends Animal
      * @param string $meow Type of meow
      * @return void This method returns void
      * @throws RuntimeException With a bad "meow"
+     * @link https://en.wikipedia.org/wiki/Cat_communication
      * @link https://en.wikipedia.org/wiki/Meow
      * @see \OtherClass::otherMethod()
      * @since 1.4.0

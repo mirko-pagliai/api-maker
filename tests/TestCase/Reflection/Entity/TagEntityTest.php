@@ -92,7 +92,6 @@ class TagEntityTest extends TestCase
     public function testGetDescription()
     {
         foreach ([
-            'link' => 'https://en.wikipedia.org/wiki/Meow',
             'param' => 'Type of meow',
             'return' => 'This method returns void',
             'see' => 'OtherClass::otherMethod()',
