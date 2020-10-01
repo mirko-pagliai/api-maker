@@ -125,28 +125,28 @@ class PhpDocMakerCommand extends Command
             $output->writeln($newLine);
         }
 
+        //Parses options
+        $options = [];
+        if ($input->getOption('no-cache')) {
+            $options['cache'] = false;
+        }
+        foreach (['debug', 'title'] as $name) {
+            if ($input->getOption($name)) {
+                $options[$name] = $input->getOption($name);
+            }
+        }
+
+        //Turns all PHP errors into exceptions
+        set_error_handler(function ($severity, $message, $filename, $lineno) {
+            //Error was suppressed with the @-operator
+            if (0 === error_reporting()) {
+                return false;
+            }
+
+            throw new ErrorException($message, 0, $severity, $filename, $lineno);
+        });
+
         try {
-            //Turns all PHP errors into exceptions
-            set_error_handler(function ($severity, $message, $filename, $lineno) {
-                //Error was suppressed with the @-operator
-                if (0 === error_reporting()) {
-                    return false;
-                }
-
-                throw new ErrorException($message, 0, $severity, $filename, $lineno);
-            });
-
-            //Parses options
-            $options = [];
-            if ($input->getOption('no-cache')) {
-                $options['cache'] = false;
-            }
-            foreach (['debug', 'title'] as $name) {
-                if ($input->getOption($name)) {
-                    $options[$name] = $input->getOption($name);
-                }
-            }
-
             $this->PhpDocMaker = $this->PhpDocMaker ?: new PhpDocMaker($source, $options);
             $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new PhpDocMakerCommandSubscriber($io));
             $this->PhpDocMaker->build($target);
