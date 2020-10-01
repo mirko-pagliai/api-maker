@@ -73,6 +73,8 @@ class TagEntity extends ParentAbstractEntity
      */
     public function getDescription(): string
     {
+        $description = '';
+
         //First it looks for alternative methods to the `getDescription()` method
         foreach (['getLink', 'getReference', 'getVersion'] as $methodToCall) {
             if (method_exists($this->reflectionObject, $methodToCall)) {
@@ -81,7 +83,9 @@ class TagEntity extends ParentAbstractEntity
             }
         }
 
-        $description = $description ?? $this->reflectionObject->getDescription();
+        if (!$description && method_exists($this->reflectionObject, 'getDescription')) {
+            $description = $this->reflectionObject->getDescription();
+        }
 
         return ltrim((string)$description, '\\');
     }
