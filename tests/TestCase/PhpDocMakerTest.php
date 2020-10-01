@@ -74,12 +74,22 @@ class PhpDocMakerTest extends TestCase
         create_file(TMP . 'output' . DS . 'cache' . DS . 'example');
 
         $this->PhpDocMaker->Twig = $this->getTwigMock();
-        $dispatcher = $this->PhpDocMaker->getEventDispatcher();
         $this->PhpDocMaker->build($target);
         $this->assertFileExists($cacheFile);
 
-        $this->assertEventFired('classes.founded', $dispatcher);
-        $this->assertEventFired('functions.founded', $dispatcher);
+        $expectedEventFired = [
+            'classes.founded',
+            'functions.founded',
+            'menu.rendered',
+            'index.rendered',
+            'functions.rendering',
+            'functions.rendered',
+            'class.rendering',
+            'class.rendered',
+        ];
+        foreach ($expectedEventFired as $event) {
+            $this->assertEventFired($event, $this->PhpDocMaker->getEventDispatcher());
+        }
 
         $this->assertFileExists($target . DS . 'assets' . DS . 'bootstrap' . DS . 'bootstrap.min.css');
         $this->assertFileExists($target . DS . 'assets' . DS . 'highlight' . DS . 'styles' . DS . 'default.css');
