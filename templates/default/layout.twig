@@ -21,7 +21,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 col-lg-4 p-3">
-                    {{~ source('@target/layout/menu.html') }}
+                    {{~ source('@temp/menu.html') }}
                 </div>
                 <div class="col-md-9 col-lg-8 p-3">
                     {%~ if block("content") is defined %}
@@ -31,6 +31,6 @@
             </div>
         </div>
 
-        {{~ source('@target/layout/footer.html') }}
+        {{~ source('@temp/footer.html') }}
     </body>
 </html>

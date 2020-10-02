@@ -94,7 +94,6 @@ class PhpDocMakerTest extends TestCase
         $this->assertFileExists($target . DS . 'assets' . DS . 'highlight' . DS . 'styles' . DS . 'default.css');
         $this->assertFileExists($target . DS . 'assets' . DS . 'highlight' . DS . 'highlight.pack.js');
         $this->assertFileExists($target . DS . 'cache');
-        $this->assertFileExists($target . DS . 'layout' . DS . 'menu.html');
         $this->assertFileExists($target . DS . 'functions.html');
         $this->assertFileExists($target . DS . 'index.html');
 

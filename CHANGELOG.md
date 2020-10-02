@@ -6,8 +6,8 @@
     now cached;
 * added `functions.rendering` and `class.rendering` events, dispatched by
     `PhpDocMaker`. This allows easier identification of errors;
-* the footer is rendered as a static element (as for the menu). Removed the
-    `menu.rendered` event (it was useless).
+* the footer is rendered as a static element, as for the menu, and these files are
+    rendered in a temporary directory. Removed the useless `menu.rendered` event.
 
 ### 1.0.2-beta3
 * now all tags for methods, properties and constants are shown correctly;

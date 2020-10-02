@@ -144,16 +144,20 @@ class PhpDocMaker
     public function build(string $target): void
     {
         $this->Filesystem->mkdir($target, 0755);
-        $this->Twig->getLoader()->addPath($target, 'target');
         $this->Twig->addGlobal('project', array_intersect_key($this->options, array_flip(['title'])));
 
+        //Handles temporary directory
+        $temp = $target . DS . 'temp' . DS;
+        $this->Filesystem->mkdir($temp, 0755);
+        $this->Twig->getLoader()->addPath($temp, 'temp');
+
         //Handles cache
-        $cache = $target . DS . 'cache';
+        $cache = $target . DS . 'cache' . DS;
         if ($this->options['cache']) {
             $this->Filesystem->mkdir($cache, 0755);
             $this->Twig->setCache($cache);
-        } elseif (is_readable($cache)) {
-            unlink_recursive($cache);
+        } else {
+            unlink_recursive($cache, false, true);
         }
 
         //Copies assets files
@@ -171,9 +175,9 @@ class PhpDocMaker
 
         //Renders menu and footer
         $output = $this->Twig->render('layout/footer.twig');
-        $this->Filesystem->dumpFile($target . DS . 'layout' . DS . 'footer.html', $output);
+        $this->Filesystem->dumpFile($temp . 'footer.html', $output);
         $output = $this->Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => !empty($functions)]);
-        $this->Filesystem->dumpFile($target . DS . 'layout' . DS . 'menu.html', $output);
+        $this->Filesystem->dumpFile($temp . 'menu.html', $output);
 
         //Renders index page
         $output = $this->Twig->render('index.twig', compact('classes'));
@@ -195,5 +199,7 @@ class PhpDocMaker
             $this->Filesystem->dumpFile($target . DS . 'Class-' . $class->getSlug() . '.html', $output);
             $this->dispatchEvent('class.rendered', [$class]);
         }
+
+        unlink_recursive($temp, false, true);
     }
 }
