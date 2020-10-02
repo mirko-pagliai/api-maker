@@ -169,10 +169,11 @@ class PhpDocMaker
         $functions = $this->ClassesExplorer->getAllFunctions();
         $this->dispatchEvent('functions.founded', [$functions]);
 
-        //Renders the menu
+        //Renders menu and footer
+        $output = $this->Twig->render('layout/footer.twig');
+        $this->Filesystem->dumpFile($target . DS . 'layout' . DS . 'footer.html', $output);
         $output = $this->Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => !empty($functions)]);
         $this->Filesystem->dumpFile($target . DS . 'layout' . DS . 'menu.html', $output);
-        $this->dispatchEvent('menu.rendered');
 
         //Renders index page
         $output = $this->Twig->render('index.twig', compact('classes'));

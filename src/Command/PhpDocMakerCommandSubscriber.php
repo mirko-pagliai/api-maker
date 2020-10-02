@@ -42,7 +42,6 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
             'functions.rendered' => 'onFunctionsRendered',
             'functions.rendering' => 'onFunctionsRendering',
             'index.rendered' => 'onIndexRendered',
-            'menu.rendered' => 'onMenuRendered',
         ];
     }
 
@@ -120,14 +119,5 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
     public function onIndexRendered(): void
     {
         $this->io->text(sprintf('Rendered index page'));
-    }
-
-    /**
-     * `menu.rendered` event
-     * @return void
-     */
-    public function onMenuRendered(): void
-    {
-        $this->io->text(sprintf('Rendered menu element'));
     }
 }

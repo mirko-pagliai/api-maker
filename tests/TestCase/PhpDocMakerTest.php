@@ -80,7 +80,6 @@ class PhpDocMakerTest extends TestCase
         $expectedEventFired = [
             'classes.founded',
             'functions.founded',
-            'menu.rendered',
             'index.rendered',
             'functions.rendering',
             'functions.rendered',

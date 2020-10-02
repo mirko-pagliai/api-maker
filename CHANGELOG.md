@@ -5,7 +5,9 @@
     and `AbstractMethodEntity::getParameters()` methods. The return values are
     now cached;
 * added `functions.rendering` and `class.rendering` events, dispatched by
-    `PhpDocMaker`. This allows easier identification of errors.
+    `PhpDocMaker`. This allows easier identification of errors;
+* the footer is rendered as a static element (as for the menu). Removed the
+    `menu.rendered` event (it was useless).
 
 ### 1.0.2-beta3
 * now all tags for methods, properties and constants are shown correctly;
