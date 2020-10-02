@@ -147,11 +147,13 @@ class PhpDocMaker
         $this->Twig->getLoader()->addPath($target, 'target');
         $this->Twig->addGlobal('project', array_intersect_key($this->options, array_flip(['title'])));
 
+        //Handles cache
+        $cache = $target . DS . 'cache';
         if ($this->options['cache']) {
-            $this->Filesystem->mkdir($target . DS . 'cache', 0755);
-            $this->Twig->setCache($target . DS . 'cache');
-        } else {
-            unlink_recursive($target . DS . 'cache');
+            $this->Filesystem->mkdir($cache, 0755);
+            $this->Twig->setCache($cache);
+        } elseif (is_readable($cache)) {
+            unlink_recursive($cache);
         }
 
         //Copies assets files
