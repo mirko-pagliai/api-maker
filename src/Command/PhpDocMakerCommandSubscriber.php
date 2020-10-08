@@ -35,7 +35,7 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'classes.founded' => 'onClassFounded',
+            'classes.founded' => 'onClassesFounded',
             'class.rendered' => 'onClassRendered',
             'class.rendering' => 'onClassRendering',
             'functions.founded' => 'onFunctionsFounded',
@@ -52,18 +52,6 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
     public function __construct(SymfonyStyle $io)
     {
         $this->io = $io;
-    }
-
-    /**
-     * `classes.founded` event
-     * @param \Tools\Event\Event $event The `Event` instance
-     * @return void
-     */
-    public function onClassFounded(Event $event): void
-    {
-        /* @var $classes \PhpDocMaker\Reflection\Entity\ClassEntity */
-        $classes = $event->getArg(0);
-        $this->io->text(sprintf('Founded %d classes', $classes->count()));
     }
 
     /**
@@ -88,6 +76,18 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
         /* @var $class \PhpDocMaker\Reflection\Entity\ClassEntity */
         $class = $event->getArg(0);
         $this->io->text(sprintf('Rendering class page for %s', $class->getName()));
+    }
+
+    /**
+     * `classes.founded` event
+     * @param \Tools\Event\Event $event The `Event` instance
+     * @return void
+     */
+    public function onClassesFounded(Event $event): void
+    {
+        /* @var $classes \PhpDocMaker\Reflection\Entity\ClassEntity */
+        $classes = $event->getArg(0);
+        $this->io->text(sprintf('Founded %d classes', $classes->count()));
     }
 
     /**
