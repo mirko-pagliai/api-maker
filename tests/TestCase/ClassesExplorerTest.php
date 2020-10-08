@@ -38,7 +38,7 @@ class ClassesExplorerTest extends TestCase
     {
         parent::setUp();
 
-        $this->ClassesExplorer = new ClassesExplorer(TESTS . DS . 'test_app');
+        $this->ClassesExplorer = $this->ClassesExplorer ?? $this->getClassesExplorerInstance(TESTS . DS . 'test_app');
     }
 
     /**

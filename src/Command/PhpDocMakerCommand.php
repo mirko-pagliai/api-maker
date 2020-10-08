@@ -105,8 +105,8 @@ class PhpDocMakerCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $newLine = str_repeat('=', (new Terminal())->getWidth());
-        $start = microtime(true);
         [$source, $target] = [$input->getArgument('source'), $input->getOption('target')];
+        $start = microtime(true);
 
         $io->text('Sources directory: ' . $source);
         $io->text('Target directory: ' . $target);
@@ -147,7 +147,7 @@ class PhpDocMakerCommand extends Command
         });
 
         try {
-            $this->PhpDocMaker = $this->PhpDocMaker ?: new PhpDocMaker($source, $options);
+            $this->PhpDocMaker = $this->PhpDocMaker ?? new PhpDocMaker($source, $options);
             $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new PhpDocMakerCommandSubscriber($io));
             $this->PhpDocMaker->build($target);
         } catch (Exception $e) {

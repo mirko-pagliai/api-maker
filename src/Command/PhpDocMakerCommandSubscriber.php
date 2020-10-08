@@ -61,7 +61,9 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onClassFounded(Event $event): void
     {
-        $this->io->text(sprintf('Founded %d classes', $event->getArg(0)->count()));
+        /* @var $classes \PhpDocMaker\Reflection\Entity\ClassEntity */
+        $classes = $event->getArg(0);
+        $this->io->text(sprintf('Founded %d classes', $classes->count()));
     }
 
     /**
@@ -71,7 +73,9 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onClassRendered(Event $event): void
     {
-        $this->io->text(sprintf('Rendered class page for %s', $event->getArg(0)->getName()));
+        /* @var $class \PhpDocMaker\Reflection\Entity\ClassEntity */
+        $class = $event->getArg(0);
+        $this->io->text(sprintf('Rendered class page for %s', $class->getName()));
     }
 
     /**
@@ -81,7 +85,9 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onClassRendering(Event $event): void
     {
-        $this->io->text(sprintf('Rendering class page for %s', $event->getArg(0)->getName()));
+        /* @var $class \PhpDocMaker\Reflection\Entity\ClassEntity */
+        $class = $event->getArg(0);
+        $this->io->text(sprintf('Rendering class page for %s', $class->getName()));
     }
 
     /**
@@ -91,7 +97,9 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onFunctionsFounded(Event $event): void
     {
-        $this->io->text(sprintf('Founded %d functions', $event->getArg(0)->count()));
+        /* @var $functions \Cake\Collection\Collection */
+        $functions = $event->getArg(0);
+        $this->io->text(sprintf('Founded %d functions', $functions->count()));
     }
 
     /**
