@@ -34,6 +34,11 @@ class PhpDocMakerTest extends TestCase
     protected $PhpDocMaker;
 
     /**
+     * @var string
+     */
+    protected $target = TMP . 'output' . DS;
+
+    /**
      * Called before each test
      * @return void
      */
@@ -42,6 +47,17 @@ class PhpDocMakerTest extends TestCase
         parent::setUp();
 
         $this->PhpDocMaker = $this->PhpDocMaker ?? new PhpDocMaker(TESTS . DS . 'test_app', ['debug' => true]);
+    }
+
+    /**
+     * Teardown any static object changes and restore them
+     * @return void
+     */
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        unlink_recursive($this->target);
     }
 
     /**
@@ -67,13 +83,11 @@ class PhpDocMakerTest extends TestCase
      */
     public function testBuild()
     {
-        $target = TMP . 'output';
-        rmdir_recursive($target);
-        $cacheFile = TMP . 'output' . DS . 'cache' . DS . 'example';
+        $cacheFile = $this->target . 'cache' . DS . 'example';
         create_file($cacheFile);
 
         $this->PhpDocMaker->Twig = $this->getTwigMock();
-        $this->PhpDocMaker->build($target);
+        $this->PhpDocMaker->build($this->target);
 
         foreach ([
             'classes.founded',
@@ -95,13 +109,14 @@ class PhpDocMakerTest extends TestCase
             'functions.html',
             'index.html',
         ] as $expectedFile) {
-            $this->assertFileExists($target . DS . $expectedFile);
+            $this->assertFileExists($this->target . $expectedFile);
         }
         $this->assertFileExists($cacheFile);
 
+        //In this case the cache will not be used and will be emptied
         $PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app', ['cache' => false]);
         $PhpDocMaker->Twig = $this->getTwigMock();
-        $PhpDocMaker->build($target);
+        $PhpDocMaker->build($this->target);
         $this->assertFileNotExists($cacheFile);
     }
 }

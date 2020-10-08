@@ -78,14 +78,20 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
-     * Gets a mock of Twig (`Environment`). It does not render template files
+     * Gets a mock of Twig (`Environment`).
+     *
+     * The `render()` method is a stub, so it does not render template files.
      * @return \Twig\Environment
      */
     protected function getTwigMock(): Environment
     {
         return $this->getMockBuilder(Environment::class)
-            ->setConstructorArgs([new FilesystemLoader(PhpDocMaker::getTemplatePath())])
-            ->setMethods(['addPath', 'render', 'setCache'])
+            ->setConstructorArgs([new FilesystemLoader(PhpDocMaker::getTemplatePath()), [
+                'debug' => true,
+                'autoescape' => false,
+                'strict_variables' => true,
+            ]])
+            ->setMethods(['render'])
             ->getMock();
     }
 }
