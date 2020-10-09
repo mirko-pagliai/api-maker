@@ -47,8 +47,7 @@ class PhpDocMakerCommandTest extends TestCase
         $target = TMP . 'output';
 
         $Command = new PhpDocMakerCommand();
-        $Command->PhpDocMaker = new PhpDocMaker($source);
-        $Command->PhpDocMaker->Twig = $this->getTwigMock();
+        $Command->PhpDocMaker = $this->getPhpDocMakerMock();
         $Command->PhpDocMaker->Filesystem = $this->getMockBuilder(Filesystem::class)
             ->setMethods(['dumpFile', 'mirror'])
             ->getMock();

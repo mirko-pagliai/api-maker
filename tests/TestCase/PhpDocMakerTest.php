@@ -44,10 +44,7 @@ class PhpDocMakerTest extends TestCase
     {
         parent::setUp();
 
-        if (!$this->PhpDocMaker) {
-            $this->PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app', ['debug' => true]);
-            $this->PhpDocMaker->Twig = $this->getTwigMock();
-        }
+        $this->PhpDocMaker = $this->PhpDocMaker ?? $this->getPhpDocMakerMock();
     }
 
     /**

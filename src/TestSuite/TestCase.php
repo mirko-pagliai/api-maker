@@ -78,6 +78,25 @@ abstract class TestCase extends BaseTestCase
     }
 
     /**
+     * Gets a mock of `PhpDocMaker`.
+     *
+     * Includes a mock of Twig (`Environment`), so it does not render template
+     *  files.
+     * @return \PhpDocMaker\PhpDocMaker
+     */
+    protected function getPhpDocMakerMock(): PhpDocMaker
+    {
+        $PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
+            ->setConstructorArgs([TESTS . DS . 'test_app', ['debug' => true]])
+            ->setMethods(['getTwig'])
+            ->getMock();
+
+        $PhpDocMaker->method('getTwig')->willReturn($this->getTwigMock());
+
+        return $PhpDocMaker;
+    }
+
+    /**
      * Gets a mock of Twig (`Environment`).
      *
      * The `render()` method is a stub, so it does not render template files.
