@@ -32,11 +32,6 @@ class PhpDocMaker
     use EventDispatcherTrait;
 
     /**
-     * @var \PhpDocMaker\ClassesExplorer
-     */
-    protected $ClassesExplorer;
-
-    /**
      * @var \Symfony\Component\Filesystem\Filesystem
      */
     public $Filesystem;
@@ -66,7 +61,6 @@ class PhpDocMaker
         $this->source = $source;
 
         $this->setOption($options);
-        $this->ClassesExplorer = new ClassesExplorer($source);
         $this->Filesystem = new Filesystem();
     }
 
@@ -158,7 +152,7 @@ class PhpDocMaker
     public function build(string $target): void
     {
         $this->Filesystem->mkdir($target, 0755);
-
+        $ClassesExplorer = new ClassesExplorer($this->source);
         $Twig = $this->getTwig($this->options['debug']);
         $Twig->addGlobal('project', array_intersect_key($this->options, array_flip(['title'])));
 
@@ -182,11 +176,11 @@ class PhpDocMaker
         }
 
         //Gets all classes
-        $classes = $this->ClassesExplorer->getAllClasses();
+        $classes = $ClassesExplorer->getAllClasses();
         $this->dispatchEvent('classes.founded', [$classes]);
 
         //Gets all functions
-        $functions = $this->ClassesExplorer->getAllFunctions();
+        $functions = $ClassesExplorer->getAllFunctions();
         $this->dispatchEvent('functions.founded', [$functions]);
 
         //Renders menu and footer
