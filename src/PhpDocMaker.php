@@ -84,6 +84,15 @@ class PhpDocMaker
     }
 
     /**
+     * Gets options
+     * @return array
+     */
+    public function getOptions(): array
+    {
+        return $this->options;
+    }
+
+    /**
      * Sets options at runtime.
      *
      * It's also possible to pass an array with names and values to set multiple
@@ -124,15 +133,6 @@ class PhpDocMaker
         }
 
         return $twig;
-    }
-
-    /**
-     * Gets options
-     * @return array
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
     }
 
     /**
