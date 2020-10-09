@@ -59,6 +59,16 @@ class PhpDocMakerTest extends TestCase
     }
 
     /**
+     * Test for `__get()` magic method
+     * @test
+     */
+    public function testGetMagicMethod()
+    {
+        $this->assertNotEmpty($this->PhpDocMaker->options);
+        $this->assertNotEmpty($this->PhpDocMaker->source);
+    }
+
+    /**
      * Test for `setOption()` method
      * @test
      */
@@ -68,7 +78,7 @@ class PhpDocMakerTest extends TestCase
             'cache' => true,
             'title' => 'test_app',
             'debug' => true,
-        ], $this->PhpDocMaker->getOptions());
+        ], $this->PhpDocMaker->options);
 
         $result = $this->PhpDocMaker->setOption('cache', false);
         $this->assertInstanceOf(PhpDocMaker::class, $result);
@@ -76,14 +86,14 @@ class PhpDocMakerTest extends TestCase
             'cache' => false,
             'title' => 'test_app',
             'debug' => true,
-        ], $this->PhpDocMaker->getOptions());
+        ], $this->PhpDocMaker->options);
 
         $this->PhpDocMaker->setOption(['title' => 'a new title', 'debug' => false]);
         $this->assertEquals([
             'cache' => false,
             'title' => 'a new title',
             'debug' => false,
-        ], $this->PhpDocMaker->getOptions());
+        ], $this->PhpDocMaker->options);
     }
 
     /**

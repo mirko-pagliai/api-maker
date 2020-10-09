@@ -19,6 +19,7 @@ use PhpDocMaker\ClassesExplorer;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Tools\Event\EventDispatcherTrait;
+use Tools\Exceptionist;
 use Twig\Environment;
 use Twig\Extension\DebugExtension;
 use Twig\Loader\FilesystemLoader;
@@ -59,6 +60,21 @@ class PhpDocMaker
     }
 
     /**
+     * "Get" magic method.
+     *
+     * Allows secure access to the class properties.
+     * @param string $name Property name
+     * @return mixed Property value
+     * @throws \Tools\Exception\PropertyNotExistsException
+     */
+    public function __get(string $name)
+    {
+        Exceptionist::objectPropertyExists($this, $name);
+
+        return $this->$name;
+    }
+
+    /**
      * Sets the default options
      * @param \Symfony\Component\OptionsResolver\OptionsResolver $resolver An `OptionsResolver` instance
      * @return void
@@ -78,15 +94,6 @@ class PhpDocMaker
     }
 
     /**
-     * Gets options
-     * @return array
-     */
-    public function getOptions(): array
-    {
-        return $this->options;
-    }
-
-    /**
      * Sets options at runtime.
      *
      * It's also possible to pass an array with names and values to set multiple
@@ -97,7 +104,7 @@ class PhpDocMaker
      */
     public function setOption($name, $value = null)
     {
-        $options = (is_array($name) ? $name : [$name => $value]) + $this->getOptions();
+        $options = (is_array($name) ? $name : [$name => $value]) + $this->options;
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
         $this->options = $resolver->resolve($options);
