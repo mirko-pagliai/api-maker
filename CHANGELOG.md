@@ -1,6 +1,7 @@
 # 1.x branch
 ## 1.0 branch
 ### 1.0.3-beta4
+* added `PhpDocMaker::setOption()` method;
 * improved `AbstractEntity::getDocBlockInstance()`, `AbstractEntity::getTags()`
     and `AbstractMethodEntity::getParameters()` methods. The return values are
     now cached;

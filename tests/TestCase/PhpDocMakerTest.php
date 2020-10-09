@@ -18,8 +18,6 @@ namespace PhpDocMaker\Test;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
 use Tools\TestSuite\EventAssertTrait;
-use Twig\Environment;
-use Twig\Extension\DebugExtension;
 
 /**
  * PhpDocMakerTest class
@@ -46,7 +44,10 @@ class PhpDocMakerTest extends TestCase
     {
         parent::setUp();
 
-        $this->PhpDocMaker = $this->PhpDocMaker ?? new PhpDocMaker(TESTS . DS . 'test_app', ['debug' => true]);
+        if (!$this->PhpDocMaker) {
+            $this->PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app', ['debug' => true]);
+            $this->PhpDocMaker->Twig = $this->getTwigMock();
+        }
     }
 
     /**
@@ -61,19 +62,30 @@ class PhpDocMakerTest extends TestCase
     }
 
     /**
-     * Test for `__construct()` method
+     * Test for `setOption()` method
      * @test
      */
-    public function testConstruct()
+    public function testSetOption()
     {
-        $this->assertInstanceof(Environment::class, $this->PhpDocMaker->Twig);
-        $this->assertTrue($this->PhpDocMaker->Twig->isDebug());
-        $this->assertTrue($this->PhpDocMaker->Twig->isStrictVariables());
-        $this->assertNotEmpty($this->PhpDocMaker->Twig->getExtension(DebugExtension::class));
         $this->assertEquals([
             'cache' => true,
             'title' => 'test_app',
             'debug' => true,
+        ], $this->PhpDocMaker->getOptions());
+
+        $result = $this->PhpDocMaker->setOption('cache', false);
+        $this->assertInstanceOf(PhpDocMaker::class, $result);
+        $this->assertEquals([
+            'cache' => false,
+            'title' => 'test_app',
+            'debug' => true,
+        ], $this->PhpDocMaker->getOptions());
+
+        $this->PhpDocMaker->setOption(['title' => 'a new title', 'debug' => false]);
+        $this->assertEquals([
+            'cache' => false,
+            'title' => 'a new title',
+            'debug' => false,
         ], $this->PhpDocMaker->getOptions());
     }
 
@@ -86,7 +98,6 @@ class PhpDocMakerTest extends TestCase
         $cacheFile = $this->target . 'cache' . DS . 'example';
         create_file($cacheFile);
 
-        $this->PhpDocMaker->Twig = $this->getTwigMock();
         $this->PhpDocMaker->build($this->target);
 
         foreach ([
@@ -114,9 +125,7 @@ class PhpDocMakerTest extends TestCase
         $this->assertFileExists($cacheFile);
 
         //In this case the cache will not be used and will be emptied
-        $PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app', ['cache' => false]);
-        $PhpDocMaker->Twig = $this->getTwigMock();
-        $PhpDocMaker->build($this->target);
+        $this->PhpDocMaker->setOption('cache', false)->build($this->target);
         $this->assertFileNotExists($cacheFile);
     }
 }

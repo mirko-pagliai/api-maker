@@ -70,36 +70,10 @@ class PhpDocMaker
     {
         $this->source = $source;
 
-        $resolver = new OptionsResolver();
-        $this->configureOptions($resolver);
-        $this->options = $resolver->resolve($options);
+        $this->setOption($options);
         $this->ClassesExplorer = new ClassesExplorer($source);
         $this->Filesystem = new Filesystem();
         $this->Twig = $this->getTwig($this->options['debug']);
-    }
-
-    /**
-     * Gets the `Twig` instance
-     * @param bool $debug Debug
-     * @return \Twig\Environment
-     */
-    public static function getTwig(bool $debug = false)
-    {
-        $loader = new FilesystemLoader(self::getTemplatePath());
-        $twig = new Environment($loader, compact('debug') + [
-            'autoescape' => false,
-            'strict_variables' => true,
-        ]);
-        $twig->addFilter(new TwigFilter('is_url', 'is_url'));
-        $twig->addFilter(new TwigFilter('to_html', function (string $string) {
-            return trim((new CommonMarkConverter())->convertToHtml($string));
-        }));
-
-        if ($debug) {
-            $twig->addExtension(new DebugExtension());
-        }
-
-        return $twig;
     }
 
     /**
@@ -116,6 +90,52 @@ class PhpDocMaker
             'debug' => false,
             'title' => $titleFromPath ?? 'My project',
         ]);
+        $resolver->setAllowedTypes('cache', 'bool');
+        $resolver->setAllowedTypes('debug', 'bool');
+        $resolver->setAllowedTypes('title', ['null', 'string']);
+    }
+
+    /**
+     * Sets options at runtime.
+     *
+     * It's also possible to pass an array with names and values to set multiple
+     *  options at the same time.
+     * @param string|array $name Option name or an array with names and values
+     * @param mixed $value Value
+     * @return \self
+     */
+    public function setOption($name, $value = null)
+    {
+        $options = (is_array($name) ? $name : [$name => $value]) + $this->getOptions();
+        $resolver = new OptionsResolver();
+        $this->configureOptions($resolver);
+        $this->options = $resolver->resolve($options);
+
+        return $this;
+    }
+
+    /**
+     * Gets the `Twig` instance
+     * @param bool $debug Debug
+     * @return \Twig\Environment
+     */
+    public static function getTwig(bool $debug = false): Environment
+    {
+        $loader = new FilesystemLoader(self::getTemplatePath());
+        $twig = new Environment($loader, compact('debug') + [
+            'autoescape' => false,
+            'strict_variables' => true,
+        ]);
+        $twig->addFilter(new TwigFilter('is_url', 'is_url'));
+        $twig->addFilter(new TwigFilter('to_html', function (string $string) {
+            return trim((new CommonMarkConverter())->convertToHtml($string));
+        }));
+
+        if ($debug) {
+            $twig->addExtension(new DebugExtension());
+        }
+
+        return $twig;
     }
 
     /**
