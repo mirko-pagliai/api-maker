@@ -32,11 +32,6 @@ class PhpDocMaker
     use EventDispatcherTrait;
 
     /**
-     * @var \Symfony\Component\Filesystem\Filesystem
-     */
-    public $Filesystem;
-
-    /**
      * @var array
      */
     protected $options = [];
@@ -61,7 +56,6 @@ class PhpDocMaker
         $this->source = $source;
 
         $this->setOption($options);
-        $this->Filesystem = new Filesystem();
     }
 
     /**
@@ -151,20 +145,22 @@ class PhpDocMaker
      */
     public function build(string $target): void
     {
-        $this->Filesystem->mkdir($target, 0755);
         $ClassesExplorer = new ClassesExplorer($this->source);
+        $Filesystem = new Filesystem();
         $Twig = $this->getTwig($this->options['debug']);
         $Twig->addGlobal('project', array_intersect_key($this->options, array_flip(['title'])));
 
+        $Filesystem->mkdir($target, 0755);
+
         //Handles temporary directory
         $temp = $target . DS . 'temp' . DS;
-        $this->Filesystem->mkdir($temp, 0755);
+        $Filesystem->mkdir($temp, 0755);
         $Twig->getLoader()->addPath($temp, 'temp');
 
         //Handles cache
         $cache = $target . DS . 'cache' . DS;
         if ($this->options['cache']) {
-            $this->Filesystem->mkdir($cache, 0755);
+            $Filesystem->mkdir($cache, 0755);
             $Twig->setCache($cache);
         } else {
             unlink_recursive($cache, false, true);
@@ -172,7 +168,7 @@ class PhpDocMaker
 
         //Copies assets files
         if (is_readable($this->getTemplatePath() . DS . 'assets')) {
-            $this->Filesystem->mirror($this->getTemplatePath() . DS . 'assets', $target . DS . 'assets');
+            $Filesystem->mirror($this->getTemplatePath() . DS . 'assets', $target . DS . 'assets');
         }
 
         //Gets all classes
@@ -185,20 +181,20 @@ class PhpDocMaker
 
         //Renders menu and footer
         $output = $Twig->render('layout/footer.twig');
-        $this->Filesystem->dumpFile($temp . 'footer.html', $output);
+        $Filesystem->dumpFile($temp . 'footer.html', $output);
         $output = $Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => !empty($functions)]);
-        $this->Filesystem->dumpFile($temp . 'menu.html', $output);
+        $Filesystem->dumpFile($temp . 'menu.html', $output);
 
         //Renders index page
         $output = $Twig->render('index.twig', compact('classes'));
-        $this->Filesystem->dumpFile($target . DS . 'index.html', $output);
+        $Filesystem->dumpFile($target . DS . 'index.html', $output);
         $this->dispatchEvent('index.rendered');
 
         //Renders functions page
         if ($functions) {
             $this->dispatchEvent('functions.rendering');
             $output = $Twig->render('functions.twig', compact('functions'));
-            $this->Filesystem->dumpFile($target . DS . 'functions.html', $output);
+            $Filesystem->dumpFile($target . DS . 'functions.html', $output);
             $this->dispatchEvent('functions.rendered');
         }
 
@@ -206,7 +202,7 @@ class PhpDocMaker
         foreach ($classes as $class) {
             $this->dispatchEvent('class.rendering', [$class]);
             $output = $Twig->render('class.twig', compact('class'));
-            $this->Filesystem->dumpFile($target . DS . 'Class-' . $class->getSlug() . '.html', $output);
+            $Filesystem->dumpFile($target . DS . 'Class-' . $class->getSlug() . '.html', $output);
             $this->dispatchEvent('class.rendered', [$class]);
         }
 

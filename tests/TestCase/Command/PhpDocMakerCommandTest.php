@@ -19,13 +19,17 @@ use PhpDocMaker\Command\PhpDocMakerCommand;
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * PhpDocMakerCommandTest class
  */
 class PhpDocMakerCommandTest extends TestCase
 {
+    /**
+     * @var string
+     */
+    protected $target = TMP . 'output' . DS;
+
     /**
      * Teardown any static object changes and restore them
      * @return void
@@ -34,6 +38,7 @@ class PhpDocMakerCommandTest extends TestCase
     {
         parent::tearDown();
 
+        unlink_recursive($this->target);
         @unlink(TESTS . DS . 'test_app' . DS . 'php-doc-maker.xml');
     }
 
@@ -44,25 +49,21 @@ class PhpDocMakerCommandTest extends TestCase
     public function testExecute()
     {
         $source = TESTS . DS . 'test_app';
-        $target = TMP . 'output';
 
         $Command = new PhpDocMakerCommand();
         $Command->PhpDocMaker = $this->getPhpDocMakerMock();
-        $Command->PhpDocMaker->Filesystem = $this->getMockBuilder(Filesystem::class)
-            ->setMethods(['dumpFile', 'mirror'])
-            ->getMock();
         $commandTester = new CommandTester($Command);
 
         //Tests options
         $expectedOptions = [
             'debug' => true,
             'no-cache' => true,
-            'target' => $target,
+            'target' => $this->target,
             'title' => 'A project title',
         ];
         $commandTester->execute(compact('source') + [
             '--debug' => true,
-            '--target' => $target,
+            '--target' => $this->target,
             '--title' => 'A project title',
         ]);
         $this->assertTrue($commandTester->getOutput()->isVerbose());
@@ -74,7 +75,7 @@ class PhpDocMakerCommandTest extends TestCase
 <?xml version="1.0" encoding="UTF-8" ?>
 <php-doc-maker>
     <title>My test app</title>
-    <target>$target</target>
+    <target>$this->target</target>
     <verbose>true</verbose>
 </php-doc-maker>
 HEREDOC;
@@ -89,7 +90,7 @@ HEREDOC;
 <?xml version="1.0" encoding="UTF-8" ?>
 <php-doc-maker>
     <title>My test app</title>
-    <target>$target</target>
+    <target>$this->target</target>
     <debug>true</debug>
 </php-doc-maker>
 HEREDOC;
@@ -108,7 +109,7 @@ HEREDOC;
         $this->assertRegExp('/Elapsed time\: \d+\.\d+ seconds/', $output);
 
         $this->assertStringContainsString('Sources directory: ' . $source, $output);
-        $this->assertStringContainsString('Target directory: ' . $target, $output);
+        $this->assertStringContainsString('Target directory: ' . $this->target, $output);
         $this->assertStringContainsString('Rendered index page', $output);
         $this->assertStringContainsString('Rendering functions page', $output);
         $this->assertStringContainsString('Rendered functions page', $output);
