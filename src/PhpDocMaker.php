@@ -112,6 +112,15 @@ class PhpDocMaker
     }
 
     /**
+     * Gets the template path
+     * @return string
+     */
+    public static function getTemplatePath(): string
+    {
+        return self::$templatePath;
+    }
+
+    /**
      * Gets the `Twig` instance
      * @param bool $debug Debug
      * @return \Twig\Environment
@@ -133,15 +142,6 @@ class PhpDocMaker
         }
 
         return $twig;
-    }
-
-    /**
-     * Gets the template path
-     * @return string
-     */
-    public static function getTemplatePath(): string
-    {
-        return self::$templatePath;
     }
 
     /**
