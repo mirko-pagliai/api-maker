@@ -41,7 +41,7 @@ abstract class ParentAbstractEntity implements ArrayAccess
      */
     public function __call(string $name, array $arguments)
     {
-        Exceptionist::methodExists([$this->reflectionObject, $name], sprintf('Method %s::%s() does not exist', get_class($this->reflectionObject), $name), BadMethodCallException::class);
+        Exceptionist::methodExists($this->reflectionObject, $name, sprintf('Method %s::%s() does not exist', get_class($this->reflectionObject), $name), BadMethodCallException::class);
 
         return call_user_func_array([$this->reflectionObject, $name], $arguments);
     }
