@@ -52,7 +52,7 @@ class PhpDocMakerCommand extends Command
             ->addArgument('source', InputArgument::OPTIONAL, 'Path from which to read the sources. If not specified, the current directory will be used', getcwd())
             ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug. This automatically activates verbose mode and disables the cache')
             ->addOption('no-cache', null, InputOption::VALUE_NONE, 'Disables the cache')
-            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory where to generate the documentation. If not specified, the `output` directory will be created', add_slash_term(getcwd()) . 'output')
+            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory where to generate the documentation. If not specified, the `output` directory will be created', getcwd(). DS . 'output')
             ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project. If not specified, the title will be self-determined using the name of the source directory');
     }
 
