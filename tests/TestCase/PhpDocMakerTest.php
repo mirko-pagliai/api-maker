@@ -32,11 +32,6 @@ class PhpDocMakerTest extends TestCase
     protected $PhpDocMaker;
 
     /**
-     * @var string
-     */
-    protected $target = TMP . 'output' . DS;
-
-    /**
      * Called before each test
      * @return void
      */
@@ -55,7 +50,7 @@ class PhpDocMakerTest extends TestCase
     {
         parent::tearDown();
 
-        unlink_recursive($this->target);
+        unlink_recursive($this->PhpDocMaker->target);
     }
 
     /**
@@ -102,10 +97,10 @@ class PhpDocMakerTest extends TestCase
      */
     public function testBuild()
     {
-        $cacheFile = $this->target . 'cache' . DS . 'example';
+        $cacheFile = $this->PhpDocMaker->target . 'cache' . DS . 'example';
         create_file($cacheFile);
 
-        $this->PhpDocMaker->build($this->target);
+        $this->PhpDocMaker->build();
 
         foreach ([
             'classes.founded',
@@ -127,12 +122,12 @@ class PhpDocMakerTest extends TestCase
             'functions.html',
             'index.html',
         ] as $expectedFile) {
-            $this->assertFileExists($this->target . $expectedFile);
+            $this->assertFileExists($this->PhpDocMaker->target . $expectedFile);
         }
         $this->assertFileExists($cacheFile);
 
         //In this case the cache will not be used and will be emptied
-        $this->PhpDocMaker->setOption('cache', false)->build($this->target);
+        $this->PhpDocMaker->setOption('cache', false)->build();
         $this->assertFileNotExists($cacheFile);
     }
 }

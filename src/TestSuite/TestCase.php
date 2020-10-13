@@ -87,7 +87,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPhpDocMakerMock(): PhpDocMaker
     {
         $PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
-            ->setConstructorArgs([TESTS . DS . 'test_app', ['debug' => true]])
+            ->setConstructorArgs([TESTS . DS . 'test_app', TMP . 'output' . DS, ['debug' => true]])
             ->setMethods(['getTwig'])
             ->getMock();
 

@@ -45,16 +45,23 @@ class PhpDocMaker
     /**
      * @var string
      */
+    protected $target;
+
+    /**
+     * @var string
+     */
     protected static $templatePath = ROOT . DS . 'templates' . DS . 'default';
 
     /**
      * Construct
      * @param string $source Path from which to read the sources
+     * @param string $target Target directory where to write the documentation
      * @param array $options Options array
      */
-    public function __construct(string $source, array $options = [])
+    public function __construct(string $source, string $target, array $options = [])
     {
         $this->source = add_slash_term($source);
+        $this->target = add_slash_term($target);
 
         $this->setOption($options);
     }
@@ -147,26 +154,24 @@ class PhpDocMaker
 
     /**
      * Builds
-     * @param string $target Target directory where to write the documentation
      * @return void
      */
-    public function build(string $target): void
+    public function build(): void
     {
-        $target = add_slash_term($target);
         $ClassesExplorer = new ClassesExplorer($this->source);
         $Filesystem = new Filesystem();
         $Twig = $this->getTwig($this->options['debug']);
         $Twig->addGlobal('project', array_intersect_key($this->options, array_flip(['title'])));
 
-        $Filesystem->mkdir($target, 0755);
+        $Filesystem->mkdir($this->target, 0755);
 
         //Handles temporary directory
-        $temp = $target . 'temp' . DS;
+        $temp = $this->target . 'temp' . DS;
         $Filesystem->mkdir($temp, 0755);
         $Twig->getLoader()->addPath($temp, 'temp');
 
         //Handles cache
-        $cache = $target . 'cache' . DS;
+        $cache = $this->target . 'cache' . DS;
         if ($this->options['cache']) {
             $Filesystem->mkdir($cache, 0755);
             $Twig->setCache($cache);
@@ -176,7 +181,7 @@ class PhpDocMaker
 
         //Copies assets files
         if (is_readable($this->getTemplatePath() . 'assets')) {
-            $Filesystem->mirror($this->getTemplatePath() . 'assets', $target . 'assets');
+            $Filesystem->mirror($this->getTemplatePath() . 'assets', $this->target . 'assets');
         }
 
         //Gets all classes
@@ -195,14 +200,14 @@ class PhpDocMaker
 
         //Renders index page
         $output = $Twig->render('index.twig', compact('classes'));
-        $Filesystem->dumpFile($target . 'index.html', $output);
+        $Filesystem->dumpFile($this->target . 'index.html', $output);
         $this->dispatchEvent('index.rendered');
 
         //Renders functions page
         if ($functions) {
             $this->dispatchEvent('functions.rendering');
             $output = $Twig->render('functions.twig', compact('functions'));
-            $Filesystem->dumpFile($target . 'functions.html', $output);
+            $Filesystem->dumpFile($this->target . 'functions.html', $output);
             $this->dispatchEvent('functions.rendered');
         }
 
@@ -210,7 +215,7 @@ class PhpDocMaker
         foreach ($classes as $class) {
             $this->dispatchEvent('class.rendering', [$class]);
             $output = $Twig->render('class.twig', compact('class'));
-            $Filesystem->dumpFile($target . 'Class-' . $class->getSlug() . '.html', $output);
+            $Filesystem->dumpFile($this->target . 'Class-' . $class->getSlug() . '.html', $output);
             $this->dispatchEvent('class.rendered', [$class]);
         }
 

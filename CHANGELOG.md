@@ -1,6 +1,8 @@
 # 1.x branch
 ## 1.0 branch
 ### 1.0.3-beta4
+* now `PhpDocMaker` requires the target as second argument and no longer as
+    argument for the `build()` method;
 * added `PhpDocMaker::setOption()` method;
 * improved `AbstractEntity::getDocBlockInstance()`, `AbstractEntity::getTags()`
     and `AbstractMethodEntity::getParameters()` methods. The return values are

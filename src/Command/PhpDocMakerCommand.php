@@ -79,11 +79,13 @@ class PhpDocMakerCommand extends Command
             foreach ($options as $name => $value) {
                 $option = $this->getDefinition()->getOption($name);
 
-                if (!$option->getDefault() && $value === 'true') {
-                    $input->setOption($name, true);
-                } else {
+//                if (!$option->getDefault() && $value === 'true') {
+//                    $input->setOption($name, true);
+//                } else
+                {
                     $value = $value === 'true' ? true : ($value === 'false' ? false : $value);
-                    $option->setDefault($value);
+                    $input->setOption($name, $value);
+//                    $option->setDefault($value);
                 }
             }
         }
@@ -147,9 +149,9 @@ class PhpDocMakerCommand extends Command
         });
 
         try {
-            $this->PhpDocMaker = $this->PhpDocMaker ?? new PhpDocMaker($source, $options);
+            $this->PhpDocMaker = $this->PhpDocMaker ?? new PhpDocMaker($source, $target, $options);
             $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new PhpDocMakerCommandSubscriber($io));
-            $this->PhpDocMaker->build($target);
+            $this->PhpDocMaker->build();
         } catch (Exception $e) {
             $message = $e->getMessage() . '...' . PHP_EOL . sprintf('On file `%s`, line %s', $e->getFile(), $e->getLine());
             if ($input->getOption('debug')) {
