@@ -43,18 +43,33 @@ class PhpDocMakerCommandTest extends TestCase
     }
 
     /**
-     * Test for `execute()` method
+     * Test for `execute()` method, for options
      * @test
      */
-    public function testExecute()
+    public function testExecuteOptions()
     {
         $source = TESTS . DS . 'test_app';
 
         $Command = new PhpDocMakerCommand();
         $Command->PhpDocMaker = $this->getPhpDocMakerMock();
+        $Command->PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
+            ->setConstructorArgs(compact('source'))
+            ->setMethods(['build'])
+            ->getMock();
         $commandTester = new CommandTester($Command);
 
-        //Tests options
+        //With default options (and a passed target)
+        $expectedOptions = [
+            'debug' => false,
+            'no-cache' => false,
+            'target' => $this->target,
+            'title' => null,
+        ];
+        $commandTester->execute(compact('source') + ['--target' => $this->target]);
+        $this->assertFalse($commandTester->getOutput()->isVerbose());
+        $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
+
+        //With passed options
         $expectedOptions = [
             'debug' => true,
             'no-cache' => true,
@@ -67,39 +82,53 @@ class PhpDocMakerCommandTest extends TestCase
             '--title' => 'A project title',
         ]);
         $this->assertTrue($commandTester->getOutput()->isVerbose());
-        $this->assertSame(0, $commandTester->getStatusCode());
         $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
-        //Tests options from xml file
-        $xml = <<<HEREDOC
-<?xml version="1.0" encoding="UTF-8" ?>
+        //With options from xml file
+        $expectedOptions = [
+            'title' => 'My test app',
+            'debug' => false,
+            'no-cache' => false,
+            'target' => $this->target,
+        ];
+        create_file($source . DS . 'php-doc-maker.xml', '<?xml version="1.0" encoding="UTF-8" ?>
 <php-doc-maker>
     <title>My test app</title>
-    <target>$this->target</target>
+    <target>' . $this->target . '</target>
     <verbose>true</verbose>
-</php-doc-maker>
-HEREDOC;
-        create_file($source . DS . 'php-doc-maker.xml', $xml);
-        $expectedOptions = ['title' => 'My test app', 'debug' => false, 'no-cache' => false] + $expectedOptions;
+</php-doc-maker>');
         $commandTester->execute(compact('source'));
         $this->assertTrue($commandTester->getOutput()->isVerbose());
-        $this->assertSame(0, $commandTester->getStatusCode());
         $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
 
-        $xml = <<<HEREDOC
-<?xml version="1.0" encoding="UTF-8" ?>
+        //With other options from xml file
+        $expectedOptions = [
+            'debug' => true,
+            'no-cache' => true,
+        ] + $expectedOptions;
+        create_file($source . DS . 'php-doc-maker.xml', '<?xml version="1.0" encoding="UTF-8" ?>
 <php-doc-maker>
     <title>My test app</title>
-    <target>$this->target</target>
+    <target>' . $this->target . '</target>
     <debug>true</debug>
-</php-doc-maker>
-HEREDOC;
-        create_file($source . DS . 'php-doc-maker.xml', $xml);
-        $expectedOptions = ['debug' => true, 'no-cache' => true] + $expectedOptions;
+</php-doc-maker>');
         $commandTester->execute(compact('source'));
         $this->assertTrue($commandTester->getOutput()->isVerbose());
-        $this->assertSame(0, $commandTester->getStatusCode());
         $this->assertEquals($expectedOptions, $commandTester->getInput()->getOptions());
+    }
+
+    /**
+     * Test for `execute()` method
+     * @test
+     */
+    public function testExecute()
+    {
+        $source = TESTS . DS . 'test_app';
+
+        $Command = new PhpDocMakerCommand();
+        $Command->PhpDocMaker = $this->getPhpDocMakerMock();
+        $commandTester = new CommandTester($Command);
+        $commandTester->execute(compact('source') + ['--target' => $this->target]);
 
         //Tests output
         $output = $commandTester->getDisplay();
@@ -132,7 +161,7 @@ HEREDOC;
     }
 
     /**
-     * Test for `execute()` method, on error (notice)
+     * Test for `execute()` method, on error
      * @test
      */
     public function testExecuteOnError()
@@ -144,67 +173,34 @@ HEREDOC;
             ->setMethods(['build'])
             ->getMock();
 
-        $Command->PhpDocMaker->method('build')->will($this->returnCallback(function () {
+        $Command->PhpDocMaker->expects($this->at(0))->method('build')->will($this->returnCallback(function () {
             trigger_error('A notice error...', E_USER_NOTICE);
         }));
 
-        $commandTester = new CommandTester($Command);
-        $commandTester->execute(['--debug' => true] + compact('source'));
-        $this->assertSame(1, $commandTester->getStatusCode());
+        //On exception
+        $expectedException = new Exception('Something went wrong...');
+        $Command->PhpDocMaker->expects($this->at(1))->method('build')->willThrowException($expectedException);
 
-        $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('[ERROR] A notice error...', $output);
-        $this->assertStringContainsString(sprintf('On file `%s`', __FILE__), $output);
-    }
-
-    /**
-     * Test for `execute()` method, on error (notice)
-     * @test
-     */
-    public function testExecuteOnSuppressedError()
-    {
-        $source = TESTS . DS . 'test_app';
-        $Command = new PhpDocMakerCommand();
-        $Command->PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
-            ->setConstructorArgs(compact('source'))
-            ->setMethods(['build'])
-            ->getMock();
-
-        $Command->PhpDocMaker->method('build')->will($this->returnCallback(function () {
+        //On suppressed error
+        $Command->PhpDocMaker->expects($this->at(2))->method('build')->will($this->returnCallback(function () {
             @trigger_error('A notice error...', E_USER_NOTICE);
         }));
 
         $commandTester = new CommandTester($Command);
         $commandTester->execute(['--debug' => true] + compact('source'));
-        $this->assertSame(0, $commandTester->getStatusCode());
+        $this->assertSame(1, $commandTester->getStatusCode());
+        $this->assertStringContainsString('[ERROR] A notice error...', $commandTester->getDisplay());
+        $this->assertStringContainsString(sprintf('On file `%s`', __FILE__), $commandTester->getDisplay());
 
-        $output = $commandTester->getDisplay();
-        $this->assertStringContainsString('[OK] Done!', $output);
-    }
-
-    /**
-     * Test for `execute()` method, on failure
-     * @test
-     */
-    public function testExecuteOnFailure()
-    {
-        $source = TESTS . DS . 'test_app';
-        $expectedException = new Exception('Something went wrong...');
-        $Command = new PhpDocMakerCommand();
-        $Command->PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
-            ->setConstructorArgs(compact('source'))
-            ->setMethods(['build'])
-            ->getMock();
-
-        $Command->PhpDocMaker->method('build')->willThrowException($expectedException);
-
-        $commandTester = new CommandTester($Command);
         $commandTester->execute(['--debug' => true] + compact('source'));
         $this->assertSame(1, $commandTester->getStatusCode());
-
         $output = $commandTester->getDisplay();
         $this->assertStringContainsString('[ERROR] Something went wrong...', $output);
         $this->assertStringContainsString(sprintf('On file `%s`', $expectedException->getFile()), $output);
         $this->assertStringContainsString(sprintf('line %s', $expectedException->getLine()), $output);
+
+        $commandTester->execute(['--debug' => true] + compact('source'));
+        $this->assertSame(0, $commandTester->getStatusCode());
+        $this->assertStringContainsString('[OK] Done!', $commandTester->getDisplay());
     }
 }
