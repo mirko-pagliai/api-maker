@@ -1,0 +1,12 @@
+<h2>Classes index</h2>
+
+<ul>
+    {% for class in classes %}
+        <li>
+            <a href="{{ class.getLink }}"><code>{{ class.getName }}</code></a>
+            <div>
+                {{ class.getDocBlockSummaryAsString|trim('.', 'right') }}
+            </div>
+        </li>
+    {% endfor %}
+</ul>

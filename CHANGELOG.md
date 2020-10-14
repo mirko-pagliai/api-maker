@@ -3,6 +3,8 @@
 ### 1.0.3-beta4
 * now `PhpDocMaker` requires the target as second argument and no longer as
     argument for the `build()` method;
+* now the template files are first partially rendered and only then definitively
+    rendered in the layout;
 * added `PhpDocMaker::setOption()` method;
 * improved `AbstractEntity::getDocBlockInstance()`, `AbstractEntity::getTags()`
     and `AbstractMethodEntity::getParameters()` methods. The return values are

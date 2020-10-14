@@ -179,11 +179,6 @@ class PhpDocMaker
             unlink_recursive($cache, false, true);
         }
 
-        //Copies assets files
-        if (is_readable($this->getTemplatePath() . 'assets')) {
-            $Filesystem->mirror($this->getTemplatePath() . 'assets', $this->target . 'assets');
-        }
-
         //Gets all classes
         $classes = $ClassesExplorer->getAllClasses();
         $this->dispatchEvent('classes.founded', [$classes]);
@@ -192,33 +187,66 @@ class PhpDocMaker
         $functions = $ClassesExplorer->getAllFunctions();
         $this->dispatchEvent('functions.founded', [$functions]);
 
-        //Renders menu and footer
-        $output = $Twig->render('layout/footer.twig');
-        $Filesystem->dumpFile($temp . 'footer.html', $output);
-        $output = $Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => !empty($functions)]);
-        $Filesystem->dumpFile($temp . 'menu.html', $output);
-
-        //Renders index page
-        $output = $Twig->render('index.twig', compact('classes'));
-        $Filesystem->dumpFile($this->target . 'index.html', $output);
+        //Renders partial index page;
+        $this->dispatchEvent('index.rendering');
+        $output = $Twig->render('elements/index.twig', compact('classes'));
+        $Filesystem->dumpFile($temp . 'partial' . DS . 'index.html', $output);
         $this->dispatchEvent('index.rendered');
 
-        //Renders functions page
-        if ($functions) {
-            $this->dispatchEvent('functions.rendering');
-            $output = $Twig->render('functions.twig', compact('functions'));
-            $Filesystem->dumpFile($this->target . 'functions.html', $output);
-            $this->dispatchEvent('functions.rendered');
-        }
-
-        //Renders each class page
+        //Renders each partial class page
         foreach ($classes as $class) {
+            /** @var \PhpDocMaker\Reflection\Entity\ClassEntity $class */
             $this->dispatchEvent('class.rendering', [$class]);
-            $output = $Twig->render('class.twig', compact('class'));
-            $Filesystem->dumpFile($this->target . 'Class-' . $class->getSlug() . '.html', $output);
+            $output = $Twig->render('elements/class.twig', compact('class'));
+            $Filesystem->dumpFile($temp . 'partial' . DS . 'Class-' . $class->getSlug() . '.html', $output);
             $this->dispatchEvent('class.rendered', [$class]);
         }
 
+        //Renders partial functions page
+        if (!$functions->isEmpty()) {
+            $this->dispatchEvent('functions.rendering');
+            $output = $Twig->render('elements/functions.twig', compact('functions'));
+            $Filesystem->dumpFile($temp . 'partial' . DS . 'functions.html', $output);
+            $this->dispatchEvent('functions.rendered');
+        }
+
+        //Renders menu and footer for the layout
+        $output = $Twig->render('layout/footer.twig');
+        $Filesystem->dumpFile($temp . 'layout' . DS . 'footer.html', $output);
+        $output = $Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => !$functions->isEmpty()]);
+        $Filesystem->dumpFile($temp . 'layout' . DS . 'menu.html', $output);
+
+        //Renders final index page
+        $output = $Twig->render('page.twig', [
+            'content' => file_get_contents($temp . 'partial' . DS . 'index.html'),
+            'title' => 'Classes index',
+        ]);
+        $Filesystem->dumpFile($this->target . 'index.html', $output);
+
+        //Renders each final class page
+        foreach ($classes as $class) {
+            /** @var \PhpDocMaker\Reflection\Entity\ClassEntity $class */
+            $output = $Twig->render('page.twig', [
+                'content' => file_get_contents($temp . 'partial' . DS . 'Class-' . $class->getSlug() . '.html'),
+                'title' => sprintf('%s %s', $class->getType(), $class->getName()),
+            ]);
+            $Filesystem->dumpFile($this->target . 'Class-' . $class->getSlug() . '.html', $output);
+        }
+
+        //Renders final functions page
+        if (!$functions->isEmpty()) {
+            $output = $Twig->render('page.twig', [
+                'content' => file_get_contents($temp . 'partial' . DS . 'functions.html'),
+                'title' => 'Functions index',
+            ]);
+            $Filesystem->dumpFile($this->target . 'functions.html', $output);
+        }
+
         unlink_recursive($temp, false, true);
+
+        //Copies assets files
+        if (is_readable($this->getTemplatePath() . 'assets')) {
+            $Filesystem->mirror($this->getTemplatePath() . 'assets', $this->target . 'assets');
+        }
     }
 }
