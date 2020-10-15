@@ -23,7 +23,10 @@ use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlockFactory;
 
 /**
- * AbstractEntity class
+ * AbstractEntity class.
+ *
+ * This class is extended by all entities, except for `TagEntity`, which
+ *  directly extends the `ParentAbstractEntity`.
  */
 abstract class AbstractEntity extends ParentAbstractEntity
 {
