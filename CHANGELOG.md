@@ -6,6 +6,7 @@
 * now the template files are first partially rendered and only then definitively
     rendered in the layout;
 * added `PhpDocMaker::setOption()` method;
+* added `AbstractEntity::getFilename()` method;
 * improved `AbstractEntity::getDocBlockInstance()`, `AbstractEntity::getTags()`
     and `AbstractMethodEntity::getParameters()` methods. The return values are
     now cached;

@@ -90,6 +90,28 @@ HEREDOC;
     }
 
     /**
+     * Test for `getFilename()` method
+     * @test
+     */
+    public function testGetFilename()
+    {
+        $class = ClassEntity::createFromName(Cat::class);
+        foreach ([
+            $class,
+            $class->getConstant('GENUS'),
+            $class->getProperty('Puppy'),
+            $class->getMethod('doMeow'),
+            $class->getMethod('doMeow')->getParameter('meow'),
+        ] as $entity) {
+            $this->assertStringEndsWith('Cat.php', $entity->getFilename());
+        }
+
+        $this->assertStringEndsWith('functions.php', $this->getFunctionEntityFromTests('a_test_function')->getFilename());
+
+        $this->assertNull(ClassEntity::createFromName(\stdClass::class)->getFilename());
+    }
+
+    /**
      * Test for `getTags()` method
      * @test
      */

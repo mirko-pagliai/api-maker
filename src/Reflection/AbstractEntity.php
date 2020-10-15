@@ -24,7 +24,10 @@ use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlockFactory;
 
 /**
- * AbstractEntity class
+ * AbstractEntity class.
+ *
+ * This class is extended by all entities, except for `TagEntity`, which
+ *  directly extends the `ParentAbstractEntity`.
  */
 abstract class AbstractEntity extends ParentAbstractEntity
 {
@@ -87,6 +90,17 @@ abstract class AbstractEntity extends ParentAbstractEntity
         $description = $this->getDocBlockDescriptionAsString();
 
         return $summary . ($description ? PHP_EOL . PHP_EOL . $description : '');
+    }
+
+    /**
+     * Gets the filename in which this entity is physically declared
+     * @return string|null
+     */
+    public function getFilename(): ?string
+    {
+        $object = method_exists($this->reflectionObject, 'getFileName') ? $this->reflectionObject : $this->reflectionObject->getDeclaringClass();
+
+        return $object->getFileName();
     }
 
     /**

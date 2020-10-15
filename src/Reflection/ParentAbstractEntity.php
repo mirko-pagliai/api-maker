@@ -20,7 +20,9 @@ use LogicException;
 use Tools\Exceptionist;
 
 /**
- * ParentAbstractEntity class
+ * ParentAbstractEntity class.
+ *
+ * This class is extended by all entities.
  * @method string getName() Gets the object name
  */
 abstract class ParentAbstractEntity implements ArrayAccess
