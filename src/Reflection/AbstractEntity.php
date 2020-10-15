@@ -28,6 +28,7 @@ use phpDocumentor\Reflection\DocBlockFactory;
  *
  * This class is extended by all entities, except for `TagEntity`, which
  *  directly extends the `ParentAbstractEntity`.
+ * @method ?int getStartLine() Gets the line number of code where this entity is actually declared
  */
 abstract class AbstractEntity extends ParentAbstractEntity
 {
