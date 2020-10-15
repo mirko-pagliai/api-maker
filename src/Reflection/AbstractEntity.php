@@ -99,6 +99,17 @@ abstract class AbstractEntity extends ParentAbstractEntity
     }
 
     /**
+     * Gets the filename in which this entity is physically declared
+     * @return string|null
+     */
+    public function getFilename(): ?string
+    {
+        $object = method_exists($this->reflectionObject, 'getFileName') ? $this->reflectionObject : $this->reflectionObject->getDeclaringClass();
+
+        return $object->getFileName();
+    }
+
+    /**
      * Gets all tags
      * @return \Cake\Collection\Collection
      */
