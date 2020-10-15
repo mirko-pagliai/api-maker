@@ -1,0 +1,8 @@
+{% for error in errors %}
+    <div class="p-3 mb-2 bg-light text-dark">
+        <div><strong>Entity:</strong> <pre class="d-inline">{{ error.entity }}</pre></div>
+        <div><strong>Message:</strong> <pre class="d-inline">{{ error.message }}</pre></div>
+        <div><strong>Filename:</strong> <pre class="d-inline">{{ error.filename }}</pre></div>
+        <div><strong>Line:</strong> <pre class="d-inline">{{ error.line }}</pre></div>
+    </div>
+{% endfor %}

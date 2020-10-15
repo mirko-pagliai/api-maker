@@ -210,7 +210,20 @@ class PhpDocMaker
             $this->dispatchEvent('functions.rendered');
         }
 
-        //Renders menu and footer for the layout
+        //Gets errors
+        $errors = ErrorCatcher::getAll();
+
+        //Renders partial errors page
+        if (!empty($errors)) {
+            $this->dispatchEvent('errors.rendering');
+            $output = $Twig->render('elements/errors.twig', compact('errors'));
+            $Filesystem->dumpFile($temp . 'partial' . DS . 'errors.html', $output);
+            $this->dispatchEvent('errors.rendered');
+        }
+
+        //Renders menu, topbar and footer for the layout
+        $output = $Twig->render('layout/topbar.twig', ['errorsCount' => count($errors)]);
+        $Filesystem->dumpFile($temp . 'layout' . DS . 'topbar.html', $output);
         $output = $Twig->render('layout/footer.twig');
         $Filesystem->dumpFile($temp . 'layout' . DS . 'footer.html', $output);
         $output = $Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => !$functions->isEmpty()]);
@@ -240,6 +253,15 @@ class PhpDocMaker
                 'title' => 'Functions index',
             ]);
             $Filesystem->dumpFile($this->target . 'functions.html', $output);
+        }
+
+        //Renders final errors page
+        if (!empty($errors)) {
+            $output = $Twig->render('page.twig', [
+                'content' => file_get_contents($temp . 'partial' . DS . 'errors.html'),
+                'title' => 'Errors index',
+            ]);
+            $Filesystem->dumpFile($this->target . 'errors.html', $output);
         }
 
         unlink_recursive($temp, false, true);
