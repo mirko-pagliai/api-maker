@@ -38,7 +38,7 @@ class TagEntityTest extends TestCase
     {
         parent::setUp();
 
-        $this->Method = $this->Method ?: ClassEntity::createFromName(Cat::class)->getMethod('doMeow');
+        $this->Method = $this->Method ?? ClassEntity::createFromName(Cat::class)->getMethod('doMeow');
     }
 
     /**
