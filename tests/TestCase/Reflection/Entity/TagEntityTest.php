@@ -15,13 +15,10 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
-use App\DeprecatedClassExample;
 use App\Vehicles\Car;
 use App\Vehicles\Interfaces\MotorVehicle;
-use InvalidArgumentException;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\TestSuite\TestCase;
-use RuntimeException;
 
 /**
  * TagEntityTest class
