@@ -214,7 +214,7 @@ class PhpDocMaker
         $errors = ErrorCatcher::getAll();
 
         //Renders partial errors page
-        if (!empty($errors)) {
+        if (!$errors->isEmpty()) {
             $this->dispatchEvent('errors.rendering');
             $output = $Twig->render('elements/errors.twig', compact('errors'));
             $Filesystem->dumpFile($temp . 'partial' . DS . 'errors.html', $output);
@@ -222,7 +222,7 @@ class PhpDocMaker
         }
 
         //Renders menu, topbar and footer for the layout
-        $output = $Twig->render('layout/topbar.twig', ['errorsCount' => count($errors)]);
+        $output = $Twig->render('layout/topbar.twig', ['errorsCount' => $errors->count()]);
         $Filesystem->dumpFile($temp . 'layout' . DS . 'topbar.html', $output);
         $output = $Twig->render('layout/footer.twig');
         $Filesystem->dumpFile($temp . 'layout' . DS . 'footer.html', $output);
@@ -256,7 +256,7 @@ class PhpDocMaker
         }
 
         //Renders final errors page
-        if (!empty($errors)) {
+        if (!$errors->isEmpty()) {
             $output = $Twig->render('page.twig', [
                 'content' => file_get_contents($temp . 'partial' . DS . 'errors.html'),
                 'title' => 'Errors index',

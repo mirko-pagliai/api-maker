@@ -17,7 +17,6 @@ namespace PhpDocMaker\Test\Reflection\Entity;
 use App\Animals\Animal;
 use App\Animals\Cat;
 use App\DeprecatedClassExample;
-use App\InvalidClassParent;
 use App\Vehicles\Car;
 use App\Vehicles\Interfaces\Brake;
 use App\Vehicles\Interfaces\MotorVehicle;
@@ -26,7 +25,6 @@ use PhpDocMaker\Reflection\Entity\ConstantEntity;
 use PhpDocMaker\Reflection\Entity\MethodEntity;
 use PhpDocMaker\Reflection\Entity\PropertyEntity;
 use PhpDocMaker\TestSuite\TestCase;
-use RuntimeException;
 
 /**
  * ClassEntityTest class
@@ -46,7 +44,7 @@ class ClassEntityTest extends TestCase
     {
         parent::setUp();
 
-        $this->Class = $this->Class ?: ClassEntity::createFromName(Cat::class);
+        $this->Class = $this->Class ?? ClassEntity::createFromName(Cat::class);
     }
 
     /**
@@ -149,10 +147,6 @@ class ClassEntityTest extends TestCase
 
         //Class with no parent class
         $this->assertNull($parent->getParentClass());
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Class `App\NoExistingClass` could not be found');
-        ClassEntity::createFromName(InvalidClassParent::class)->getParentClass();
     }
 
     /**
