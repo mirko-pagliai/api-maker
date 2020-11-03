@@ -14,6 +14,7 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker;
 
+use Cake\Collection\Collection;
 use League\CommonMark\CommonMarkConverter;
 use PhpDocMaker\ClassesExplorer;
 use Symfony\Component\Filesystem\Filesystem;
@@ -31,6 +32,11 @@ use Twig\TwigFilter;
 class PhpDocMaker
 {
     use EventDispatcherTrait;
+
+    /**
+     * @var \Symfony\Component\Filesystem\Filesystem
+     */
+    public $Filesystem;
 
     /**
      * @var array
@@ -64,6 +70,8 @@ class PhpDocMaker
         $this->target = add_slash_term($target);
 
         $this->setOption($options);
+
+        $this->Filesystem = new Filesystem();
     }
 
     /**
@@ -153,27 +161,35 @@ class PhpDocMaker
     }
 
     /**
+     * Gets the errors collection
+     * @return \Cake\Collection\Collection
+     */
+    protected function getErrors(): Collection
+    {
+        return ErrorCatcher::getAll();
+    }
+
+    /**
      * Builds
      * @return void
      */
     public function build(): void
     {
         $ClassesExplorer = new ClassesExplorer($this->source);
-        $Filesystem = new Filesystem();
         $Twig = $this->getTwig($this->options['debug']);
         $Twig->addGlobal('project', array_intersect_key($this->options, array_flip(['title'])));
 
-        $Filesystem->mkdir($this->target, 0755);
+        $this->Filesystem->mkdir($this->target, 0755);
 
         //Handles temporary directory
         $temp = $this->target . 'temp' . DS;
-        $Filesystem->mkdir($temp, 0755);
+        $this->Filesystem->mkdir($temp, 0755);
         $Twig->getLoader()->addPath($temp, 'temp');
 
         //Handles cache
         $cache = $this->target . 'cache' . DS;
         if ($this->options['cache']) {
-            $Filesystem->mkdir($cache, 0755);
+            $this->Filesystem->mkdir($cache, 0755);
             $Twig->setCache($cache);
         } else {
             unlink_recursive($cache, false, true);
@@ -190,7 +206,7 @@ class PhpDocMaker
         //Renders partial index page;
         $this->dispatchEvent('index.rendering');
         $output = $Twig->render('elements/index.twig', compact('classes'));
-        $Filesystem->dumpFile($temp . 'partial' . DS . 'index.html', $output);
+        $this->Filesystem->dumpFile($temp . 'partial' . DS . 'index.html', $output);
         $this->dispatchEvent('index.rendered');
 
         //Renders each partial class page
@@ -198,7 +214,7 @@ class PhpDocMaker
             /** @var \PhpDocMaker\Reflection\Entity\ClassEntity $class */
             $this->dispatchEvent('class.rendering', [$class]);
             $output = $Twig->render('elements/class.twig', compact('class'));
-            $Filesystem->dumpFile($temp . 'partial' . DS . 'Class-' . $class->getSlug() . '.html', $output);
+            $this->Filesystem->dumpFile($temp . 'partial' . DS . 'Class-' . $class->getSlug() . '.html', $output);
             $this->dispatchEvent('class.rendered', [$class]);
         }
 
@@ -206,69 +222,75 @@ class PhpDocMaker
         if (!$functions->isEmpty()) {
             $this->dispatchEvent('functions.rendering');
             $output = $Twig->render('elements/functions.twig', compact('functions'));
-            $Filesystem->dumpFile($temp . 'partial' . DS . 'functions.html', $output);
+            $this->Filesystem->dumpFile($temp . 'partial' . DS . 'functions.html', $output);
             $this->dispatchEvent('functions.rendered');
         }
 
         //Gets errors
-        $errors = ErrorCatcher::getAll();
+        $errors = $this->getErrors();
 
         //Renders partial errors page
         if (!$errors->isEmpty()) {
             $this->dispatchEvent('errors.rendering');
             $output = $Twig->render('elements/errors.twig', compact('errors'));
-            $Filesystem->dumpFile($temp . 'partial' . DS . 'errors.html', $output);
+            $this->Filesystem->dumpFile($temp . 'partial' . DS . 'errors.html', $output);
             $this->dispatchEvent('errors.rendered');
         }
 
         //Renders menu, topbar and footer for the layout
+        $this->dispatchEvent('layoutElements.rendering');
         $output = $Twig->render('layout/topbar.twig', ['errorsCount' => $errors->count()]);
-        $Filesystem->dumpFile($temp . 'layout' . DS . 'topbar.html', $output);
+        $this->Filesystem->dumpFile($temp . 'layout' . DS . 'topbar.html', $output);
         $output = $Twig->render('layout/footer.twig');
-        $Filesystem->dumpFile($temp . 'layout' . DS . 'footer.html', $output);
+        $this->Filesystem->dumpFile($temp . 'layout' . DS . 'footer.html', $output);
         $output = $Twig->render('layout/menu.twig', compact('classes') + ['hasFunctions' => !$functions->isEmpty()]);
-        $Filesystem->dumpFile($temp . 'layout' . DS . 'menu.html', $output);
+        $this->Filesystem->dumpFile($temp . 'layout' . DS . 'menu.html', $output);
+        $this->dispatchEvent('layoutElements.rendered');
+
+        $this->dispatchEvent('pages.composing');
 
         //Renders final index page
         $output = $Twig->render('page.twig', [
-            'content' => file_get_contents($temp . 'partial' . DS . 'index.html'),
+            'content' => @file_get_contents($temp . 'partial' . DS . 'index.html'),
             'title' => 'Classes index',
         ]);
-        $Filesystem->dumpFile($this->target . 'index.html', $output);
+        $this->Filesystem->dumpFile($this->target . 'index.html', $output);
 
         //Renders each final class page
         foreach ($classes as $class) {
             /** @var \PhpDocMaker\Reflection\Entity\ClassEntity $class */
             $output = $Twig->render('page.twig', [
-                'content' => file_get_contents($temp . 'partial' . DS . 'Class-' . $class->getSlug() . '.html'),
+                'content' => @file_get_contents($temp . 'partial' . DS . 'Class-' . $class->getSlug() . '.html'),
                 'title' => sprintf('%s %s', $class->getType(), $class->getName()),
             ]);
-            $Filesystem->dumpFile($this->target . 'Class-' . $class->getSlug() . '.html', $output);
+            $this->Filesystem->dumpFile($this->target . 'Class-' . $class->getSlug() . '.html', $output);
         }
 
         //Renders final functions page
         if (!$functions->isEmpty()) {
             $output = $Twig->render('page.twig', [
-                'content' => file_get_contents($temp . 'partial' . DS . 'functions.html'),
+                'content' => @file_get_contents($temp . 'partial' . DS . 'functions.html'),
                 'title' => 'Functions index',
             ]);
-            $Filesystem->dumpFile($this->target . 'functions.html', $output);
+            $this->Filesystem->dumpFile($this->target . 'functions.html', $output);
         }
 
         //Renders final errors page
         if (!$errors->isEmpty()) {
             $output = $Twig->render('page.twig', [
-                'content' => file_get_contents($temp . 'partial' . DS . 'errors.html'),
+                'content' => @file_get_contents($temp . 'partial' . DS . 'errors.html'),
                 'title' => 'Errors index',
             ]);
-            $Filesystem->dumpFile($this->target . 'errors.html', $output);
+            $this->Filesystem->dumpFile($this->target . 'errors.html', $output);
         }
 
-        unlink_recursive($temp, false, true);
+        $this->dispatchEvent('pages.composed');
+
+        rmdir_recursive($temp);
 
         //Copies assets files
         if (is_readable($this->getTemplatePath() . 'assets')) {
-            $Filesystem->mirror($this->getTemplatePath() . 'assets', $this->target . 'assets');
+            $this->Filesystem->mirror($this->getTemplatePath() . 'assets', $this->target . 'assets');
         }
     }
 }

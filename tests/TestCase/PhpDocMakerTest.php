@@ -17,6 +17,7 @@ namespace PhpDocMaker\Test;
 
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 use Tools\TestSuite\EventAssertTrait;
 
 /**
@@ -103,22 +104,7 @@ class PhpDocMakerTest extends TestCase
         $this->PhpDocMaker->build();
 
         foreach ([
-            'classes.founded',
-            'functions.founded',
-            'index.rendered',
-            'functions.rendering',
-            'functions.rendered',
-            'class.rendering',
-            'class.rendered',
-        ] as $expectedEvent) {
-            $this->assertEventFired($expectedEvent, $this->PhpDocMaker->getEventDispatcher());
-        }
-
-        foreach ([
             'assets' . DS . 'bootstrap' . DS . 'bootstrap.min.css',
-            'assets' . DS . 'highlight' . DS . 'styles' . DS . 'default.css',
-            'assets' . DS . 'highlight' . DS . 'highlight.pack.js',
-            'cache',
             'functions.html',
             'index.html',
         ] as $expectedFile) {
@@ -129,5 +115,46 @@ class PhpDocMakerTest extends TestCase
         //In this case the cache will not be used and will be emptied
         $this->PhpDocMaker->setOption('cache', false)->build();
         $this->assertFileNotExists($cacheFile);
+    }
+
+    /**
+     * Test for `build()` method, fired events
+     * @test
+     */
+    public function testBuildFiredEvents()
+    {
+        $PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
+            ->setConstructorArgs([TESTS . DS . 'test_app', TMP . 'output' . DS, ['debug' => true]])
+            ->setMethods(['getErrors', 'getTwig'])
+            ->getMock();
+
+        $PhpDocMaker->method('getErrors')->willReturn(collection(['notEmpty']));
+        $PhpDocMaker->method('getTwig')->willReturn($this->getTwigMock());
+
+        $PhpDocMaker->Filesystem = $this->getMockBuilder(Filesystem::class)
+            ->setMethods(['dumpFile', 'mirror'])
+            ->getMock();
+
+        $PhpDocMaker->build();
+        $EventDispatcher = $PhpDocMaker->getEventDispatcher();
+
+        foreach ([
+            'classes.founded',
+            'functions.founded',
+            'index.rendering',
+            'index.rendered',
+            'class.rendering',
+            'class.rendered',
+            'functions.rendering',
+            'functions.rendered',
+            'errors.rendering',
+            'errors.rendered',
+            'layoutElements.rendering',
+            'layoutElements.rendered',
+            'pages.composing',
+            'pages.composed',
+        ] as $expectedEvent) {
+            $this->assertEventFired($expectedEvent, $EventDispatcher);
+        }
     }
 }
