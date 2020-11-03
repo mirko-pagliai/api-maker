@@ -15,13 +15,10 @@ declare(strict_types=1);
 namespace PhpDocMaker\Test\Reflection\Entity;
 
 use App\Animals\Cat;
-use App\DeprecatedClassExample;
 use App\Vehicles\Car;
 use App\Vehicles\Interfaces\MotorVehicle;
-use InvalidArgumentException;
 use PhpDocMaker\Reflection\Entity\ClassEntity;
 use PhpDocMaker\TestSuite\TestCase;
-use RuntimeException;
 
 /**
  * TagEntityTest class
@@ -41,22 +38,7 @@ class TagEntityTest extends TestCase
     {
         parent::setUp();
 
-        $this->Method = $this->Method ?: ClassEntity::createFromName(Cat::class)->getMethod('doMeow');
-    }
-
-    /**
-     * Test for `__construct()` method, with an invalid tags
-     * @test
-     */
-    public function testConstructWithInvalidTags()
-    {
-        $this->assertException(InvalidArgumentException::class, function () {
-            ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('methodWithAnotherInvalidTag')->getTags();
-        });
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Invalid tag `@see \1`');
-        ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('methodWithInvalidTag')->getTagsByName('see');
+        $this->Method = $this->Method ?? ClassEntity::createFromName(Cat::class)->getMethod('doMeow');
     }
 
     /**
@@ -92,7 +74,6 @@ class TagEntityTest extends TestCase
     public function testGetDescription()
     {
         foreach ([
-            'link' => 'https://en.wikipedia.org/wiki/Meow',
             'param' => 'Type of meow',
             'return' => 'This method returns void',
             'see' => 'OtherClass::otherMethod()',

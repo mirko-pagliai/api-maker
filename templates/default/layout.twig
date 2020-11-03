@@ -14,14 +14,12 @@
         <script>hljs.initHighlightingOnLoad();</script>
     </head>
     <body>
-        <nav class="navbar sticky-top navbar-dark bg-dark">
-            <a class="navbar-brand mb-0 h1" href="index.html">{{ project.title }}</a>
-        </nav>
+        {{~ source('@temp/layout/topbar.html') }}
 
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 col-lg-4 p-3">
-                    {{~ source('@target/layout/menu.html') }}
+                    {{~ source('@temp/layout/menu.html') }}
                 </div>
                 <div class="col-md-9 col-lg-8 p-3">
                     {%~ if block("content") is defined %}
@@ -31,6 +29,6 @@
             </div>
         </div>
 
-        {{~ include('layout/footer.twig') }}
+        {{~ source('@temp/layout/footer.html') }}
     </body>
 </html>

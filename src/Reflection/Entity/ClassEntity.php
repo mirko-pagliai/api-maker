@@ -15,13 +15,13 @@ declare(strict_types=1);
 namespace PhpDocMaker\Reflection\Entity;
 
 use Cake\Collection\Collection;
+use PhpDocMaker\ErrorCatcher;
 use PhpDocMaker\Reflection\AbstractEntity;
 use Roave\BetterReflection\Reflection\ReflectionClass;
 use Roave\BetterReflection\Reflection\ReflectionClassConstant;
 use Roave\BetterReflection\Reflection\ReflectionMethod;
 use Roave\BetterReflection\Reflection\ReflectionProperty;
 use Roave\BetterReflection\Reflector\Exception\IdentifierNotFound;
-use RuntimeException;
 
 /**
  * Class entity
@@ -142,17 +142,16 @@ class ClassEntity extends AbstractEntity
     /**
      * Gets the parent class
      * @return \PhpDocMaker\Reflection\Entity\ClassEntity|null
-     * @throws \RuntimeException
      */
     public function getParentClass(): ?ClassEntity
     {
         try {
             $class = $this->reflectionObject->getParentClass();
         } catch (IdentifierNotFound $e) {
-            throw new RuntimeException(sprintf('Class `%s` could not be found', $e->getIdentifier()->getName()));
+            ErrorCatcher::append($this, sprintf('Parent class `%s` could not be found', $e->getIdentifier()->getName()));
         }
 
-        return $class ? new ClassEntity($class) : null;
+        return isset($class) ? new ClassEntity($class) : null;
     }
 
     /**

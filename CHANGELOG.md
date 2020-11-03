@@ -1,5 +1,20 @@
 # 1.x branch
 ## 1.0 branch
+### 1.0.3-beta4
+* now `PhpDocMaker` requires the target as second argument and no longer as
+    argument for the `build()` method;
+* now the template files are first partially rendered and only then definitively
+    rendered in the layout;
+* added `PhpDocMaker::setOption()` method;
+* added `AbstractEntity::getFilename()` method;
+* improved `AbstractEntity::getDocBlockInstance()`, `AbstractEntity::getTags()`
+    and `AbstractMethodEntity::getParameters()` methods. The return values are
+    now cached;
+* added `functions.rendering` and `class.rendering` events, dispatched by
+    `PhpDocMaker`. This allows easier identification of errors;
+* the footer is rendered as a static element, as for the menu, and these files are
+    rendered in a temporary directory. Removed the useless `menu.rendered` event.
+
 ### 1.0.2-beta3
 * now all tags for methods, properties and constants are shown correctly;
 * added `TagEntity`, which now represents the tags;

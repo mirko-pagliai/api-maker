@@ -16,6 +16,7 @@ namespace PhpDocMaker\Reflection;
 
 use Cake\Collection\Collection;
 use InvalidArgumentException;
+use PhpDocMaker\ErrorCatcher;
 use PhpDocMaker\Reflection\Entity\TagEntity;
 use PhpDocMaker\Reflection\ParentAbstractEntity;
 use phpDocumentor\Reflection\DocBlock;
@@ -23,27 +24,39 @@ use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlockFactory;
 
 /**
- * AbstractEntity class
+ * AbstractEntity class.
+ *
+ * This class is extended by all entities, except for `TagEntity`, which
+ *  directly extends the `ParentAbstractEntity`.
+ * @method ?int getStartLine() Gets the line number of code where this entity is actually declared
  */
 abstract class AbstractEntity extends ParentAbstractEntity
 {
     /**
+     * @var \phpDocumentor\Reflection\DocBlock|null
+     */
+    private $docBlock;
+
+    /**
+     * @var \Cake\Collection\Collection
+     */
+    private $tags;
+
+    /**
      * Internal method to get the `DocBlock` instance
-     * @param \Roave\BetterReflection\Reflection\Reflection|\Roave\BetterReflection\Reflection\ReflectionFunctionAbstract|null $reflectionObject A `Reflection` object
      * @return \phpDocumentor\Reflection\DocBlock|null
      */
-    protected function getDocBlockInstance($reflectionObject = null): ?DocBlock
+    protected function getDocBlockInstance(): ?DocBlock
     {
-        try {
-            return DocBlockFactory::createInstance()->create($reflectionObject ?: $this->reflectionObject);
-        } catch (InvalidArgumentException $e) {
-            //The exception will still be throwned in case of a malformed tag
-            if (string_contains($e->getMessage(), 'does not seem to be wellformed, please check it for errors')) {
-                throw $e;
+        if (!$this->docBlock) {
+            try {
+                $this->docBlock = DocBlockFactory::createInstance()->create($this->reflectionObject);
+            } catch (InvalidArgumentException $e) {
+                ErrorCatcher::append($this, $e->getMessage());
             }
-
-            return null;
         }
+
+        return $this->docBlock ?? null;
     }
 
     /**
@@ -52,9 +65,7 @@ abstract class AbstractEntity extends ParentAbstractEntity
      */
     public function getDocBlockSummaryAsString(): string
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
-
-        return $DocBlockInstance ? $DocBlockInstance->getSummary() : '';
+        return $this->getDocBlockInstance() ? $this->getDocBlockInstance()->getSummary() : '';
     }
 
     /**
@@ -63,9 +74,7 @@ abstract class AbstractEntity extends ParentAbstractEntity
      */
     public function getDocBlockDescriptionAsString(): string
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
-
-        return $DocBlockInstance ? $DocBlockInstance->getDescription()->render() : '';
+        return $this->getDocBlockInstance() ? (string)$this->getDocBlockInstance()->getDescription() : '';
     }
 
     /**
@@ -85,15 +94,14 @@ abstract class AbstractEntity extends ParentAbstractEntity
     }
 
     /**
-     * Internal method to parse tags
-     * @param array $tags An array of `Tag` instances
-     * @return \Cake\Collection\Collection A `Collection` of `TagEntity` instances
+     * Gets the filename in which this entity is physically declared
+     * @return string|null
      */
-    protected function parseTags(array $tags): Collection
+    public function getFilename(): ?string
     {
-        return collection($tags)->map(function (Tag $tag) {
-            return new TagEntity($tag);
-        }, $tags)->sortBy('name', SORT_ASC, SORT_STRING);
+        $object = method_exists($this->reflectionObject, 'getFileName') ? $this->reflectionObject : $this->reflectionObject->getDeclaringClass();
+
+        return $object->getFileName();
     }
 
     /**
@@ -102,9 +110,15 @@ abstract class AbstractEntity extends ParentAbstractEntity
      */
     public function getTags(): Collection
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
+        if (!$this->tags instanceof Collection) {
+            $tags = $this->getDocBlockInstance() ? $this->getDocBlockInstance()->getTags() : [];
 
-        return $this->parseTags($DocBlockInstance ? $DocBlockInstance->getTags() : []);
+            $this->tags = collection($tags)->map(function (Tag $tag) {
+                return new TagEntity($tag);
+            })->sortBy('name', SORT_ASC, SORT_STRING);
+        }
+
+        return $this->tags;
     }
 
     /**
@@ -123,9 +137,7 @@ abstract class AbstractEntity extends ParentAbstractEntity
      */
     public function getTagsByName(string $name): Collection
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
-
-        return $this->parseTags($DocBlockInstance ? $DocBlockInstance->getTagsByName($name) : []);
+        return $this->getTags()->match(compact('name'));
     }
 
     /**
@@ -135,8 +147,6 @@ abstract class AbstractEntity extends ParentAbstractEntity
      */
     public function hasTag(string $name): bool
     {
-        $DocBlockInstance = $this->getDocBlockInstance();
-
-        return $DocBlockInstance ? $DocBlockInstance->hasTag($name) : false;
+        return $this->getDocBlockInstance() ? $this->getDocBlockInstance()->hasTag($name) : false;
     }
 }

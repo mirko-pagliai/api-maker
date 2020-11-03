@@ -48,7 +48,7 @@ class TemplateTest extends TestCase
         parent::setUp();
 
         $this->Class = $this->Class ?? ClassEntity::createFromName(Cat::class);
-        $this->Twig = $this->Twig ?? PhpDocMaker::getTwig(true);
+        $this->Twig = $this->Twig ?? (new PhpDocMaker(TESTS . DS . 'test_app', TMP . 'output' . DS, ['debug' => true]))->getTwig(true);
     }
 
     /**

@@ -1,0 +1,10 @@
+<nav class="navbar sticky-top navbar-dark bg-dark">
+    <a class="navbar-brand mb-0 h1" href="index.html">{{ project.title }}</a>
+    <div class="d-inline">
+        {%~ if errorsCount %}
+        <a class="btn btn-sm btn-warning" href="errors.html" title="Errors">
+            Errors <span class="badge badge-dark badge-pill">{{ errorsCount }}</span>
+        </a>
+        {%~ endif %}
+    </div>
+</nav>

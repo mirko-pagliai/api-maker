@@ -35,12 +35,13 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'classes.founded' => 'onClassFounded',
+            'classes.founded' => 'onClassesFounded',
             'class.rendered' => 'onClassRendered',
+            'class.rendering' => 'onClassRendering',
             'functions.founded' => 'onFunctionsFounded',
             'functions.rendered' => 'onFunctionsRendered',
+            'functions.rendering' => 'onFunctionsRendering',
             'index.rendered' => 'onIndexRendered',
-            'menu.rendered' => 'onMenuRendered',
         ];
     }
 
@@ -54,23 +55,39 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * `classes.founded` event
-     * @param \Tools\Event\Event $event The `Event` instance
-     * @return void
-     */
-    public function onClassFounded(Event $event): void
-    {
-        $this->io->text(sprintf('Founded %d classes', $event->getArg(0)->count()));
-    }
-
-    /**
      * `class.rendered` event
      * @param \Tools\Event\Event $event The `Event` instance
      * @return void
      */
     public function onClassRendered(Event $event): void
     {
-        $this->io->text(sprintf('Rendered class page for %s', $event->getArg(0)->getName()));
+        /** @var \PhpDocMaker\Reflection\Entity\ClassEntity $class */
+        $class = $event->getArg(0);
+        $this->io->text(sprintf('Rendered class page for %s', $class->getName()));
+    }
+
+    /**
+     * `class.rendering` event
+     * @param \Tools\Event\Event $event The `Event` instance
+     * @return void
+     */
+    public function onClassRendering(Event $event): void
+    {
+        /** @var \PhpDocMaker\Reflection\Entity\ClassEntity $class */
+        $class = $event->getArg(0);
+        $this->io->text(sprintf('Rendering class page for %s', $class->getName()));
+    }
+
+    /**
+     * `classes.founded` event
+     * @param \Tools\Event\Event $event The `Event` instance
+     * @return void
+     */
+    public function onClassesFounded(Event $event): void
+    {
+        /** @var \PhpDocMaker\Reflection\Entity\ClassEntity $classes */
+        $classes = $event->getArg(0);
+        $this->io->text(sprintf('Founded %d classes', $classes->count()));
     }
 
     /**
@@ -80,7 +97,9 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
      */
     public function onFunctionsFounded(Event $event): void
     {
-        $this->io->text(sprintf('Founded %d functions', $event->getArg(0)->count()));
+        /** @var \Cake\Collection\Collection $functions */
+        $functions = $event->getArg(0);
+        $this->io->text(sprintf('Founded %d functions', $functions->count()));
     }
 
     /**
@@ -93,20 +112,20 @@ class PhpDocMakerCommandSubscriber implements EventSubscriberInterface
     }
 
     /**
+     * `functions.rendering` event
+     * @return void
+     */
+    public function onFunctionsRendering(): void
+    {
+        $this->io->text(sprintf('Rendering functions page'));
+    }
+
+    /**
      * `index.rendered` event
      * @return void
      */
     public function onIndexRendered(): void
     {
         $this->io->text(sprintf('Rendered index page'));
-    }
-
-    /**
-     * `menu.rendered` event
-     * @return void
-     */
-    public function onMenuRendered(): void
-    {
-        $this->io->text(sprintf('Rendered menu element'));
     }
 }

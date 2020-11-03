@@ -17,9 +17,8 @@ namespace PhpDocMaker\Test;
 
 use PhpDocMaker\PhpDocMaker;
 use PhpDocMaker\TestSuite\TestCase;
+use Symfony\Component\Filesystem\Filesystem;
 use Tools\TestSuite\EventAssertTrait;
-use Twig\Environment;
-use Twig\Extension\DebugExtension;
 
 /**
  * PhpDocMakerTest class
@@ -41,25 +40,56 @@ class PhpDocMakerTest extends TestCase
     {
         parent::setUp();
 
-        $this->PhpDocMaker = $this->PhpDocMaker ?: new PhpDocMaker(TESTS . DS . 'test_app', ['debug' => true]);
+        $this->PhpDocMaker = $this->PhpDocMaker ?? $this->getPhpDocMakerMock();
     }
 
     /**
-     * Test for `__construct()` method
+     * Teardown any static object changes and restore them
+     * @return void
+     */
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        unlink_recursive($this->PhpDocMaker->target);
+    }
+
+    /**
+     * Test for `__get()` magic method
      * @test
      */
-    public function testConstruct()
+    public function testGetMagicMethod()
     {
-        $this->assertInstanceof(Environment::class, $this->PhpDocMaker->Twig);
-        $this->assertTrue($this->PhpDocMaker->Twig->isDebug());
-        $this->assertTrue($this->PhpDocMaker->Twig->isStrictVariables());
-        $this->assertSame([$this->PhpDocMaker->getTemplatePath()], $this->PhpDocMaker->Twig->getLoader()->getPaths());
-        $this->assertNotEmpty($this->PhpDocMaker->Twig->getExtension(DebugExtension::class));
+        $this->assertNotEmpty($this->PhpDocMaker->options);
+        $this->assertNotEmpty($this->PhpDocMaker->source);
+    }
+
+    /**
+     * Test for `setOption()` method
+     * @test
+     */
+    public function testSetOption()
+    {
         $this->assertEquals([
             'cache' => true,
             'title' => 'test_app',
             'debug' => true,
-        ], $this->PhpDocMaker->getOptions());
+        ], $this->PhpDocMaker->options);
+
+        $result = $this->PhpDocMaker->setOption('cache', false);
+        $this->assertInstanceOf(PhpDocMaker::class, $result);
+        $this->assertEquals([
+            'cache' => false,
+            'title' => 'test_app',
+            'debug' => true,
+        ], $this->PhpDocMaker->options);
+
+        $this->PhpDocMaker->setOption(['title' => 'a new title', 'debug' => false]);
+        $this->assertEquals([
+            'cache' => false,
+            'title' => 'a new title',
+            'debug' => false,
+        ], $this->PhpDocMaker->options);
     }
 
     /**
@@ -68,30 +98,63 @@ class PhpDocMakerTest extends TestCase
      */
     public function testBuild()
     {
-        $target = TMP . 'output';
-        rmdir_recursive($target);
-        $cacheFile = TMP . 'output' . DS . 'cache' . DS . 'example';
-        create_file(TMP . 'output' . DS . 'cache' . DS . 'example');
+        $cacheFile = $this->PhpDocMaker->target . 'cache' . DS . 'example';
+        create_file($cacheFile);
 
-        $this->PhpDocMaker->Twig = $this->getTwigMock();
-        $dispatcher = $this->PhpDocMaker->getEventDispatcher();
-        $this->PhpDocMaker->build($target);
+        $this->PhpDocMaker->build();
+
+        foreach ([
+            'assets' . DS . 'bootstrap' . DS . 'bootstrap.min.css',
+            'functions.html',
+            'index.html',
+        ] as $expectedFile) {
+            $this->assertFileExists($this->PhpDocMaker->target . $expectedFile);
+        }
         $this->assertFileExists($cacheFile);
 
-        $this->assertEventFired('classes.founded', $dispatcher);
-        $this->assertEventFired('functions.founded', $dispatcher);
-
-        $this->assertFileExists($target . DS . 'assets' . DS . 'bootstrap' . DS . 'bootstrap.min.css');
-        $this->assertFileExists($target . DS . 'assets' . DS . 'highlight' . DS . 'styles' . DS . 'default.css');
-        $this->assertFileExists($target . DS . 'assets' . DS . 'highlight' . DS . 'highlight.pack.js');
-        $this->assertFileExists($target . DS . 'cache');
-        $this->assertFileExists($target . DS . 'layout' . DS . 'menu.html');
-        $this->assertFileExists($target . DS . 'functions.html');
-        $this->assertFileExists($target . DS . 'index.html');
-
-        $PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app', ['cache' => false]);
-        $PhpDocMaker->Twig = $this->getTwigMock();
-        $PhpDocMaker->build($target);
+        //In this case the cache will not be used and will be emptied
+        $this->PhpDocMaker->setOption('cache', false)->build();
         $this->assertFileNotExists($cacheFile);
+    }
+
+    /**
+     * Test for `build()` method, fired events
+     * @test
+     */
+    public function testBuildFiredEvents()
+    {
+        $PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
+            ->setConstructorArgs([TESTS . DS . 'test_app', TMP . 'output' . DS, ['debug' => true]])
+            ->setMethods(['getErrors', 'getTwig'])
+            ->getMock();
+
+        $PhpDocMaker->method('getErrors')->willReturn(collection(['notEmpty']));
+        $PhpDocMaker->method('getTwig')->willReturn($this->getTwigMock());
+
+        $PhpDocMaker->Filesystem = $this->getMockBuilder(Filesystem::class)
+            ->setMethods(['dumpFile', 'mirror'])
+            ->getMock();
+
+        $PhpDocMaker->build();
+        $EventDispatcher = $PhpDocMaker->getEventDispatcher();
+
+        foreach ([
+            'classes.founded',
+            'functions.founded',
+            'index.rendering',
+            'index.rendered',
+            'class.rendering',
+            'class.rendered',
+            'functions.rendering',
+            'functions.rendered',
+            'errors.rendering',
+            'errors.rendered',
+            'layoutElements.rendering',
+            'layoutElements.rendered',
+            'pages.composing',
+            'pages.composed',
+        ] as $expectedEvent) {
+            $this->assertEventFired($expectedEvent, $EventDispatcher);
+        }
     }
 }

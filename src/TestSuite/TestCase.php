@@ -33,11 +33,6 @@ abstract class TestCase extends BaseTestCase
     protected $ClassesExplorer;
 
     /**
-     * @var array
-     */
-    protected $classesFromTests;
-
-    /**
      * Asserts that the actual string content is equaled to the expected template
      *  file.
      * @param string $expectedTemplateFilename The expected template filename
@@ -61,11 +56,12 @@ abstract class TestCase extends BaseTestCase
 
     /**
      * Internal method to get a `ClassesExplorer` instance
+     * @param string $path Source path
      * @return \PhpDocMaker\ClassesExplorer
      */
-    protected function getClassesExplorerInstance(): ClassesExplorer
+    protected function getClassesExplorerInstance(string $path = TEST_APP): ClassesExplorer
     {
-        $this->ClassesExplorer = $this->ClassesExplorer ?: new ClassesExplorer(TEST_APP);
+        $this->ClassesExplorer = $this->ClassesExplorer ?? new ClassesExplorer($path);
 
         return $this->ClassesExplorer;
     }
@@ -73,25 +69,48 @@ abstract class TestCase extends BaseTestCase
     /**
      * Internal method to get a `FunctionEntity` instance from a function located
      *  in the test app (see `tests/test_app/functions.php` file)
-     * @param string $functionName Function name
+     * @param string $name Function name
      * @return \PhpDocMaker\Reflection\Entity\FunctionEntity
      */
-    protected function getFunctionEntityFromTests(string $functionName): FunctionEntity
+    protected function getFunctionEntityFromTests(string $name): FunctionEntity
     {
-        return $this->getClassesExplorerInstance()->getAllFunctions()->firstMatch(['name' => $functionName]) ?? $this->fail(sprintf('Impossible to find the `%s()` function from test files', $functionName));
+        return $this->getClassesExplorerInstance()->getAllFunctions()->firstMatch(compact('name')) ?: $this->fail('Impossible to find the `' . $name . '()` function from test files');
     }
 
     /**
-     * Gets a mock of Twig (`Environment`). It does not render template files
+     * Gets a mock of `PhpDocMaker`.
+     *
+     * Includes a mock of Twig (`Environment`), so it does not render template
+     *  files.
+     * @return \PhpDocMaker\PhpDocMaker
+     */
+    protected function getPhpDocMakerMock(): PhpDocMaker
+    {
+        $PhpDocMaker = $this->getMockBuilder(PhpDocMaker::class)
+            ->setConstructorArgs([TESTS . DS . 'test_app', TMP . 'output' . DS, ['debug' => true]])
+            ->setMethods(['getTwig'])
+            ->getMock();
+
+        $PhpDocMaker->method('getTwig')->willReturn($this->getTwigMock());
+
+        return $PhpDocMaker;
+    }
+
+    /**
+     * Gets a mock of Twig (`Environment`).
+     *
+     * The `render()` method is a stub, so it does not render template files.
      * @return \Twig\Environment
      */
     protected function getTwigMock(): Environment
     {
-        $PhpDocMaker = new PhpDocMaker(TESTS . DS . 'test_app');
-
         return $this->getMockBuilder(Environment::class)
-            ->setConstructorArgs([new FilesystemLoader($PhpDocMaker->getTemplatePath())])
-            ->setMethods(['addPath', 'render', 'setCache'])
+            ->setConstructorArgs([new FilesystemLoader(PhpDocMaker::getTemplatePath()), [
+                'debug' => true,
+                'autoescape' => false,
+                'strict_variables' => true,
+            ]])
+            ->setMethods(['render'])
             ->getMock();
     }
 }

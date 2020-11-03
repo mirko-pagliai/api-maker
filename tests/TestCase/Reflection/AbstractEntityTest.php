@@ -90,6 +90,28 @@ HEREDOC;
     }
 
     /**
+     * Test for `getFilename()` method
+     * @test
+     */
+    public function testGetFilename()
+    {
+        $class = ClassEntity::createFromName(Cat::class);
+        foreach ([
+            $class,
+            $class->getConstant('GENUS'),
+            $class->getProperty('Puppy'),
+            $class->getMethod('doMeow'),
+            $class->getMethod('doMeow')->getParameter('meow'),
+        ] as $entity) {
+            $this->assertStringEndsWith('Cat.php', $entity->getFilename());
+        }
+
+        $this->assertStringEndsWith('functions.php', $this->getFunctionEntityFromTests('a_test_function')->getFilename());
+
+        $this->assertNull(ClassEntity::createFromName(\stdClass::class)->getFilename());
+    }
+
+    /**
      * Test for `getTags()` method
      * @test
      */
@@ -126,13 +148,18 @@ HEREDOC;
      */
     public function testGetTagsByName()
     {
-        $tags = ClassEntity::createFromName(Cat::class)->getMethod('doMeow')->getTagsByName('link');
-        $this->assertFalse($tags->isEmpty());
+        $method = ClassEntity::createFromName(Cat::class)->getMethod('doMeow');
+
+        $tags = $method->getTagsByName('link');
+        $this->assertCount(2, $tags);
         $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
 
-        $entity = ClassEntity::createFromName(DeprecatedClassExample::class);
-        $tags = $entity->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('link');
-        $this->assertTrue($tags->isEmpty());
+        $tags = $method->getTagsByName('see');
+        $this->assertCount(1, $tags);
+        $this->assertContainsOnlyInstancesOf(TagEntity::class, $tags);
+
+        $tags = ClassEntity::createFromName(DeprecatedClassExample::class)->getMethod('anonymousMethodWithoutDocBlock')->getTagsByName('link');
+        $this->assertCount(0, $tags);
     }
 
     /**

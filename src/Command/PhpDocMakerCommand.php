@@ -52,7 +52,7 @@ class PhpDocMakerCommand extends Command
             ->addArgument('source', InputArgument::OPTIONAL, 'Path from which to read the sources. If not specified, the current directory will be used', getcwd())
             ->addOption('debug', null, InputOption::VALUE_NONE, 'Enables debug. This automatically activates verbose mode and disables the cache')
             ->addOption('no-cache', null, InputOption::VALUE_NONE, 'Disables the cache')
-            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory where to generate the documentation. If not specified, the `output` directory will be created', add_slash_term(getcwd()) . 'output')
+            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Target directory where to generate the documentation. If not specified, the `output` directory will be created', getcwd() . DS . 'output')
             ->addOption('title', null, InputOption::VALUE_REQUIRED, 'Title of the project. If not specified, the title will be self-determined using the name of the source directory');
     }
 
@@ -79,11 +79,13 @@ class PhpDocMakerCommand extends Command
             foreach ($options as $name => $value) {
                 $option = $this->getDefinition()->getOption($name);
 
-                if (!$option->getDefault() && $value === 'true') {
-                    $input->setOption($name, true);
-                } else {
+//                if (!$option->getDefault() && $value === 'true') {
+//                    $input->setOption($name, true);
+//                } else
+                {
                     $value = $value === 'true' ? true : ($value === 'false' ? false : $value);
-                    $option->setDefault($value);
+                    $input->setOption($name, $value);
+//                    $option->setDefault($value);
                 }
             }
         }
@@ -105,8 +107,8 @@ class PhpDocMakerCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $newLine = str_repeat('=', (new Terminal())->getWidth());
-        $start = microtime(true);
         [$source, $target] = [$input->getArgument('source'), $input->getOption('target')];
+        $start = microtime(true);
 
         $io->text('Sources directory: ' . $source);
         $io->text('Target directory: ' . $target);
@@ -125,31 +127,31 @@ class PhpDocMakerCommand extends Command
             $output->writeln($newLine);
         }
 
+        //Parses options
+        $options = [];
+        if ($input->getOption('no-cache')) {
+            $options['cache'] = false;
+        }
+        foreach (['debug', 'title'] as $name) {
+            if ($input->getOption($name)) {
+                $options[$name] = $input->getOption($name);
+            }
+        }
+
+        //Turns all PHP errors into exceptions
+        set_error_handler(function ($severity, $message, $filename, $lineno) {
+            //Error was suppressed with the @-operator
+            if (0 === error_reporting()) {
+                return false;
+            }
+
+            throw new ErrorException($message, 0, $severity, $filename, $lineno);
+        });
+
         try {
-            //Turns all PHP errors into exceptions
-            set_error_handler(function ($severity, $message, $filename, $lineno) {
-                //Error was suppressed with the @-operator
-                if (0 === error_reporting()) {
-                    return false;
-                }
-
-                throw new ErrorException($message, 0, $severity, $filename, $lineno);
-            });
-
-            //Parses options
-            $options = [];
-            if ($input->getOption('no-cache')) {
-                $options['cache'] = false;
-            }
-            foreach (['debug', 'title'] as $name) {
-                if ($input->getOption($name)) {
-                    $options[$name] = $input->getOption($name);
-                }
-            }
-
-            $this->PhpDocMaker = $this->PhpDocMaker ?: new PhpDocMaker($source, $options);
+            $this->PhpDocMaker = $this->PhpDocMaker ?? new PhpDocMaker($source, $target, $options);
             $this->PhpDocMaker->getEventDispatcher()->addSubscriber(new PhpDocMakerCommandSubscriber($io));
-            $this->PhpDocMaker->build($target);
+            $this->PhpDocMaker->build();
         } catch (Exception $e) {
             $message = $e->getMessage() . '...' . PHP_EOL . sprintf('On file `%s`, line %s', $e->getFile(), $e->getLine());
             if ($input->getOption('debug')) {

@@ -14,10 +14,10 @@ declare(strict_types=1);
  */
 namespace PhpDocMaker\Reflection\Entity;
 
+use PhpDocMaker\ErrorCatcher;
 use PhpDocMaker\Reflection\ParentAbstractEntity;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\Tags\InvalidTag;
-use RuntimeException;
 
 /**
  * Tag entity
@@ -32,20 +32,14 @@ class TagEntity extends ParentAbstractEntity
     /**
      * Construct
      * @param \phpDocumentor\Reflection\DocBlock\Tag $tag A `Tag` instance
-     * @throws \RuntimeException
      */
     public function __construct(Tag $tag)
     {
-        //Throws an exception for invalid tags
-        if ($tag instanceof InvalidTag) {
-            preg_match('/^\"(.+)\" is not a valid Fqsen\.$/', $tag->getException()->getMessage(), $matches);
-
-            $message = '@' . $tag->getName();
-            $message .= isset($matches[1]) ? ' ' . $matches[1] : '';
-            throw new RuntimeException(sprintf('Invalid tag `%s`', $message));
-        }
-
         $this->reflectionObject = $tag;
+
+        if ($tag instanceof InvalidTag) {
+            ErrorCatcher::append($this, $tag->getException()->getMessage());
+        }
     }
 
     /**
@@ -73,6 +67,8 @@ class TagEntity extends ParentAbstractEntity
      */
     public function getDescription(): string
     {
+        $description = '';
+
         //First it looks for alternative methods to the `getDescription()` method
         foreach (['getLink', 'getReference', 'getVersion'] as $methodToCall) {
             if (method_exists($this->reflectionObject, $methodToCall)) {
@@ -81,7 +77,9 @@ class TagEntity extends ParentAbstractEntity
             }
         }
 
-        $description = $description ?? $this->reflectionObject->getDescription();
+        if (!$description && method_exists($this->reflectionObject, 'getDescription')) {
+            $description = $this->reflectionObject->getDescription();
+        }
 
         return ltrim((string)$description, '\\');
     }

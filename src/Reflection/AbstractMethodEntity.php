@@ -27,6 +27,11 @@ use Roave\BetterReflection\Reflection\ReflectionParameter;
 abstract class AbstractMethodEntity extends AbstractEntity
 {
     /**
+     * @var \Cake\Collection\Collection
+     */
+    private $parameters;
+
+    /**
      * `__toString()` magic method
      * @return string
      */
@@ -46,12 +51,12 @@ abstract class AbstractMethodEntity extends AbstractEntity
 
     /**
      * Gets a parameter
-     * @param string $parameterName Parameter name
+     * @param string $name Parameter name
      * @return \PhpDocMaker\Reflection\Entity\ParameterEntity
      */
-    public function getParameter(string $parameterName): ParameterEntity
+    public function getParameter(string $name): ParameterEntity
     {
-        return new ParameterEntity($this->reflectionObject->getParameter($parameterName));
+        return $this->getParameters()->firstMatch(compact('name'));
     }
 
     /**
@@ -60,9 +65,15 @@ abstract class AbstractMethodEntity extends AbstractEntity
      */
     public function getParameters(): Collection
     {
-        return collection($this->reflectionObject->getParameters())->map(function (ReflectionParameter $parameter) {
-            return new ParameterEntity($parameter);
-        });
+        if (!$this->parameters instanceof Collection) {
+            $parameters = $this->reflectionObject->getParameters();
+
+            $this->parameters = collection($parameters)->map(function (ReflectionParameter $parameter) {
+                return new ParameterEntity($parameter);
+            });
+        }
+
+        return $this->parameters;
     }
 
     /**
